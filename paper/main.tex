@@ -68,31 +68,32 @@ abstaining reduction is the right object rather than a concession.
 \appendix
 \section{Proofs and efficiency results}\label{app:proofs}
 Full statements and proofs of Theorems~\ref{thm:impossible}--\ref{thm:safe} and
-Proposition~\ref{prop:unreach}, the efficiency results AW-1--AW-3, the open excess-width
-oracle inequality (AW-4), and the modulation self-inclusion deficit are collected in
-Section~S1 (Proofs) of the online supplementary material. As reproducibility support,
-each theorem is additionally paired with a machine-checked contract test in the
-replication package that verifies its stated guarantee numerically.
+Proposition~\ref{prop:unreach}, the efficiency results (AW-1--AW-4), and the modulation
+self-inclusion deficit are collected in Section~S1 of the online supplementary material.
+Each theorem is additionally paired with a machine-checked contract test that verifies its
+guarantee numerically.
 
-\section{Frozen selector specification and validation protocol}\label{app:spec}
-The frozen constants ($\rho_0=0.47$, $\delta_{\max}=0.02$,
-$\widehat\delta_{\text{UCB}}(D)=0.0061+0.0943\,D$, $g_{\min}=0.10$, margin
-$\Delta_g=0.05$, stability floor) and their derivation on the development grid, together
-with the sealed independent-validation preregistration, evaluation grid, seed manifest,
-and holdout results, are provided in the replication package's frozen selector
-specification and validation protocol.
+\section{Frozen selector specification}\label{app:spec}
+The frozen constants ($\rho_0=0.47$, $\widehat\delta_{\text{UCB}}(D)=0.0061+0.0943\,D$,
+and the remainder), their derivation on the development grid, and the sealed
+independent-validation protocol (evaluation grid, seed manifest, holdout results) are
+provided in the replication package.
+
+\section*{Acknowledgments}
+The author used Claude (Anthropic; Opus 4.7--4.8) between 18 January and 7 July 2026
+to assist with some of the analysis and plotting code and to generate and format the
+figures in this article. The research design, methodology, and core analysis code are
+the author's own. All AI-assisted output was reviewed and verified by the author, who
+takes full responsibility for the content of this article.
 
 \section*{Data and Code Availability}
-All simulation, theory, and benchmark results in this paper are deterministic: they run
-under fixed random seeds and reproduce exactly with no external data. Each theorem is
-paired with a machine-checked contract test that verifies its stated guarantee
-numerically. The ESS, World Values Survey, and AmericasBarometer/LAPOP microdata used in
-the reanalyses are licensed to their respective providers and are not redistributed here;
-the replication package documents the exact variables, waves, and retrieval steps needed
-to obtain them directly from each provider. The full replication package---the
-\texttt{dapcb} method as an installable Python module (\texttt{pcb}), all simulations and
-theorem contract tests, and the analysis pipeline---will be deposited, with a version
-tag, in the Political Analysis Dataverse (Harvard Dataverse) upon conditional acceptance.
+All simulation, theory, and benchmark results are deterministic, reproducing exactly under
+fixed seeds with no external data, and each theorem is paired with a machine-checked
+contract test. The ESS, World Values Survey, and AmericasBarometer/LAPOP microdata are
+licensed to their providers and not redistributed; the replication package documents the
+exact variables, waves, and retrieval steps. The full package---the \texttt{pcb} module,
+all simulations and contract tests, and the analysis pipeline---will be deposited in the
+Political Analysis Dataverse (Harvard Dataverse) upon conditional acceptance.
 
 \bibliographystyle{chicago}
 \bibliography{refs}

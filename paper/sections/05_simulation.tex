@@ -73,6 +73,7 @@ P1--P2 are evaluated for the \emph{studentized} base band whose finite-$K$ self-
 deficit they expose and which motivated the switch to the \emph{unstudentized} band the
 paper deploys; on a preregistered rerun that deployed band's worst cell is $0.893$
 (Supplementary Material).}\label{tab:holdout}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lccl}
 \toprule
 criterion & target & result & status \\
@@ -85,7 +86,8 @@ E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass
 P1: cells floor-compatible (95\% MC) & all 450 & $442/450$ & diagnostic\textsuperscript{$\dagger$} \\
 P2: worst-cell coverage & $\ge0.86$ & $0.843$ & diagnostic\textsuperscript{$\dagger$} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 
 \smallskip
 {\footnotesize \textsuperscript{$\dagger$}\,Diagnostic of the studentized base band, not
