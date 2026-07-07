@@ -56,7 +56,9 @@ deconvolution\;}
 \end{algorithm}
 
 \paragraph{Deployment.} The method ships as one call, \texttt{dapcb(cal\_errors,
-v\_cal, center, alpha)}, returning the band together with the selected branch,
+v\_cal, center, alpha)}, in an installable Python package (module \texttt{pcb}) provided
+in the replication package and to be archived with a version tag on the Dataverse,
+returning the band together with the selected branch,
 $\rhohat$, $\rhohat_{\text{LCB}}$, $D$, $\widehat\delta_{\text{UCB}}$, the coverage
 level, and the fallback reason---so a user sees \emph{why} the band was built as it was
 and reads off the finite-$K$ guarantee it carries.

@@ -2,8 +2,8 @@
 
 We state validity for the oracle, for the estimated-law procedure, and for the
 deployed safe selector, then the efficiency it buys. Full proofs are in
-Appendix~\ref{app:proofs}; each theorem has a matching machine-checked contract test
-(\texttt{tests/}).
+Appendix~\ref{app:proofs}; each theorem has a matching machine-checked contract test in
+the replication package.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
@@ -50,30 +50,19 @@ $\{\widehat J=\text{deconvolution}\}$ and $\delta=0$ otherwise; $\delta$ is
 \emph{observable} and $\delta\to0$ as $K$ grows.
 \end{theorem}
 
-\begin{proof}[Proof sketch]
-$\widehat J$ is $\mathcal F_{\text{cal}}$-measurable, so
-$\Pr(\text{cover})=\sum_j\Pr(\widehat J=j)\Pr(\text{cover}\mid \widehat J=j)$. PCB and
-conservative over-cover the latent target (Theorem~\ref{thm:oracle}a/b), so their
-conditional coverage is $\ge1-\alpha$. Deconvolution is used only on
-$\{\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}\}$, where gate~B guarantees
-conditional coverage $\ge1-\alpha-\widehat\delta_{\text{UCB}}(D)$. Each term of the
-mixture is $\ge1-\alpha-\delta$; summing over the partition gives the bound.
-\end{proof}
-
+The proof (Appendix~\ref{app:proofs}) is a target-blind mixture argument: because
+$\widehat J$ is calibration-measurable, coverage is a mixture over branches, each of which
+is valid at $\ge1-\alpha-\delta$ conditional on being selected.
 Theorem~\ref{thm:safe} is the guarantee a user actually deploys: the remainder
 $\delta$ is a computable function of the calibration set, is bounded by the
 preregistered budget whenever deconvolution fires, and is exactly zero on the
 overwhelmingly common low-noise data where the method reduces to PCB.
 
-\paragraph{Efficiency.} Three statements bound the price and the payoff. \emph{(AW-1,
-reduction)} in the low-$\rho$ regime the deconvolution/PCB width ratio is
-$1-\tfrac12\rho^2+O(\rho^4)$, matching the observed reduction to the decimal.
-\emph{(AW-2, dominance)} the conservative branch is never wider than the Bonferroni
-envelope and always at least as wide as PCB, so the selector's fallback is a genuine
-upper band, not a giveaway. \emph{(AW-3, target-blind validity)} because
-$\widehat J$ ignores the target, selection cannot inflate miscoverage. The full
-excess-width oracle inequality---that the selector's width is within $O_p(K^{-1/2})$
-of the ex-post best valid branch uniformly---remains open and is stated as a
-conjecture (Appendix~\ref{app:proofs}); the simulation in
-Section~\ref{sec:simulation} is consistent with it. A separate modulation
-self-inclusion deficit of order $O(g/K)$ is quantified in Appendix~\ref{app:proofs}.
+\paragraph{Efficiency.} Three statements bound the price and payoff (proved in the
+supplement). \emph{(AW-1)} in the low-$\rho$ regime the deconvolution/PCB width ratio is
+$1-\tfrac12\rho^2+O(\rho^4)$, matching the observed reduction to the decimal;
+\emph{(AW-2)} the conservative branch is never wider than the Bonferroni envelope and at
+least as wide as PCB, a genuine upper band; \emph{(AW-3)} because $\widehat J$ ignores the
+target, selection cannot inflate miscoverage. The excess-width oracle inequality (AW-4)
+and the $O(g/K)$ modulation self-inclusion deficit---one open, one quantified---are stated
+in Appendix~\ref{app:proofs}.

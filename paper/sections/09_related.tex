@@ -10,7 +10,12 @@ distributions \citep{barber2023conformal}. \citet{gibbs2021adaptive,gibbs2024con
 adapt conformal sets to distribution shift and interpolate between marginal and
 conditional validity. Our ``adaptive'' selector differs in kind: it adapts not to
 temporal shift but to the \emph{certified magnitude of survey design noise}, reducing
-to a fixed clustered method when that noise is negligible.
+to a fixed clustered method when that noise is negligible. Within the discipline,
+\citet{randahl2026bin} bring conformal prediction to \emph{Political Analysis} for the
+first time, calibrating bin-conditional intervals around a point forecast of conflict
+fatalities; our object is different in kind---finite-sample \emph{simultaneous} trajectory
+bands with the country as the exchangeable unit and estimated calibration distributions,
+rather than bin-conditional intervals on a single prediction.
 
 Second, we treat the \textbf{population (country) as the exchangeable unit}, following
 hierarchical conformal prediction for two-layer models \citep{dunn2023distribution}

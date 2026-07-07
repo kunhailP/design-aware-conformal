@@ -40,23 +40,20 @@ Repeated Cross-National Surveys}
 \begin{abstract}
 Comparative research routinely reads a single wave-pair mean contrast and narrates it
 as a persistent, distribution-wide, country-level trend---attaching uncertainty to the
-wrong unit and over-detecting change. We give a principled instrument and a deployable
+wrong unit and over-detecting change. We give an instrument and a deployable
 procedure: a finite-sample simultaneous band over a country's whole attitude
 \emph{trajectory}, with the country as the exchangeable unit and a hierarchy of claims
-(pairwise $\to$ any-pair $\to$ net $\to$ persistent country-wide) whose top rung is the
-honest object. The band is a clustered conformal band exact at any $K$
-(Theorem~\ref{thm:exact}) inside a selector that corrects for survey design only when it
-can be certified reliable and otherwise abstains, provably correctly
-(Theorem~\ref{thm:safe}). Applied to real data it changes the substantive picture: in the
+whose top rung is the honest object. The band is a clustered conformal band exact at any $K$, inside a selector
+that corrects for survey design only when it can be certified reliable and otherwise
+abstains, provably correctly. Applied to real data it changes the substantive picture: in the
 ESS (2018--2022), persistent distribution-wide trust decline is certified in one of
 roughly thirty democracies (Greece), not the twenty flagged marginally; on the World
 Values Survey (1981--2022) the marginal case for Foa--Mounk ``deconsolidation''
 over-counts the persistent phenomenon by $2.6$--$6.5\times$. A second, subtler error---the
-calibration objects, other countries' distributions, are themselves estimated from
+calibration objects, other countries' distributions, are estimated from
 complex samples---we resolve by mapping its scope: correcting for it is non-identified
-without the design-noise law (Theorem~\ref{thm:impossible}) and, even with it, unreachable
-below $K\ge94$ exchangeable populations (Proposition~\ref{prop:unreach}), so the
-abstaining reduction is the right object at survey scale rather than a concession.
+without the design-noise law and, even with it, unreachable at survey scale, so the
+abstaining reduction is the right object rather than a concession.
 \end{abstract}
 
 \input{sections/01_intro}
@@ -71,22 +68,20 @@ abstaining reduction is the right object at survey scale rather than a concessio
 
 \appendix
 \section{Proofs and efficiency results}\label{app:proofs}
-Full statements and proofs of Theorems~\ref{thm:impossible}--\ref{thm:safe}, the
-efficiency results AW-1--AW-3, the open excess-width oracle inequality, and the
-modulation self-inclusion deficit are collected in the supplementary theory notes
-(\texttt{docs/THEORY\_MAIN.md}, \texttt{docs/DESIGN\_AWARE\_THEOREM.md},
-\texttt{docs/ADAPTIVE\_WIDTH\_THEORY.md}). Each theorem has a machine-checked contract
-test (\texttt{tests/test\_theorem0.py}, \texttt{test\_deconv\_safe.py},
-\texttt{test\_safe\_selector.py}).
+Full statements and proofs of Theorems~\ref{thm:impossible}--\ref{thm:safe} and
+Proposition~\ref{prop:unreach}, the efficiency results AW-1--AW-3, the open excess-width
+oracle inequality (AW-4), and the modulation self-inclusion deficit are collected in
+Section~S1 (Proofs) of the online supplementary material. As reproducibility support,
+each theorem is additionally paired with a machine-checked contract test in the
+replication package that verifies its stated guarantee numerically.
 
 \section{Frozen selector specification and validation protocol}\label{app:spec}
 The frozen constants ($\rho_0=0.47$, $\delta_{\max}=0.02$,
 $\widehat\delta_{\text{UCB}}(D)=0.0061+0.0943\,D$, $g_{\min}=0.10$, margin
-$\Delta_g=0.05$, stability floor) and their derivation on the development grid are in
-\texttt{docs/SAFE\_SELECTOR\_SPEC.md}. The sealed independent-validation
-preregistration, grid, and seed manifest are in
-\texttt{docs/INDEPENDENT\_VALIDATION\_PREREG.md} and \texttt{configs/}; results in
-\texttt{docs/HOLDOUT\_VALIDATION\_RESULTS.md}.
+$\Delta_g=0.05$, stability floor) and their derivation on the development grid, together
+with the sealed independent-validation preregistration, evaluation grid, seed manifest,
+and holdout results, are provided in the replication package's frozen selector
+specification and validation protocol.
 
 \section*{Data and Code Availability}
 All simulation, theory, and benchmark results in this paper are deterministic: they run
@@ -95,10 +90,10 @@ paired with a machine-checked contract test that verifies its stated guarantee
 numerically. The ESS, World Values Survey, and AmericasBarometer/LAPOP microdata used in
 the reanalyses are licensed to their respective providers and are not redistributed here;
 the replication package documents the exact variables, waves, and retrieval steps needed
-to obtain them directly from each provider. The full replication package---code for the
-method, all simulations and theorem contract tests, and the analysis pipeline---will be
-deposited in the Political Analysis Dataverse (Harvard Dataverse) upon conditional
-acceptance.
+to obtain them directly from each provider. The full replication package---the
+\texttt{dapcb} method as an installable Python module (\texttt{pcb}), all simulations and
+theorem contract tests, and the analysis pipeline---will be deposited, with a version
+tag, in the Political Analysis Dataverse (Harvard Dataverse) upon conditional acceptance.
 
 \bibliographystyle{apalike}
 \bibliography{refs}

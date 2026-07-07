@@ -1,4 +1,8 @@
-\section{Setup and an impossibility result}\label{sec:setup}
+\section{Setup and the two targets}\label{sec:setup}
+
+The object we deploy is the exact simultaneous band of Theorem~\ref{thm:exact}; the
+impossibility below (Theorem~\ref{thm:impossible}) is a scope boundary delimiting when a
+design-aware correction to that band is even available.
 
 \paragraph{Objects.} We observe $K$ source countries, indexed $c=1,\dots,K$, treated
 as exchangeable units (the ``population'' or cluster is the exchangeable object, not
@@ -33,6 +37,15 @@ symmetric design law; but its width is inflated by the design noise, by a factor
 grows with $\rho$. Correcting the width requires estimating and removing the design
 contribution---a deconvolution.
 
+\paragraph{Country exchangeability.} Exchangeability of countries is our sole identifying
+assumption, and it is weaker than the i.i.d.-respondents assumption standard practice
+already makes within each survey. When it holds only approximately, coverage degrades
+gracefully: the nonexchangeable conformal bound of \citet{barber2023conformal} controls
+the coverage gap by the total variation between the exchanged country distributions, so
+moderate departures cost a small, bounded amount rather than invalidating the band. The
+conservative (Bonferroni-across-countries) rung of the guarantee hierarchy protects the
+``only Greece'' claim further, absorbing residual non-exchangeability at a width cost.
+
 \paragraph{The impossibility.} The central obstruction is that the deconvolution is
 not identified from the contaminated scores alone.
 
@@ -50,25 +63,19 @@ case $\xi\equiv0$ the plug-in band is itself the tightest valid band, so no
 uniform improvement exists.
 \end{theorem}
 
-The proof (Appendix~\ref{app:proofs}; verified numerically in
-\texttt{tests/test\_theorem0.py}) is a convolution-invertibility argument for (i) and
-a conformal converse for (ii): any observed-score band that is narrower than the
-plug-in on some design law undercovers the latent target on the $\xi\equiv0$ law it
-cannot distinguish. The reading is constructive: to get a band both honest and narrower
-than the plug-in, one must \emph{supply} the design-noise law. Complex surveys do supply
-it---through replicate weights or a design bootstrap, exactly what the method of
-Section~\ref{sec:method} uses---so this input is not optional.
+The proof (Appendix~\ref{app:proofs}, with a numerical contract test) is a
+convolution-invertibility argument for (i) and a conformal converse for (ii). The reading
+is constructive: a band both honest and narrower than the plug-in must \emph{supply} the
+design-noise law, which complex surveys do provide---through replicate weights or a design
+bootstrap, exactly what Section~\ref{sec:method} uses---so this input is not optional.
 
 \begin{remark}[Beyond surveys]\label{rem:general}
 Nothing in Theorem~\ref{thm:impossible} is specific to surveys: it holds whenever a
 conformal procedure is calibrated on \emph{estimated} objects, so that the nonconformity
-score is a noisy version $\widetilde R=R+\xi$ of a latent score. This covers
-model-based small-area estimates (e.g.\ MRP outputs used as calibration units),
-learned or imputed features carrying estimation error, and meta-analytic effect
-estimates. The same two-part consequence follows---design/measurement information is the
-identifying ingredient, and its reliability at a finite number of calibration units is
-itself bounded (Proposition~\ref{prop:unreach}). Repeated cross-national surveys are our
-running instance because they make both the contamination and its law unusually
-explicit; the barrier is confirmed outside surveys on a model-based small-area
-calibration (Supplementary Material).
+score is a noisy version $\widetilde R=R+\xi$ of a latent score---model-based small-area
+(MRP) outputs, learned or imputed features, meta-analytic effects. The same two-part
+consequence follows: design/measurement information is the identifying ingredient, and its
+reliability at a finite number of calibration units is itself bounded
+(Proposition~\ref{prop:unreach}). The barrier is confirmed outside surveys on a
+model-based small-area calibration (Supplementary Material).
 \end{remark}

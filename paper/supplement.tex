@@ -33,7 +33,7 @@
 
 \title{Supplementary Material for\\
 ``The Wrong Unit of Uncertainty:\\
-Adaptive Design-Aware Conformal Inference for\\
+Simultaneous Conformal Bands for\\
 Repeated Cross-National Surveys''}
 \author{The Authors}
 \date{}
@@ -44,6 +44,247 @@ Repeated Cross-National Surveys''}
 This online supplement collects secondary material referenced from the main
 manuscript. All content, numbers, and figures are reproduced unchanged; only figure
 numbers carry an ``S'' prefix.
+
+\section{Proofs}\label{sup:proofs}
+
+This section gives full statements and proofs of the results of the main text, in the
+main-manuscript numbering. Each result is paired with a machine-checked contract test in
+the replication package that verifies its guarantee numerically. Where the source
+argument is a sketch or rests on an estimated constant, we say so.
+
+\paragraph{Common setup.} We observe $K$ exchangeable source countries $c=1,\dots,K$ plus
+a target $K{+}1$. Each country $c$ has a latent attitude curve $F_c$ (a CDF over a grid
+$t_1<\dots<t_T$) and a transport center $\mu$ (a leave-one-out mean or fitted center),
+with plug-in error curve $E_c(t)=\widehat\theta_t(P_c)-\theta_t(P_c)$. The latent
+transport score is $R_c=\max_{r,t}|F_c(t)-\mu(t)|/\sigma(t)$, the country-level
+(exchangeable-unit) score. $F_c$ is not observed; a complex survey returns
+$\Ftilde_c=F_c+S_c$ with design error $S_c$, inducing the contaminated score
+$\widetilde R_c=R_c+\xi_c$ with $\mathbb E[\xi_c\mid R_c]=0$ and
+$\operatorname{Var}(\xi_c\mid\cdot)=v_c^2$, where $v_c^2$ is estimated by a
+stratified-PSU / replicate-weight design bootstrap. Write $s_{\text{plug}}^2=s_R^2+
+\overline{v^2}$ and the design-to-total SD ratio $\rho=\sqrt{\overline{v^2}}/
+s_{\text{plug}}\in[0,1)$. Two targets are kept distinct throughout: the survey-estimate
+score $\widetilde R_{K+1}$ (T1) and the latent score $R_{K+1}$ (T2), the object the
+political claim concerns.
+
+\subsection{Theorem~1 (non-identification and necessity of design information)}
+
+\emph{Statement.} Let the observed score be $\widetilde R=R+\xi$ with $R\perp\xi$ and
+$\xi$ mean-zero. (i)~The law of $R$---hence its $(1-\alpha)$ quantile---is not identified
+from the law of $\widetilde R$ without restrictions on the law of $\xi$. (ii)~Among bands
+measurable with respect to the observed scores only, none is valid for the latent target
+at level $1-\alpha$ for all admissible design laws while being strictly narrower than the
+plug-in band whose radius is the $(1-\alpha)$ conformal quantile of $|\widetilde R|$.
+
+\begin{proof}
+(i)~Convolution is not invertible without knowing the noise law. Take
+$\mathcal L(\widetilde R)=N(0,\sigma^2)$. Then $(R\sim N(0,\sigma^2),\ \xi\equiv0)$ and,
+for any $0<\tau^2<\sigma^2$, $(R\sim N(0,\sigma^2-\tau^2),\ \xi\sim N(0,\tau^2))$ both have
+$\xi\perp R$, $\xi$ mean-zero, and induce the same $\mathcal L(\widetilde R)$; their latent
+$(1-\alpha)$ quantiles $z_{1-\alpha}\sigma$ and $z_{1-\alpha}\sqrt{\sigma^2-\tau^2}$
+differ. The same construction applies to any $\mathcal L(\widetilde R)$ that is a
+nontrivial convolution. (ii)~Under the member $\xi\equiv0$ the latent target equals
+$\widetilde R_{K+1}$, which is exchangeable with $\{\widetilde R_c\}_{c\le K}$; the
+conformal rank identity gives $\Pr(\widetilde R_{K+1}\le\widehat q)=
+\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$ at $\widehat q$ the corresponding order statistic,
+so any radius below the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of
+$\{|\widetilde R_c|\}$ has latent coverage $<1-\alpha$ on this member. A band narrower than
+the plug-in on a positive-measure event therefore undercovers the latent target on the
+$\xi\equiv0$ law it cannot distinguish from the contaminated one. In the degenerate case
+$\xi\equiv0$ the plug-in is itself the tightest valid band, so no uniform improvement
+exists. Thus strict efficiency is attainable only by shrinking the class of admissible
+laws---i.e.\ by supplying the law of $\xi$ (equivalently the $v_c$), which is exactly the
+design-bootstrap information.
+\end{proof}
+
+\subsection{Theorem~2 (oracle validity)}
+
+\emph{Statement.} With the countries exchangeable and the design law known: (a)~the
+clustered band on $\{\widetilde R_c\}$ covers the survey-estimate target T1 exactly,
+$\Pr(\widetilde R_{K+1}\le\widehat q)\ge1-\alpha$, using exchangeability only; (b)~under a
+conditionally symmetric design law it is conservative for the latent target T2,
+$\Pr(R_{K+1}\le\widehat q)\ge1-\alpha$, and the deconvolution band with the true target
+scale has width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
+
+\begin{proof}
+(a)~By exchangeability of $\{\widetilde R_c\}_{c=1}^{K+1}$ the rank of
+$\widetilde R_{K+1}$ is uniform on $\{1,\dots,K{+}1\}$; with $\widehat q$ the
+$\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic,
+$\Pr(\widetilde R_{K+1}\le\widehat q)=\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
+finite-sample and distribution-free, using no assumption on the design-noise law.
+(b)~With $\xi$ conditionally symmetric and independent of $R$, $\widetilde R=R+\xi$ is a
+mean-preserving spread of $R$: for the upper functional $\{R\le\widehat q\}$ the symmetric
+convolution moves mass outward symmetrically, so the $(1-\alpha)$ quantile of
+$\widetilde R$ dominates that of $R$ and a radius calibrated on $\widetilde R$ over-covers
+$R$, giving $\Pr(R_{K+1}\le\widehat q)\ge1-\alpha-\varepsilon_{\text{sym}}$ with
+$\varepsilon_{\text{sym}}=0$ under exact symmetry (a total-variation bound in the
+noisy-label sense supplies $\varepsilon_{\text{sym}}$ when symmetry is only approximate).
+The oracle deconvolution scale satisfies $s_T^2=s^2(1-\rho^2)$ by the law of total
+variance $\operatorname{Var}(\widetilde R)=\operatorname{Var}(R)+\mathbb E[v^2]$ under
+conditional mean-zero noise, giving the width factor $\sqrt{1-\rho^2}+o(1)$.
+\end{proof}
+
+\subsection{Theorem~3 (exact finite-$K$ validity of the deployed base band)}
+
+\emph{Statement.} With the unstudentized cluster score $R_c=\max_t|E_c(t)|$ and the
+countries exchangeable, for \emph{every} $K$ the band $\widehat B=\text{center}\pm\widehat
+q$ with $\widehat q$ the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$
+satisfies $\Pr(F_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge
+1-\alpha$, distribution-free.
+
+\begin{proof}
+The curves $E_1,\dots,E_{K+1}$ are i.i.d.\ (populations i.i.d., the same estimation rule
+for each), hence exchangeable elements of $\mathbb R^T$, and by continuity the scores
+$\{R_c\}$ are a.s.\ distinct. Therefore the rank of $R_{K+1}$ is uniform on
+$\{1,\dots,K{+}1\}$, and with $\widehat q=R_{(m)}$, $m=\lceil(1-\alpha)(K{+}1)\rceil$,
+$\Pr(R_{K+1}\le\widehat q)=m/(K{+}1)\ge1-\alpha$. The simultaneous coverage event is
+pointwise equivalent to the scalar event:
+$F_{\text{new}}(t)\in\widehat B(t)\ \forall t\iff|E_{K+1}(t)|\le\widehat q\ \forall t\iff
+\max_t|E_{K+1}(t)|\le\widehat q\iff R_{K+1}\le\widehat q$. Hence simultaneous coverage is
+$\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$, distribution-free. Intersecting the band with
+$[0,1]$ and applying the isotonic tightening $L(t)=\mathrm{clip}_{[0,1]}(\max_{t'\le t}
+\mathrm{lo}(t'))$, $U(t)=\mathrm{clip}_{[0,1]}(\min_{t'\ge t}\mathrm{hi}(t'))$ only shrink
+the band while still containing the monotone $[0,1]$-valued truth, preserving validity.
+The split-modulation studentized variant (modulation computed on a disjoint fold) is
+exact by the identical argument conditional on the modulation fold.
+\end{proof}
+
+\emph{Modulation self-inclusion deficit (proof sketch; estimated constant).} If instead
+one studentizes by an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,E_c(t)$ computed
+from the calibration curves themselves, the unobserved target does not share this
+denominator, which breaks exchangeability. A first-order expansion of the order-statistic
+bias in the number $g$ of modulation slots each country contributes to gives a coverage
+deficit $\approx0.382\,(g/K)$; the constant $0.382$ is estimated (empirical $R^2=0.923$),
+not derived, and is flagged as such. Pooled modulation ($g=1$) is safe; slotwise ($g=L$)
+undercovers by $\approx0.382\,L/K$. This $O(g/K)$ deficit is why the deployed band is
+unstudentized.
+
+\subsection{Theorem~4 (estimated-law validity)}
+
+\emph{Statement.} With the design law estimated from a size-$B$ stratified-PSU bootstrap
+and $K$ countries, the deconvolution band satisfies
+$\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\varepsilon_{K,B}$, where
+$\varepsilon_{K,B}=O(K^{-1/2})+O(B^{-1/2})\to0$.
+
+\begin{proof}[Proof sketch]
+By the law of total variance $\operatorname{Var}(\widetilde R)=\operatorname{Var}(R)+
+\mathbb E[v^2]$ under conditional mean-zero noise; subtracting a consistent estimate
+$\overline{\widehat v^2}$ identifies $s_R^2$, and the deconvolved scale
+$\widehat s_T^2=\max(s_{\text{plug}}^2-\overline{\widehat v^2},\ \text{floor})$---in the
+deployed finite-$K$-safe form, with a \emph{lower} confidence bound subtracted so the
+correction cannot over-shrink---recovers the target scale. The remainder decomposes as
+(i)~$O(B^{-1/2})$ Monte-Carlo error in $\widehat v^2$, (ii)~$O(K^{-1/2})$ finite-$K$
+quantile and variance estimation, and (iii)~a higher-order Gaussian-shape term; each
+$\to0$ and none is claimed exact. When $\overline{\widehat v^2}\ge s_{\text{plug}}^2$
+(design noise $\gtrsim$ transport signal, $\rho\gtrsim1$) the scale hits the floor and the
+selector hands off to the conservative branch. This is a proof sketch: the constants in
+$\varepsilon_{K,B}$ are order-of-magnitude, not tight.
+\end{proof}
+
+\subsection{Theorem~5 (safe-adaptive finite-$K$ validity---the deployed pipeline)}
+
+\emph{Statement.} Let $\widehat J\in\{\text{PCB},\text{deconvolution},\text{conservative}\}$
+be the target-blind safe selector. Then, for finite $(K,B)$,
+$\Pr(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t)\ge1-\alpha-\delta$, where
+$\delta=\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ on the event
+$\{\widehat J=\text{deconvolution}\}$ and $\delta=0$ otherwise; $\delta$ is observable and
+$\to0$ as $K$ grows.
+
+\begin{proof}
+$\widehat J$ is $\mathcal F_{\text{cal}}$-measurable (target-blind), so
+$\Pr(\text{cover})=\sum_j\Pr(\widehat J=j)\,\Pr(\text{cover}\mid\widehat J=j)$.
+Conditioning on $\{\widehat J=j\}$ is conditioning on a calibration-$\sigma$-field event,
+under which each branch retains its marginal guarantee, because the target's rank among
+the calibration scores is unaffected by an $\mathcal F_{\text{cal}}$-measurable choice.
+PCB and conservative over-cover the latent target (Theorem~2 (a)/(b)), giving conditional
+coverage $\ge1-\alpha$; deconvolution is invoked only on
+$\{\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}\}$, where gate~B guarantees conditional
+coverage $\ge1-\alpha-\widehat\delta_{\text{UCB}}(D)$. Each mixture term is
+$\ge1-\alpha-\delta$ with $\delta=\widehat\delta_{\text{UCB}}(D)$ on the deconvolution
+event and $\delta=0$ elsewhere; summing over the partition gives
+$\Pr(\text{cover})\ge1-\alpha-\delta$. The remainder $\delta$ is a computable function of
+$(D,K,B)$ and the noise-law error, hence observable at deployment, and $\delta\to0$ as $K$
+grows (the region $\{D\le\tau_D\}$ expands to the full deconvolution regime).
+\end{proof}
+
+\subsection{Proposition~1 (survey-scale unreachability)}
+
+\emph{Statement.} The deployed selector rides deconvolution only if a \emph{need} gate
+$\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both hold, with
+$D=\max_t\widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Two distribution-free facts
+bound these: (a)~$\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
+$s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$; and (b)~$D\ge\sqrt{2/(K-1)}$, so the
+reliability gate requires $K\ge1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen $\tau_D=0.147$.
+
+\begin{proof}
+(a)~$\rho^2=\overline{v^2}/(s_R^2+\overline{v^2})\in[0,1)$, so the need gate can fire only
+when the design noise $\overline{v^2}$ is an appreciable fraction of the between-population
+signal $s_R^2$. (b)~The standard error of a variance estimated from $K$ clusters is
+$\widehat{\mathrm{SE}}(\widehat s_T^2)=\sqrt{2s_{\mathrm{plug}}^4/(K-1)+(\mathrm{SD}_K(v^2)
+/\sqrt K)^2}$; since $\widehat s_T\le s_{\mathrm{plug}}$ for every $t$,
+\[
+D=\max_t\frac{\widehat{\mathrm{SE}}(\widehat s_T^2)}{\widehat s_T^2}
+\ \ge\ \frac{\sqrt{2s_{\mathrm{plug}}^4/(K-1)}}{s_{\mathrm{plug}}^2}
+\ =\ \sqrt{\tfrac{2}{K-1}},
+\]
+a distribution-free floor. Hence $D\le\tau_D$ forces $\sqrt{2/(K-1)}\le\tau_D$, i.e.\
+$K\ge1+2/\tau_D^2$. With the frozen gate-B constants
+$\widehat\delta_{\mathrm{UCB}}(D)=a+bD$, $a=0.0061$, $b=0.0943$, $\delta_{\max}=0.02$, the
+threshold is $\tau_D=(\delta_{\max}-a)/b=0.147$, giving $K\ge1+2/0.147^2\approx94$.
+Repeated cross-national surveys have $K\le33$ (ESS) and $\sim20$--$40$ (LAPOP,
+Afrobarometer, Eurobarometer), so the gate-B feasible region is empty at survey scale
+regardless of $\rho$: even if the need gate were passed, deconvolution stays blocked.
+\end{proof}
+
+\begin{remark}
+The $D\ge\sqrt{2/(K-1)}$ floor is fundamental---it is the sampling error of a variance
+estimated from $K$ clusters, distribution-free, and gives $\ge25\%$ relative standard
+error on the deconvolved scale at $K\approx30$. The exact threshold $K\approx94$ depends
+on the frozen gate-B constants (conservatively calibrated on the development grid); a less
+conservative $\delta_{\max}$ would lower it, but the calibration-free statement is the
+floor itself. The barrier is specific to the \emph{cross-national} application: many-unit
+settings (subnational areas, schools, clinics) routinely have $K\ge94$, where the
+reliability gate can open.
+\end{remark}
+
+\subsection{Efficiency results AW-1--AW-3 and the open oracle inequality (AW-4)}
+
+Write the three branch half-widths at level $1-\alpha$ as $W_P=q_P\,s$ (PCB),
+$W_D=q_D\,s\sqrt{1-\rho^2}$ (deconvolution), and $W_C=q_C\,s$ (conservative).
+
+\emph{AW-1 (low-$\rho$ reduction, proven).} As $\rho\to0$, $\widehat s_T=s\sqrt{1-\rho^2}
+\to s$ and the deconvolution scores converge pointwise (at fixed $K$) to the PCB scores, so
+$q_D/q_P\to1$ by continuity of the finite-sample quantile in the studentization, and
+\[
+W_D/W_P=(q_D/q_P)\sqrt{1-\rho^2}=1-\tfrac12\rho^2+O(\rho^4)
+\]
+by Taylor expansion. Below $\rho_0$ the selector returns PCB exactly, so
+$W_{\text{adaptive}}=W_P$.
+
+\emph{AW-2 (conservative dominance, conditional).} For $\rho\ge\rho_0$ with stable
+deconvolution, $W_D/W_C=(q_D/q_C)\sqrt{1-\rho^2}$. The worst-case scores $(|E|+z v)/s$
+stochastically dominate $|E|/s$, so $q_C\ge q_P$ and to first order $q_C\approx q_P(1+z
+\kappa\rho)$ with $\kappa\in(0,1]$ the correlation of the $|E|$ and $v$ orderings across
+the calibration set. Hence $W_D/W_C\approx\sqrt{1-\rho^2}/(1+z\kappa\rho)<1$ for all
+$\rho>0$, strictly and decreasing in $\rho$: the conservative fallback is a genuine upper
+band, never wider than the Bonferroni envelope and at least as wide as PCB, and
+deconvolution strictly narrows it whenever design noise is present. (Conditional on the
+stated first-order expansion of $q_C$.)
+
+\emph{AW-3 (target-blind validity, proven).} $\widehat J$ is measurable with respect to
+$\mathcal F_{\text{cal}}$ and each branch is marginally valid for its target layer; since
+$\widehat J\perp$ target given $\mathcal F_{\text{cal}}$,
+$\Pr(\text{target}\in B_{\widehat J})=\sum_j\Pr(\widehat J=j)\Pr(\text{target}\in B_j\mid
+\widehat J=j)\ge1-\alpha-\max_j\varepsilon_j$, so selection cannot inflate miscoverage.
+
+\emph{AW-4 (excess-width oracle inequality, open).} Let $W^*=\min(W_P,W_D,W_C)$.
+Conjecture: $W_{\text{adaptive}}\le W^*+r_{K,B}$ with $r_{K,B}=O(K^{-1/2})+O(B^{-1/2})$
+under Lipschitz width-in-$\rho$, the boundary zone where the target-blind $\rho_0$
+disagrees with the oracle crossover having width $O(K^{-1/2})$ because $\rhohat$ is
+$\sqrt K$-consistent. This remains open: (i)~$\rho_0=0.47$ is fixed from the development
+grid rather than derived as the oracle crossover $W_D=W_C$, and (ii)~the Lipschitz
+constant of width-in-$\rho$ is not established. It is stated as a candidate with a proof
+sketch, not a theorem.
 
 \section{The finite-$K$ mechanism and the development grid}\label{sup:mechanism}
 
@@ -160,7 +401,7 @@ between-country transport spread, not the within-country design noise---the same
 low-$\rho$ fact, seen from the certification side.
 
 \paragraph{Robustness across age groups (ESS).} A preregistered age-group analysis
-(preregistered in \texttt{docs/YOUTH\_PREREGISTRATION.md}) reruns the same
+(preregistered in the replication package) reruns the same
 certification within fixed age bands, changing nothing else. The ``only Greece''
 result is not an artifact of pooling ages: it holds within the older (50+) group for
 both outcomes and within the middle (30--49) group for trust in parliament, so the
