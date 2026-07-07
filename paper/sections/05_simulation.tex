@@ -1,9 +1,11 @@
 \section{Simulation and a design-preserving stress test}\label{sec:simulation}
 
-We develop the selector on one simulation grid and then confirm the \emph{frozen}
-rule once on an independent design it has never seen. The separation is deliberate:
-the development grid may set the gate constants, but it may not be reused as
-validation performance.
+Simulation establishes two facts: that attaching the band to the wrong unit collapses
+coverage (Section~\ref{sec:wrongunit-sim}), and that the safe selector meets its
+guarantees on data it has never seen. For the latter we develop the selector on one
+simulation grid and then confirm the \emph{frozen} rule once on an independent design.
+The separation is deliberate: the development grid may set the gate constants, but it
+may not be reused as validation performance.
 
 \subsection{The wrong unit collapses coverage}\label{sec:wrongunit-sim}
 

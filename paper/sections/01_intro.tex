@@ -53,10 +53,9 @@ claim unit (a wave-pair contrast standing in for a persistent distribution-wide
 trajectory) and the calibration unit (estimated distributions treated as latent, the
 omitted design-error layer of~\eqref{eq:decomp})---and give a finite-sample simultaneous
 band over a country's whole trajectory, with a multiplicity-honest guarantee hierarchy
-that corrects the first. It needs no survey design and applies to any repeated
-distributional claim.
+that corrects the first.
 \emph{Second, a provably-valid deployed procedure.} The band we recommend is a clustered
-``population'' conformal band, finite-sample exact at \emph{any} $K$
+``population'' conformal band (PCB), finite-sample exact at \emph{any} $K$
 (Theorem~\ref{thm:exact}), wrapped in a nominal-safe selector that corrects for the
 design error only when four target-blind gates certify reliability and otherwise reduces
 to the exact band or abstains conservatively (Theorem~\ref{thm:safe}). We confirm the
@@ -89,7 +88,9 @@ design-aware layer is a diagnostic and scope result that, on real survey data, c
 the simple band rather than firing---so the deconvolution is not something the reader
 should expect to activate empirically.
 
-The remainder sets up the problem and impossibility result (Section~\ref{sec:setup}),
+The remainder situates the contribution among the conformal and political-trust
+literatures (Section~\ref{sec:related}), sets up the problem and impossibility result
+(Section~\ref{sec:setup}),
 builds the safe adaptive method and its theory (Sections~\ref{sec:method}--\ref{sec:theory}),
 validates it in simulation (Section~\ref{sec:simulation}), characterizes the real-data
 regime (Section~\ref{sec:evidence}), reanalyzes political trust (Section~\ref{sec:political}),
