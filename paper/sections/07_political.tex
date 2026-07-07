@@ -7,19 +7,17 @@ the ESS over 2018--2022, treating each country's attitude distribution as the ob
 and asking, at each rung of a guarantee hierarchy, in how many countries a decline
 survives.
 
-The comparative literature has itself grown skeptical of a continent-wide trust
-decline: where \citet{foa2016democratic} saw ``democratic deconsolidation,''
+The comparative literature has itself grown skeptical of a continent-wide trust decline:
+where \citet{foa2016democratic} saw ``democratic deconsolidation,''
 \citet{norris2017western} saw trendless fluctuation, \citet{voeten2017people} saw
 specification-fragile artifacts, and \citet{wuttke2022europeans}---analyzing eighteen
 democracies under preregistration---found endorsement of self-government largely
 intact; the most comprehensive recent accounting finds no universal secular decline
-in institutional trust at all \citep{valgardsson2025crisis}. The qualitative consensus
-is that ``trust is falling everywhere'' is an over-reading. Our contribution is a
-formal instrument that says so, and a diagnosis of \emph{why} the over-reading
-arises---uncertainty computed for a single wave-pair mean contrast, then narrated as a
-persistent distribution-wide country-level trend. A mean can fall because a mode
-hollows out or a tail thickens, with different substantive meanings
-\citep{dimaggio1996americans}; requiring the whole distribution to shift is the
+in institutional trust at all \citep{valgardsson2025crisis}. This qualitative consensus
+holds that ``trust is falling everywhere'' is an over-reading; our contribution is a
+formal instrument that says so, and the wrong-unit diagnosis of \emph{why} it arises. A
+mean can fall because a mode hollows out or a tail thickens, with different substantive
+meanings \citep{dimaggio1996americans}; requiring the whole distribution to shift is the
 stronger, and more honest, claim.
 
 \paragraph{A hierarchy of claims.} The claims differ in their unit and are not
@@ -41,9 +39,9 @@ survives the Bonferroni correction across countries. Greece is precisely the cas
 substantive literature independently regards as a genuine crisis-era collapse of
 legitimacy \citep{armingeon2014democracy,torcal2014decline}, so certifying only Greece
 is a credibility feature, not an anomaly. For \texttt{stfdem} the same pattern holds
-(roughly twenty-three marginally, fourteen any-pair, and one persistent, again Greece). The headline is not that trust did not fall anywhere, but
-that a \emph{persistent distribution-wide} decline---the strong claim casual readings
-imply---is certifiable in a single country over this window
+(roughly twenty-three marginally, fourteen any-pair, and one persistent, again Greece).
+The headline is that a \emph{persistent distribution-wide} decline---the strong claim
+casual readings imply---is certifiable in a single country over this window
 (Figure~\ref{fig:hierarchy}).
 
 \begin{figure}[t]\centering
@@ -61,30 +59,22 @@ trend lies within the design uncertainty the survey warrants.}\label{fig:reclass
 \end{figure}
 
 \paragraph{Which countries are reclassified, and the honest word for it.} The
-countries that appear to decline marginally but are not certified under the
-design-aware simultaneous band are the weak-signal, higher-noise cases: the apparent
-trend is within the band the survey's own design uncertainty warrants
-(Figure~\ref{fig:reclass}). We describe these as \emph{certified by the marginal
-plug-in but inconclusive under the design-aware simultaneous band}---never as ``false
-positives,'' a term we reserve for the simulation where ground truth is known.
+reclassified countries (Figure~\ref{fig:reclass}) are the weak-signal, higher-noise
+cases, where the apparent trend lies within the design uncertainty the survey warrants.
+We describe them as \emph{certified by the marginal plug-in but inconclusive under the
+design-aware simultaneous band}---never as ``false positives,'' a term we reserve for
+the simulation where ground truth is known.
 Because undercoverage would make \emph{more} countries certify, the ``only Greece''
 finding is conservative in the direction that matters, and the deployed base band is
 finite-sample exact at the $K\approx30$ of these data (Theorem~\ref{thm:exact}), so the
 count is not an artifact of small-$K$ under- or over-coverage.
 
 \paragraph{Robustness across age groups.} A preregistered age-group analysis
-(Appendix~\ref{app:spec}; \texttt{docs/YOUTH\_PREREGISTRATION.md}) reruns the same
-certification within fixed age bands, changing nothing else. The ``only Greece''
-result is not an artifact of pooling ages: it holds within the older (50+) group for
-both outcomes and within the middle (30--49) group for trust in parliament, so the
-persistent decline is concentrated in the older and middle adult population rather
-than created by averaging. Youth (18--29) certify \emph{zero} persistent declines,
-but we read this as an underpowered null rather than youth stability: only $17$ of
-$30$ countries clear the preregistered minimum-sample gate for a single youth band,
-and the smaller, noisier youth cells yield wider design-aware bands that certify
-less---the small-$K$ scope condition of Section~\ref{sec:simulation} appearing on real
-data. The analysis thus supports the headline while adding an honest caveat, and it
-is emphatically \emph{not} a story of youth-led democratic disaffection.
+(Appendix~\ref{app:spec}) confirms the ``only Greece'' result is not an artifact of
+pooling ages---it holds within the older (50+) and middle (30--49) groups---while youth
+(18--29) certify zero persistent declines as an underpowered null rather than youth
+stability, and emphatically not a story of youth-led democratic disaffection. The full
+age-band results are in the Supplementary Material.
 
 \paragraph{A second, global target: Foa--Mounk deconsolidation.} To show the correction
 is not a European artifact, we preregistered a reanalysis of the Foa--Mounk
@@ -100,11 +90,8 @@ over-count of $2.6$--$6.5\times$. The design-aware layer demotes a further
 $\approx20$--$30\%$ at the persistent bar. Deconsolidation is thus \emph{real in a
 specific minority} (the certified importance-of-democracy set includes Turkey, the
 Philippines, Mexico, and Tunisia) but is over-stated several-fold by the marginal
-evidence the thesis rests on. The youth claim is only half-supported: the young show
-\emph{more} persistent decline in rating democracy essential ($7$ vs.\ $3$ countries)
-but \emph{not} in openness to strongman or army rule ($0$--$1$ vs.\ $4$), against the
-``youth embrace authoritarianism'' reading. WVS carries no PSU/stratum, so its
+evidence the thesis rests on. The youth ``embrace authoritarianism'' claim is only
+half-supported (Supplementary Material). WVS carries no PSU/stratum, so its
 survey-aware band is a weights-only respondent bootstrap; the point is the
-cross-family robustness of the wrong-unit correction, whose magnitude varies from the
-dramatic ($20\to1$ for European trust) to the moderate ($2.6$--$6.5\times$ for global
-deconsolidation).
+cross-family robustness of the wrong-unit correction, from the dramatic ($20\to1$ for
+European trust) to the moderate ($2.6$--$6.5\times$ globally).

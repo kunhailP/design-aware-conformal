@@ -40,24 +40,23 @@ Repeated Cross-National Surveys}
 \begin{abstract}
 Comparative research routinely reads a single wave-pair mean contrast and narrates it
 as a persistent, distribution-wide, country-level trend---attaching uncertainty to the
-wrong unit and over-detecting change. We give a principled instrument: a finite-sample
-simultaneous band over a country's whole attitude \emph{trajectory}, with the country as
-the exchangeable unit, and a hierarchy of claims (pairwise $\to$ any-pair $\to$ net $\to$
-persistent country-wide) whose top rung is the honest object. A second error compounds
-it---the calibration objects, other countries' distributions, are not observed but
-estimated from complex samples---and we prove this is a hard limit: bands calibrated on
-noisily-estimated objects face a non-identification barrier
-(Theorem~\ref{thm:impossible}) and a distribution-free reliability floor requiring
-$K\ge94$ exchangeable populations (Proposition~\ref{prop:unreach}). Across the two
-largest cross-national surveys these barriers bind in opposite ways and never jointly
-release, so a design-aware correction is provably unreachable at survey scale. What
-remains is the honest procedure for the regime that occurs: a clustered band exact at any
-$K$ (Theorem~\ref{thm:exact}) inside a selector that abstains when deconvolution is
-unreliable, provably correctly. The payoff is two corrections. In the ESS (2018--2022),
-persistent distribution-wide trust decline is certified in one of roughly thirty
-democracies (Greece), not the twenty flagged marginally; on the World Values Survey
-(1981--2022) the marginal case for Foa--Mounk ``deconsolidation'' over-counts the
-persistent phenomenon by $2.6$--$6.5\times$.
+wrong unit and over-detecting change. We give a principled instrument and a deployable
+procedure: a finite-sample simultaneous band over a country's whole attitude
+\emph{trajectory}, with the country as the exchangeable unit and a hierarchy of claims
+(pairwise $\to$ any-pair $\to$ net $\to$ persistent country-wide) whose top rung is the
+honest object. The band is a clustered conformal band exact at any $K$
+(Theorem~\ref{thm:exact}) inside a selector that corrects for survey design only when it
+can be certified reliable and otherwise abstains, provably correctly
+(Theorem~\ref{thm:safe}). Applied to real data it changes the substantive picture: in the
+ESS (2018--2022), persistent distribution-wide trust decline is certified in one of
+roughly thirty democracies (Greece), not the twenty flagged marginally; on the World
+Values Survey (1981--2022) the marginal case for Foa--Mounk ``deconsolidation''
+over-counts the persistent phenomenon by $2.6$--$6.5\times$. A second, subtler error---the
+calibration objects, other countries' distributions, are themselves estimated from
+complex samples---we resolve by mapping its scope: correcting for it is non-identified
+without the design-noise law (Theorem~\ref{thm:impossible}) and, even with it, unreachable
+below $K\ge94$ exchangeable populations (Proposition~\ref{prop:unreach}), so the
+abstaining reduction is the right object at survey scale rather than a concession.
 \end{abstract}
 
 \input{sections/01_intro}
@@ -88,6 +87,18 @@ $\Delta_g=0.05$, stability floor) and their derivation on the development grid a
 preregistration, grid, and seed manifest are in
 \texttt{docs/INDEPENDENT\_VALIDATION\_PREREG.md} and \texttt{configs/}; results in
 \texttt{docs/HOLDOUT\_VALIDATION\_RESULTS.md}.
+
+\section*{Data and Code Availability}
+All simulation, theory, and benchmark results in this paper are deterministic: they run
+under fixed random seeds and reproduce exactly with no external data. Each theorem is
+paired with a machine-checked contract test that verifies its stated guarantee
+numerically. The ESS, World Values Survey, and AmericasBarometer/LAPOP microdata used in
+the reanalyses are licensed to their respective providers and are not redistributed here;
+the replication package documents the exact variables, waves, and retrieval steps needed
+to obtain them directly from each provider. The full replication package---code for the
+method, all simulations and theorem contract tests, and the analysis pipeline---will be
+deposited in the Political Analysis Dataverse (Harvard Dataverse) upon conditional
+acceptance.
 
 \bibliographystyle{apalike}
 \bibliography{refs}

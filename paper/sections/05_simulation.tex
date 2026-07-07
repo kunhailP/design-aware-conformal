@@ -7,13 +7,13 @@ validation performance.
 
 \subsection{The wrong unit collapses coverage}\label{sec:wrongunit-sim}
 
-Before the design-aware machinery, the most basic claim deserves a direct test: a band
-attached to the wrong unit covers the object of interest far below nominal. On a
-ground-truth simulation ($K=30$ exchangeable countries, $T=6$ thresholds, error tensors
-correlated across rounds and thresholds; Table~\ref{tab:wrongunit}), we ask each band
-for \emph{trajectory} coverage---the whole country curve-path covered at once. All three
-bands are unstudentized and finite-sample constructed, so the only thing that varies is
-the unit of the score.
+The most basic claim deserves a direct test: a band attached to the wrong unit covers
+the object of interest far below nominal. On a ground-truth simulation ($K=30$
+exchangeable countries, $T=6$ thresholds, error tensors correlated across rounds and
+thresholds; Table~\ref{tab:wrongunit}), we ask each band for \emph{trajectory}
+coverage---the whole country curve-path covered at once. All three bands are
+unstudentized and finite-sample constructed, so the only thing that varies is the unit
+of the score.
 
 \begin{table}[t]\centering
 \caption{Whole-trajectory coverage (4000 reps, nominal $90\%$) as the trajectory length
@@ -37,77 +37,24 @@ The per-round band, marginally valid at the round level, covers the whole trajec
 $0.82$ at $L=2$ and $0.50$ at $L=8$; the marginal band collapses faster still. The
 country-trajectory band holds $\approx0.90$ regardless of $L$, because the whole
 trajectory is a single exchangeable unit and its sup-score obeys the finite-sample
-order-statistic guarantee. This is the coverage face of the paper's thesis---and its
-mechanism is exactly why the certification counts collapse between the loose ``any-pair''
-reading and the persistent, distribution-wide one (Section~\ref{sec:political}): asking
-for the honest object, not asking it more strictly, is what removes the over-detection.
+order-statistic guarantee. This is the coverage face of the paper's thesis: the same
+mechanism drives the certification-count collapse in Section~\ref{sec:political}, where
+asking for the honest object---not asking it more strictly---removes the over-detection.
 Pre-registered and reported as produced (\texttt{e28\_wrong\_unit\_coverage}).
 
-\paragraph{Development: why the third gate is needed.} On a Gaussian grid with known
-truth ($K\in\{30,60,120,240\}$, $\rho$ up to $1.8$), the selector transitions from
-PCB to deconvolution at $\rho_0$ and to conservative at large $\rho$; but a naive
-deconvolution that omits gate~B \emph{undercovers} at small $K$---coverage falls to
-$0.75$ at $K=30$ in the transition zone---because the target scale is estimated from
-few countries (Figure~\ref{fig:selector}). Adding the finite-$K$-safe scale lifts
-this to $0.82$, and the reliability gate B lifts the deployed worst cell to
-$0.862$ while abstaining to conservative wherever the remainder cannot be bounded.
-These four transition cells at $0.862$--$0.878$ are the development evidence that
-\emph{motivates} the safety gate and \emph{calibrates} $\widehat\delta_{\text{UCB}}$;
-they are not reused below.
-
-\paragraph{The finite-$K$ mechanism, isolated.} A controlled Gaussian illustration
-(design SD $=$ transport SD, $\rho{=}0.9$; \texttt{fig\_theory\_illustration.py})
-makes the source of the undercoverage explicit and shows why the deployed rule is a
-selector rather than a deconvolver. Both the naive and the finite-$K$-safe
-deconvolved score scales lie \emph{below} the oracle $s_R/s_{\text{plug}}$ at small
-$K$ (Figure~\ref{fig:shrinkage}): subtracting a design-noise variance estimated from
-few countries over-shrinks the scale, and the resulting band is too narrow. The safe
-guard shrinks less, and both converge to the oracle as $K\to\infty$. The coverage
-consequence is severe and grows with the trajectory length $L$ that the band must
-hold simultaneously (Figure~\ref{fig:coverage_LK}): naive deconvolution falls to
-$0.43$ at $K{=}25,\,L{=}16$, and the finite-$K$-safe scale improves it but does not by
-itself reach nominal at small $K$. The deployed adaptive selector detects that the
-remainder cannot be bounded and abstains to the conservative branch, remaining valid
-throughout at a width cost---the mechanism behind the $K{=}320$-only activation in
-the confirmatory holdout below.
-
-\begin{figure}[t]\centering
-\includegraphics[width=.62\textwidth]{theory_shrinkage.png}
-\caption{Score-scale shrinkage ratio $\hat s/s_{\text{plug}}$ vs $K$ (Gaussian
-illustration, $\rho{=}0.9$, $L{=}8$). Naive and finite-$K$-safe deconvolution both
-over-shrink below the oracle at small $K$---the source of the finite-$K$
-undercoverage---with the safe guard shrinking less; both converge as $K$
-grows.}\label{fig:shrinkage}
-\end{figure}
-
-\begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{theory_coverage.png}
-\caption{Latent-target coverage of the deconvolution branches vs $K$, faceted by
-trajectory length $L$ (Gaussian illustration, $\rho{=}0.9$; nominal $0.90$ dotted).
-Naive deconvolution undercovers severely at small $K$ and worse as $L$ grows; the
-finite-$K$-safe scale improves but does not itself reach nominal at small $K$. The
-deployed adaptive selector abstains to conservative and stays valid
-throughout.}\label{fig:coverage_LK}
-\end{figure}
+The development grid that motivates and calibrates the safety gate, and a controlled
+Gaussian illustration that isolates the finite-$K$ over-shrinkage mechanism behind the
+$K{=}320$-only activation seen below, are given in the Supplementary Material.
 
 \paragraph{Independent confirmatory validation.} We froze the selector and its
 constants (Appendix~\ref{app:spec}), sealed a preregistration and a seed manifest,
 and ran the deployed procedure \emph{once} on a grid disjoint from development in $K$
 ($\{25,40,80,160,320\}$), in $\rho$ (dense at the $\rho_0$ cutoff), and in
-data-generating process---ten families including skewed and heavy-tailed noise,
-heterogeneous design variance, unequal PSU sizes and survey weights, irregular
-trajectory length, a \emph{misspecified} noise law, and weak/strong cross-round
-dependence. The runner verifies the config hash against the sealed manifest before
-executing. We report the numbers exactly as produced (Table~\ref{tab:holdout},
-Figure~\ref{fig:holdout}; \texttt{docs/HOLDOUT\_VALIDATION\_RESULTS.md}).
-
-\begin{figure}[t]\centering
-\includegraphics[width=.78\textwidth]{selector_sweep.png}
-\caption{Development grid (Gaussian, known truth). The selector transitions
-PCB\,$\to$\,deconvolution\,$\to$\,conservative as $\rho$ grows; naive deconvolution
-undercovers at small $K$ in the transition zone---the finite-$K$ remainder the safety
-gate controls.}\label{fig:selector}
-\end{figure}
+data-generating process (ten families spanning skewed and heavy-tailed noise,
+heterogeneous design variance, weighting, irregular trajectory length, a
+\emph{misspecified} noise law, and weak/strong cross-round dependence). The runner
+verifies the config hash against the sealed manifest before executing. The numbers are
+reported exactly as produced (Table~\ref{tab:holdout}, Figure~\ref{fig:holdout}).
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{holdout_validation.png}
@@ -136,45 +83,35 @@ P2: worst-cell coverage & $\ge0.86$ & $0.843$ \\
 \end{tabular}
 \end{table}
 
-\emph{The design-aware layer behaves as designed.} Every one of the twelve cells
-below the $0.88$ floor routed to base clustered PCB---the deconvolution branch's
-share was exactly zero in all of them. The safe selector never once rode
-deconvolution into a floor violation. It reduces to PCB at low $\rho$ (width ratio
-$1.008$), activates deconvolution only at the largest $K{=}320$ (never for
-$K\le160$), and there delivers a band $0.577\times$ the conservative width. Where
-deconvolution activates its coverage is $0.897$, above its observable floor $0.882$.
+\emph{The design-aware layer behaves as designed.} All twelve cells below the $0.88$
+floor routed to base clustered PCB---the deconvolution branch never once rode into a
+floor violation. The selector reduces to PCB at low $\rho$ (width ratio $1.008$),
+activates deconvolution only at $K{=}320$ (never for $K\le160$), and there delivers a
+band $0.577\times$ the conservative width at coverage $0.897$, above its observable
+floor $0.882$.
 
 \emph{The holdout exposed one base-method deficit, which we then resolved.} The
 \emph{studentized} base band (in-sample pooled modulation) undercovered at small $K$
-and low $\rho$ under the hardest DGPs (worst deployed cell $0.843$, weak cross-round
-dependence at $K{=}25$). The cause is diagnosable: dividing each calibration score by a
+and low $\rho$ under the hardest DGPs, because dividing each calibration score by a
 modulation estimated from the same clusters---which the unobserved target does not
-share---breaks the exchangeability the conformal guarantee needs, a finite-$K$
-self-inclusion deficit worst at small $K$ and long trajectories. We therefore deploy the
+share---breaks the exchangeability the conformal guarantee needs. We therefore deploy the
 \emph{unstudentized} clustered band as the base branch: with no data-dependent
 denominator the scores $R_c=\max_t|E_c(t)|$ are exchangeable, and the order-statistic
 band is finite-sample exact at \emph{any} $K$,
 $\Pr(\text{cover}) \ge \lceil(1-\alpha)(K{+}1)\rceil/(K{+}1) \ge 1-\alpha$, distribution-free
-(Theorem~\ref{thm:exact}). A preregistered rerun on a fresh grid
-($K\in\{15,\dots,60\}$, ten DGPs) confirms it: the worst cell rises from $0.802$ (S2,
-$K{=}15$) to $0.893$, every cell meets its exact floor, and the width cost is
-$1.02$--$1.05\times$ on the real ESS transport bands (trust-CDF errors are
-$\approx$homoskedastic across the low-trust core, so the constant-width band is
-competitive; the only cells where it pays more than $10\%$ are synthetic heavy-tailed
-curves at $K{=}15$, where the studentized alternative is itself invalid). The band the
-paper deploys is thus finite-sample valid at the sample sizes comparative politics
-actually has. Second, the Gaussian-calibrated remainder bound $\widehat\delta_{\text{UCB}}$ is not
-robust at the extreme: in $77$ of $360{,}000$ draws ($0.02\%$), on strongly-dependent
-or heavy-tailed DGPs at $K{=}320$ and $\rho\ge0.72$, draws that pass gate~B
-undercover to $\approx0.79$; because the gates route $96$--$98\%$ of draws in those
-cells to conservative, the deployed cell coverage there is nonetheless $0.95$--$0.996$.
-We do not claim uniform nominal coverage; we claim---and the holdout confirms---that
-the design-aware correction is never the \emph{cause} of undercoverage and is
-materially more efficient than conservative where it safely activates.
+(Theorem~\ref{thm:exact}). A preregistered rerun on a fresh grid confirms the fix at a
+width cost of $1.02$--$1.05\times$ on the real ESS transport bands; the granular
+cell-by-cell results are in the Supplementary Material. The band the paper
+deploys is thus finite-sample valid at the sample sizes comparative politics
+actually has. A second, extreme-tail limitation of the Gaussian-calibrated remainder
+bound $\widehat\delta_{\text{UCB}}$---confined to $0.02\%$ of draws and absorbed by the
+conservative branch---is documented in the Supplementary Material. We do not claim uniform
+nominal coverage; we claim---and the holdout confirms---that the design-aware correction
+is never the \emph{cause} of undercoverage and is materially more efficient than
+conservative where it safely activates.
 
-\paragraph{Design-preserving stress test.} Subsampling the real AmericasBarometer
-while preserving its stratified-PSU structure, the estimated $\rho$ \emph{saturates}
-near $0.23$: because $s_{\text{plug}}^2=s_R^2+\overline{v^2}$, shrinking the sample
-inflates both the design noise and the observed spread in lockstep. The deconvolution
-regime is therefore unreachable even semi-synthetically at survey scale---direct
-evidence for the empirical regime characterization of Section~\ref{sec:evidence}.
+\paragraph{Design-preserving stress test.} A design-preserving subsampling of the real
+AmericasBarometer confirms the deconvolution regime is unreachable even
+semi-synthetically at survey scale, with $\rho$ saturating near $0.23$
+(Supplementary Material)---direct evidence for the regime characterization of
+Section~\ref{sec:evidence}.

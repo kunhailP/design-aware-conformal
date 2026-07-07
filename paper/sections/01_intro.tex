@@ -5,35 +5,33 @@ rather than a mean. Trust in parliament, satisfaction with democracy, or support
 the political system in a country and year is a whole cumulative distribution
 function over a response scale, and repeated cross-national surveys---the European
 Social Survey \citep[ESS;][]{kaminska2017survey}, the World Values Survey, the
-AmericasBarometer \citep{lapop2023pulse}---let us track
-how that distribution moves across waves and, increasingly, \emph{transport} it:
-predict one country's trajectory from the others, or flag which countries depart
-from a common pattern. Prediction bands and conformal methods are a natural tool for
-such transport, because they promise finite-sample, distribution-free coverage.
+AmericasBarometer \citep{lapop2023pulse}---let us track how that distribution moves
+across waves and, increasingly, \emph{transport} it: predict one country's trajectory
+from the others, or flag which countries depart from a common pattern. Prediction bands
+and conformal methods are a natural tool here, promising finite-sample,
+distribution-free coverage.
 
 \paragraph{Two wrong units.} A claim and its calibration can each be attached to the
 wrong object. The \emph{claim} ``democratic trust is declining'' is typically built from
 a single wave-pair mean contrast, then narrated as a persistent, distribution-wide,
 country-level trend. Requiring the whole distribution to shift, \emph{simultaneously}
-across the entire trajectory, is a strictly stronger and more honest object, and---as we
-find---the number of countries that qualify collapses between the two. Our instrument is
+across the entire trajectory, is a strictly stronger and more honest object, and the
+number of countries that qualify collapses between the two. Our instrument is
 a finite-sample simultaneous band over a country's whole trajectory, with the country as
 the exchangeable unit, and an ordered hierarchy of claims (pairwise $\to$ any-pair $\to$
 net $\to$ persistent country-wide $\to$ Bonferroni-across-countries) whose top rung is
-the object casual readings implicitly assert. This much needs no survey design at all; it
-is the multiplicity-honest core, and it applies to any repeated distributional claim.
+the object casual readings implicitly assert. This multiplicity-honest core needs no
+survey design at all and applies to any repeated distributional claim.
 
-The second, subtler wrong unit is a layer of uncertainty that these exercises silently
-omit. Conformal inference is usually calibrated on \emph{observed outcomes}: the
-calibration set is data we actually saw. Repeated cross-national surveys are
-different. The calibration objects---the other countries' attitude
-distributions---are themselves \emph{not observed}. Each is estimated from a
+The second, subtler wrong unit is a layer of uncertainty these exercises silently omit.
+Conformal inference is usually calibrated on \emph{observed outcomes}. Repeated
+cross-national surveys are different: the calibration objects---the other countries'
+attitude distributions---are themselves \emph{not observed}. Each is estimated from a
 complex probability sample with weights, clustering (primary sampling units), and
 stratification, and therefore carries its own sampling error. Standard practice
-plugs these survey estimates into the calibration step as if they were the truth.
-The transport band is then honest about variation \emph{across} countries but blind
-to the fact that each ``country'' in the calibration set is a noisy estimate of a
-latent population function.
+plugs these survey estimates into the calibration step as if they were the truth, so
+the transport band, honest about variation \emph{across} countries, stays blind to the
+fact that each ``country'' is a noisy estimate of a latent population function.
 
 The two errors are genuinely distinct. Writing $F_{c,r}(t)$ for country $c$'s latent
 attitude CDF at threshold $t$ in wave $r$, and $\Ftilde_{c,r}(t)$ for its complex-survey
@@ -44,59 +42,52 @@ estimate,
 \;+\; \underbrace{\big(\Ftilde_{c,r}(t)-F_{c,r}(t)\big)}_{\text{design error}},
 \end{equation}
 where $\mu_r$ is the transport center. A conformal band calibrated on the observed
-$\Ftilde$ scores treats the sum as if it were the transport error alone. When the
-design error is non-negligible the calibrated band is systematically too wide (it
-inflates the transport spread by the survey noise), and---more subtly---any attempt
-to correct for this by subtracting the survey noise can make the band too narrow,
-because the correction is itself estimated from a small number of countries.
+$\Ftilde$ scores treats the sum as if it were the transport error alone: when the
+design error is non-negligible the band is systematically too wide, yet any correction
+that subtracts the survey noise can make it too narrow, because the correction is itself
+estimated from a small number of countries.
 
 \paragraph{Contributions.} We make four.
-\emph{First, a diagnosis and a portable instrument.} We separate two wrong units---the
+\emph{First, a diagnosis and a portable instrument.} We separate the two wrong units---the
 claim unit (a wave-pair contrast standing in for a persistent distribution-wide
 trajectory) and the calibration unit (estimated distributions treated as latent, the
-omitted design-error layer of~\eqref{eq:decomp})---and give the multiplicity-honest
-guarantee hierarchy that corrects the first. This much needs no design model and applies
-to any repeated distributional claim.
-\emph{Second, and centrally, the boundary of what any design-aware band can do.} An
-impossibility result (Theorem~\ref{thm:impossible}) shows that without a model of the
-design-noise law the latent transport-error distribution is non-identified---recovering
-it is a deconvolution problem---so no function of the observed scores is both valid and
-strictly narrower than the conservative plug-in; the design information (replicate
-weights, a stratified-PSU bootstrap) is the \emph{identifying} ingredient, not a
-convenience. We then show that even \emph{with} that information the correction is
-\emph{unreachable} at cross-national scale, for two structural reasons we make
-quantitative: the design-to-total noise ratio $\rho$ saturates well below the level at
-which deconvolution helps, and the deconvolved scale's relative error obeys a
-distribution-free floor $D\ge\sqrt{2/(K-1)}$ that needs $K\ge94$ exchangeable
-populations. On the two largest repeated cross-national surveys these barriers bind in
-\emph{opposite} ways---the World Values Survey clears the size barrier ($K\approx100$)
-but carries only weights-based, negligible design noise, while the ESS has genuine
-clustered design noise but far too few countries---so neither survey clears both, and
-the two requirements are structurally anti-correlated across the survey landscape.
-Design-aware deconvolution is therefore not merely unused but provably unusable here;
-mapping that boundary precisely is the contribution.
-\emph{Third, the provably-valid procedure for the regime that actually occurs.} Since
-the deconvolution is out of reach, the honest deployed object is its reduction: a
-clustered ``population'' conformal band that is finite-sample exact at \emph{any} $K$
-(Theorem~\ref{thm:exact}), wrapped in a nominal-safe selector that would deconvolve only
-when four target-blind gates certify reliability and otherwise reduces to the exact band
-or abstains conservatively (Theorem~\ref{thm:safe}). We prove the abstention is the
-correct action at survey scale and confirm the frozen procedure on an independent,
-pre-registered simulation spanning ten data-generating processes it has never seen.
-\emph{Fourth, two named reanalyses} (Section~\ref{sec:political}). For European trust
-(ESS 2018--2022), marginal wave-by-wave estimates suggest widespread decline, but a
-country-wide, design-aware simultaneous band certifies a \emph{persistent
-distribution-wide} decline in only one country (Greece). Globally, we reanalyze the
+omitted design-error layer of~\eqref{eq:decomp})---and give a finite-sample simultaneous
+band over a country's whole trajectory, with a multiplicity-honest guarantee hierarchy
+that corrects the first. It needs no survey design and applies to any repeated
+distributional claim.
+\emph{Second, a provably-valid deployed procedure.} The band we recommend is a clustered
+``population'' conformal band, finite-sample exact at \emph{any} $K$
+(Theorem~\ref{thm:exact}), wrapped in a nominal-safe selector that corrects for the
+design error only when four target-blind gates certify reliability and otherwise reduces
+to the exact band or abstains conservatively (Theorem~\ref{thm:safe}). We confirm the
+frozen procedure on an independent, pre-registered simulation spanning ten
+data-generating processes it has never seen.
+\emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the instrument
+changes the substantive picture. For European trust (ESS 2018--2022), marginal
+wave-by-wave estimates suggest widespread decline, but a country-wide, design-aware
+simultaneous band certifies a \emph{persistent distribution-wide} decline in only one
+country (Greece), not the twenty flagged marginally. Globally, we reanalyze the
 Foa--Mounk ``democratic deconsolidation'' thesis on the World Values Survey
 (1981--2022) and find its marginal evidence over-counts persistent, distribution-wide
 deconsolidation by $2.6$--$6.5\times$---real in a specific minority, not the broad
-erosion the marginal reading implies. The lesson generalizes: whenever prediction under
-shift runs on survey estimates, uncertainty computed for the wrong unit over-detects
-trends---dramatically for European trust, several-fold for global deconsolidation.
+erosion the marginal reading implies.
+\emph{Fourth, the scope condition that justifies this deployment.} We delineate exactly
+when a design-aware correction is available and when it is not, so that abstention is a
+principled choice rather than a concession. Without a model of the design-noise law the
+latent transport-error distribution is non-identified---a deconvolution problem
+(Theorem~\ref{thm:impossible}); and even \emph{with} that information the correction is
+\emph{unreachable} at cross-national scale, for two quantitative reasons: the
+design-to-total noise ratio $\rho$ saturates well below the level at which deconvolution
+helps, and the deconvolved scale's relative error obeys a distribution-free floor
+$D\ge\sqrt{2/(K-1)}$ that needs $K\ge94$ exchangeable populations. On the two largest
+such surveys these barriers bind in \emph{opposite} ways---the World Values Survey clears
+the size barrier ($K\approx100$) but carries only weights-based, negligible design noise,
+while the ESS has genuine clustered design noise but far too few countries---so neither
+clears both. This is why the abstaining reduction above, not a design-aware correction,
+is the right object at survey scale.
 
-The remainder of the paper sets up the problem and the impossibility result
-(Section~\ref{sec:setup}), builds the safe adaptive method
-(Section~\ref{sec:method}) and its theory (Section~\ref{sec:theory}), validates it in
-simulation and a design-preserving stress test (Section~\ref{sec:simulation}),
-characterizes the real-data regime (Section~\ref{sec:evidence}), reanalyzes political
-trust (Section~\ref{sec:political}), and discusses scope (Section~\ref{sec:discussion}).
+The remainder sets up the problem and impossibility result (Section~\ref{sec:setup}),
+builds the safe adaptive method and its theory (Sections~\ref{sec:method}--\ref{sec:theory}),
+validates it in simulation (Section~\ref{sec:simulation}), characterizes the real-data
+regime (Section~\ref{sec:evidence}), reanalyzes political trust (Section~\ref{sec:political}),
+and discusses scope (Section~\ref{sec:discussion}).
