@@ -1,0 +1,51 @@
+\section{Discussion}\label{sec:discussion}
+
+The uncertainty in claims about repeated cross-national surveys is usually computed for
+the wrong unit---twice. A wave-pair mean contrast stands in for a persistent
+distribution-wide trajectory, and an estimated distribution stands in for the latent one
+it samples. We give a multiplicity-honest simultaneous band for the first and prove a
+hard boundary for the second: without the design-noise law the latent uncertainty is
+non-identified (Theorem~\ref{thm:impossible}), and \emph{with} it the correction is still
+unreachable at cross-national scale, blocked by two structurally anti-correlated barriers
+that no real survey clears at once (Proposition~\ref{prop:unreach}). The honest deployed
+object is therefore the reduction---a clustered band exact at any $K$
+(Theorem~\ref{thm:exact}), with a selector that would deconvolve only when safe and
+otherwise abstains, provably correctly (Theorem~\ref{thm:safe}), confirmed on an
+independent pre-registered design.
+
+\paragraph{When it reduces to ordinary conformal.} On real cross-national attitude
+data the design noise is small relative to between-country spread, so the method
+reduces \emph{exactly} to clustered population conformal (Section~\ref{sec:evidence}).
+This is the common case, and the value of the machinery there is diagnostic: it
+\emph{certifies} that the simple band is the honest one, and reports the $\rho$ that
+justifies it. The deconvolution regime requires \emph{both} many exchangeable units
+($K\ge94$) and design noise comparable to the between-unit signal---a combination
+cross-national surveys never provide (Proposition~\ref{prop:unreach}) but which
+many-unit, clustered settings (subnational small areas, schools, clinics) can; there,
+and in the simulation that characterizes it, the branch activates.
+
+\paragraph{Limitations.} Two are worth naming. Without design metadata---as in the
+World Values Survey, which releases weights but limited cluster identifiers---only a
+weights-only replication is possible; the impossibility result says no design-valid
+inference can be recovered from the point estimates alone. And the finite-$K$ remainder
+bound for the deconvolution branch was calibrated on Gaussian data; it is conservative in
+the deployed pipeline but not fully robust under strong dependence, pointing to a richer
+calibration family or a dependence-aware gate---though, since the deconvolution branch is
+provably never reached at cross-national scale (Proposition~\ref{prop:unreach}), this
+bears only on hypothetical large-$K$, high-noise applications. (The in-sample-modulation
+undercoverage of the base band at small $K$ that an earlier version exhibited is
+\emph{resolved}, not merely bounded: we deploy the unstudentized band, which is
+finite-sample exact at any $K$ (Theorem~\ref{thm:exact}) at $\le5\%$ width on real data.)
+
+\paragraph{The general lesson.} Attaching uncertainty to the right unit changes
+substantive conclusions. For European trust a marginal reading flags about twenty
+declining democracies; the persistent, distribution-wide, design-aware object certifies
+one (Greece). For the Foa--Mounk ``deconsolidation'' thesis the marginal evidence
+over-counts the persistent phenomenon by $2.6$--$6.5\times$---real in a specific minority,
+not the broad erosion claimed. The pattern is not confined to surveys: wherever a
+conformal or prediction procedure is calibrated on estimated objects---small-area
+model outputs, learned features, meta-analytic effects (Remark~\ref{rem:general})---the
+calibration targets carry their own error, and the claim unit is often coarser than the
+trend asserted. The right response is not to widen every band reflexively but to state
+the strongest object the data support, correct the estimation noise when it can be
+identified, and abstain honestly when it cannot.

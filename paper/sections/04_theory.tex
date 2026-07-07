@@ -1,0 +1,79 @@
+\section{Theory}\label{sec:theory}
+
+We state validity for the oracle, for the estimated-law procedure, and for the
+deployed safe selector, then the efficiency it buys. Full proofs are in
+Appendix~\ref{app:proofs}; each theorem has a matching machine-checked contract test
+(\texttt{tests/}).
+
+\begin{theorem}[Oracle validity]\label{thm:oracle}
+Suppose the countries are exchangeable and the design law is known.
+\emph{(a)} The clustered band is finite-sample valid for the survey-estimate target:
+$\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
+\emph{(b)} Under a symmetric design law it is conservative for the latent target,
+$\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha$, and the deconvolution band with the
+true target scale is valid for the latent target with width a factor
+$\sqrt{1-\rho^2}+o(1)$ of the clustered band.
+\end{theorem}
+
+\begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
+Let the base band use the \emph{unstudentized} cluster score $R_c=\max_t|E_c(t)|$ (no
+data-dependent modulation). If the countries are exchangeable, then for \emph{every}
+$K$ the band $\widehat B=\text{center}\pm\widehat q$, with $\widehat q$ the
+$\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$, satisfies
+$\Pr(F_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
+distribution-free. In contrast, dividing $R_c$ by an in-sample modulation
+$\widehat s(t)=\mathrm{SD}_c E_c(t)$---which the unobserved target does not share---breaks
+exchangeability and induces an $O(1/K)$ self-inclusion deficit (quantified in
+Appendix~\ref{app:proofs}), so the studentized band attains $1-\alpha$ only as
+$K\to\infty$. We therefore deploy the unstudentized band; on the near-homoskedastic real
+curves its width cost is $\le5\%$.
+\end{theorem}
+
+\begin{theorem}[Estimated-law validity]\label{thm:estimated}
+With the design law estimated from a size-$B$ stratified-PSU bootstrap and $K$
+countries, the deconvolution band satisfies
+$\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$, where
+$\varepsilon_{K,B}=O(K^{-1/2})+O(B^{-1/2})\to0$. The finite-$K$-safe scale
+$\widehat s_T^2$ (Section~\ref{sec:method}) subtracts a lower confidence bound on the
+design variance, controlling the sign of the leading remainder term.
+\end{theorem}
+
+\begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
+\label{thm:safe}
+Let $\widehat J\in\{\text{PCB},\text{deconvolution},\text{conservative}\}$ be the
+target-blind safe selector of Algorithm~\ref{alg:safe}. Then, finite $(K,B)$,
+\[
+\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;1-\alpha-\delta,
+\]
+where $\delta=\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ on the event
+$\{\widehat J=\text{deconvolution}\}$ and $\delta=0$ otherwise; $\delta$ is
+\emph{observable} and $\delta\to0$ as $K$ grows.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+$\widehat J$ is $\mathcal F_{\text{cal}}$-measurable, so
+$\Pr(\text{cover})=\sum_j\Pr(\widehat J=j)\Pr(\text{cover}\mid \widehat J=j)$. PCB and
+conservative over-cover the latent target (Theorem~\ref{thm:oracle}a/b), so their
+conditional coverage is $\ge1-\alpha$. Deconvolution is used only on
+$\{\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}\}$, where gate~B guarantees
+conditional coverage $\ge1-\alpha-\widehat\delta_{\text{UCB}}(D)$. Each term of the
+mixture is $\ge1-\alpha-\delta$; summing over the partition gives the bound.
+\end{proof}
+
+Theorem~\ref{thm:safe} is the guarantee a user actually deploys: the remainder
+$\delta$ is a computable function of the calibration set, is bounded by the
+preregistered budget whenever deconvolution fires, and is exactly zero on the
+overwhelmingly common low-noise data where the method reduces to PCB.
+
+\paragraph{Efficiency.} Three statements bound the price and the payoff. \emph{(AW-1,
+reduction)} in the low-$\rho$ regime the deconvolution/PCB width ratio is
+$1-\tfrac12\rho^2+O(\rho^4)$, matching the observed reduction to the decimal.
+\emph{(AW-2, dominance)} the conservative branch is never wider than the Bonferroni
+envelope and always at least as wide as PCB, so the selector's fallback is a genuine
+upper band, not a giveaway. \emph{(AW-3, target-blind validity)} because
+$\widehat J$ ignores the target, selection cannot inflate miscoverage. The full
+excess-width oracle inequality---that the selector's width is within $O_p(K^{-1/2})$
+of the ex-post best valid branch uniformly---remains open and is stated as a
+conjecture (Appendix~\ref{app:proofs}); the simulation in
+Section~\ref{sec:simulation} is consistent with it. A separate modulation
+self-inclusion deficit of order $O(g/K)$ is quantified in Appendix~\ref{app:proofs}.

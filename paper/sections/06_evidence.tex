@@ -1,0 +1,98 @@
+\section{Evidence from the ESS and the AmericasBarometer}\label{sec:evidence}
+
+\paragraph{The regime characterization.} The most consequential empirical fact is
+negative. Across \emph{both} surveys, \emph{both} estimands (attitude levels and
+wave-to-wave change), and three outcomes (trust in parliament, satisfaction with
+democracy, system support), national-level cross-national inference is a uniformly
+\emph{low design-noise} regime: the estimated $\rhohat\le0.20$, comfortably below the
+$\rho_0=0.47$ cutoff, because between-country variation dwarfs within-survey design
+noise (Figure~\ref{fig:rho}). Consequently the safe selector reduces to clustered
+PCB on \emph{all} real data---not by assumption but by its own low-$\rho$ gate. The
+elaborate design-aware machinery is, on real cross-national attitude data, correctly
+inactive. \begin{figure}[t]\centering
+\includegraphics[width=.7\textwidth]{lapop_level_vs_change_rho.png}
+\caption{Estimated design-to-transport SD ratio $\rhohat$ for the AmericasBarometer,
+levels and wave-to-wave change. Every country-outcome sits well below the $\rho_0=0.47$
+cutoff: national cross-national attitude inference is a uniformly low design-noise
+regime, so the safe selector reduces to clustered PCB.}\label{fig:rho}
+\end{figure}
+
+This is a substantive finding: the impossibility of
+Section~\ref{sec:setup} bites in principle, but the deconvolution it necessitates is
+never triggered at the scale real surveys operate, so honest inference here
+\emph{is} clustered conformal on the observed scores.
+
+\paragraph{Why the deconvolution is unreachable, precisely.} The inactivity is not an
+accident of one dataset; it is forced by two structural barriers, and we can say exactly
+how far each real survey is from clearing them.
+
+\begin{proposition}[Survey-scale unreachability]\label{prop:unreach}
+The deployed selector rides the deconvolution branch only if both a \emph{need} gate
+$\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ hold, where
+$D=\max_t \widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Two distribution-free
+facts bound these. \emph{(a)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
+$s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$, so the need gate can fire only when the design
+noise is an appreciable fraction of the between-population signal $s_R$. \emph{(b)} Since
+$\widehat s_T\le s_{\mathrm{plug}}$, the reliability obeys
+$D\ge\sqrt{2/(K-1)}$; hence the reliability gate requires
+$K\ge 1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen $\tau_D=0.147$, exchangeable
+populations.
+\end{proposition}
+
+The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On the ESS,
+narrowing to the noisiest subpopulations (youth age bands) raises $\rhohat$ from $0.08$
+to at most $0.29$---still far below $\rho_0$---while $K\le33$ leaves $D\ge0.25$, so
+\emph{neither} gate opens (a scan of $42$ subpopulation cells activates deconvolution in
+none). The World Values Survey is the mirror image: with $K\approx100$ countries it
+clears the reliability gate ($D\le0.147$), but it ships no cluster identifiers, so its
+weights-only design noise gives $\rhohat_{\mathrm{LCB}}\le0.09$ and the need gate fails
+decisively. The survey large enough to \emph{estimate} the deconvolution has almost no
+design noise to remove; the survey with real clustered design noise has far too few
+countries to estimate it. The two barriers are anti-correlated across the survey
+landscape, and neither of the two largest repeated cross-national surveys clears both.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{unreachability.png}
+\caption{The two barriers, measured on real data. \emph{Left:} across ESS age-band
+subpopulations $\rhohat$ saturates far below $\rho_0=0.47$. \emph{Right:} the finite-$K$
+reliability $D$ sits on its distribution-free floor $\sqrt{2/(K-1)}$; passing the
+reliability gate needs $K\ge94$, which cross-national surveys ($K\le33$ ESS,
+$\le\!105$ WVS) reach only where---as on WVS---the design noise is too small for the need
+gate.}\label{fig:unreach}
+\end{figure}
+
+\paragraph{The barriers are not survey artifacts.} Both gates are distribution-free, so
+the boundary should transfer to any conformal procedure calibrated on estimated objects
+(Remark~\ref{rem:general}). A simulation confirms it outside the survey setting
+(\texttt{e29\_beyond\_surveys}): across Gaussian, heavy-tailed, skewed, and a non-survey
+model-based small-area (MRP-style) calibration, the reliability floor
+$D\ge\sqrt{2/(K-1)}$ holds in every case (minimum $D/\text{floor}\ge1.06$), and the gate
+opens only at $K\approx130$--$150$---if anything a stronger barrier than the
+floor-implied $K\ge94$. The one substantive difference is instructive: when a small
+area's posterior noise is comparable to the between-area signal
+($\rhohat_{\mathrm{LCB}}=0.54$ at a noise-to-signal ratio of $0.5$), the \emph{need} gate
+does fire, unlike any cross-national survey. A many-area MRP application with appreciable
+posterior uncertainty is therefore the setting where the deconvolution could actually
+activate---the positive-result frontier the survey-scale impossibility leaves open.
+
+\paragraph{The AmericasBarometer supplies the design effect the ESS lacks.} The ESS
+releases design weights but limited cluster identifiers; the AmericasBarometer
+releases full stratified-PSU structure, letting us compute a proper design
+bootstrap. The design effect is real: the ratio of the proper stratified-PSU
+standard deviation to a naive independent-resampling one has median
+$\approx1.13$--$1.20$ and reaches $1.9$ in the most clustered country-years. The
+proper band captures clustering variance the naive bootstrap misses. Yet
+certification is coarse-robust: the design effect moves band \emph{width} but rarely
+flips the binary decline decision, because the decision is dominated by the
+between-country transport spread, not the within-country design noise---the same
+low-$\rho$ fact, seen from the certification side.
+
+\paragraph{What real data validates, and what it cannot.} Real data validates the
+reduction (the method collapses to PCB), the target-blind selection, the efficiency
+of PCB over the conservative envelope, the real design effect, and the political
+reclassification of Section~\ref{sec:political}. It \emph{cannot} validate the
+high-$\rho$ deconvolution branch or the finite-$K$ remainder---those regimes do not
+occur at survey scale and are established only in the simulation of
+Section~\ref{sec:simulation}. We keep this line sharp throughout: claims about the
+deconvolution branch rest on simulation and theorems; claims about the deployed
+low-$\rho$ behavior and the politics rest on the ESS and the AmericasBarometer.

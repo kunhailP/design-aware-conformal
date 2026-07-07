@@ -1,0 +1,62 @@
+\section{A nominal-safe adaptive method}\label{sec:method}
+
+Theorem~\ref{thm:impossible} says the design bootstrap is the identifying input.
+The method turns that input into a band by choosing, target-blind, among three
+constructions and by never using the aggressive one unless it is provably reliable
+at the available number of countries.
+
+\paragraph{Three branches.} For calibration scores $\{\widetilde R_c\}_{c=1}^K$ over
+threshold grid $t$, with per-country design SD $\widehat v_c(t)$ from the
+stratified-PSU bootstrap and modulation scale $s(t)$:
+\emph{(i) Clustered PCB} takes the conformal quantile of the studentized observed
+scores $\max_t|\widetilde R_c(t)|/s(t)$; it is finite-sample exact for the survey
+estimate target and conservative for the latent target under a symmetric design
+law. \emph{(ii) Deconvolution} studentizes instead by the finite-$K$-safe target
+scale
+$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
+which subtracts a \emph{lower} confidence bound on the design variance so the
+correction cannot over-shrink; its width scales as $\sqrt{1-\rho^2}$ relative to
+PCB. \emph{(iii) Conservative} inflates each score by the design SD,
+$\max_t(|\widetilde R_c(t)|+z\,\widehat v_c(t))/s(t)$, giving a worst-case envelope
+that dominates PCB.
+
+\paragraph{The three questions.} The naive selector asks only \emph{can we
+deconvolve} and \emph{do we need to}. The finite-$K$ failure of deconvolution
+(Section~\ref{sec:simulation}) comes from a missing third question: \emph{can we do
+it safely at this $K$?} The safe selector adds it explicitly.
+
+\paragraph{Safe selector (Algorithm~\ref{alg:safe}).} Let $\rhohat_{\text{LCB}}$ be
+a conservative lower bound on $\rho$, $D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$ a
+reliability diagnostic, and
+$\widehat\delta_{\text{UCB}}(D)$ a frozen upper bound on the finite-$K$ coverage
+remainder. Deconvolution is used \emph{iff all four gates pass}: (A)
+$\rhohat_{\text{LCB}}>\rho_0$ (design noise materially large); (B)
+$\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ (remainder within budget); (C)
+$\widehat{\text{Gain}}-\Delta_g>g_{\min}$ (beats conservative by a margin); (D)
+stability. Otherwise the band is PCB when $\rhohat_{\text{LCB}}\le\rho_0$ and the
+conservative envelope when design noise is real but information insufficient. Every
+gate is a function of the calibration set only, so the selector is target-blind. All
+constants are frozen before validation (Section~\ref{sec:theory},
+Appendix~\ref{app:spec}); when deconvolution is used the reported guarantee is the
+observable $1-\alpha-\widehat\delta_{\text{UCB}}(D)$.
+
+\begin{algorithm}[t]
+\caption{Nominal-safe adaptive design-aware band}\label{alg:safe}
+\KwIn{calibration curves $\{\widetilde R_c\}$ (unit = country), design replicates
+$\{\widehat v_c\}$, target curve $\widehat F_{\text{new}}$, level $\alpha$;
+frozen $\rho_0,\delta_{\max},g_{\min},\Delta_g$}
+compute $s$, $\widehat s_T$, and the three radii $r_{\text{PCB}},r_{\text{dec}},
+r_{\text{con}}$; diagnostics $\rhohat_{\text{LCB}},D,\widehat\delta_{\text{UCB}}(D)$\;
+\uIf{$\rhohat_{\text{LCB}}\le\rho_0$}{branch $\leftarrow$ PCB\;}
+\uElseIf{$\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ \textbf{and} stable
+\textbf{and} $\widehat{\text{Gain}}-\Delta_g>g_{\min}$}{branch $\leftarrow$
+deconvolution\;}
+\Else{branch $\leftarrow$ conservative\;}
+\Return $\widehat F_{\text{new}}\pm r_{\text{branch}}$, branch, and diagnostics\;
+\end{algorithm}
+
+\paragraph{Deployment.} The method ships as one call, \texttt{dapcb(cal\_errors,
+v\_cal, center, alpha)}, returning the band together with the selected branch,
+$\rhohat$, $\rhohat_{\text{LCB}}$, $D$, $\widehat\delta_{\text{UCB}}$, the coverage
+level, and the fallback reason---so a user can see \emph{why} the band was built the
+way it was, and read off the finite-$K$ guarantee it carries.

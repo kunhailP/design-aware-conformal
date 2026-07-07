@@ -1,0 +1,76 @@
+\section{Setup and an impossibility result}\label{sec:setup}
+
+\paragraph{Objects.} We observe $K$ source countries, indexed $c=1,\dots,K$, treated
+as exchangeable units (the ``population'' or cluster is the exchangeable object, not
+the individual respondent). Each country has a latent attitude trajectory
+$F_{c,r}(t)$, a CDF over a fixed grid of thresholds $t\in\{t_1,\dots,t_T\}$ and survey
+rounds $r$. We do not see $F_{c,r}$; we see a complex-survey estimate
+$\Ftilde_{c,r}(t)=F_{c,r}(t)+S_{c,r}(t)$, where $S_{c,r}$ is design (sampling) error
+with a design variance $v_{c,r}(t)^2$ that a stratified-PSU / replicate-weight
+bootstrap can estimate. Define the transport score of a country as its worst-case
+standardized deviation from the transport center,
+\[
+R_c \;=\; \max_{r,t}\frac{|F_{c,r}(t)-\mu_r(t)|}{\sigma(t)},
+\qquad
+\widetilde{R}_c \;=\; R_c + \xi_c,
+\]
+where $\widetilde{R}_c$ is the same quantity computed from the observed $\Ftilde$ and
+$\xi_c$ is the induced design contamination. The single scalar that governs the whole
+problem is the design-to-transport standard-deviation ratio
+\[
+\rho \;=\; \frac{\text{SD}(\xi)}{\text{SD}(R)} ,
+\]
+with $\rho\to0$ the ``design noise negligible'' regime and $\rho$ large the regime in
+which survey noise dominates the between-country spread.
+
+\paragraph{Target and validity.} We want a simultaneous band $\widehat B(r,t)$ that
+covers a \emph{new} country's \emph{latent} trajectory,
+$\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\ge 1-\alpha$.
+Two facts frame everything. Ordinary clustered conformal on the observed scores is
+exact for the \emph{survey-estimate} target $\Ftilde_{\text{new}}$ (it only needs
+exchangeability of countries), and hence conservative for the latent target under a
+symmetric design law; but its width is inflated by the design noise, by a factor that
+grows with $\rho$. Correcting the width requires estimating and removing the design
+contribution---a deconvolution.
+
+\paragraph{The impossibility.} The central obstruction is that the deconvolution is
+not identified from the contaminated scores alone.
+
+\begin{theorem}[Non-identification and necessity of design information]
+\label{thm:impossible}
+Let the observed score be $\widetilde R = R + \xi$ with $R\perp\xi$. (i)~The law of
+$R$ is not identified from the law of $\widetilde R$ without restrictions on the law
+of $\xi$: there exist distinct pairs $(\mathcal L_R,\mathcal L_\xi)\ne
+(\mathcal L_R',\mathcal L_\xi')$ with $\mathcal L_R * \mathcal L_\xi = \mathcal L_{R'}
+* \mathcal L_{\xi'}$. (ii)~Consequently, among bands that are measurable functions of
+the observed scores only, none is valid for the latent target at level $1-\alpha$ for
+all admissible design laws while being strictly narrower than the plug-in band whose
+radius is the $(1-\alpha)$ conformal quantile of $|\widetilde R|$. In the degenerate
+case $\xi\equiv0$ the plug-in band is itself the tightest valid band, so no
+uniform improvement exists.
+\end{theorem}
+
+The proof (Appendix~\ref{app:proofs}; verified numerically in
+\texttt{tests/test\_theorem0.py}) is a convolution-invertibility argument for (i) and
+a conformal converse for (ii): any observed-score band that is narrower than the
+plug-in on some design law undercovers the latent target on the $\xi\equiv0$ law it
+cannot distinguish. The reading is constructive rather than pessimistic: to get a
+band that is both honest and narrower than the plug-in, one must \emph{supply} the
+design-noise law. Complex surveys do supply it---through replicate weights or a
+design bootstrap---which is exactly what the method in Section~\ref{sec:method} uses.
+Theorem~\ref{thm:impossible} says this input is not optional.
+
+\begin{remark}[Beyond surveys]\label{rem:general}
+Nothing in Theorem~\ref{thm:impossible} is specific to surveys: it holds whenever a
+conformal procedure is calibrated on \emph{estimated} objects, so that the nonconformity
+score is a noisy version $\widetilde R=R+\xi$ of a latent score. This covers
+model-based small-area estimates (e.g.\ MRP outputs used as calibration units),
+learned or imputed features carrying estimation error, and meta-analytic effect
+estimates. The same two-part consequence follows---design/measurement information is the
+identifying ingredient, and its reliability at a finite number of calibration units is
+itself bounded (Proposition~\ref{prop:unreach}). Repeated cross-national surveys are our
+running instance because they make both the contamination and its law unusually
+explicit, but the barrier is a general feature of conformal inference on estimated
+calibration data---confirmed on a non-survey, model-based small-area calibration in
+Section~\ref{sec:evidence}.
+\end{remark}

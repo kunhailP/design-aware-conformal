@@ -1,0 +1,55 @@
+\section{Related work}\label{sec:related}
+
+Our work sits at the intersection of four literatures. First, \textbf{distribution-free
+conformal prediction} gives finite-sample coverage without modeling assumptions
+\citep{vovk2005algorithmic,lei2018distribution}. Because political data rarely satisfy
+exchangeability, we build on its relaxations: weighted conformal prediction for
+covariate shift \citep{tibshirani2019conformal} and nonexchangeable conformal
+prediction, which bounds the coverage gap by the total variation between exchanged
+distributions \citep{barber2023conformal}. \citet{gibbs2021adaptive,gibbs2024conditional}
+adapt conformal sets to distribution shift and interpolate between marginal and
+conditional validity. Our ``adaptive'' selector differs in kind: it adapts not to
+temporal shift but to the \emph{certified magnitude of survey design noise}, reducing
+to a fixed clustered method when that noise is negligible.
+
+Second, we treat the \textbf{population (country) as the exchangeable unit}, following
+hierarchical conformal prediction for two-layer models \citep{dunn2023distribution}
+and distribution-free inference with hierarchical data \citep{lee2023distribution}.
+These methods transport guarantees to an unseen cluster---our cross-national
+setting---but treat each cluster's data as cleanly sampled. Our departure is that the
+calibration objects are not observed: each country's attitude distribution is
+\emph{estimated} under a complex survey design, so design-based sampling variance
+\citep{binder1983variances,lumley2010complex} contaminates the very scores conformal
+calibration relies upon.
+
+Third, the closest methodological neighbors handle \textbf{noisy or estimated
+calibration}. \citet{wieczorek2023design} develops design-based conformal prediction
+under complex sampling, but design enters through test-point weighting rather than as
+noise in transported objects. \citet{einbinder2024label} and \citet{sesia2025adaptive}
+correct conformal calibration under label noise, the latter by deconvolving a
+\emph{known} noise model. Our central theoretical result is that this identification
+premise generally fails for survey design noise: recovering the latent transport-error
+law is a deconvolution problem \citep{fan1991optimal} that is non-identified without a
+design-noise law, so no observed-score band is simultaneously valid and strictly
+narrower than the conservative plug-in. And even when a noise model \emph{is} supplied,
+we show the deconvolution's reliability is itself bounded at a finite number of
+calibration units by a distribution-free floor (Proposition~\ref{prop:unreach})---a
+finite-$K$ obstruction distinct from the asymptotic identifiability the classical
+deconvolution literature studies.
+
+Fourth, our target is a \textbf{functional object}---a CDF over thresholds tracked
+across rounds---placing us near simultaneous functional conformal bands
+\citep{diquigiovanni2021conformal}. This is where we part from generic multiplicity
+control. Procedures like FDR or Bonferroni \citep{benjamini1995controlling} adjust a
+collection of tests after the fact; our guarantee is instead carried by the geometry of a
+single finite-sample band---a supremum over wave-pairs and thresholds with the country as
+the exchangeable unit---so the ``persistent, distribution-wide'' object is \emph{defined
+and covered directly}, not recovered by correcting marginal $p$-values. The distinction is
+one of estimand, not merely error rate: a wave-pair mean contrast and a persistent
+distribution-wide trajectory are different objects, and partial-pooling cautions about
+reading marginal country trends \citep{gelman2012why} motivate but do not deliver the
+stronger claim. Substantively, our two reanalyses supply the formal instrument that a
+largely qualitative skepticism has lacked, engaging live debates over whether European
+political trust is in broad decline \citep{norris2017western,voeten2017people,
+wuttke2022europeans,valgardsson2025crisis} and whether publics are ``deconsolidating''
+from democracy \citep{foa2016democratic,foa2017signs}.

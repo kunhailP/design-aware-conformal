@@ -1,0 +1,9 @@
+outcome,layer,method,eff_K,granularity,attainable_level,countries,covered_countries,country_cov,country_cov_ci,round_cov,mean_width,max_width
+trstprl,all,round_cal,243,0.004,0.902,35,15,0.429,"[0.28,0.59]",0.892,0.291,0.294
+trstprl,all,cluster_cal,34,0.029,0.914,35,31,0.886,"[0.74,0.95]",0.976,0.584,0.607
+trstprl,balanced,round_cal,116,0.009,0.906,30,22,0.733,"[0.56,0.86]",0.883,0.293,0.3
+trstprl,balanced,cluster_cal,29,0.033,0.9,30,27,0.9,"[0.74,0.97]",0.967,0.426,0.451
+stfdem,all,round_cal,243,0.004,0.902,35,19,0.543,"[0.38,0.70]",0.896,0.324,0.336
+stfdem,all,cluster_cal,34,0.029,0.914,35,31,0.886,"[0.74,0.95]",0.984,0.494,0.515
+stfdem,balanced,round_cal,116,0.009,0.906,30,24,0.8,"[0.63,0.90]",0.9,0.322,0.333
+stfdem,balanced,cluster_cal,29,0.033,0.9,30,27,0.9,"[0.74,0.97]",0.95,0.443,0.478

@@ -1,0 +1,6 @@
+item,desc,cells,countries,countries_2waves
+imp_dem,"importance of democracy (1–10, high=essential)",180,95,59
+rej_leader,"reject 'strong leader' (recoded, high=reject strongman)",271,104,77
+rej_army,"reject army rule (recoded, high=reject)",265,104,76
+sup_demsys,"support democratic system (recoded, high=support)",271,105,77
+confid_parl,"confidence in parliament (recoded, high=confidence)",292,105,77

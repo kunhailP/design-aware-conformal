@@ -1,0 +1,9 @@
+data/
+__pycache__/
+*.pyc
+.DS_Store
+*.aux
+*.log
+*.out
+*.bbl
+*.blg

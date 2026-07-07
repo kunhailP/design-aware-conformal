@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+% The Wrong Unit of Uncertainty — design-aware adaptive conformal inference.
+% Draft skeleton auto-generated 2026-07-06; prose filled from docs/*, numbers
+% traceable to results/*. Sections marked %%TODO await holdout / research inputs.
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\graphicspath{{figures/}}
+\newcommand{\Ftilde}{\widetilde{F}}
+\newcommand{\rhohat}{\widehat{\rho}}
+\DeclareMathOperator{\SE}{SE}
+
+\title{The Wrong Unit of Uncertainty:\\
+Adaptive Design-Aware Conformal Inference for\\
+Repeated Cross-National Surveys}
+\author{The Authors}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Comparative research routinely reads a single wave-pair mean contrast and narrates it
+as a persistent, distribution-wide, country-level trend---attaching uncertainty to the
+wrong unit and over-detecting change. We give a principled instrument: a finite-sample
+simultaneous band over a country's whole attitude \emph{trajectory}, with the country as
+the exchangeable unit, and a hierarchy of claims (pairwise $\to$ any-pair $\to$ net $\to$
+persistent country-wide) whose top rung is the honest object. A second error compounds
+it---the calibration objects, other countries' distributions, are not observed but
+estimated from complex samples---and we prove this is a hard limit: bands calibrated on
+noisily-estimated objects face a non-identification barrier
+(Theorem~\ref{thm:impossible}) and a distribution-free reliability floor requiring
+$K\ge94$ exchangeable populations (Proposition~\ref{prop:unreach}). Across the two
+largest cross-national surveys these barriers bind in opposite ways and never jointly
+release, so a design-aware correction is provably unreachable at survey scale. What
+remains is the honest procedure for the regime that occurs: a clustered band exact at any
+$K$ (Theorem~\ref{thm:exact}) inside a selector that abstains when deconvolution is
+unreliable, provably correctly. The payoff is two corrections. In the ESS (2018--2022),
+persistent distribution-wide trust decline is certified in one of roughly thirty
+democracies (Greece), not the twenty flagged marginally; on the World Values Survey
+(1981--2022) the marginal case for Foa--Mounk ``deconsolidation'' over-counts the
+persistent phenomenon by $2.6$--$6.5\times$.
+\end{abstract}
+
+\input{sections/01_intro}
+\input{sections/09_related}
+\input{sections/02_setup}
+\input{sections/03_method}
+\input{sections/04_theory}
+\input{sections/05_simulation}
+\input{sections/06_evidence}
+\input{sections/07_political}
+\input{sections/08_discussion}
+
+\appendix
+\section{Proofs and efficiency results}\label{app:proofs}
+Full statements and proofs of Theorems~\ref{thm:impossible}--\ref{thm:safe}, the
+efficiency results AW-1--AW-3, the open excess-width oracle inequality, and the
+modulation self-inclusion deficit are collected in the supplementary theory notes
+(\texttt{docs/THEORY\_MAIN.md}, \texttt{docs/DESIGN\_AWARE\_THEOREM.md},
+\texttt{docs/ADAPTIVE\_WIDTH\_THEORY.md}). Each theorem has a machine-checked contract
+test (\texttt{tests/test\_theorem0.py}, \texttt{test\_deconv\_safe.py},
+\texttt{test\_safe\_selector.py}).
+
+\section{Frozen selector specification and validation protocol}\label{app:spec}
+The frozen constants ($\rho_0=0.47$, $\delta_{\max}=0.02$,
+$\widehat\delta_{\text{UCB}}(D)=0.0061+0.0943\,D$, $g_{\min}=0.10$, margin
+$\Delta_g=0.05$, stability floor) and their derivation on the development grid are in
+\texttt{docs/SAFE\_SELECTOR\_SPEC.md}. The sealed independent-validation
+preregistration, grid, and seed manifest are in
+\texttt{docs/INDEPENDENT\_VALIDATION\_PREREG.md} and \texttt{configs/}; results in
+\texttt{docs/HOLDOUT\_VALIDATION\_RESULTS.md}.
+
+\bibliographystyle{apalike}
+\bibliography{refs}
+
+\end{document}
