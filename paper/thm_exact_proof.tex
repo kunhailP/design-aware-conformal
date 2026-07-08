@@ -1,0 +1,163 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newcommand{\Fnew}{F_{\mathrm{new}}}
+\newcommand{\Rnew}{R_{\mathrm{new}}}
+\newcommand{\ind}{\mathbf{1}}
+
+\title{Exact finite-$K$ validity of the deployed unstudentized trajectory band\\
+\large A self-contained proof of Theorem~3 (\texttt{thm:exact})}
+\date{}
+
+\begin{document}
+\maketitle
+
+This note gives an independent, self-contained proof of the exact finite-sample validity
+of the deployed base band, matching its implementation exactly
+(\texttt{fixed\_trajectory\_band.py}, modulation \texttt{kind="none"}: the unstudentized
+``U0'' band). Nothing beyond exchangeability of the country trajectories is used---no
+moment, continuity, homoskedasticity, or tail condition---which is precisely why the band
+is robust to the heteroskedasticity and heavy tails that defeat its studentized variant.
+
+\section*{Setup and notation}
+
+Fix a horizon of $L$ recency slots and a threshold grid $\{1,\dots,T\}$. There are $K+1$
+countries, indexed $c\in\{1,\dots,K,\mathrm{new}\}$, where $\mathrm{new}$ is the held-out
+(target) country. Each country contributes one \emph{error trajectory}
+\[
+  E_c \;=\; \big(E_{c,j}(t)\big)_{j\in\{0,\dots,L-1\},\,t\in\{1,\dots,T\}} \;\in\; \mathbb{R}^{L\times T},
+  \qquad
+  E_{c,j}(t) \;=\; \theta_{c,j}(t) - \widehat\theta_{c,j}(t),
+\]
+the signed deviation of the true survey-estimate curve $\theta_{c,j}(t)$ from its predicted
+center $\widehat\theta_{c,j}(t)$ at slot $j$ and threshold $t$. All countries are aligned to
+exactly $L$ slots (their most recent $L$ rounds, oldest$\,\to\,$newest), so the trajectories
+are index-comparable.
+
+The deployed \emph{unstudentized} score of country $c$ is the sup-magnitude of its
+trajectory,
+\begin{equation}\label{eq:score}
+  R_c \;=\; \|E_c\|_\infty \;=\; \max_{0\le j\le L-1}\ \max_{1\le t\le T}\ \big|E_{c,j}(t)\big|,
+\end{equation}
+with \emph{no} data-dependent modulation ($s\equiv 1$). Let $R_{(1)}\le\cdots\le R_{(K)}$ be
+the order statistics of the $K$ calibration scores $\{R_c:c\ne\mathrm{new}\}$, put
+\begin{equation}\label{eq:m}
+  m \;=\; \big\lceil(1-\alpha)(K+1)\big\rceil,
+\end{equation}
+and define the conformal radius $\widehat q = R_{(m)}$ if $m\le K$, and $\widehat q=\infty$
+otherwise. The band for every slot/threshold of the target is
+\begin{equation}\label{eq:band}
+  \widehat B_{j}(t) \;=\; \big[\,\widehat\theta_{\mathrm{new},j}(t)-\widehat q,\ \
+  \widehat\theta_{\mathrm{new},j}(t)+\widehat q\,\big].
+\end{equation}
+
+\begin{assumption}[Trajectory exchangeability]\label{ass:exch}
+The error trajectories $(E_1,\dots,E_K,E_{\mathrm{new}})$ are exchangeable random elements
+of $\mathbb{R}^{L\times T}$; i.e.\ their joint law is invariant under every permutation of
+the $K+1$ country indices.
+\end{assumption}
+
+\noindent
+Assumption~\ref{ass:exch} is the paper's sole hypothesis. It holds whenever the country
+trajectories are i.i.d.\ draws from a hyper-distribution $\Pi$ over curves and the centering
+map $c\mapsto\widehat\theta_{c,\cdot}$ is applied symmetrically across countries (e.g.\ a
+leave-one-country-out or full-conformal center built from a permutation-symmetric base
+predictor); the round count $L$ is fixed by construction, removing trajectory-length
+heterogeneity.
+
+\section*{An exchangeable-rank coverage lemma}
+
+\begin{lemma}\label{lem:rank}
+Let $(Z_1,\dots,Z_n)$ be exchangeable real-valued random variables, and let
+$Z_{(1)}\le\cdots\le Z_{(n-1)}$ be the order statistics of $(Z_1,\dots,Z_{n-1})$. For any
+integer $m\in\{1,\dots,n-1\}$,
+\[
+  \Pr\big(Z_n \le Z_{(m)}\big)\;\ge\;\frac{m}{n},
+\]
+with equality when ties occur with probability zero.
+\end{lemma}
+
+\begin{proof}
+Order the full sample $(Z_1,\dots,Z_n)$ by the strict total order
+$(Z_i,i)\prec(Z_{i'},i')$ iff $Z_i<Z_{i'}$, or $Z_i=Z_{i'}$ and $i<i'$ (ties broken by
+index). Under this order all $n$ elements are distinct, so their ranks
+$\pi(1),\dots,\pi(n)$ form a permutation of $\{1,\dots,n\}$ almost surely, where $\pi(i)$ is
+the position of $(Z_i,i)$. Exchangeability of $(Z_1,\dots,Z_n)$ implies the rank $\pi(n)$ of
+the last coordinate is uniform on $\{1,\dots,n\}$; hence $\Pr(\pi(n)\le m)=m/n$.
+
+If $\pi(n)\le m$, then at most $m-1$ of the first $n-1$ variables precede $Z_n$ in the
+tie-broken order, so at most $m-1$ satisfy $Z_i<Z_n$ (strict), whence $Z_n\le Z_{(m)}$.
+Thus $\{\pi(n)\le m\}\subseteq\{Z_n\le Z_{(m)}\}$, giving
+$\Pr(Z_n\le Z_{(m)})\ge \Pr(\pi(n)\le m)=m/n$. When ties have probability zero the two
+events coincide up to a null set, so equality holds.
+\end{proof}
+
+\section*{Theorem 3 and its proof}
+
+\begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
+Under Assumption~\ref{ass:exch}, the band \eqref{eq:band} built from the unstudentized
+scores \eqref{eq:score} with radius $\widehat q=R_{(m)}$, $m$ as in \eqref{eq:m}, satisfies
+for \emph{every} $K$
+\[
+  \Pr\Big(\theta_{\mathrm{new},j}(t)\in\widehat B_j(t)\ \ \forall\, j,t\Big)
+  \;\ge\; \frac{\big\lceil(1-\alpha)(K+1)\big\rceil}{K+1}\;\ge\;1-\alpha,
+\]
+distribution-free. If the calibration scores are almost surely distinct, the first
+inequality is an equality (the band covers at exactly the attainable level).
+\end{theorem}
+
+\begin{proof}
+If $m>K$ then $\widehat q=\infty$, the band is all of $[0,1]$ and coverage is $1\ge
+\lceil(1-\alpha)(K+1)\rceil/(K+1)$; assume henceforth $m\le K$.
+
+By \eqref{eq:band}, the target curve lies in the band at every slot and threshold iff its
+deviations never exceed $\widehat q$ in magnitude:
+\[
+  \big\{\theta_{\mathrm{new},j}(t)\in\widehat B_j(t)\ \forall j,t\big\}
+  \;=\;\Big\{\max_{j,t}\big|E_{\mathrm{new},j}(t)\big|\le\widehat q\Big\}
+  \;=\;\big\{\Rnew\le R_{(m)}\big\},
+\]
+using the definition \eqref{eq:score} of the score. Now the scores are obtained by applying
+the \emph{same} fixed measurable map $\varphi(E)=\|E\|_\infty$ to each trajectory,
+$R_c=\varphi(E_c)$. Because $(E_1,\dots,E_K,E_{\mathrm{new}})$ are exchangeable
+(Assumption~\ref{ass:exch}) and $\varphi$ does not depend on $c$, the scores
+$(R_1,\dots,R_K,\Rnew)$ are exchangeable. Applying Lemma~\ref{lem:rank} with $n=K+1$,
+$Z_n=\Rnew$, and $m$ as in \eqref{eq:m},
+\[
+  \Pr\big(\Rnew\le R_{(m)}\big)\;\ge\;\frac{m}{K+1}
+  \;=\;\frac{\lceil(1-\alpha)(K+1)\rceil}{K+1}\;\ge\;\frac{(1-\alpha)(K+1)}{K+1}\;=\;1-\alpha,
+\]
+and the equality claim under a.s.-distinct scores is the equality clause of
+Lemma~\ref{lem:rank}. \qedhere
+\end{proof}
+
+\begin{remark}[Why studentization forfeits exactness]
+Replacing \eqref{eq:score} by a studentized score $R_c=\max_{j,t}|E_{c,j}(t)|/\widehat s_j(t)$
+with $\widehat s_j(t)$ an in-sample spread estimated from the calibration errors destroys the
+symmetry used above: each \emph{calibration} score is divided by an $\widehat s$ computed from
+a set that \emph{includes} its own curve, whereas the \emph{target} score is divided by an
+$\widehat s$ computed from a set that \emph{excludes} the target. The map producing $R_c$ is
+then no longer a common function of $E_c$ alone, the scores are no longer exchangeable, and a
+self-inclusion asymmetry of order $O(1/K)$ enters: the studentized band attains $1-\alpha$
+only as $K\to\infty$. The deployed band therefore fixes $\widehat s\equiv 1$; on the
+near-homoskedastic real curves the resulting width cost is $\le 5\%$.
+\end{remark}
+
+\begin{remark}[Scale-freeness and the contract test]
+Since no scale is estimated, multiplying every error by a constant $\lambda>0$ multiplies
+both $\Rnew$ and $\widehat q$ by $\lambda$ and leaves the covered event
+$\{\Rnew\le\widehat q\}$ unchanged; heteroskedasticity and heavy tails thus cannot break the
+rank symmetry. The guarantee is verified numerically in
+\texttt{test\_unstudentized\_coverage\_at\_attainable\_level} (K=30, heteroskedastic
+$t_3$-tailed errors): the empirical coverage sits at the attainable level
+$\lceil(1-\alpha)(K+1)\rceil/(K+1)$ within Monte Carlo error, and
+\texttt{test\_unstudentized\_score\_is\_scale\_free} checks the scale invariance above.
+\end{remark}
+
+\end{document}
