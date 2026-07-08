@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{condition}{Condition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newcommand{\Fhat}{\widehat F}
+\newcommand{\Dhat}{\widehat D}
+\newcommand{\sdhat}{\widehat{\mathrm{sd}}}
+\renewcommand{\Pr}{\mathbb{P}}
+\newcommand{\core}{\mathcal T}
+
+\title{Asymptotic validity of the within-country decline-certification engine\\
+\large A validity statement for \texttt{certify\_decline\_differences}}
+\date{}
+
+\begin{document}
+\maketitle
+
+The empirical headlines of the paper---``persistent distribution-wide trust decline is
+certified in one country (Greece)'' on the ESS, and the $2.6$--$6.5\times$ over-count on the
+World Values Survey---are produced by \texttt{certify\_decline\_differences}, \emph{not} by
+the finite-sample-exact clustered conformal band. That engine is a within-country,
+design-based, studentized bootstrap procedure, and its guarantee is \emph{asymptotic}. This
+note states that guarantee honestly and gives its conditions and proof, so that ``exact''
+is never asked to cover the headline.
+
+\section*{Estimand and procedure (as implemented)}
+
+Fix one country. Let $r=0,\dots,L$ index its aligned survey rounds and let
+$\theta_r(t)=\Pr_{\text{fin}}(Y\le t)$ be the finite-population CDF of the ordinal response
+$Y$ at round $r$, threshold $t$. Because the analysis is \emph{within} a country, the
+country effect cancels in the consecutive contrast
+\[
+  D_{p}(t)\;=\;\theta_{r_{p}+1}(t)-\theta_{r_p}(t),\qquad p=1,\dots,P\ (P=L-1),
+\]
+so no cross-country transport or exchangeability is invoked. ``Persistent
+distribution-wide decline'' is the claim
+\[
+  H:\quad D_p(t)\ \ge\ 0\quad\text{for all }(p,t)\in \mathcal G,\qquad
+  \mathcal G=\{1,\dots,P\}\times\core,
+\]
+over a fixed \emph{core} threshold set $\core$ on which $\theta_r(t)\in(0,1)$ (the extreme
+thresholds, where every CDF pins to $0$ or $1$ and the contrast degenerates, are excluded).
+
+Let $\Fhat_r(t)$ be the design-weighted (H\'ajek) CDF estimator and
+$\Dhat_p(t)=\Fhat_{r_p+1}(t)-\Fhat_{r_p}(t)$. A design bootstrap---stratified-PSU
+Rao--Wu resampling for the ESS, weights-only multinomial resampling for the WVS, drawn
+\emph{independently across rounds}---yields replicates $\Dhat^{*}_{p,b}(t)$, $b=1,\dots,B$,
+with bootstrap standard deviation $\sdhat_p(t)$. The engine forms the studentized,
+one-sided sup statistic and its bootstrap quantile,
+\[
+  W^{*}_b=\max_{(p,t)\in\mathcal G}\frac{\Dhat^{*}_{p,b}(t)-\Dhat_p(t)}{\sdhat_p(t)},
+  \qquad
+  \widehat c=\text{$(1-\alpha)$ quantile of }\{W^{*}_b\}_{b=1}^{B},
+\]
+and \emph{certifies} $H$ iff the one-sided lower band is nonnegative everywhere,
+\begin{equation}\label{eq:certify}
+  L_p(t):=\Dhat_p(t)-\widehat c\,\sdhat_p(t)\ \ge\ 0\quad\text{for all }(p,t)\in\mathcal G.
+\end{equation}
+
+\section*{Conditions}
+
+\begin{condition}[Independent rounds]\label{c:indep}
+The samples drawn in distinct rounds are independent, so $\Dhat_p$ combines two independent
+design-based estimators.
+\end{condition}
+
+\begin{condition}[Design CLT]\label{c:clt}
+As the per-round sample size $n\to\infty$ (with stable stratum/PSU proportions), the
+standardized vector $\big(\sqrt n\,(\Dhat_p(t)-D_p(t))\big)_{(p,t)\in\mathcal G}$ converges
+in distribution to a mean-zero Gaussian vector $Z$ with covariance $\Sigma$. This is the
+standard design-based central limit theorem for weighted CDFs under stratified multistage
+sampling with a growing number of PSUs per stratum.
+\end{condition}
+
+\begin{condition}[Non-degeneracy]\label{c:nondeg}
+On the core grid $\mathcal G$ the limiting correlation matrix of $Z$ is non-degenerate and
+$\sigma_p(t):=\lim \sqrt n\,\sdhat_p(t)>0$; equivalently $\sdhat_p(t)$ is bounded away from
+$0$ (enforced by the core restriction and the variance floor).
+\end{condition}
+
+\begin{condition}[Bootstrap consistency]\label{c:boot}
+The design bootstrap is consistent for the sampling law of $(\Dhat_p(t))$ and its
+studentized functionals: conditional on the data, $W^{*}$ converges to the same limit as the
+studentized centered sup $\max_{\mathcal G}(\Dhat_p(t)-D_p(t))/\sdhat_p(t)$, in probability.
+For the ESS this is Rao--Wu stratified-PSU bootstrap consistency; for the WVS it is invoked
+under the weights-only with-replacement design model (Condition~\ref{c:wvs}).
+\end{condition}
+
+\begin{condition}[WVS design model, when clusters are unavailable]\label{c:wvs}
+The WVS ships no PSU/stratum identifiers, so Conditions~\ref{c:clt}--\ref{c:boot} are applied
+under the with-replacement weighted-respondent model. Any unmodeled within-cluster
+correlation is \emph{not} captured, and the guarantee below is correspondingly approximate
+for the WVS.
+\end{condition}
+
+\section*{Validity}
+
+\begin{proposition}[Asymptotic one-sided simultaneous validity]\label{prop:engine}
+Under Conditions~\ref{c:indep}--\ref{c:boot},
+\begin{enumerate}
+\item[(i)] the band \eqref{eq:certify} is an asymptotically valid one-sided simultaneous
+lower confidence band for the difference surface:
+\[
+  \lim_{n\to\infty}\Pr\Big(D_p(t)\ \ge\ L_p(t)\ \ \forall (p,t)\in\mathcal G\Big)\;=\;1-\alpha;
+\]
+\item[(ii)] consequently the decline certification controls its false-certification rate:
+if the truth violates persistence---$D_{p_0}(t_0)<0$ for some $(p_0,t_0)$---then
+$\limsup_n \Pr(\text{certify }H)\le\alpha$, and at the boundary $D\equiv0$ the asymptotic
+type-I error is at most $\alpha$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\emph{(i)} By Conditions~\ref{c:indep}--\ref{c:clt} the standardized estimation error over the
+finite grid $\mathcal G$ converges to the Gaussian vector $Z$. Condition~\ref{c:nondeg} gives
+$\sdhat_p(t)/\sigma_p(t)\to_p 1$ uniformly on $\mathcal G$, so by Slutsky the studentized
+centered sup
+$T=\max_{\mathcal G}(\Dhat_p(t)-D_p(t))/\sdhat_p(t)$ converges to $\max_{\mathcal G}\widetilde
+Z$, where $\widetilde Z$ is the correlation-standardized limit; its distribution function is
+continuous and strictly increasing at its $(1-\alpha)$ quantile $c^{*}$ because $\mathcal G$
+is finite and the limit is non-degenerate. By Condition~\ref{c:boot} the bootstrap statistic
+$W^{*}$ has the same conditional limit, hence $\widehat c\to_p c^{*}$. Therefore
+\[
+  \Pr\big(D_p(t)\ge L_p(t)\ \forall\mathcal G\big)
+  =\Pr(T\le\widehat c)\ \longrightarrow\ \Pr\big(\max_{\mathcal G}\widetilde Z\le c^{*}\big)=1-\alpha .
+\]
+\emph{(ii)} Certifying $H$ requires $L_{p}(t)\ge0$ for all $(p,t)$. If $D_{p_0}(t_0)<0$ then
+certification forces $L_{p_0}(t_0)\ge0>D_{p_0}(t_0)$, i.e.\ the lower band exceeds the truth at
+$(p_0,t_0)$; this event is contained in $\{\exists(p,t):D_p(t)<L_p(t)\}$, whose asymptotic
+probability is $\le\alpha$ by~(i). The boundary configuration $D\equiv0$ is least favorable
+and attains $\le\alpha$.
+\end{proof}
+
+\begin{remark}[The asymptotics are in respondents, not countries]
+The regime here is $n\to\infty$ in \emph{respondents/PSUs per country-round}---thousands per
+cell (the code requires $n\ge100$ for the ESS, $n\ge400$ for the WVS)---which is the
+favorable regime, in contrast to the small number $K$ of countries that governs the
+finite-sample conformal band. The two instruments therefore live on different sample-size
+axes and carry different guarantees: the conformal band is finite-$K$ exact for the
+\emph{transport} claim (Theorem~3), while this engine is respondent-asymptotic for the
+\emph{within-country decline} claim.
+\end{remark}
+
+\begin{remark}[Honest scope]
+Proposition~\ref{prop:engine} is asymptotic, not finite-sample exact, and for the WVS it is
+approximate under Condition~\ref{c:wvs}. The plug-in verdict (point estimate $\ge0$
+everywhere, ignoring design uncertainty) over-certifies; the design-aware band is the object
+whose false-certification rate is controlled. Reporting both, as the code does, is what makes
+the $N\!\to\!M$ reclassification interpretable.
+\end{remark}
+
+\end{document}
