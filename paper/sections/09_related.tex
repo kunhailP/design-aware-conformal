@@ -1,76 +1,33 @@
 \section{Related work}\label{sec:related}
 
-Our work sits at the intersection of four literatures. First, \textbf{distribution-free
-conformal prediction} gives finite-sample coverage without modeling assumptions
-\citep{vovk2005algorithmic,lei2018distribution}. Because political data rarely satisfy
-exchangeability, we build on its relaxations: weighted conformal prediction for
-covariate shift \citep{tibshirani2019conformal} and nonexchangeable conformal
-prediction, which bounds the coverage gap by the total variation between exchanged
-distributions \citep{barber2023conformal}. \citet{gibbs2021adaptive,gibbs2024conditional}
-adapt conformal sets to distribution shift and interpolate between marginal and
-conditional validity. Our ``adaptive'' selector differs in kind: it adapts not to
-temporal shift but to the \emph{certified magnitude of survey design noise}, reducing
-to a fixed clustered method when that noise is negligible. Within the discipline,
-\citet{randahl2026bin} bring conformal prediction to \emph{Political Analysis} for the
-first time, calibrating bin-conditional intervals around a point forecast of conflict
-fatalities; our object is different in kind---finite-sample \emph{simultaneous} trajectory
-bands with the country as the exchangeable unit and estimated calibration distributions,
-rather than bin-conditional intervals on a single prediction.
-
-Second, we treat the \textbf{population (country) as the exchangeable unit}, following
-hierarchical conformal prediction for two-layer models \citep{dunn2023distribution}
-and distribution-free inference with hierarchical data \citep{lee2023distribution}.
-The same finite-sample-exact clustered construction is developed, for a different
-(non-survey) domain, in a companion paper by the present authors (reference omitted
-for anonymous review).
-These methods transport guarantees to an unseen cluster---our cross-national
-setting---but treat each cluster's data as cleanly sampled. Our departure is that the
-calibration objects are not observed: each country's attitude distribution is
-\emph{estimated} under a complex survey design, so design-based sampling variance
-\citep{binder1983variances,lumley2010complex} contaminates the very scores conformal
-calibration relies upon.
-
-Third, the closest methodological neighbors handle \textbf{noisy or estimated
-calibration}. \citet{wieczorek2023design} develops design-based conformal prediction
-under complex sampling, but design enters through test-point weighting rather than as
-noise in transported objects. \citet{einbinder2024label} and \citet{sesia2025adaptive}
-correct conformal calibration under label noise, the latter by deconvolving a
-\emph{known} noise model. Our central theoretical result is that this identification
-premise generally fails for survey design noise: recovering the latent transport-error
-law is a deconvolution problem \citep{fan1991optimal} that is non-identified without a
-design-noise law, so no observed-score band is simultaneously valid and strictly
-narrower than the conservative plug-in. And even when a noise model \emph{is} supplied,
-we show the deconvolution's reliability is itself bounded at a finite number of
-calibration units by an algorithmic floor (Proposition~\ref{prop:unreach})---a
-finite-$K$ obstruction distinct from the asymptotic identifiability the classical
-deconvolution literature studies.
-
-Fourth, our target is a \textbf{functional object}---a CDF over thresholds tracked
-across rounds---placing us near simultaneous functional conformal bands
-\citep{diquigiovanni2021conformal}. This is where we part from generic multiplicity
-control. Procedures like FDR or Bonferroni \citep{benjamini1995controlling} adjust a
-collection of tests after the fact; our guarantee is instead carried by the geometry of a
-single finite-sample band---a supremum over wave-pairs and thresholds with the country as
-the exchangeable unit---so the ``persistent, distribution-wide'' object is \emph{defined
-and covered directly}, not recovered by correcting marginal $p$-values. The distinction is
-one of estimand, not merely error rate, and partial-pooling cautions about reading
-marginal country trends \citep{gelman2012why} motivate but do not deliver the stronger
-claim. Substantively, our two reanalyses supply the formal instrument a
-largely qualitative skepticism has lacked, engaging debates over whether European
-political trust is in broad decline \citep{norris2017western,voeten2017people,
-wuttke2022europeans,valgardsson2025crisis} and whether publics are ``deconsolidating''
-\citep{foa2016democratic,foa2017signs}. The closest substantive competitor is
-\citet{claassen2019estimating,claassen2020support}, whose latent-variable panels of
-democratic support---published in this journal---already model measurement and
-sampling uncertainty in cross-national attitude trends. The difference is the type
-of guarantee and the object: Claassen-style smoothing delivers model-based credible
-intervals for a latent mood under a dynamic measurement model, pooling across items
-and years; our bands deliver finite-sample, model-free coverage for a
-distribution-level object at a stated claim rung, at the price of wider intervals
-and no pooling. The two are complements---a certification that survives our rung
-hierarchy and falls inside a Claassen-style interval is doubly supported---and a
-same-data comparison is a natural companion exercise. The geography of our
-certified core also intersects the post-communist disillusionment literature
-\citep{mishler1997trajectories,inglehart2003honeymoon}, which anticipated
-qualitatively the decline-from-euphoric-baselines pattern our per-country
-certification formalizes.
+Four literatures intersect here; the Supplementary Material gives the extended
+discussion. \emph{Conformal prediction}
+\citep{vovk2005algorithmic,lei2018distribution,barber2023conformal}: our selector
+adapts not to temporal shift \citep{gibbs2021adaptive} but to the certified magnitude
+of survey design noise; within the discipline, \citet{randahl2026bin} calibrate
+bin-conditional forecast intervals, a different object from simultaneous trajectory
+bands. \emph{Cluster-as-unit conformal}
+\citep{dunn2023distribution,lee2023distribution} transports guarantees to an unseen
+cluster but treats each cluster's data as cleanly sampled (the same clustered
+construction appears, for a non-survey domain, in a companion paper by the present
+authors; reference omitted for review); our departure is that the calibration
+objects are \emph{estimated} under complex designs
+\citep{binder1983variances,lumley2010complex}. \emph{Noisy calibration}:
+\citet{wieczorek2023design} puts design into test-point weighting;
+\citet{einbinder2024label,sesia2025adaptive} deconvolve a \emph{known} label-noise
+model; our results show that identification premise generally fails for design noise
+(Theorem~\ref{thm:impossible}) and that even a supplied noise law faces a finite-$K$
+reliability floor (Proposition~\ref{prop:unreach}). \emph{Functional simultaneous
+bands} \citep{diquigiovanni2021conformal}: unlike FDR/Bonferroni corrections of
+marginal tests \citep{benjamini1995controlling}, the ``persistent'' object is defined
+and covered directly by one band---a distinction of estimand, not error rate
+\citep{gelman2012why}. Substantively we engage the trust-decline and
+deconsolidation debates \citep{norris2017western,voeten2017people,wuttke2022europeans,
+valgardsson2025crisis,foa2016democratic,foa2017signs}; the closest substantive
+competitor is \citet{claassen2019estimating,claassen2020support}, whose
+latent-variable panels model measurement and sampling uncertainty with model-based
+credible intervals---our bands trade pooling and width for finite-sample, model-free
+coverage at a stated claim rung, and the two are complements. The certified core's
+geography intersects the post-communist disillusionment literature
+\citep{mishler1997trajectories,inglehart2003honeymoon}, which anticipated the
+decline-from-euphoric-baselines pattern our certification formalizes per country.

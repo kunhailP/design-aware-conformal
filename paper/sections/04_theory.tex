@@ -1,9 +1,8 @@
 \section{Theory}\label{sec:theory}
 
-We state validity for the oracle, for the estimated-law procedure, and for the
-deployed safe selector, then the efficiency it buys. Full proofs are in
-Appendix~\ref{app:proofs}; each theorem has a matching machine-checked contract test in
-the replication package.
+We state validity for the oracle, the estimated-law procedure, and the deployed
+selector, then efficiency. Proofs are in Appendix~\ref{app:proofs}; each theorem has
+a machine-checked contract test.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
@@ -11,16 +10,14 @@ Suppose the countries are exchangeable and the design law is known.
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
 \emph{(b)} For the latent target the same band satisfies, for every $u>0$,
 $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
-\Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$: the gap between the two targets is a
-noise-tail term plus a local anti-concentration term, both vanishing with the
-design-noise scale (of order $\rho^{2/3}$ under variance-only tail bounds and $\rho$
-up to logarithms under sub-Gaussian design noise; Appendix~\ref{app:proofs} states
-the conditions, including where independence across countries is used), and zero by
-inspection when the design noise is zero. Symmetric design noise alone does
-\emph{not} make the band conservative for the latent target --- a bimodal latent score
-law furnishes a counterexample (Supplementary Material, Remark on the latent-target
-bridge) --- which is why we report the observed $\rho$ that makes the gap negligible
-rather than assuming conservativeness.
+\Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$: a noise-tail term plus a local
+anti-concentration term, vanishing with the design-noise scale ($\rho^{2/3}$ under
+variance-only tails; $\rho$ up to logarithms under sub-Gaussian noise;
+Appendix~\ref{app:proofs} states the conditions, including where independence is
+used). Symmetric design noise alone does \emph{not} make the band conservative for
+the latent target---a bimodal latent law furnishes a counterexample (Supplementary
+Material)---which is why we report the observed $\rho$ rather than assuming
+conservativeness.
 \emph{(c)} The deconvolution band with the true target scale is valid for the latent
 target---finite-sample \emph{exact} under the scale-family assumption (A1) of
 Theorem~\ref{thm:estimated}---with width a factor $\sqrt{1-\rho^2}+o(1)$ of the
@@ -37,15 +34,11 @@ then for \emph{every} $K$ the band $\widehat B=\text{center}\pm\widehat q$, with
 $\widehat q$ the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$,
 satisfies
 $\Pr(F_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
-distribution-free. Two asymmetries are excluded by construction and quantified when
-present: dividing $R_c$ by an in-sample modulation
-$\widehat s(t)=\mathrm{SD}_c E_c(t)$---which the unobserved target does not
-share---induces an $O(g/K)$ self-inclusion deficit, and centering calibration scores
-on a grand mean that contains their own unit while the unsurveyed target sits outside
-induces an anti-conservative $O(1/K)$ bias, removed by leave-one-out centers
-(Appendix~\ref{app:proofs}). We therefore deploy the unstudentized band with symmetric
-centers; on the near-homoskedastic real curves the width cost of dropping the
-modulation is $\le5\%$.
+distribution-free. Two asymmetries are excluded by construction: in-sample
+modulation (an $O(g/K)$ self-inclusion deficit) and grand-mean centers containing
+their own unit (an anti-conservative $O(1/K)$ bias, removed by leave-one-out
+centers); Appendix~\ref{app:proofs} quantifies both. On the near-homoskedastic real
+curves the width cost of dropping the modulation is $\le5\%$.
 \end{theorem}
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
@@ -92,28 +85,19 @@ exchangeability only---and reported through the observable diagnostic
 $\widehat\delta_{\text{UCB}}(D)$ when that branch fires.
 \end{theorem}
 
-The proof (Appendix~\ref{app:proofs}) uses no conditional-on-selection step. Its two
-ingredients are a nested-band lemma---the conservative score dominates the PCB score
-pointwise, so the two bands are nested, and \emph{any} selection between nested bands
-anchored at an exact band is validity-free---and a union bound that charges the
-non-nested deconvolution branch its own $\alpha_{\text{dec}}$ miss budget, but only in
-the $K\ge94$ regime where Proposition~\ref{prop:unreach} shows its gate can open at
-all. The gates of Algorithm~\ref{alg:safe} therefore carry no validity burden; they
-are an efficiency device choosing among individually guaranteed constructions. At
-survey scale the deployed guarantee is exact $1-\alpha$ with no remainder --- the
-guarantee a user actually deploys --- and the only remainder anywhere in the pipeline
-is confined to the many-unit regime where deconvolution can activate.
+The proof (Appendix~\ref{app:proofs}) uses no conditional-on-selection step: a
+nested-band lemma (the conservative score dominates the PCB score pointwise, and any
+selection between nested bands anchored at an exact band is validity-free---an
+instance of nested-conformal machinery \citep{gupta2022nested,yang2024selection};
+our contribution is engineering the branches so it applies) plus a union bound
+charging the non-nested deconvolution branch its own budget, only where its gate can
+open. The gates therefore carry no validity burden; at survey scale the deployed
+guarantee is exact $1-\alpha$, full stop.
 
-\paragraph{Efficiency.} Three statements bound the price and payoff, with unequal
-epistemic status stated plainly. \emph{(AW-1, proved)} in the low-$\rho$ regime the
-deconvolution/PCB width ratio is $1-\tfrac12\rho^2+O(\rho^4)$, matching the observed
-reduction to the decimal. \emph{(AW-2, partly by construction, partly conditional)}
-the conservative branch is at least as wide as PCB---under the deployed unstudentized
-construction this dominance holds pointwise by construction, making the two branches
-nested---while its domination \emph{by} the Bonferroni envelope rests on a stated
-first-order expansion and is not separately proved. \emph{(AW-3, proved)} selection
-cannot inflate miscoverage, via the nested-band lemma and union bound of
-Theorem~\ref{thm:safe} rather than any conditional-coverage claim. The excess-width
-oracle inequality (AW-4, open) and the $O(g/K)$ modulation self-inclusion
-deficit---empirically fitted, with the scalar-invariance lemma isolating what it
-measures---are stated in Appendix~\ref{app:proofs}.
+\paragraph{Efficiency.} With epistemic status labeled: \emph{(AW-1, proved)} the
+low-$\rho$ deconvolution/PCB width ratio is $1-\tfrac12\rho^2+O(\rho^4)$;
+\emph{(AW-2)} conservative $\supseteq$ PCB holds pointwise by construction, while
+its domination by the Bonferroni envelope rests on an unproved first-order
+expansion; \emph{(AW-3, proved)} selection cannot inflate miscoverage
+(Theorem~\ref{thm:safe}). The oracle inequality AW-4 (open) and the empirically
+fitted $O(g/K)$ modulation deficit are in Appendix~\ref{app:proofs}.

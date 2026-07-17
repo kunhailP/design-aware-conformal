@@ -628,6 +628,46 @@ criterion outright: worst cell $0.882$ (binomial-compatible with the exact level
 $450/450$ cells floor-compatible, deconvolution activating only at $K{=}320$, and a
 low-$\rho$ width ratio of $1.005$ to plain PCB.
 
+\begin{table}[t]\centering
+\caption{Holdout validation of the safe selector (450 cells, 800 reps each; relocated
+from the main text). The \emph{sealed} run (upper rows) scored the studentized S2
+base band, whose finite-$K$ self-inclusion deficit it exposed --- the finding that
+motivated deploying the \emph{unstudentized} band instead. The
+\emph{corrected-scorer rerun} (lower rows) scores the band the package actually
+returns (U0 anchors with the $\alpha$-budgeted deconvolution branch) on the same
+grid with a fresh seed, disclosed because the originally sealed configuration file
+was not preserved.}\label{tab:holdout}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lccl}
+\toprule
+criterion & target & result & status \\
+\midrule
+\multicolumn{4}{l}{\emph{Sealed run, S2 scorer (historical):}}\\
+P3: design-aware never causes a sub-floor cell & sub-floor $\Rightarrow$ not deconv &
+\textbf{all 12 sub-0.88 cells are PCB} & pass \\
+E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.577$ & pass \\
+P1: cells floor-compatible (95\% MC) & all 450 & $442/450$ & diagnostic \\
+P2: worst-cell coverage & $\ge0.86$ & $0.843$ & diagnostic \\
+\midrule
+\multicolumn{4}{l}{\emph{Corrected-scorer rerun, deployed U0/$\alpha$-budget band:}}\\
+P1: cells floor-compatible (95\% MC) & all 450 & $\mathbf{450/450}$ & pass \\
+P2: worst-cell coverage & $\ge0.86$ & $\mathbf{0.882}$ & pass \\
+E1: low-$\rho$ width vs PCB & $\le1.05\times$ & $1.005$ & pass \\
+E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.753$ & pass \\
+E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{holdout_validation.png}
+\caption{Holdout validation on the unseen grid (relocated from the main text).
+Left: deployed coverage vs.\ $\rhohat$ per $K$ (line = mean over families, shade =
+worst family) against the $0.88$ floor and $0.90$ nominal. Right: deconvolution
+activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdout}
+\end{figure}
+
 \paragraph{Cell-by-cell resolution of the base-method deficit.} On the holdout the
 studentized band's worst deployed cell was $0.843$ (weak cross-round dependence at
 $K{=}25$), a finite-$K$ self-inclusion deficit worst at small $K$ and long trajectories.
@@ -722,6 +762,14 @@ flips the binary decline decision, because the decision is dominated by the
 between-country transport spread, not the within-country design noise---the same
 low-$\rho$ fact, seen from the certification side.
 
+\begin{figure}[t]\centering
+\includegraphics[width=.8\textwidth]{country_reclassification_map.png}
+\caption{Relocated from the main text: countries certified by the marginal plug-in
+but inconclusive under the design-aware simultaneous band are the weak-signal,
+higher-noise cases; the apparent trend lies within the design uncertainty the
+survey warrants.}\label{fig:reclass}
+\end{figure}
+
 \paragraph{Robustness across age groups (ESS).} A preregistered age-group analysis
 (preregistered in the replication package) reruns the same
 certification within fixed age bands, changing nothing else. The ``only Greece''
@@ -741,6 +789,74 @@ Foa--Mounk reanalysis is only half-supported: the young show \emph{more} persist
 decline in rating democracy essential ($7$ vs.\ $3$ countries) but \emph{not} in
 openness to strongman or army rule ($0$--$1$ vs.\ $4$), against the ``youth embrace
 authoritarianism'' reading.
+
+\section{Extended related work}\label{sup:related}
+
+Our work sits at the intersection of four literatures. First, \textbf{distribution-free
+conformal prediction} gives finite-sample coverage without modeling assumptions
+\citep{vovk2005algorithmic,lei2018distribution}. Because political data rarely satisfy
+exchangeability, we build on its relaxations: weighted conformal prediction for
+covariate shift \citep{tibshirani2019conformal} and nonexchangeable conformal
+prediction, which bounds the coverage gap by the total variation between exchanged
+distributions \citep{barber2023conformal}. \citet{gibbs2021adaptive,gibbs2024conditional}
+adapt conformal sets to distribution shift and interpolate between marginal and
+conditional validity. Our ``adaptive'' selector differs in kind: it adapts not to
+temporal shift but to the \emph{certified magnitude of survey design noise}, reducing
+to a fixed clustered method when that noise is negligible. Within the discipline,
+\citet{randahl2026bin} bring conformal prediction to \emph{Political Analysis} for the
+first time, calibrating bin-conditional intervals around a point forecast of conflict
+fatalities; our object is different in kind---finite-sample \emph{simultaneous} trajectory
+bands with the country as the exchangeable unit and estimated calibration distributions,
+rather than bin-conditional intervals on a single prediction.
+
+Second, we treat the \textbf{population (country) as the exchangeable unit}, following
+hierarchical conformal prediction for two-layer models \citep{dunn2023distribution}
+and distribution-free inference with hierarchical data \citep{lee2023distribution}.
+The same finite-sample-exact clustered construction is developed, for a different
+(non-survey) domain, in a companion paper by the present authors (reference omitted
+for anonymous review).
+These methods transport guarantees to an unseen cluster---our cross-national
+setting---but treat each cluster's data as cleanly sampled. Our departure is that the
+calibration objects are not observed: each country's attitude distribution is
+\emph{estimated} under a complex survey design, so design-based sampling variance
+\citep{binder1983variances,lumley2010complex} contaminates the very scores conformal
+calibration relies upon. The nested view of conformal prediction and selection among
+conformal sets are developed by \citet{gupta2022nested} and \citet{yang2024selection};
+our Lemma~\ref{lem:nested} is an instance of that machinery, and our contribution is
+architectural (engineering the branches so the lemma applies), not the lemma itself.
+
+Third, the closest methodological neighbors handle \textbf{noisy or estimated
+calibration}. \citet{wieczorek2023design} develops design-based conformal prediction
+under complex sampling, but design enters through test-point weighting rather than as
+noise in transported objects. \citet{einbinder2024label} and \citet{sesia2025adaptive}
+correct conformal calibration under label noise, the latter by deconvolving a
+\emph{known} noise model. Our central theoretical result is that this identification
+premise generally fails for survey design noise: recovering the latent transport-error
+law is a deconvolution problem \citep{fan1991optimal} that is non-identified without a
+design-noise law, so no observed-score band can beat the conservative plug-in by more
+than the discreteness slack while remaining valid. And even when a noise model
+\emph{is} supplied, the deconvolution's reliability is itself bounded at a finite
+number of calibration units by an algorithmic floor---a finite-$K$ obstruction
+distinct from the asymptotic identifiability the classical deconvolution literature
+studies.
+
+Fourth, our target is a \textbf{functional object}---a CDF over thresholds tracked
+across rounds---placing us near simultaneous functional conformal bands
+\citep{diquigiovanni2021conformal}. Procedures like FDR or Bonferroni
+\citep{benjamini1995controlling} adjust a collection of tests after the fact; our
+guarantee is instead carried by the geometry of a single finite-sample band, so the
+``persistent'' object is \emph{defined and covered directly}, not recovered by
+correcting marginal $p$-values. The distinction is one of estimand, not merely error
+rate, and partial-pooling cautions about reading marginal country trends
+\citep{gelman2012why} motivate but do not deliver the stronger claim.
+Claassen-style latent-variable panels
+\citep{claassen2019estimating,claassen2020support} deliver model-based credible
+intervals for a latent mood under a dynamic measurement model, pooling across items
+and years; our bands deliver finite-sample, model-free coverage for a
+distribution-level object at a stated claim rung, at the price of wider intervals and
+no pooling. The two are complements---a certification that survives our rung
+hierarchy and falls inside a Claassen-style interval is doubly supported---and a
+same-data comparison is a natural companion exercise.
 
 \bibliographystyle{chicago}
 \bibliography{refs}

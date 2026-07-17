@@ -12,26 +12,23 @@ and conformal methods are a natural tool here, promising finite-sample,
 distribution-free coverage.
 
 \paragraph{Two wrong units.} A claim and its calibration can each be attached to the
-wrong object. The \emph{claim} ``democratic trust is declining'' is typically built from
-a single wave-pair mean contrast, then narrated as a persistent, distribution-wide,
-country-level trend. Requiring the whole distribution to shift, \emph{simultaneously}
-across the entire trajectory, is a strictly stronger and more honest object, and the
-number of countries that qualify collapses between the two. Our instrument is
-a finite-sample simultaneous band over a country's whole trajectory, with the country as
-the exchangeable unit, and an ordered hierarchy of claims (pairwise $\to$ any-pair $\to$
-net $\to$ persistent country-wide $\to$ Bonferroni-across-countries) whose top rung is
-the object casual readings implicitly assert. This multiplicity-honest core needs no
-survey design at all and applies to any repeated distributional claim.
+wrong object. The \emph{claim} ``democratic trust is declining'' is typically built
+from a single wave-pair mean contrast, then narrated as a country-level trend. Our
+instrument is a finite-sample simultaneous band over a country's whole trajectory,
+with the country as the exchangeable unit, and an ordered hierarchy of claims
+(pairwise $\to$ any-pair $\to$ net $\to$ persistent $\to$
+Bonferroni-across-countries); the top rung---the whole scale core declining
+simultaneously across every pair---is \emph{strictly stronger} than the net-trend
+claim the literature typically intends, and we treat the two as co-headlines with
+stated severity, not as substitutes. This multiplicity-honest core needs no survey
+design and applies to any repeated distributional claim.
 
-The second, subtler wrong unit is a layer of uncertainty these exercises silently omit.
-Conformal inference is usually calibrated on \emph{observed outcomes}. Repeated
-cross-national surveys are different: the calibration objects---the other countries'
-attitude distributions---are themselves \emph{not observed}. Each is estimated from a
-complex probability sample with weights, clustering (primary sampling units), and
-stratification, and therefore carries its own sampling error. Standard practice
-plugs these survey estimates into the calibration step as if they were the truth, so
-the transport band, honest about variation \emph{across} countries, stays blind to the
-fact that each ``country'' is a noisy estimate of a latent population function.
+The second, subtler wrong unit is the calibration: the objects conformal transport
+calibrates on---other countries' attitude distributions---are themselves
+\emph{estimated} from complex probability samples, with weights, clustering, and
+stratification. Standard practice plugs these estimates in as truth, so the band,
+honest about variation across countries, stays blind to each ``country'' being a
+noisy estimate of a latent population function.
 
 The two errors are genuinely distinct. Writing $F_{c,r}(t)$ for country $c$'s latent
 attitude CDF at threshold $t$ in wave $r$, and $\Ftilde_{c,r}(t)$ for its complex-survey
@@ -66,43 +63,32 @@ cross-national-survey $K$ the deployed guarantee is exact $1-\alpha$, full stop.
 validate the frozen procedure in three disclosed layers, ending with a fresh sealed
 run on six data-generating-process families its design had never seen
 (Section~\ref{sec:simulation}).
-\emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the instrument
-changes the substantive picture. For European trust (ESS 2018--2022), marginal
-wave-by-wave estimates suggest widespread decline, but a country-wide, design-aware
-simultaneous band certifies a \emph{persistent distribution-wide} decline in only one
-country (Greece), not the twenty flagged marginally. Globally, we reanalyze the
-Foa--Mounk ``democratic deconsolidation'' thesis on the World Values Survey
-(1981--2022) and find its marginal evidence over-counts persistent, distribution-wide
-deconsolidation by $2.6$--$6.5\times$---real in a specific minority, not the broad
-erosion the marginal reading implies. Aggregating the per-item certifications turns
-the correction into a discovery: the \emph{certified core} of multi-item
-deconsolidation (thirteen countries) is concentrated in post-communist and
-Arab-Spring-aftermath states, with the consolidated West entering only through
-rising openness to strongman and army rule (Finland, Switzerland)---the
-deconsolidation that survives the honest bar lives largely outside the mature
-democracies the thesis was formulated about.
-\emph{Fourth, the scope condition that justifies this deployment.} We delineate exactly
-when a design-aware correction is available and when it is not, so that abstention is a
-principled choice rather than a concession. Without a model of the design-noise law the
-latent transport-error distribution is non-identified---a deconvolution problem
-(Theorem~\ref{thm:impossible}); and even \emph{with} that information the correction is
-\emph{unreachable} at cross-national scale for the deployed procedure at its frozen
-constants, for two quantitative reasons: the measured design-to-total noise ratio
-$\rho$ stays well below the level at which deconvolution helps (the estimates are
-downward-biased floors, and still severalfold short), and the deployed reliability
-diagnostic obeys the algorithmic floor $D\ge\sqrt{2/(K-1)}$---an identity of the
-frozen procedure, holding for every possible dataset---that needs $K\ge94$
-exchangeable populations. The calibration-free content of the second barrier is the
-variance-estimation floor itself; a differently calibrated correction could move the
-$K\ge94$ threshold, though not below the floor's own arithmetic. On the two largest
-such surveys these barriers bind in \emph{opposite} ways---the World Values Survey clears
-the size barrier ($K\approx100$) but carries only weights-based, negligible design noise,
-while the ESS has genuine clustered design noise but far too few countries---so neither
-clears both. This is why the abstaining reduction above, not a design-aware correction,
-is the right object at survey scale. The empirical payoff is thus the two reanalyses; the
-design-aware layer is a diagnostic and scope result that, on real survey data, certifies
-the simple band rather than firing---so the deconvolution is not something the reader
-should expect to activate empirically.
+\emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
+instrument changes the substantive picture. For European trust (ESS rounds 9--11),
+the design-aware hierarchy certifies net decline in six of thirty countries and
+persistence in one (Greece---on a single wave pair, a disclosure we make
+prominently), not the twenty flagged marginally. Globally, a wave-pair reading of
+the Foa--Mounk ``deconsolidation'' battery on the WVS/EVS (1981--2022) over-counts
+the persistent phenomenon by $2.6$--$6.5\times$; aggregating per-item
+certifications turns the correction into a discovery---the thirteen-country
+\emph{certified core} concentrates in post-communist and Arab-Spring-aftermath
+states, with no consolidated Western democracy certifying on more than one item.
+\emph{Fourth, the scope condition that justifies this deployment.} We delineate when
+a design-aware correction is available, so abstention is principled rather than a
+concession. Without the design-noise law the latent transport-error distribution is
+non-identified (Theorem~\ref{thm:impossible}); with it, the correction is still
+\emph{unreachable} at cross-national scale for the deployed procedure: the measured
+design-to-total ratio $\rho$ stays severalfold below the level at which
+deconvolution helps, and the reliability diagnostic obeys the algorithmic floor
+$D\ge\sqrt{2/(K-1)}$---an identity of the frozen procedure---requiring $K\ge94$
+exchangeable populations (a differently calibrated correction could move the
+threshold, though not below the floor's arithmetic). The two largest surveys fail in
+\emph{opposite} ways: the WVS clears the size barrier ($K\approx100$) with
+negligible weights-only design noise, while the ESS has genuine clustered noise but
+$K\le33$. The abstaining reduction, not a correction, is therefore the right object
+at survey scale, and the reader should not expect the deconvolution to activate
+empirically---its payoff regime is many-unit settings such as small areas, which we
+demonstrate in simulation.
 
 The remainder situates the contribution among the conformal and political-trust
 literatures (Section~\ref{sec:related}), sets up the problem and impossibility result

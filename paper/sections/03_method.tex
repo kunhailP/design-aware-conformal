@@ -24,10 +24,9 @@ construction. This nesting is load-bearing: selection between nested bands ancho
 at an exact band is validity-free (Theorem~\ref{thm:safe}), so the selector needs no
 conditional-coverage argument.
 
-\paragraph{The three questions.} The naive selector asks only \emph{can we
-deconvolve} and \emph{do we need to}. The finite-$K$ failure of deconvolution
-(Section~\ref{sec:simulation}) comes from a missing third question: \emph{can we do
-it safely at this $K$?} The safe selector adds it explicitly.
+\paragraph{The three questions.} A naive selector asks \emph{can we deconvolve} and
+\emph{do we need to}; the finite-$K$ failure comes from the missing third question,
+\emph{can we do it safely at this $K$?}---which the safe selector adds explicitly.
 
 \paragraph{Safe selector (Algorithm~\ref{alg:safe}).} Let $\rhohat_{\text{LCB}}$ be
 a conservative lower bound on $\rho$, $D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$ a
@@ -71,10 +70,8 @@ deconvolution\;}
 \Return $\widehat F_{\text{new}}\pm r_{\text{branch}}$, branch, and diagnostics\;
 \end{algorithm}
 
-\paragraph{Deployment.} The method ships as one call, \texttt{dapcb(cal\_errors,
-v\_cal, center, alpha)}, in an installable Python package (module \texttt{pcb}) provided
-in the replication package and to be archived with a version tag on the Dataverse,
-returning the band together with the selected branch,
-$\rhohat$, $\rhohat_{\text{LCB}}$, $D$, $\widehat\delta_{\text{UCB}}$, the coverage
-level, and the fallback reason---so a user sees \emph{why} the band was built as it was
-and reads off the finite-$K$ guarantee it carries.
+\paragraph{Deployment.} The method ships as one call,
+\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, in an installable Python package
+(\texttt{pcb}), returning the band with the selected branch, all diagnostics, the
+coverage level, and the fallback reason---the user sees why the band was built as it
+was and reads off its finite-$K$ guarantee.

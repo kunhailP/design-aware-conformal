@@ -1,27 +1,25 @@
 \section{Simulation and a design-preserving stress test}\label{sec:simulation}
 
-Simulation establishes two facts: that attaching the band to the wrong unit collapses
-coverage (Section~\ref{sec:wrongunit-sim}), and that the safe selector meets its
-guarantees on data it has never seen. For the latter we develop the selector on one
-simulation grid and then confirm the \emph{frozen} rule once on an independent design.
-The separation is deliberate: the development grid may set the gate constants, but it
-may not be reused as validation performance.
+Simulation establishes two facts: attaching the band to the wrong unit collapses
+coverage, and the safe selector meets its guarantees on data it has never seen.
 
 \subsection{The wrong unit collapses coverage}\label{sec:wrongunit-sim}
 
-The most basic claim deserves a direct test: a band attached to the wrong unit covers
-the object of interest far below nominal. On a ground-truth simulation ($K=30$
-exchangeable countries, $T=6$ thresholds, error tensors correlated across rounds and
-thresholds; Table~\ref{tab:wrongunit}), we ask each band for \emph{trajectory}
-coverage---the whole country curve-path covered at once. All three bands are
-unstudentized and finite-sample constructed, so the only thing that varies is the unit
-of the score.
+On a ground-truth simulation ($K=30$ exchangeable countries, $T=6$ thresholds,
+errors correlated across rounds and thresholds; Table~\ref{tab:wrongunit}) we ask
+each band for \emph{trajectory} coverage---the whole country curve-path at once. All
+three bands are unstudentized and finite-sample constructed, so only the unit of the
+score varies. The per-round band, marginally valid at the round level, covers the
+whole trajectory only $0.82$ at $L=2$ and $0.50$ at $L=8$; the marginal band
+collapses faster; the country-trajectory band holds $\approx0.90$ at every $L$,
+because the trajectory is a single exchangeable unit. This is the coverage face of
+the paper's thesis: the same mechanism drives the certification-count collapse of
+Section~\ref{sec:political}. Pre-registered, reported as produced
+(\texttt{e28}).
 
 \begin{table}[t]\centering
-\caption{Whole-trajectory coverage (4000 reps, nominal $90\%$) as the trajectory length
-$L$ grows. A band calibrated per point or per round covers each of its own units at the
-nominal rate, but the probability that it covers the \emph{entire} trajectory decays; the
-country-trajectory band---the correct unit---holds nominal at every $L$.}
+\caption{Whole-trajectory coverage (4000 reps, nominal $90\%$) as trajectory length
+$L$ grows.}
 \label{tab:wrongunit}
 \begin{tabular}{rccc}
 \toprule
@@ -35,144 +33,38 @@ $L$ (rounds) & marginal (per point) & per-round & trajectory (ours) \\
 \end{tabular}
 \end{table}
 
-The per-round band, marginally valid at the round level, covers the whole trajectory only
-$0.82$ at $L=2$ and $0.50$ at $L=8$; the marginal band collapses faster still. The
-country-trajectory band holds $\approx0.90$ regardless of $L$, because the whole
-trajectory is a single exchangeable unit and its sup-score obeys the finite-sample
-order-statistic guarantee. This is the coverage face of the paper's thesis: the same
-mechanism drives the certification-count collapse in Section~\ref{sec:political}, where
-asking for the honest object---not asking it more strictly---removes the over-detection.
-Pre-registered and reported as produced (\texttt{e28\_wrong\_unit\_coverage}).
+\paragraph{Severity: what each rung can detect.} At ESS-like design noise (threshold
+SE $0.012$; sup-$t$ certification, $\alpha=0.10$, four-threshold core; experiment
+E32), $80\%$ power at the \emph{net} rung needs a per-pair decline of $0.02$--$0.03$
+CDF points over four pairs---realistic secular erosion---while the \emph{persistent}
+rung needs $0.06$--$0.08$ per pair, crisis-scale, and its power \emph{falls} as the
+trajectory lengthens. Hence non-certification at the persistent rung is weak
+evidence of absence; the powered instrument for secular decline is the net rung,
+which Section~\ref{sec:political} co-headlines. Real-data injection is flagged for
+the archived replication.
 
-\paragraph{Severity: what each rung can detect.} Coverage is only half of honesty;
-the other half is saying what magnitude of decline each rung would detect. A
-simulation calibrated to ESS-like design noise (threshold SE $v=0.012$; sup-$t$
-certification at $\alpha=0.10$ over a four-threshold core; replication experiment
-E32) gives the operating characteristics: for $80\%$ power the \emph{net} rung needs
-a per-pair decline of $0.02$--$0.03$ CDF points over four pairs---realistic secular
-erosion---while the \emph{persistent} rung needs $0.06$--$0.08$ per pair, roughly
-the scale of the Greek crisis collapse, and its power \emph{falls} as the trajectory
-lengthens (the conjunction hardens while the per-pair signal does not accumulate).
-Two consequences discipline our substantive language. Non-certification at the
-persistent rung is weak evidence of absence---it is a high-severity, low-power
-object, informative when it \emph{passes}; and for secular-decline claims the
-powered instrument is the net rung, which is why Section~\ref{sec:political}
-co-headlines the net counts. Injecting known declines into the real microdata is
-the corresponding real-data check, flagged for the archived replication.
+\paragraph{Validation, in three disclosed layers.} \emph{(i)}~A sealed holdout
+(450 cells: ten DGP families $\times$ $K\in\{25,\dots,320\}$ $\times$ nine $\rho$;
+800 reps each) was frozen and run once---but an audit later found its scorer
+evaluated the S2 studentized band rather than the deployed band, and its findings
+motivated the switch to the U0 base band and the Theorem~\ref{thm:safe}
+architecture, so we label it development. \emph{(ii)}~A corrected-scorer rerun of
+the same grid scores the deployed band verbatim (fresh seed; the original sealed
+config was not preserved---disclosed): all $450$ cells floor-compatible, worst cell
+$0.882$, deconvolution active only at $K=320$, low-$\rho$ width $1.005\times$ plain
+PCB. \emph{(iii)}~Because both layers had touched the final design, we sealed one
+further validation of the final pipeline on six \emph{new} DGP families and new
+grids, script hash recorded before first execution, run once, reported as produced
+including a first-seal generator bug we diagnosed and disclosed (E33): $120/120$
+cells floor-compatible, worst cell $0.878$, zero deconvolution activations below
+$K=94$ as the algorithmic floor requires. Full tables, the development grid, and
+the finite-$K$ over-shrinkage mechanism are in the Supplementary Material.
 
-The development grid that motivates and calibrates the safety gate, and a controlled
-Gaussian illustration that isolates the finite-$K$ over-shrinkage mechanism behind the
-$K{=}320$-only activation seen below, are given in the Supplementary Material.
-
-\paragraph{Validation, in three honestly-labeled layers.} \emph{(i) The sealed
-holdout} froze the selector and its constants (Appendix~\ref{app:spec}), sealed a
-preregistration and seed manifest, and ran once on a grid disjoint from development
-in $K$ ($\{25,40,80,160,320\}$), in $\rho$, and in data-generating process (ten
-families). Its confirmatory status was subsequently compromised in two disclosed
-ways: an audit found its scorer evaluated the S2 studentized band rather than the
-band the package deploys, and its findings motivated the switch to the U0 base band
-and the Theorem~\ref{thm:safe} architecture---so it functioned as development, and
-we label it so. \emph{(ii) The corrected-scorer rerun} of the same $450$-cell grid
-scores the deployed band verbatim (fresh seed; the original config file was not
-preserved, which we disclose). \emph{(iii) A fresh seal}: because layers (i)--(ii)
-had both touched the final design, we sealed one further validation of the final
-pipeline---six new DGP families (lognormal country effects, AR(2) rounds, scale
-mixtures, extreme design-effect dispersion, threshold-correlated noise, long
-trajectories), new $K$ and $\rho$ grids, script hash recorded before first
-execution, run once, reported as produced including a first-seal generator bug we
-diagnosed and disclosed (replication experiment E33). Result: $120/120$ cells
-floor-compatible, worst cell $0.878$, and zero deconvolution activations below
-$K=94$, as the algorithmic floor requires. The numbers of all three layers are
-reported exactly as produced (Table~\ref{tab:holdout}, Figure~\ref{fig:holdout}).
-
-\begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{holdout_validation.png}
-\caption{Independent confirmatory validation on the unseen grid (10 new DGP families,
-new $K$, new $\rho$). Left: deployed coverage vs.\ $\rhohat$ per $K$ (line = mean over
-families, shade = worst family) against the $0.88$ floor and $0.90$ nominal. Right:
-deconvolution activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdout}
-\end{figure}
-
-\begin{table}[t]\centering
-\caption{Holdout validation of the safe selector (450 cells, 800 reps each). The
-\emph{sealed} run (upper rows) scored the studentized S2 base band, whose finite-$K$
-self-inclusion deficit it exposed --- the finding that motivated deploying the
-\emph{unstudentized} band instead. The \emph{corrected-scorer rerun} (lower rows)
-scores the band the package actually returns (U0 anchors with the $\alpha$-budgeted
-deconvolution branch of Theorem~\ref{thm:safe}) on the same 450-cell grid with a fresh
-seed, disclosed because the originally sealed configuration file was not preserved in
-the archive.}\label{tab:holdout}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{lccl}
-\toprule
-criterion & target & result & status \\
-\midrule
-\multicolumn{4}{l}{\emph{Sealed run, S2 scorer (historical):}}\\
-P3: design-aware never causes a sub-floor cell & sub-floor $\Rightarrow$ not deconv &
-\textbf{all 12 sub-0.88 cells are PCB} & pass \\
-E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.577$ & pass \\
-P1: cells floor-compatible (95\% MC) & all 450 & $442/450$ & diagnostic\textsuperscript{$\dagger$} \\
-P2: worst-cell coverage & $\ge0.86$ & $0.843$ & diagnostic\textsuperscript{$\dagger$} \\
-\midrule
-\multicolumn{4}{l}{\emph{Corrected-scorer rerun, deployed U0/$\alpha$-budget band:}}\\
-P1: cells floor-compatible (95\% MC) & all 450 & $\mathbf{450/450}$ & pass \\
-P2: worst-cell coverage & $\ge0.86$ & $\mathbf{0.882}$ & pass \\
-E1: low-$\rho$ width vs PCB & $\le1.05\times$ & $1.005$ & pass \\
-E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.753$ & pass \\
-E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass \\
-\bottomrule
-\end{tabular}%
-}
-
-\smallskip
-{\footnotesize \textsuperscript{$\dagger$}\,Diagnostic of the studentized base band, not
-a deployed-band failure: these cells motivated the fix. The deployed unstudentized band
-is finite-sample exact at any $K$ (Theorem~\ref{thm:exact}); under the corrected
-scorer its worst holdout cell is $0.882$ ($1.65$ MC-SE below the $0.90$ nominal, i.e.\
-binomial-noise compatible with exactness) and no cell fails the preregistered floor
-criterion.}
-\end{table}
-
-\emph{The design-aware layer behaves as designed.} In the sealed run all twelve cells
-below the $0.88$ floor routed to base clustered PCB---the deconvolution branch never
-once rode into a floor violation. Under the corrected scorer the deployed pipeline
-passes every criterion outright: the selector reduces to PCB at low $\rho$ (width
-ratio $1.005$), activates deconvolution only at $K{=}320$ (never for $K\le160$; $24$
-cells, up to $99\%$ of draws at the highest $\rho$), and there delivers a band
-$0.753\times$ the conservative width---wider than the sealed run's $0.577$ because
-the $\alpha_{\text{dec}}$ budget of Theorem~\ref{thm:safe} prices the branch's
-estimated-law remainder honestly---with worst $K{=}320$ cell coverage $0.900$.
-
-\emph{The holdout exposed one base-method deficit, which we then resolved.} The
-\emph{studentized} base band (in-sample pooled modulation) undercovered at small $K$
-and low $\rho$ under the hardest DGPs, because dividing each calibration score by a
-modulation estimated from the same clusters---which the unobserved target does not
-share---breaks the exchangeability the conformal guarantee needs. We therefore deploy the
-\emph{unstudentized} clustered band as the base branch: with no data-dependent
-denominator the scores $R_c=\max_t|E_c(t)|$ are exchangeable, and the order-statistic
-band is finite-sample exact at \emph{any} $K$,
-$\Pr(\text{cover}) \ge \lceil(1-\alpha)(K{+}1)\rceil/(K{+}1) \ge 1-\alpha$, distribution-free
-(Theorem~\ref{thm:exact}). A preregistered rerun on a fresh grid confirms the fix at a
-width cost of $1.02$--$1.05\times$ on the real ESS transport bands; the granular
-cell-by-cell results are in the Supplementary Material. The band the paper
-deploys is thus finite-sample valid at the sample sizes comparative politics
-actually has. A second, extreme-tail limitation of the Gaussian-calibrated remainder
-bound $\widehat\delta_{\text{UCB}}$---confined to $0.02\%$ of draws and absorbed by the
-conservative branch---is documented in the Supplementary Material. We do not claim uniform
-nominal coverage; we claim---and the holdout confirms---that the design-aware correction
-is never the \emph{cause} of undercoverage and is materially more efficient than
-conservative where it safely activates.
-
-\paragraph{Design-preserving stress test, honestly bounded.} A design-preserving
-subsampling of the real AmericasBarometer shows the deployed selector never fires
-even as PSUs are thinned toward the noise-dominated regime: pooled $\rhohat$ rises
-to $\approx0.23$ and then \emph{turns over}. We flag the interpretation ourselves:
-under the protocol's own $1/\sqrt f$ scaling the sweep was designed to cross
-$\rho_0$ at the deepest subsampling, and the turnover coincides with the point where
-$\approx1$ PSU remains per stratum---exactly where the $m$-of-$m$ bootstrap's
-variance estimate collapses. The experiment therefore demonstrates a failure mode of
-the $\rhohat$ \emph{diagnostic} under sparse-PSU designs (with the deployed band's
-coverage remaining at or above nominal throughout), not a substantive saturation law;
-the regime characterization of Section~\ref{sec:evidence} rests on the full-sample
-$\rhohat$ values and the ESS subgroup scan, not on this sweep (Supplementary
-Material).
+\paragraph{Design-preserving stress test, honestly bounded.} Subsampling the real
+AmericasBarometer, the deployed selector never fires; but the pooled $\rhohat$
+turnover at deep subsampling coincides with $\approx1$ PSU per stratum, where the
+$m$-of-$m$ bootstrap's variance estimate collapses---so the sweep demonstrates a
+failure mode of the $\rhohat$ diagnostic under sparse-PSU designs (coverage stayed
+at or above nominal throughout), not a saturation law; the regime characterization
+of Section~\ref{sec:evidence} rests on the full-sample estimates instead
+(Supplementary Material).

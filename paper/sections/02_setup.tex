@@ -18,23 +18,21 @@ R_c \;=\; \max_{r,t}\frac{|F_{c,r}(t)-\mu_r(t)|}{\sigma(t)},
 \qquad
 \widetilde{R}_c \;=\; R_c + \xi_c,
 \]
-where $\widetilde{R}_c$ is the same quantity computed from the observed $\Ftilde$ and
-$\xi_c$ is the induced design contamination. (Because $R$ is a supremum, the induced
-$\xi_c$ is not exactly mean-zero or independent of $R_c$---taking a max over noisy
-coordinates biases the score upward; the additive, centered score model here is a
-working approximation at the score scale, made exact at the curve scale by the
-scale-family assumption of Theorem~\ref{thm:estimated}, and the direction of its
-failure---upward-biased observed scores---is conservative for the plug-in band.) The scalar that governs the whole
-problem is the design-to-\emph{total} standard-deviation ratio
+where $\widetilde{R}_c$ is the same quantity computed from the observed $\Ftilde$
+and $\xi_c$ is the induced design contamination. (Because $R$ is a supremum, $\xi_c$
+is not exactly mean-zero or independent of $R_c$; the additive centered score model
+is a working approximation---exact at the curve scale under
+Theorem~\ref{thm:estimated}'s scale family---whose failure direction, upward-biased
+observed scores, is conservative for the plug-in band.) The governing scalar is the
+design-to-\emph{total} SD ratio
 \[
 \rho \;=\; \frac{\text{SD}(\xi)}{\text{SD}(\widetilde R)}
 \;=\;\sqrt{\frac{\overline{v^2}}{s_R^2+\overline{v^2}}}\;\in\;[0,1),
 \]
-with $\rho\to0$ the design-noise-negligible regime and $\rho\to1$ the regime in
-which survey noise dominates the between-country spread. (The generative dial in the
-simulations is the unbounded design/transport ratio $\mathrm{SD}(\xi)/\mathrm{SD}(R)$;
-all reported $\rho$ values, gates, and the $\sqrt{1-\rho^2}$ width law use the bounded
-design/total definition above.)
+$\rho\to0$ the design-noise-negligible regime, $\rho\to1$ noise-dominated. (The
+simulations' generative dial is the unbounded $\mathrm{SD}(\xi)/\mathrm{SD}(R)$; all
+reported $\rho$ values and the $\sqrt{1-\rho^2}$ width law use the bounded
+definition.)
 
 \paragraph{Target and validity.} We want a simultaneous band $\widehat B(r,t)$ that
 covers a \emph{new} country's \emph{latent} trajectory,
@@ -48,24 +46,18 @@ for conservativeness, so we bound the gap rather than assume its sign). Meanwhil
 width is inflated by the design noise, by a factor that grows with $\rho$. Correcting
 the width requires estimating and removing the design contribution---a deconvolution.
 
-\paragraph{Country exchangeability, stated honestly.} The transport band's identifying
-assumption is exchangeability of countries, and we state what that means: a
-superpopulation postulate that the participating countries' trajectory laws are
-symmetric draws---over a set that is not sampled, whose members enter and exit rounds
-non-randomly, and whose within-country designs change across rounds. It is a strong
-idealization (and not comparable to, much less weaker than, the i.i.d.-respondents
-assumption, which operates at a different layer inside an inspectable design). Three
-things temper it. First, the headline certifications of
-Section~\ref{sec:political} do not use it: they are within-country design-bootstrap
-statements in which the country effect cancels. Second, when exchangeability holds
-only approximately, the nonexchangeable conformal bound of
-\citet{barber2023conformal} controls the transport band's coverage gap by a weighted
-total-variation distance between country laws; we do not observe that distance, so we
-treat the bound as qualitative and flag a leave-one-region-out calibration audit for
-the archived replication rather than claiming graceful degradation as fact. Third,
-the conservative (Bonferroni-across-countries) rung protects against the family-wise
-multiplicity of screening many countries---a distinct safeguard that does not repair
-non-exchangeability.
+\paragraph{Country exchangeability, stated honestly.} The transport band's
+identifying assumption is a superpopulation postulate: participating countries'
+trajectory laws are symmetric draws---over a set that is not sampled, enters and
+exits rounds non-randomly, and changes designs across rounds. It is a strong
+idealization. Three things temper it: the headline certifications of
+Section~\ref{sec:political} do not use it (they are within-country design-bootstrap
+statements); under approximate exchangeability the bound of
+\citet{barber2023conformal} controls the coverage gap by an unobserved
+total-variation distance, which we treat as qualitative and probe via a
+leave-one-region-out audit flagged for the archived replication; and the
+Bonferroni-across-countries rung protects against screening multiplicity---a
+distinct safeguard that does not repair non-exchangeability.
 
 \paragraph{The impossibility.} The central obstruction is that the deconvolution is
 not identified from the contaminated scores alone.
@@ -85,19 +77,15 @@ beat the plug-in by more than that slack without shrinking the class of admissib
 noise laws.
 \end{theorem}
 
-The proof (Appendix~\ref{app:proofs}, with a numerical contract test) is a
-convolution-invertibility argument for (i) and a conformal converse for (ii). The reading
-is constructive: a band both honest and narrower than the plug-in must \emph{supply} the
-design-noise law, which complex surveys do provide---through replicate weights or a design
-bootstrap, exactly what Section~\ref{sec:method} uses---so this input is not optional.
+The reading is constructive (proof in Appendix~\ref{app:proofs}): a band both honest
+and narrower than the plug-in must \emph{supply} the design-noise law---replicate
+weights or a design bootstrap, exactly what Section~\ref{sec:method} uses.
 
 \begin{remark}[Beyond surveys]\label{rem:general}
-Nothing in Theorem~\ref{thm:impossible} is specific to surveys: it holds whenever a
-conformal procedure is calibrated on \emph{estimated} objects, so that the nonconformity
-score is a noisy version $\widetilde R=R+\xi$ of a latent score---model-based small-area
-(MRP) outputs, learned or imputed features, meta-analytic effects. The same two-part
-consequence follows: design/measurement information is the identifying ingredient, and its
-reliability at a finite number of calibration units is itself bounded
-(Proposition~\ref{prop:unreach}). The barrier is confirmed outside surveys on a
-model-based small-area calibration (Supplementary Material).
+Nothing here is survey-specific: the result holds whenever conformal calibration
+uses \emph{estimated} objects---MRP small-area outputs, learned or imputed features,
+meta-analytic effects. Design/measurement information is the identifying
+ingredient, and its reliability at finite $K$ is itself bounded
+(Proposition~\ref{prop:unreach}); confirmed outside surveys on a small-area
+calibration (Supplementary Material).
 \end{remark}

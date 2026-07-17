@@ -70,26 +70,26 @@ unreachable at survey scale, so abstention is principled.
 
 \appendix
 \section{Proofs and efficiency results}\label{app:proofs}
-Full statements and proofs of Theorems~\ref{thm:impossible}--\ref{thm:safe} and
-Proposition~\ref{prop:unreach}, the efficiency results (AW-1--AW-4), and the modulation
-self-inclusion deficit are collected in Section~S1 of the online supplementary material.
-Each theorem is additionally paired with a machine-checked contract test that verifies its
-guarantee numerically.
+Full statements and proofs of all theorems, the efficiency results, and the
+modulation self-inclusion deficit are in Section~S1 of the supplementary material;
+each theorem is paired with a machine-checked contract test.
 
 \section{Frozen selector specification}\label{app:spec}
-The frozen constants ($\rho_0=0.47$, $\widehat\delta_{\text{UCB}}(D)=0.0061+0.0943\,D$,
-and the remainder), their derivation on the development grid, and the sealed
-independent-validation protocol (evaluation grid, seed manifest, holdout results) are
-provided in the replication package.
+The frozen constants, their development-grid derivation, and the validation
+protocols are in the replication package.
 
 \section*{Acknowledgments}
-The authors used Claude (Anthropic; Opus 4.7--4.8 and Fable 5) between 18 January and
+The authors used Claude (Anthropic; models Opus 4.7--4.8 and Fable 5, accessed via
+the Claude Code interface) between 18 January and
 17 July 2026 to assist with analysis and plotting code, figure generation and
 formatting, and the revision of proof arguments and theorem statements (including an
 audit that corrected an invalid selection argument and a mis-scored validation run,
 both disclosed in the text). The research design, methodology, and core analysis code
 are the authors' own. All AI-assisted output was reviewed and verified by the
 authors, who take full responsibility for the content of this article.
+
+\section*{Competing Interests}
+Competing interests: the author(s) declare none.
 
 \section*{Data and Code Availability}
 All simulation, theory, and benchmark results are deterministic, reproducing exactly under
