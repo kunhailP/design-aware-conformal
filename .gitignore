@@ -8,3 +8,8 @@ __pycache__/
 *.bbl
 *.blg
 results/holdout_safe_selector.csv
+
+# Python build artifacts
+*.egg-info/
+build/
+dist/
