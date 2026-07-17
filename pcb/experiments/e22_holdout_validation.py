@@ -19,7 +19,7 @@ import pandas as pd
 import yaml
 
 from pcb.util import det_seed
-from pcb.dapcb import BUDGET_DEC, dapcb, gate_b_feasible, _quantiles
+from pcb.dapcb import alpha_split, dapcb, _quantiles
 from pcb.inference.design_aware import deconv_target_scale
 
 CFG = "configs/holdout_validation.yaml"
@@ -111,9 +111,8 @@ def _one(fam, K, rho, rep, s_R, L, master):
     # coverage scored in score space (the synthetic truth is not a CDF, so the
     # deployed [0,1] clip would create artificial misses here)
     sT = deconv_target_scale(E, V)
-    a = 0.10
-    a_anchor = a * (1.0 - BUDGET_DEC) if gate_b_feasible(K) else a
-    qp, qd, qc = _quantiles(E, sT, V, a_anchor, a * BUDGET_DEC)
+    a_anchor, a_dec = alpha_split(K, 0.10)
+    qp, qd, qc = _quantiles(E, sT, V, a_anchor, a_dec if a_dec > 0 else 0.01)
     cov = {"PCB": int(np.max(np.abs(Et)) <= qp),
            "deconvolution": int(np.max(np.abs(Et) / sT) <= qd),
            "conservative": int(np.max(np.abs(Et)) <= qc)}

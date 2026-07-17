@@ -42,6 +42,7 @@ python -m pcb.experiments.e19_selector_sweep        # selector transition
 python -m pcb.experiments.e21_safe_selector         # safe-adaptive selector grid
 python -m pcb.experiments.e22_holdout_validation    # confirmatory holdout (corrected scorer)
 python -m pcb.experiments.e30_certified_core        # WVS certified core (from tracked CSV)
+python -m pcb.experiments.e31_positive_regime       # many-unit regime where deconvolution pays
 ```
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.

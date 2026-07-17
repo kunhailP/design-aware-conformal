@@ -17,7 +17,7 @@ Checks the three load-bearing facts of the revised deployed guarantee:
 """
 import numpy as np
 
-from pcb.dapcb import BUDGET_DEC, dapcb, gate_b_feasible, _quantiles
+from pcb.dapcb import alpha_split, dapcb, _quantiles
 from pcb.inference.design_aware import deconv_target_scale
 
 ALPHA = 0.10
@@ -37,9 +37,9 @@ def test_conservative_band_contains_pcb_band_every_draw():
     for _ in range(300):
         K = int(rng.integers(8, 120))
         E, V, _ = _draw(rng, K, 6, rho_gen=rng.uniform(0, 2))
-        a_anchor = ALPHA * (1 - BUDGET_DEC) if gate_b_feasible(K) else ALPHA
+        a_anchor, a_dec = alpha_split(K, ALPHA)
         sT = deconv_target_scale(E, V)
-        qp, _, qc = _quantiles(E, sT, V, a_anchor, ALPHA * BUDGET_DEC)
+        qp, _, qc = _quantiles(E, sT, V, a_anchor, max(a_dec, 0.01))
         assert qc >= qp - 1e-12                   # nesting, pointwise (const radii)
 
 
@@ -59,7 +59,8 @@ def test_anchor_miss_implies_pcb_miss_pointwise():
         if selected_miss:
             misses_checked += 1
             sT = deconv_target_scale(E, V)
-            qp, _, _ = _quantiles(E, sT, V, ALPHA, ALPHA * BUDGET_DEC)
+            a_anchor, _ = alpha_split(K, ALPHA)
+            qp, _, _ = _quantiles(E, sT, V, a_anchor, 0.01)
             assert np.max(np.abs(Et)) > qp - 1e-12   # PCB missed too
     assert misses_checked > 20                       # the check actually bit
 

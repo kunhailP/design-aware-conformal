@@ -87,3 +87,28 @@ margin) to be worth its finite-K risk.
 
 Development data (grid, seeds, (K,ρ) cells, the four transition cells) may be used
 to SET these values but must NOT be reused as confirmatory validation performance.
+
+---
+
+## Addendum (2026-07-17): Theorem 5′ architecture revision
+
+The validity architecture around the frozen gates was revised after an audit
+found the original conditional-on-selection proof invalid (selection event and
+conformal quantile share the calibration data). The gates and constants above
+are UNCHANGED; what changed:
+
+1. **PCB and conservative branches are unstudentized (U0)** and therefore
+   NESTED (conservative score max_t(|E|+z·v) dominates PCB score max_t|E|).
+   Selection between nested bands anchored at an exact band is validity-free
+   (Lemma NB) — the gates now carry no validity burden at all.
+2. **The deconvolution branch is charged its own miss budget**
+   α_dec = min(max(0.1α, 3/(K+1)), α/2), a function of K only, and only when
+   gate B is feasible (K ≥ 94). Below that K the anchors keep the full α and
+   the deployed guarantee is exact 1−α with no remainder.
+3. The 3/(K+1) floor exists because a flat 0.1α budget leaves the branch's
+   conformal quantile at/beyond the sample maximum for 94 ≤ K ≲ 200
+   (see docs/POSITIVE_REGIME_RESULTS.md).
+
+Real-data consequences: none (all real cross-national data ride the PCB branch
+at full α; widths unchanged). Simulation consequences: e22/e31 rerun under the
+revised architecture; see HOLDOUT_VALIDATION_RESULTS.md addendum.

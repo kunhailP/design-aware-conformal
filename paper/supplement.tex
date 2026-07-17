@@ -267,7 +267,12 @@ $\alpha_{\text{anchor}}$) and the deconvolution branch calibrated at its own bud
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=
 (\alpha,0)$ when gate~B is infeasible at the observed $K$
 (Proposition~1: $K<94$ at the frozen constants, which covers every repeated
-cross-national survey) and $(0.9\alpha,\,0.1\alpha)$ otherwise. Then, finite-sample and
+cross-national survey) and otherwise
+$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,\,3/(K{+}1)),\,\alpha/2\}$,
+$\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$ --- a function of $K$ only
+(hence frozen, not data-dependent), floored at $3/(K{+}1)$ so the branch's conformal
+quantile is a genuine order statistic rather than the sample maximum near the
+feasibility boundary. Then, finite-sample and
 with no conditions on the selection rule,
 \[
 \Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
@@ -528,6 +533,26 @@ near $0.23$: since $s_{\text{plug}}^2=s_R^2+\overline{v^2}$, shrinking the sampl
 inflates design noise and observed spread in lockstep. The deconvolution regime is
 therefore unreachable even semi-synthetically at survey scale---direct evidence for the
 regime characterization of the main text.
+
+\paragraph{The positive regime, demonstrated (E31).} The scope result says where the
+correction is unreachable; a companion simulation shows where it pays. On the
+MRP-style small-area DGP (latent area curves plus known heteroskedastic posterior
+SDs), the frozen pipeline --- unchanged constants, the $\alpha$-budget architecture of
+Theorem~5$'$ --- is run at $K\in\{60,94,150,220,300\}$ areas and posterior-noise
+ratios $0.3$--$0.9$, scoring the returned band against the latent area curve
+($800$ reps per cell). Three facts emerge. First, gate-B \emph{feasibility}
+($K\ge94$) is necessary but not sufficient: with the deconvolution branch honestly
+budgeted at $\alpha_{\text{dec}}=\max(0.1\alpha,\,3/(K{+}1))$, its conformal quantile
+is informative --- and the width-gain gate clears --- only from $K\approx220$, so the
+practical activation frontier sits near $K\approx200$--$300$. Second, where it
+activates (noise ratio $\approx0.7$: $31\%$ of draws at $K{=}220$, $98\%$ at
+$K{=}300$) it pays: the deployed band is $0.69$--$0.74\times$ the conservative
+envelope's width at coverage $0.98$--$1.00$, against the guarantee floor $0.88$.
+Third, at noise ratios near or above the between-area signal the stability gate
+abstains to conservative --- correctly, since there the deconvolved scale hits its
+floor. Many-unit clustered settings (US counties, schools, clinics) have $K$ well
+beyond this frontier; repeated cross-national surveys never do
+(\texttt{e31\_positive\_regime}; \texttt{results/positive\_regime.csv}).
 
 \paragraph{The barriers are not survey artifacts.} Both gates are distribution-free, so
 the boundary should transfer to any conformal procedure calibrated on estimated objects

@@ -43,9 +43,10 @@ gate is a function of the calibration set only, so the selector is target-blind 
 though, by the nested-band argument of Theorem~\ref{thm:safe}, validity would survive
 even an adversarial selection between the two anchor branches. The deconvolution
 branch, which is \emph{not} nested, is charged its own miss budget
-$\alpha_{\text{dec}}=0.1\alpha$ (the anchor branches run at $0.9\alpha$), and only in
-the $K\ge94$ regime where its gate can open at all; at cross-national-survey $K$ the
-anchors keep the full $\alpha$ and the deployed guarantee is exact. All constants are
+$\alpha_{\text{dec}}=\max(0.1\alpha,3/(K{+}1))$ (the anchors run at
+$\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate can
+open at all; at cross-national-survey $K$ the anchors keep the full $\alpha$ and the
+deployed guarantee is exact. All constants are
 frozen before validation (Section~\ref{sec:theory}, Appendix~\ref{app:spec}); when
 deconvolution is used the reported guarantee is the observable
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$.

@@ -111,6 +111,26 @@ def _quantiles(E, sT, V, alpha_anchor, alpha_dec):
     return q_pcb, q_dec, q_con
 
 
+def alpha_split(K: int, alpha: float) -> tuple:
+    """(α_anchor, α_dec): the deconvolution branch's frozen miss budget.
+
+    α_dec = 0 when gate B is infeasible (K < 94, `gate_b_feasible`) — the
+    nested anchor branches keep the full α and the guarantee is exact.
+    Otherwise α_dec = max(BUDGET_DEC·α, 3/(K+1)), capped at α/2: at least the
+    level at which the branch's conformal quantile is a genuine order statistic
+    (three slots from the top) rather than the sample maximum — with a flat
+    BUDGET_DEC·α the quantile index ⌈(1−α_dec)(K+1)⌉ exceeds K for
+    94 ≤ K ≤ 99 (an infinite radius) and sits at the sample max until K≈200,
+    leaving the branch dead exactly where its gate first opens. The rule is a
+    function of K only, hence frozen, not data-dependent selection; validity
+    is unchanged (union bound at α_anchor + α_dec = α).
+    """
+    if not gate_b_feasible(K):
+        return alpha, 0.0
+    a_dec = min(max(BUDGET_DEC * alpha, 3.0 / (K + 1)), 0.5 * alpha)
+    return alpha - a_dec, a_dec
+
+
 def gate_b_feasible(K: int) -> bool:
     """Whether gate B can open at all at this K — a deterministic fact.
 
@@ -177,9 +197,9 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
     #    anchor keeps the FULL α: the deployed guarantee is exact with no
     #    remainder and no selection conditions.
     feasible = gate_b_feasible(K)
-    a_anchor = alpha * (1.0 - BUDGET_DEC) if feasible else alpha
-    a_dec = alpha * BUDGET_DEC
-    q_pcb, q_dec, q_con = _quantiles(E, sT, V, a_anchor, a_dec)
+    a_anchor, a_dec = alpha_split(K, alpha)
+    q_pcb, q_dec, q_con = _quantiles(E, sT, V, a_anchor,
+                                     a_dec if feasible else alpha * BUDGET_DEC)
     r_pcb = np.full(E.shape[1], q_pcb)
     r_con = np.full(E.shape[1], q_con)
     r_dec = q_dec * sT

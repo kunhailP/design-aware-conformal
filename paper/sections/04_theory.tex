@@ -61,7 +61,8 @@ $\alpha_{\text{anchor}}$) and the deconvolution branch at its own budget
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=(\alpha,0)$
 when the reliability gate is infeasible at the observed $K$
 (Proposition~\ref{prop:unreach}: $K<94$, i.e.\ every cross-national survey) and
-$(0.9\alpha,0.1\alpha)$ otherwise. Then, finite-sample and with \emph{no conditions on
+otherwise $\alpha_{\text{dec}}=\max(0.1\alpha,\,3/(K{+}1))$ with
+$\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$, a frozen function of $K$ alone. Then, finite-sample and with \emph{no conditions on
 the selection rule},
 \[
 \Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
