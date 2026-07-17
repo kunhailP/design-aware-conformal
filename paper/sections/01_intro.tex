@@ -54,13 +54,18 @@ trajectory) and the calibration unit (estimated distributions treated as latent,
 omitted design-error layer of~\eqref{eq:decomp})---and give a finite-sample simultaneous
 band over a country's whole trajectory, with a multiplicity-honest guarantee hierarchy
 that corrects the first.
-\emph{Second, a provably-valid deployed procedure.} The band we recommend is a clustered
-``population'' conformal band (PCB), finite-sample exact at \emph{any} $K$
-(Theorem~\ref{thm:exact}), wrapped in a nominal-safe selector that corrects for the
-design error only when four target-blind gates certify reliability and otherwise reduces
-to the exact band or abstains conservatively (Theorem~\ref{thm:safe}). We confirm the
-frozen procedure on an independent, pre-registered simulation spanning ten
-data-generating processes it has never seen.
+\emph{Second, a provably-valid deployed procedure with an unconditional guarantee.}
+The band we recommend is a clustered ``population'' conformal band (PCB), finite-sample
+exact at \emph{any} $K$ (Theorem~\ref{thm:exact}), inside an adaptive selector whose
+validity does not depend on how it selects: the PCB and conservative branches are
+\emph{nested}, and selection among nested bands anchored at an exact band is
+validity-free, so the four target-blind gates are an efficiency device, not a validity
+assumption (Theorem~\ref{thm:safe}). The design-error-correcting branch carries its own
+miss budget, and only at the many-unit scale where it can activate at all; at
+cross-national-survey $K$ the deployed guarantee is exact $1-\alpha$, full stop. We
+validate the frozen procedure in three disclosed layers, ending with a fresh sealed
+run on six data-generating-process families its design had never seen
+(Section~\ref{sec:simulation}).
 \emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the instrument
 changes the substantive picture. For European trust (ESS 2018--2022), marginal
 wave-by-wave estimates suggest widespread decline, but a country-wide, design-aware
@@ -81,11 +86,15 @@ when a design-aware correction is available and when it is not, so that abstenti
 principled choice rather than a concession. Without a model of the design-noise law the
 latent transport-error distribution is non-identified---a deconvolution problem
 (Theorem~\ref{thm:impossible}); and even \emph{with} that information the correction is
-\emph{unreachable} at cross-national scale, for two quantitative reasons: the
-design-to-total noise ratio $\rho$ saturates well below the level at which deconvolution
-helps, and the deployed reliability diagnostic obeys the algorithmic floor
-$D\ge\sqrt{2/(K-1)}$---an identity of the frozen procedure, holding for every possible
-dataset---that needs $K\ge94$ exchangeable populations. On the two largest
+\emph{unreachable} at cross-national scale for the deployed procedure at its frozen
+constants, for two quantitative reasons: the measured design-to-total noise ratio
+$\rho$ stays well below the level at which deconvolution helps (the estimates are
+downward-biased floors, and still severalfold short), and the deployed reliability
+diagnostic obeys the algorithmic floor $D\ge\sqrt{2/(K-1)}$---an identity of the
+frozen procedure, holding for every possible dataset---that needs $K\ge94$
+exchangeable populations. The calibration-free content of the second barrier is the
+variance-estimation floor itself; a differently calibrated correction could move the
+$K\ge94$ threshold, though not below the floor's own arithmetic. On the two largest
 such surveys these barriers bind in \emph{opposite} ways---the World Values Survey clears
 the size barrier ($K\approx100$) but carries only weights-based, negligible design noise,
 while the ESS has genuine clustered design noise but far too few countries---so neither

@@ -1,0 +1,8 @@
+{
+ "e33_script_sha256_at_seal": "fc771ef87e271cf11eeff33a70a75828f2043b26ac81b7393aa330dbed95db9a",
+ "sealed": "2026-07-17, before first execution; grid, families, seed frozen in the script",
+ "seal2": {
+  "e33_script_sha256": "8a2d9f25ff94be6a6f1986b91171231c1d8fc7e604116ce8ff7eff190bb967fb",
+  "reason": "first sealed run failed 15/120 cells, ALL in ar2_rounds at ALL K incl. K=20 where the U0 guarantee is exact for any exchangeable DGP - diagnosed as a GENERATOR bug (target trajectory normalized by its own sample SD, calibration by the pooled SD: an exchangeability-violating asymmetry in the DGP, not a pipeline failure). Amended to analytic stationary-SD normalization; only the ar2_rounds branch changed. Seal-1 cells preserved in results/final_validation_seal1.csv."
+ }
+}

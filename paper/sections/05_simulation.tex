@@ -44,18 +44,45 @@ mechanism drives the certification-count collapse in Section~\ref{sec:political}
 asking for the honest object---not asking it more strictly---removes the over-detection.
 Pre-registered and reported as produced (\texttt{e28\_wrong\_unit\_coverage}).
 
+\paragraph{Severity: what each rung can detect.} Coverage is only half of honesty;
+the other half is saying what magnitude of decline each rung would detect. A
+simulation calibrated to ESS-like design noise (threshold SE $v=0.012$; sup-$t$
+certification at $\alpha=0.10$ over a four-threshold core; replication experiment
+E32) gives the operating characteristics: for $80\%$ power the \emph{net} rung needs
+a per-pair decline of $0.02$--$0.03$ CDF points over four pairs---realistic secular
+erosion---while the \emph{persistent} rung needs $0.06$--$0.08$ per pair, roughly
+the scale of the Greek crisis collapse, and its power \emph{falls} as the trajectory
+lengthens (the conjunction hardens while the per-pair signal does not accumulate).
+Two consequences discipline our substantive language. Non-certification at the
+persistent rung is weak evidence of absence---it is a high-severity, low-power
+object, informative when it \emph{passes}; and for secular-decline claims the
+powered instrument is the net rung, which is why Section~\ref{sec:political}
+co-headlines the net counts. Injecting known declines into the real microdata is
+the corresponding real-data check, flagged for the archived replication.
+
 The development grid that motivates and calibrates the safety gate, and a controlled
 Gaussian illustration that isolates the finite-$K$ over-shrinkage mechanism behind the
 $K{=}320$-only activation seen below, are given in the Supplementary Material.
 
-\paragraph{Independent confirmatory validation.} We froze the selector and its
-constants (Appendix~\ref{app:spec}), sealed a preregistration and a seed manifest,
-and ran the deployed procedure \emph{once} on a grid disjoint from development in $K$
-($\{25,40,80,160,320\}$), in $\rho$ (dense at the $\rho_0$ cutoff), and in
-data-generating process (ten families spanning skewed and heavy-tailed noise,
-heterogeneous design variance, weighting, irregular trajectory length, a
-\emph{misspecified} noise law, and weak/strong cross-round dependence). The runner
-verifies the config hash against the sealed manifest before executing. The numbers are
+\paragraph{Validation, in three honestly-labeled layers.} \emph{(i) The sealed
+holdout} froze the selector and its constants (Appendix~\ref{app:spec}), sealed a
+preregistration and seed manifest, and ran once on a grid disjoint from development
+in $K$ ($\{25,40,80,160,320\}$), in $\rho$, and in data-generating process (ten
+families). Its confirmatory status was subsequently compromised in two disclosed
+ways: an audit found its scorer evaluated the S2 studentized band rather than the
+band the package deploys, and its findings motivated the switch to the U0 base band
+and the Theorem~\ref{thm:safe} architecture---so it functioned as development, and
+we label it so. \emph{(ii) The corrected-scorer rerun} of the same $450$-cell grid
+scores the deployed band verbatim (fresh seed; the original config file was not
+preserved, which we disclose). \emph{(iii) A fresh seal}: because layers (i)--(ii)
+had both touched the final design, we sealed one further validation of the final
+pipeline---six new DGP families (lognormal country effects, AR(2) rounds, scale
+mixtures, extreme design-effect dispersion, threshold-correlated noise, long
+trajectories), new $K$ and $\rho$ grids, script hash recorded before first
+execution, run once, reported as produced including a first-seal generator bug we
+diagnosed and disclosed (replication experiment E33). Result: $120/120$ cells
+floor-compatible, worst cell $0.878$, and zero deconvolution activations below
+$K=94$, as the algorithmic floor requires. The numbers of all three layers are
 reported exactly as produced (Table~\ref{tab:holdout}, Figure~\ref{fig:holdout}).
 
 \begin{figure}[t]\centering
@@ -136,8 +163,16 @@ nominal coverage; we claim---and the holdout confirms---that the design-aware co
 is never the \emph{cause} of undercoverage and is materially more efficient than
 conservative where it safely activates.
 
-\paragraph{Design-preserving stress test.} A design-preserving subsampling of the real
-AmericasBarometer confirms the deconvolution regime is unreachable even
-semi-synthetically at survey scale, with $\rho$ saturating near $0.23$
-(Supplementary Material)---direct evidence for the regime characterization of
-Section~\ref{sec:evidence}.
+\paragraph{Design-preserving stress test, honestly bounded.} A design-preserving
+subsampling of the real AmericasBarometer shows the deployed selector never fires
+even as PSUs are thinned toward the noise-dominated regime: pooled $\rhohat$ rises
+to $\approx0.23$ and then \emph{turns over}. We flag the interpretation ourselves:
+under the protocol's own $1/\sqrt f$ scaling the sweep was designed to cross
+$\rho_0$ at the deepest subsampling, and the turnover coincides with the point where
+$\approx1$ PSU remains per stratum---exactly where the $m$-of-$m$ bootstrap's
+variance estimate collapses. The experiment therefore demonstrates a failure mode of
+the $\rhohat$ \emph{diagnostic} under sparse-PSU designs (with the deployed band's
+coverage remaining at or above nominal throughout), not a substantive saturation law;
+the regime characterization of Section~\ref{sec:evidence} rests on the full-sample
+$\rhohat$ values and the ESS subgroup scan, not on this sweep (Supplementary
+Material).

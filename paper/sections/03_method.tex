@@ -11,8 +11,8 @@ stratified-PSU bootstrap:
 \emph{(i) Clustered PCB} takes the conformal quantile of the \emph{unstudentized}
 scores $\max_t|\widetilde E_c(t)|$ (the U0 construction of
 Theorem~\ref{thm:exact}); it is finite-sample exact for the survey-estimate target at
-any $K$, and its latent-target gap is the explicit $O(\rho)$ bound of
-Theorem~\ref{thm:oracle}(b). \emph{(ii) Deconvolution} studentizes by the
+any $K$, and its latent-target gap is the explicit two-term bound of
+Theorem~\ref{thm:oracle}(b), vanishing with the design-noise scale. \emph{(ii) Deconvolution} studentizes by the
 finite-$K$-safe target scale
 $\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
 which subtracts a \emph{lower} confidence bound on the design variance so the
@@ -43,10 +43,10 @@ gate is a function of the calibration set only, so the selector is target-blind 
 though, by the nested-band argument of Theorem~\ref{thm:safe}, validity would survive
 even an adversarial selection between the two anchor branches. The deconvolution
 branch, which is \emph{not} nested, is charged its own miss budget
-$\alpha_{\text{dec}}=\max(0.1\alpha,3/(K{+}1))$ (the anchors run at
+$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ (the anchors run at
 $\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate can
-open at all; at cross-national-survey $K$ the anchors keep the full $\alpha$ and the
-deployed guarantee is exact. All constants are
+open at all; at the $K$ of every certification sample in this paper the anchors keep
+the full $\alpha$ and the deployed guarantee is exact. All constants are
 frozen before validation (Section~\ref{sec:theory}, Appendix~\ref{app:spec}); when
 deconvolution is used the reported guarantee is the observable
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$.
@@ -55,9 +55,14 @@ $1-\alpha-\widehat\delta_{\text{UCB}}(D)$.
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}
 \KwIn{calibration curves $\{\widetilde R_c\}$ (unit = country), design replicates
 $\{\widehat v_c\}$, target curve $\widehat F_{\text{new}}$, level $\alpha$;
-frozen $\rho_0,\delta_{\max},g_{\min},\Delta_g$}
-compute $s$, $\widehat s_T$, and the three radii $r_{\text{PCB}},r_{\text{dec}},
-r_{\text{con}}$; diagnostics $\rhohat_{\text{LCB}},D,\widehat\delta_{\text{UCB}}(D)$\;
+frozen $\rho_0,\delta_{\max},g_{\min},\Delta_g$ and the $K$-only budget rule
+$\alpha_{\text{dec}}(K)$}
+set $(\alpha_{\text{anchor}},\alpha_{\text{dec}})$ by the frozen budget rule
+(full $\alpha$ to the anchors when gate B is infeasible at this $K$)\;
+compute diagnostics $s$, $\widehat s_T$, $\rhohat_{\text{LCB}},D,
+\widehat\delta_{\text{UCB}}(D)$; the nested unstudentized anchor radii
+$r_{\text{PCB}},r_{\text{con}}$ at level $\alpha_{\text{anchor}}$; and
+$r_{\text{dec}}$ at level $\alpha_{\text{dec}}$\;
 \uIf{$\rhohat_{\text{LCB}}\le\rho_0$}{branch $\leftarrow$ PCB\;}
 \uElseIf{$\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ \textbf{and} stable
 \textbf{and} $\widehat{\text{Gain}}-\Delta_g>g_{\min}$}{branch $\leftarrow$

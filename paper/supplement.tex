@@ -73,10 +73,15 @@ political claim concerns.
 
 \emph{Statement.} Let the observed score be $\widetilde R=R+\xi$ with $R\perp\xi$ and
 $\xi$ mean-zero. (i)~The law of $R$---hence its $(1-\alpha)$ quantile---is not identified
-from the law of $\widetilde R$ without restrictions on the law of $\xi$. (ii)~Among bands
-measurable with respect to the observed scores only, none is valid for the latent target
-at level $1-\alpha$ for all admissible design laws while being strictly narrower than the
-plug-in band whose radius is the $(1-\alpha)$ conformal quantile of $|\widetilde R|$.
+from the law of $\widetilde R$ without restrictions on the law of $\xi$. (ii)~Among
+\emph{non-randomized} bands measurable with respect to the observed scores only, any
+band that is valid for the latent target on the subclass of design laws containing
+$\xi\equiv0$ must be at least as wide as the plug-in band whose radius is the
+$(1-\alpha)$ conformal order statistic of $|\widetilde R|$, up to the conformal
+discreteness slack $\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)$. (A randomized
+band can shave exactly that slack and no more; and by Remark~\ref{rem:bimodal} no
+observed-score band---including the plug-in---is latent-valid over \emph{all}
+admissible laws, so validity must be read relative to the stated subclass.)
 
 \begin{proof}
 (i)~Convolution is not invertible without knowing the noise law. Take
@@ -89,14 +94,15 @@ nontrivial convolution. (ii)~Under the member $\xi\equiv0$ the latent target equ
 $\widetilde R_{K+1}$, which is exchangeable with $\{\widetilde R_c\}_{c\le K}$; the
 conformal rank identity gives $\Pr(\widetilde R_{K+1}\le\widehat q)=
 \lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$ at $\widehat q$ the corresponding order statistic,
-so any radius below the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of
-$\{|\widetilde R_c|\}$ has latent coverage $<1-\alpha$ on this member. A band narrower than
-the plug-in on a positive-measure event therefore undercovers the latent target on the
-$\xi\equiv0$ law it cannot distinguish from the contaminated one. In the degenerate case
-$\xi\equiv0$ the plug-in is itself the tightest valid band, so no uniform improvement
-exists. Thus strict efficiency is attainable only by shrinking the class of admissible
-laws---i.e.\ by supplying the law of $\xi$ (equivalently the $v_c$), which is exactly the
-design-bootstrap information.
+so any non-randomized radius below the $\lceil(1-\alpha)(K{+}1)\rceil{-}1$-th order
+statistic of $\{|\widetilde R_c|\}$ has latent coverage
+$\le(\lceil(1-\alpha)(K{+}1)\rceil-1)/(K{+}1)<1-\alpha$ on this member. A band
+materially narrower than the plug-in therefore undercovers the latent target on the
+$\xi\equiv0$ law it cannot distinguish from the contaminated one; the only room below
+the plug-in is the discreteness slack, which randomized smoothing exhausts. Thus
+strict efficiency beyond that slack is attainable only by shrinking the class of
+admissible laws---i.e.\ by supplying the law of $\xi$ (equivalently the $v_c$), which
+is exactly the design-bootstrap information.
 \end{proof}
 
 \subsection{Theorem~2 (oracle validity)}
@@ -110,8 +116,14 @@ $\Pr(\widetilde R_{K+1}\le\widehat q)\ge1-\alpha$, using exchangeability only.
 \Pr\big(\widetilde R_{K+1}\in(\widehat q-u,\ \widehat q\,]\big),
 \]
 so the T1$\to$T2 coverage gap is controlled by a noise-tail term and a local
-anti-concentration term, both of which vanish with the design-noise scale (both are
-$O(\rho)$ under a bounded density of $\widetilde R$ near its upper quantile).
+anti-concentration term, both of which vanish with the design-noise scale.
+Quantitatively, with countries independent (so that the target score is independent
+of $\widehat q$) and a density bound $L$ for $\widetilde R$ near its upper quantile:
+optimizing $u$ under a variance-only tail bound (Chebyshev) gives a gap of order
+$\rho^{2/3}$; under sub-Gaussian design-noise tails---the natural case for
+bootstrap-estimated design error---the optimized gap is $O(\rho\sqrt{\log(1/\rho)})$.
+We use independence, not mere exchangeability, for the anti-concentration step; the
+tail term needs neither.
 Equivalently, the \emph{noise-inflated} band with radius $\widehat q+u$ covers the
 latent target at level $1-\alpha-\Pr(|\xi_{K+1}|>u)$ with no anti-concentration
 condition. (c)~The oracle deconvolution band with the true target scale has width a
@@ -199,11 +211,14 @@ $O(1/K)$ asymmetry. The deployed remedy is the leave-one-out deviation
 $E_c=\widehat\theta_c-\operatorname{mean}_{c'\ne c}\widehat\theta_{c'}$
 (\texttt{pcb.inference.conformal\_band.loo\_deviations}): each calibration score then
 excludes its own unit exactly as the target's score excludes the target. The residual
-asymmetry (a pool of $K{-}1$ versus $K$ units) makes calibration deviations, if
-anything, slightly \emph{more} dispersed than the target's — an $O(1/K^2)$ remainder in
-the conservative direction — and vanishes entirely under constructions (i)--(iv), which
-the headline ESS certification satisfies through its own-previous-round centers
-(case~iii).
+asymmetry (a pool of $K{-}1$ versus $K$ units) adds an independent mean-noise term of
+variance larger by $O(1/K^2)$ to the calibration deviations; we \emph{conjecture} the
+resulting perturbation is conservative-direction for sup-scores (larger convolution
+noise typically enlarging upper order statistics), but by Remark~\ref{rem:bimodal}
+convolution does not monotonically enlarge quantiles in general, so we state this as
+a heuristic with an $O(1/K^2)$ magnitude, not a bound. The asymmetry vanishes
+entirely under constructions (i)--(iv), which the headline ESS certification
+satisfies through its own-previous-round centers (case~iii).
 \end{remark}
 
 \emph{Modulation self-inclusion deficit (proof sketch; estimated constant).} If instead
@@ -244,9 +259,14 @@ deconvolution's distributional matching is an identity rather than an approximat
 \emph{(A1, scale family.)} There exist i.i.d.\ random curves $W_1,\dots,W_{K+1}$ and
 deterministic-given-design scales such that the observed calibration curves satisfy
 $\widetilde E_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$ and the latent target curve
-satisfies $E_{K+1}(t)=s_R(t)\,W_{K+1}(t)$. (Gaussian curves with a common correlation
-profile and unit-specific design variances satisfy this; bimodal mixtures of
-Remark~\ref{rem:bimodal} do not.)
+satisfies $E_{K+1}(t)=s_R(t)\,W_{K+1}(t)$. This is strong, and we state its content
+plainly: it requires not only a common (e.g.\ Gaussian) shape family but that the
+design noise share the latent curves' \emph{cross-threshold correlation profile}, so
+that noise changes only the scale of a common shape process. In real surveys the
+within-country sampling covariance across thresholds is governed by the design while
+the between-country profile is governed by substantive heterogeneity, so (A1) is an
+idealization---the price of finite-sample exactness. Bimodal mixtures of
+Remark~\ref{rem:bimodal} violate it.
 \emph{(A2, anti-concentration.)} $M:=\max_t|W(t)|$ has a density bounded by $L$ on a
 neighborhood of its $(1-\alpha_{\text{dec}})$ quantile $q^*$.
 \emph{(A3, moments and bootstrap.)} The scores have finite fourth moment (kurtosis
@@ -268,10 +288,14 @@ scales,
 \qquad
 \delta_{K,B}=C_1\sqrt{\tfrac{\kappa-1+z^2}{K}}+C_2\sqrt{\tfrac{c_v\log(KT)}{B}},
 \]
-with $\eta_{K,B},r_K=O(K^{-1/2})$ explicit from Chebyshev and order-statistic
-concentration, so $\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
+with $\eta_{K,B},r_K=O(K^{-1/2})$ obtainable from Chebyshev and order-statistic
+concentration ($C_1,C_2$ depend on $(\kappa,z,L,q^*)$ through those inequalities; we
+do not display numerical values), so
+$\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
 $\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-safe guard makes the scale-error
-term one-sided: except on an event of probability $\le\alpha_2$ (the guard's budget),
+term one-sided: on the intersection of the guard's per-threshold coverage events
+(probability $\ge1-T\alpha_2$ by a union bound over the $T$ thresholds, or
+$\ge1-\alpha_2$ with a Bonferroni-adjusted guard level $\alpha_2/T$),
 $\widehat s_T\le$ the oracle-consistent scale, so the band errs wide, not narrow.
 
 \begin{proof}
@@ -308,8 +332,10 @@ $\sqrt{c_v\log(KT)/B}$ via Chebyshev and a union bound over the $KT$ cells. Choo
 $\delta=\delta_{K,B}$ makes $\Pr(\delta^*>\delta_{K,B})\le\eta_{K,B}=O(K^{-1/2})$.
 
 \emph{(iii)} The deployed scale subtracts $[\,\overline{\widehat v^2}-z\,\SE\,]_+$, a
-lower confidence bound at level $\alpha_2=\Phi(-z)$: on its coverage event (probability
-$\ge1-\alpha_2$) the subtracted amount does not exceed the true design variance, so
+lower confidence bound at per-threshold level $\alpha_2=\Phi(-z)$: on the
+intersection of the $T$ per-threshold coverage events (probability $\ge1-T\alpha_2$
+by a union bound) the subtracted amount does not exceed the true design variance at
+any threshold, so
 $\widehat s_T^2\ge s_{\text{plug},0}^2-\overline{v^2}$ errs on the wide side of the
 oracle scale and the corresponding half of the $\Delta_0$ perturbation can only
 \emph{increase} coverage. The two-sided bound of (ii) therefore holds with its
@@ -345,6 +371,14 @@ $\widehat J\in\{1,2\}$ be \emph{any} selection rule, measurable or adversarial,
 data-dependent or not. Then $\Pr(F_{\text{new}}\in\widehat B_{\widehat J})\ge1-\alpha$.
 \end{lemma}
 
+This observation is elementary and belongs to the nested view of conformal
+prediction developed by \citet{gupta2022nested}; the general problem of selecting
+among conformal sets, including when selection is free and when it costs, is treated
+by \citet{yang2024selection}. We claim no novelty for the lemma itself---its role
+here is architectural: engineering the deployed branches so that the lemma applies
+(unstudentized scores make the dominance pointwise, hence the nesting) is what
+removes the selection problem from the validity budget.
+
 \begin{proof}
 $\{F_{\text{new}}\notin\widehat B_{\widehat J}\}\subseteq
 \{F_{\text{new}}\notin\widehat B_1\}$ pointwise: if the selected band misses, then a
@@ -359,8 +393,11 @@ $\max_t(|E_c(t)|+z\,\widehat v_c(t))$ respectively, both calibrated at level
 $\alpha_{\text{anchor}}$) and the deconvolution branch calibrated at its own budget
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=
 (\alpha,0)$ when gate~B is infeasible at the observed $K$
-(Proposition~1: $K<94$ at the frozen constants, which covers every repeated
-cross-national survey) and otherwise
+(Proposition~1: $K<94$ at the frozen constants, which covers every certification
+sample analyzed in this paper---ESS $K\approx30$, LAPOP $K\approx20$, and the WVS
+$\ge2$-wave sets at $K=59$--$77$; the WVS \emph{full item-coverage} sets at
+$K\approx95$--$105$ are feasible in principle but are not certification samples) and
+otherwise
 $\alpha_{\text{dec}}=\min\{\max(0.1\alpha,\,3/(K{+}1)),\,\alpha/2\}$,
 $\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$ --- a function of $K$ only
 (hence frozen, not data-dependent), floored at $3/(K{+}1)$ so the branch's conformal
@@ -418,7 +455,7 @@ and reported through $\widehat\delta_{\text{UCB}}(D)$ when it does.
 
 \subsection{Proposition~1 (survey-scale unreachability)}
 
-\emph{Statement.} The deployed selector rides deconvolution only if a \emph{need} gate
+\emph{Statement.} The deployed selector activates deconvolution only if a \emph{need} gate
 $\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both hold, with
 $D=\max_t\widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$ computed by the frozen
 formula below. Two facts bound these.
@@ -620,12 +657,21 @@ $\alpha_{\text{dec}}$-budgeted branch and cannot touch the survey-scale guarante
 
 \section{Additional empirical robustness}\label{sup:empirical}
 
-\paragraph{Design-preserving stress test.} Subsampling the real AmericasBarometer
-while preserving its stratified-PSU structure, the estimated $\rho$ \emph{saturates}
-near $0.23$: since $s_{\text{plug}}^2=s_R^2+\overline{v^2}$, shrinking the sample
-inflates design noise and observed spread in lockstep. The deconvolution regime is
-therefore unreachable even semi-synthetically at survey scale---direct evidence for the
-regime characterization of the main text.
+\paragraph{Design-preserving stress test, reinterpreted.} Subsampling the real
+AmericasBarometer while preserving its stratified-PSU structure, pooled $\rhohat$
+rises to $\approx0.23$ and then \emph{turns over} at the deepest subsampling
+($f=1/16$), where the protocol's own $1/\sqrt f$ scaling predicts
+$\rhohat\approx0.49$---i.e., a crossing of $\rho_0$. The discrepancy is diagnostic:
+at $f=1/16$ roughly one PSU remains per stratum, where the $m$-of-$m$ bootstrap
+(no Rao--Wu--Yue rescaling; singleton strata contributing zero) collapses the
+design-variance estimate exactly as the true design noise peaks, while
+$s_{\text{plug}}$ continues to absorb the realized noise. What the sweep
+demonstrates is therefore a failure mode of the $\rhohat$ diagnostic under
+sparse-PSU designs---with the deployed band's coverage remaining at or above nominal
+throughout---not a substantive saturation law, and we have removed ``saturation''
+claims resting on it from the main text. A rescaled-bootstrap rerun
+(\texttt{psu\_bootstrap(rescale=True)}, added to the package) is flagged for the
+archived replication.
 
 \paragraph{The positive regime, demonstrated (E31).} The scope result says where the
 correction is unreachable; a companion simulation shows where it pays. On the
@@ -661,10 +707,13 @@ does fire, unlike any cross-national survey. A many-area MRP application with ap
 posterior uncertainty is therefore the setting where the deconvolution could actually
 activate---the positive-result frontier the survey-scale impossibility leaves open.
 
-\paragraph{The AmericasBarometer supplies the design effect the ESS lacks.} The ESS
-releases design weights but limited cluster identifiers; the AmericasBarometer
-releases full stratified-PSU structure, letting us compute a proper design
-bootstrap. The design effect is real: the ratio of the proper stratified-PSU
+\paragraph{The AmericasBarometer's design metadata, alongside the ESS's.} The ESS
+publishes sample-design files (PSU, stratum, inclusion probabilities) for all
+rounds---integrated into the main file from round 9, as separate SDDF files
+earlier---so our restriction to rounds 9--11 reflects the integrated extract we
+analyzed, not an ESS limitation (an earlier draft misstated this); the
+AmericasBarometer releases full stratified-PSU structure in its merged file,
+letting us compute a proper design bootstrap directly. The design effect is real: the ratio of the proper stratified-PSU
 standard deviation to a naive independent-resampling one has median
 $\approx1.13$--$1.20$ and reaches $1.9$ in the most clustered country-years. The
 proper band captures clustering variance the naive bootstrap misses. Yet
@@ -692,5 +741,8 @@ Foa--Mounk reanalysis is only half-supported: the young show \emph{more} persist
 decline in rating democracy essential ($7$ vs.\ $3$ countries) but \emph{not} in
 openness to strongman or army rule ($0$--$1$ vs.\ $4$), against the ``youth embrace
 authoritarianism'' reading.
+
+\bibliographystyle{chicago}
+\bibliography{refs}
 
 \end{document}

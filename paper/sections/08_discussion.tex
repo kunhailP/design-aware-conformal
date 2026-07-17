@@ -29,7 +29,22 @@ pipeline activates deconvolution on up to $98\%$ of draws and delivers a band
 $0.69$--$0.74\times$ the conservative envelope's width at valid coverage---the
 positive-regime frontier the survey-scale impossibility leaves open.
 
-\paragraph{Limitations.} Without design metadata---as in the World Values Survey, which
+\paragraph{Limitations.} Four scope conditions bound what the instrument corrects.
+\emph{Sampling error only.} The machinery corrects design-based sampling variance;
+it is silent on measurement non-invariance---item wording and translation changes
+across waves, survey-program (EVS/WVS) house effects, and the round-10 ESS mode
+switches---which produce exactly the distribution-wide shifts the bands certify.
+Where a certified pair straddles such a change (flagged in
+Section~\ref{sec:political}), the certification is conditional on measurement
+constancy that the data cannot establish. \emph{Variance-estimator bias.} The
+deployed PSU bootstrap resamples $m$-of-$m$ without Rao--Wu--Yue rescaling
+\citep{rao1992recent,wolter2007introduction} and drops singleton strata, biasing
+design variance downward; the package now ships a rescaled variant, and reruns of
+the shipped CSVs with it are flagged for the archived replication. \emph{A
+superpopulation postulate.} The transport band's exchangeability assumption is over
+a non-sampled, panel-attriting set of countries (Section~\ref{sec:setup}); the
+certifications do not use it, but the transport results do. \emph{Metadata.}
+Without design metadata---as in the World Values Survey, which
 releases weights but limited cluster identifiers---only a weights-only replication is
 possible; the impossibility result says no design-valid inference can be recovered from
 the point estimates alone. And the finite-$K$ remainder bound for the deconvolution

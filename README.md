@@ -44,6 +44,8 @@ python -m pcb.experiments.e21_safe_selector         # safe-adaptive selector gri
 python -m pcb.experiments.e22_holdout_validation    # confirmatory holdout (corrected scorer)
 python -m pcb.experiments.e30_certified_core        # WVS certified core (from tracked CSV)
 python -m pcb.experiments.e31_positive_regime       # many-unit regime where deconvolution pays
+python -m pcb.experiments.e32_severity              # power of each claim rung
+python -m pcb.experiments.e33_final_validation      # fresh sealed validation of the final pipeline
 ```
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.

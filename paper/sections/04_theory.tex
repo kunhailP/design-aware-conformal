@@ -13,14 +13,18 @@ $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
 $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
 \Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$: the gap between the two targets is a
 noise-tail term plus a local anti-concentration term, both vanishing with the
-design-noise scale ($O(\rho)$ under a bounded score density near the quantile), and
-zero by inspection when the design noise is zero. Symmetric design noise alone does
+design-noise scale (of order $\rho^{2/3}$ under variance-only tail bounds and $\rho$
+up to logarithms under sub-Gaussian design noise; Appendix~\ref{app:proofs} states
+the conditions, including where independence across countries is used), and zero by
+inspection when the design noise is zero. Symmetric design noise alone does
 \emph{not} make the band conservative for the latent target --- a bimodal latent score
 law furnishes a counterexample (Supplementary Material, Remark on the latent-target
 bridge) --- which is why we report the observed $\rho$ that makes the gap negligible
 rather than assuming conservativeness.
 \emph{(c)} The deconvolution band with the true target scale is valid for the latent
-target with width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
+target---finite-sample \emph{exact} under the scale-family assumption (A1) of
+Theorem~\ref{thm:estimated}---with width a factor $\sqrt{1-\rho^2}+o(1)$ of the
+clustered band.
 \end{theorem}
 
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
@@ -57,9 +61,12 @@ $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$, proved by a sandwich
 concentration argument with explicit constants. The finite-$K$-safe scale
 $\widehat s_T^2$ (Section~\ref{sec:method}) subtracts a lower confidence bound on the
 design variance, making the scale-error term one-sided (wide, not narrow) outside an
-$\alpha_2$-probability event. Assumption (A1) is not removable: the bimodal
+$\alpha_2$-probability event. Some shape restriction is not removable---the bimodal
 counterexample of Theorem~\ref{thm:oracle}(b) defeats any latent-target band without
-a shape restriction of this type.
+one---and (A1) is one sufficient choice, strong enough to make the distributional
+matching exact; alternatives (e.g.\ smoothness conditions under a known noise law,
+as in the deconvolution literature) trade finite-sample exactness for weaker
+assumptions.
 \end{theorem}
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
@@ -69,17 +76,20 @@ Deploy Algorithm~\ref{alg:safe} with unstudentized PCB and conservative branches
 $\alpha_{\text{anchor}}$) and the deconvolution branch at its own budget
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=(\alpha,0)$
 when the reliability gate is infeasible at the observed $K$
-(Proposition~\ref{prop:unreach}: $K<94$, i.e.\ every cross-national survey) and
-otherwise $\alpha_{\text{dec}}=\max(0.1\alpha,\,3/(K{+}1))$ with
-$\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$, a frozen function of $K$ alone. Then, finite-sample and with \emph{no conditions on
-the selection rule},
+(Proposition~\ref{prop:unreach}: $K<94$, which covers every certification sample
+analyzed in this paper, including the WVS $\ge2$-wave sets at $K=59$--$77$) and
+otherwise $\alpha_{\text{dec}}=\min\{\max(0.1\alpha,\,3/(K{+}1)),\,\alpha/2\}$ with
+$\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$, a frozen function of $K$ alone.
+Then, finite-sample and with \emph{no conditions on the selection rule},
 \[
 \Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
 1-\alpha-\varepsilon_{K,B}\,\mathbf 1\{K\ge94\},
 \]
-where $\varepsilon_{K,B}$ is Theorem~\ref{thm:estimated}'s estimated-law remainder,
-attached to the deconvolution branch only and reported through the observable
-diagnostic $\widehat\delta_{\text{UCB}}(D)$ when that branch fires.
+where $\varepsilon_{K,B}$ is Theorem~\ref{thm:estimated}'s estimated-law
+remainder, attached to the deconvolution branch only---the $K\ge94$ clause therefore
+inherits that theorem's assumptions (A1)--(A3), while the $K<94$ clause needs
+exchangeability only---and reported through the observable diagnostic
+$\widehat\delta_{\text{UCB}}(D)$ when that branch fires.
 \end{theorem}
 
 The proof (Appendix~\ref{app:proofs}) uses no conditional-on-selection step. Its two
@@ -94,14 +104,16 @@ survey scale the deployed guarantee is exact $1-\alpha$ with no remainder --- th
 guarantee a user actually deploys --- and the only remainder anywhere in the pipeline
 is confined to the many-unit regime where deconvolution can activate.
 
-\paragraph{Efficiency.} Three statements bound the price and payoff (proved in the
-supplement). \emph{(AW-1)} in the low-$\rho$ regime the deconvolution/PCB width ratio is
-$1-\tfrac12\rho^2+O(\rho^4)$, matching the observed reduction to the decimal;
-\emph{(AW-2)} the conservative branch is never wider than the Bonferroni envelope and at
-least as wide as PCB --- under the deployed unstudentized construction the dominance
-over PCB holds pointwise by construction, making the two branches nested;
-\emph{(AW-3)} selection cannot inflate miscoverage, now proved via the nested-band
-lemma and union bound of Theorem~\ref{thm:safe} rather than any conditional-coverage
-claim. The excess-width oracle inequality (AW-4)
-and the $O(g/K)$ modulation self-inclusion deficit---one open, one quantified---are stated
-in Appendix~\ref{app:proofs}.
+\paragraph{Efficiency.} Three statements bound the price and payoff, with unequal
+epistemic status stated plainly. \emph{(AW-1, proved)} in the low-$\rho$ regime the
+deconvolution/PCB width ratio is $1-\tfrac12\rho^2+O(\rho^4)$, matching the observed
+reduction to the decimal. \emph{(AW-2, partly by construction, partly conditional)}
+the conservative branch is at least as wide as PCB---under the deployed unstudentized
+construction this dominance holds pointwise by construction, making the two branches
+nested---while its domination \emph{by} the Bonferroni envelope rests on a stated
+first-order expansion and is not separately proved. \emph{(AW-3, proved)} selection
+cannot inflate miscoverage, via the nested-band lemma and union bound of
+Theorem~\ref{thm:safe} rather than any conditional-coverage claim. The excess-width
+oracle inequality (AW-4, open) and the $O(g/K)$ modulation self-inclusion
+deficit---empirically fitted, with the scalar-invariance lemma isolating what it
+measures---are stated in Appendix~\ref{app:proofs}.

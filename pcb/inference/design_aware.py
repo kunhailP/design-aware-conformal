@@ -34,18 +34,37 @@ from .conformal_band import _modulation, isotonic_tighten
 
 
 def psu_bootstrap(psu_cnt: np.ndarray, psu_tot: np.ndarray, B: int = 200,
-                  rng=None) -> np.ndarray:
-    """With-replacement PSU bootstrap of the weighted CDF. Returns (B, T)."""
+                  rng=None, rescale: bool = False) -> np.ndarray:
+    """PSU bootstrap of the weighted CDF. Returns (B, T).
+
+    rescale=False: naive m-of-m with-replacement resampling. Known to
+        UNDERSTATE the between-PSU variance by a factor (m-1)/m per stratum
+        (severe in 2-PSU strata), and it is what produced the shipped result
+        CSVs — the direction of the bias is disclosed in the paper.
+    rescale=True: Rao–Wu–Yue rescaling bootstrap (Rao & Wu 1988; Rao, Wu &
+        Yue 1992) — draw m−1 PSUs with replacement and scale totals by
+        m/(m−1), which unbiases the with-replacement variance estimator.
+        Use this for any rerun; single-PSU strata (m=1) still carry no
+        internal variance information and must be collapsed upstream.
+    """
     if rng is None:
         rng = np.random.default_rng(0)
     m = psu_tot.shape[0]
+    if rescale:
+        if m < 2:
+            est = (psu_cnt.sum(axis=0) / psu_tot.sum(axis=0))[None, :]
+            return np.repeat(est, B, axis=0)          # no variance info: flat
+        idx = rng.integers(0, m, size=(B, m - 1))
+        f = m / (m - 1.0)
+        return (psu_cnt[idx].sum(axis=1) * f) / (psu_tot[idx].sum(axis=1) * f)[:, None]
     idx = rng.integers(0, m, size=(B, m))
     return psu_cnt[idx].sum(axis=1) / psu_tot[idx].sum(axis=1)[:, None]
 
 
-def design_sd(psu_cnt, psu_tot, B: int = 200, rng=None) -> np.ndarray:
+def design_sd(psu_cnt, psu_tot, B: int = 200, rng=None,
+              rescale: bool = False) -> np.ndarray:
     """v_g(t): design-based SD of the survey error S_g(t)."""
-    return psu_bootstrap(psu_cnt, psu_tot, B, rng).std(axis=0)
+    return psu_bootstrap(psu_cnt, psu_tot, B, rng, rescale=rescale).std(axis=0)
 
 
 def _finite_quantile(scores: np.ndarray, alpha: float) -> float:

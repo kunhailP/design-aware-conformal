@@ -5,14 +5,20 @@ reduces to clustered conformal---and the reason is instructive. Across \emph{bot
 surveys, \emph{both} estimands (attitude levels and
 wave-to-wave change), and three outcomes (trust in parliament, satisfaction with
 democracy, system support), national cross-national inference is a uniformly
-\emph{low design-noise} regime: the estimated $\rhohat\le0.20$, comfortably below the
-$\rho_0=0.47$ cutoff, because between-country variation dwarfs within-survey design
-noise (Figure~\ref{fig:rho}). Consequently the safe selector reduces to clustered
-PCB on \emph{all} real data---not by assumption but by its own low-$\rho$ gate. The
-elaborate design-aware machinery is, on real cross-national attitude data, correctly
-inactive. \begin{figure}[t]\centering
+\emph{low design-noise} regime: the estimated $\rhohat\le0.20$ (LAPOP, shown in
+Figure~\ref{fig:rho}; the ESS subgroup scan reaches at most $0.29$, reported below),
+comfortably below the $\rho_0=0.47$ cutoff, because between-country variation dwarfs
+within-survey design noise. Two directional caveats attach to every $\rhohat$ we
+report: the PSU bootstrap resamples $m$-of-$m$ without the Rao--Wu--Yue rescaling
+\citep{rao1992recent}, and single-PSU strata contribute no variance, so design
+variance---hence $\rhohat$---is biased \emph{downward} by an unquantified amount;
+the qualitative regime conclusion survives because the observed gap to $\rho_0$ is
+severalfold, but the numbers are floors, not measurements. Consequently the safe
+selector reduces to clustered PCB on \emph{all} real data---not by assumption but by
+its own low-$\rho$ gate. The elaborate design-aware machinery is, on real
+cross-national attitude data, correctly inactive. \begin{figure}[t]\centering
 \includegraphics[width=.7\textwidth]{lapop_level_vs_change_rho.png}
-\caption{Estimated design-to-transport SD ratio $\rhohat$ for the AmericasBarometer,
+\caption{Estimated design-to-total SD ratio $\rhohat$ for the AmericasBarometer,
 levels and wave-to-wave change. Every country-outcome sits well below the $\rho_0=0.47$
 cutoff: national cross-national attitude inference is a uniformly low design-noise
 regime, so the safe selector reduces to clustered PCB.}\label{fig:rho}
@@ -27,13 +33,16 @@ accident of one dataset; it is forced by two structural barriers, and we can say
 each real survey is from clearing them.
 
 \begin{proposition}[Survey-scale unreachability]\label{prop:unreach}
-The deployed selector rides the deconvolution branch only if both a \emph{need} gate
+The deployed selector activates the deconvolution branch only if both a \emph{need} gate
 $\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ hold, where
-$D=\max_t \widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Two distribution-free
-facts bound these. \emph{(a)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
+$D=\max_t \widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Two facts bound
+these, both \emph{algorithmic identities of the frozen procedure}---they hold for
+every possible dataset, not on average (Appendix~\ref{app:proofs} separates this
+deterministic statement from its kurtosis-dependent statistical interpretation).
+\emph{(a)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
 $s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$, so the need gate can fire only when the design
 noise is an appreciable fraction of the between-population signal $s_R$. \emph{(b)} Since
-$\widehat s_T\le s_{\mathrm{plug}}$, the reliability obeys
+$\widehat s_T\le s_{\mathrm{plug}}$ by construction, the reliability obeys
 $D\ge\sqrt{2/(K-1)}$; hence the reliability gate requires
 $K\ge 1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen $\tau_D=0.147$, exchangeable
 populations.
@@ -43,12 +52,17 @@ The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On t
 narrowing to the noisiest subpopulations (youth age bands) raises $\rhohat$ from $0.08$
 to at most $0.29$---still far below $\rho_0$---while $K\le33$ leaves $D\ge0.25$, so
 \emph{neither} gate opens (a scan of $42$ subpopulation cells activates deconvolution in
-none). The World Values Survey is the mirror image: with $K\approx100$ countries the
-reliability gate is \emph{feasible} for it (the floor $\sqrt{2/(K-1)}$ sits below
-$\tau_D=0.147$; four of the five items measure $D=0.139$--$0.142$ and pass, while the
-importance-of-democracy item sits at $D=0.1473$, a hair's breadth over the frozen
-threshold), but it ships no cluster identifiers, so its weights-only design noise
-gives $\rhohat_{\mathrm{LCB}}\le0.09$ and the need gate fails decisively. The survey large enough to \emph{estimate} the deconvolution has almost no
+none). The World Values Survey is the mirror image, with one denominator made
+explicit: the gate probe runs on the \emph{full item-coverage} sets ($K=95$--$105$
+country-level units per item), where the reliability gate is feasible (the floor
+$\sqrt{2/(K-1)}$ sits below $\tau_D=0.147$; four of the five items measure
+$D=0.139$--$0.142$ and pass, while the importance-of-democracy item sits at
+$D=0.1473$, a hair's breadth over the frozen threshold). The \emph{certification}
+samples of Section~\ref{sec:political}---countries with $\ge2$ waves, $K=59$--$77$
+per item---sit below $K=94$, where the floor ($0.16$--$0.19$) closes the gate
+outright. And in either denominator the WVS ships no cluster identifiers, so its
+weights-only design noise gives $\rhohat_{\mathrm{LCB}}\le0.09$---itself biased
+downward by the missing clustering---and the need gate fails decisively. The survey large enough to \emph{estimate} the deconvolution has almost no
 design noise to remove; the survey with real clustered design noise has far too few
 countries to estimate it. The two barriers are anti-correlated, and neither of the two
 largest repeated cross-national surveys clears both.
@@ -56,12 +70,14 @@ largest repeated cross-national surveys clears both.
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{unreachability.png}
 \caption{The two barriers, measured on real data. \emph{Left:} across ESS age-band
-subpopulations $\rhohat$ saturates far below $\rho_0=0.47$. \emph{Right:} the finite-$K$
+subpopulations $\rhohat$ stays far below $\rho_0=0.47$ (max $0.29$; the estimates are
+downward-biased floors, Section text). \emph{Right:} the finite-$K$
 reliability $D$ sits on its algorithmic floor $\sqrt{2/(K-1)}$ (deterministic for the
 frozen diagnostic; Proposition~\ref{prop:unreach}a); passing the
-reliability gate needs $K\ge94$, which cross-national surveys ($K\le33$ ESS,
-$\le\!105$ WVS) reach only where---as on WVS---the design noise is too small for the need
-gate.}\label{fig:unreach}
+reliability gate needs $K\ge94$, which cross-national samples reach only in the WVS
+full item-coverage sets ($K\le105$)---where the design noise is too small for the
+need gate---and never in the certification samples ($K\le33$ ESS, $59$--$77$
+WVS).}\label{fig:unreach}
 \end{figure}
 
 \paragraph{The barriers are not survey artifacts.} Both gates are distribution-free, so
@@ -70,8 +86,11 @@ the boundary transfers to any conformal procedure calibrated on estimated object
 floor and identifies the one many-area setting, with appreciable posterior uncertainty,
 where the \emph{need} gate can fire (Supplementary Material).
 
-\paragraph{The AmericasBarometer supplies the design effect the ESS lacks.} Its full
-stratified-PSU structure lets us compute a proper design bootstrap, and the design
+\paragraph{The AmericasBarometer's merged design metadata.} Its full
+stratified-PSU structure ships in one merged file (the ESS's equivalent lives in
+per-round sample-design files, integrated only from round 9---a data-handling
+constraint on our window, not an ESS limitation), letting us compute a proper design
+bootstrap, and the design
 effect is real (median $\approx1.13$--$1.20$, up to $1.9$ in the most clustered
 country-years). Yet certification is coarse-robust: the design effect moves band
 \emph{width} but rarely flips the binary decline decision, because the decision is
