@@ -1,0 +1,39 @@
+iso,country,n_items,items,group,core
+8,Albania,4,confid_parl;rej_army;rej_leader;sup_demsys,post-communist,True
+70,Bosnia and Herzegovina,3,confid_parl;rej_army;rej_leader,post-communist,True
+218,Ecuador,3,confid_parl;imp_dem;sup_demsys,Latin America & Caribbean,True
+788,Tunisia,3,imp_dem;rej_leader;sup_demsys,MENA / Arab-Spring aftermath,True
+31,Azerbaijan,2,confid_parl;sup_demsys,post-communist,True
+246,Finland,2,rej_army;rej_leader,Consolidated West,True
+288,Ghana,2,confid_parl;imp_dem,Sub-Saharan Africa,True
+368,Iraq,2,confid_parl;imp_dem,MENA / Arab-Spring aftermath,True
+422,Lebanon,2,imp_dem;rej_leader,MENA / Arab-Spring aftermath,True
+646,Rwanda,2,confid_parl;imp_dem,Sub-Saharan Africa,True
+756,Switzerland,2,rej_army;rej_leader,Consolidated West,True
+780,Trinidad and Tobago,2,rej_army;rej_leader,Latin America & Caribbean,True
+860,Uzbekistan,2,confid_parl;sup_demsys,post-communist,True
+12,Algeria,1,rej_leader,MENA / Arab-Spring aftermath,False
+112,Belarus,1,rej_army,post-communist,False
+100,Bulgaria,1,confid_parl,post-communist,False
+124,Canada,1,imp_dem,Consolidated West,False
+196,Cyprus,1,confid_parl,other,False
+203,Czechia,1,sup_demsys,post-communist,False
+818,Egypt,1,confid_parl,MENA / Arab-Spring aftermath,False
+233,Estonia,1,rej_leader,post-communist,False
+231,Ethiopia,1,sup_demsys,Sub-Saharan Africa,False
+268,Georgia,1,imp_dem,post-communist,False
+320,Guatemala,1,sup_demsys,Latin America & Caribbean,False
+344,Hong Kong SAR,1,confid_parl,Asia,False
+348,Hungary,1,confid_parl,post-communist,False
+398,Kazakhstan,1,imp_dem,post-communist,False
+434,Libya,1,confid_parl,MENA / Arab-Spring aftermath,False
+484,Mexico,1,imp_dem,Latin America & Caribbean,False
+807,North Macedonia,1,confid_parl,post-communist,False
+578,Norway,1,confid_parl,Consolidated West,False
+608,Philippines,1,imp_dem,Asia,False
+616,Poland,1,rej_leader,post-communist,False
+703,Slovakia,1,sup_demsys,post-communist,False
+710,South Africa,1,imp_dem,Sub-Saharan Africa,False
+752,Sweden,1,imp_dem,Consolidated West,False
+792,Turkey,1,imp_dem,Asia,False
+826,United Kingdom,1,confid_parl,Consolidated West,False

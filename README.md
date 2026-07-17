@@ -22,9 +22,9 @@ paper/            LaTeX source (main.tex, sections/, figures/, refs.bib)
 pcb/              method library + experiments
   inference/      clustered/population conformal, design_aware, safe selector
   simulation/ theory/ data/    generators, theory checks, survey loaders
-  experiments/    e6-e26 (design-aware arc; ESS/LAPOP/WVS) + e28, e29 (benchmarks)
+  experiments/    e6-e26 (design-aware arc; ESS/LAPOP/WVS) + e28-e30 (benchmarks, certified core)
   figures/        figure generators
-tests/            contract tests (theorem <-> code), 43 total
+tests/            contract tests (theorem <-> code), 54 total
 results/          precomputed result tables (CSV)
 docs/             preregistrations, results write-ups, proofs, data sources
 ```
@@ -33,14 +33,15 @@ docs/             preregistrations, results write-ups, proofs, data sources
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests/ -q                        # 43 contract tests (should pass)
+python -m pytest tests/ -q                        # 54 contract tests (should pass)
 # Simulation / theory — no microdata needed, run out of the box:
 python -m pcb.experiments.e28_wrong_unit_coverage   # wrong-unit coverage collapse
 python -m pcb.experiments.e29_beyond_surveys        # unreachability beyond surveys
 python -m pcb.experiments.e11_gate5c                # theorem checks
 python -m pcb.experiments.e19_selector_sweep        # selector transition
 python -m pcb.experiments.e21_safe_selector         # safe-adaptive selector grid
-python -m pcb.experiments.e22_holdout_validation    # sealed confirmatory holdout
+python -m pcb.experiments.e22_holdout_validation    # confirmatory holdout (corrected scorer)
+python -m pcb.experiments.e30_certified_core        # WVS certified core (from tracked CSV)
 ```
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.
