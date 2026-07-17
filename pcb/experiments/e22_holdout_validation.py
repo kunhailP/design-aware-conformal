@@ -19,8 +19,7 @@ import pandas as pd
 import yaml
 
 from pcb.util import det_seed
-from pcb.dapcb import dapcb, _quantiles
-from pcb.inference.conformal_band import _modulation
+from pcb.dapcb import BUDGET_DEC, dapcb, gate_b_feasible, _quantiles
 from pcb.inference.design_aware import deconv_target_scale
 
 CFG = "configs/holdout_validation.yaml"
@@ -96,16 +95,29 @@ def _gen(fam, K, L, s_R, rho, rng):
 
 
 def _one(fam, K, rho, rep, s_R, L, master):
+    """Score the band `dapcb` ACTUALLY RETURNS against the latent target.
+
+    (An earlier version of this runner rescored the branches with the S2
+    studentized quantiles — a different band from the U0 construction dapcb
+    ships — so the confirmatory holdout was certifying a band the package
+    does not deploy. Fixed: cov_safe is computed on `fit.band` verbatim, and
+    the per-branch diagnostics use the same U0/α-budget quantiles as dapcb.)
+    """
     rng = np.random.default_rng(det_seed(master, fam, K, rho, rep))
     E, V, Et = _gen(fam, K, L, s_R, rho, rng)
-    fit = dapcb(E, V, np.full(L, 0.5), tighten=False)      # deployed frozen selector
-    s = _modulation(E)
+    center = np.full(L, 0.5)
+    fit = dapcb(E, V, center, tighten=False)               # deployed frozen selector
+    # branch radii recomputed with dapcb's own U0/α-budget construction, and
+    # coverage scored in score space (the synthetic truth is not a CDF, so the
+    # deployed [0,1] clip would create artificial misses here)
     sT = deconv_target_scale(E, V)
-    qp, qd, qc = _quantiles(E, s, sT, V, 0.10)
-    cov = {"PCB": int(np.max(np.abs(Et) / s) <= qp),
+    a = 0.10
+    a_anchor = a * (1.0 - BUDGET_DEC) if gate_b_feasible(K) else a
+    qp, qd, qc = _quantiles(E, sT, V, a_anchor, a * BUDGET_DEC)
+    cov = {"PCB": int(np.max(np.abs(Et)) <= qp),
            "deconvolution": int(np.max(np.abs(Et) / sT) <= qd),
-           "conservative": int(np.max(np.abs(Et) / s) <= qc)}
-    w = {"PCB": qp * s.mean(), "deconvolution": qd * sT.mean(), "conservative": qc * s.mean()}
+           "conservative": int(np.max(np.abs(Et)) <= qc)}
+    w = {"PCB": qp, "deconvolution": qd * sT.mean(), "conservative": qc}
     br = fit.selected_branch
     return dict(family=fam, K=K, rho=rho, branch=br,
                 cov_safe=cov[br], w_safe=w[br], cov_level=fit.coverage_level,

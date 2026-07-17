@@ -5,20 +5,24 @@ The method turns that input into a band by choosing, target-blind, among three
 constructions and by never using the aggressive one unless it is provably reliable
 at the available number of countries.
 
-\paragraph{Three branches.} For calibration scores $\{\widetilde R_c\}_{c=1}^K$ over
-threshold grid $t$, with per-country design SD $\widehat v_c(t)$ from the
-stratified-PSU bootstrap and modulation scale $s(t)$:
-\emph{(i) Clustered PCB} takes the conformal quantile of the studentized observed
-scores $\max_t|\widetilde R_c(t)|/s(t)$; it is finite-sample exact for the survey
-estimate target and conservative for the latent target under a symmetric design
-law. \emph{(ii) Deconvolution} studentizes instead by the finite-$K$-safe target
-scale
+\paragraph{Three branches.} For calibration error curves $\{\widetilde E_c\}_{c=1}^K$
+over threshold grid $t$, with per-country design SD $\widehat v_c(t)$ from the
+stratified-PSU bootstrap:
+\emph{(i) Clustered PCB} takes the conformal quantile of the \emph{unstudentized}
+scores $\max_t|\widetilde E_c(t)|$ (the U0 construction of
+Theorem~\ref{thm:exact}); it is finite-sample exact for the survey-estimate target at
+any $K$, and its latent-target gap is the explicit $O(\rho)$ bound of
+Theorem~\ref{thm:oracle}(b). \emph{(ii) Deconvolution} studentizes by the
+finite-$K$-safe target scale
 $\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
 which subtracts a \emph{lower} confidence bound on the design variance so the
 correction cannot over-shrink; its width scales as $\sqrt{1-\rho^2}$ relative to
-PCB. \emph{(iii) Conservative} inflates each score by the design SD,
-$\max_t(|\widetilde R_c(t)|+z\,\widehat v_c(t))/s(t)$, giving a worst-case envelope
-that dominates PCB.
+PCB. \emph{(iii) Conservative} inflates each unstudentized score by the design SD,
+$\max_t(|\widetilde E_c(t)|+z\,\widehat v_c(t))$ --- a score that dominates the PCB
+score pointwise, so the conservative band \emph{contains} the PCB band by
+construction. This nesting is load-bearing: selection between nested bands anchored
+at an exact band is validity-free (Theorem~\ref{thm:safe}), so the selector needs no
+conditional-coverage argument.
 
 \paragraph{The three questions.} The naive selector asks only \emph{can we
 deconvolve} and \emph{do we need to}. The finite-$K$ failure of deconvolution
@@ -35,10 +39,16 @@ $\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ (remainder within budget); (C)
 $\widehat{\text{Gain}}-\Delta_g>g_{\min}$ (beats conservative by a margin); (D)
 stability. Otherwise the band is PCB when $\rhohat_{\text{LCB}}\le\rho_0$ and the
 conservative envelope when design noise is real but information insufficient. Every
-gate is a function of the calibration set only, so the selector is target-blind. All
-constants are frozen before validation (Section~\ref{sec:theory},
-Appendix~\ref{app:spec}); when deconvolution is used the reported guarantee is the
-observable $1-\alpha-\widehat\delta_{\text{UCB}}(D)$.
+gate is a function of the calibration set only, so the selector is target-blind ---
+though, by the nested-band argument of Theorem~\ref{thm:safe}, validity would survive
+even an adversarial selection between the two anchor branches. The deconvolution
+branch, which is \emph{not} nested, is charged its own miss budget
+$\alpha_{\text{dec}}=0.1\alpha$ (the anchor branches run at $0.9\alpha$), and only in
+the $K\ge94$ regime where its gate can open at all; at cross-national-survey $K$ the
+anchors keep the full $\alpha$ and the deployed guarantee is exact. All constants are
+frozen before validation (Section~\ref{sec:theory}, Appendix~\ref{app:spec}); when
+deconvolution is used the reported guarantee is the observable
+$1-\alpha-\widehat\delta_{\text{UCB}}(D)$.
 
 \begin{algorithm}[t]
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}

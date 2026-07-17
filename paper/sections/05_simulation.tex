@@ -67,24 +67,32 @@ deconvolution activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdou
 \end{figure}
 
 \begin{table}[t]\centering
-\caption{Holdout confirmatory validation of the safe selector (450 cells, 800 reps each),
-reported as produced; no constant or seed changed after seeing results. Criteria
-P1--P2 are evaluated for the \emph{studentized} base band whose finite-$K$ self-inclusion
-deficit they expose and which motivated the switch to the \emph{unstudentized} band the
-paper deploys; on a preregistered rerun that deployed band's worst cell is $0.893$
-(Supplementary Material).}\label{tab:holdout}
+\caption{Holdout validation of the safe selector (450 cells, 800 reps each). The
+\emph{sealed} run (upper rows) scored the studentized S2 base band, whose finite-$K$
+self-inclusion deficit it exposed --- the finding that motivated deploying the
+\emph{unstudentized} band instead. The \emph{corrected-scorer rerun} (lower rows)
+scores the band the package actually returns (U0 anchors with the $\alpha$-budgeted
+deconvolution branch of Theorem~\ref{thm:safe}) on the same 450-cell grid with a fresh
+seed, disclosed because the originally sealed configuration file was not preserved in
+the archive.}\label{tab:holdout}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lccl}
 \toprule
 criterion & target & result & status \\
 \midrule
+\multicolumn{4}{l}{\emph{Sealed run, S2 scorer (historical):}}\\
 P3: design-aware never causes a sub-floor cell & sub-floor $\Rightarrow$ not deconv &
 \textbf{all 12 sub-0.88 cells are PCB} & pass \\
-E1: low-$\rho$ reduces to PCB & $\le1.05\times$PCB & $1.008$ & pass \\
 E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.577$ & pass \\
-E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass \\
 P1: cells floor-compatible (95\% MC) & all 450 & $442/450$ & diagnostic\textsuperscript{$\dagger$} \\
 P2: worst-cell coverage & $\ge0.86$ & $0.843$ & diagnostic\textsuperscript{$\dagger$} \\
+\midrule
+\multicolumn{4}{l}{\emph{Corrected-scorer rerun, deployed U0/$\alpha$-budget band:}}\\
+P1: cells floor-compatible (95\% MC) & all 450 & $\mathbf{450/450}$ & pass \\
+P2: worst-cell coverage & $\ge0.86$ & $\mathbf{0.882}$ & pass \\
+E1: low-$\rho$ width vs PCB & $\le1.05\times$ & $1.005$ & pass \\
+E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.753$ & pass \\
+E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass \\
 \bottomrule
 \end{tabular}%
 }
@@ -92,15 +100,21 @@ P2: worst-cell coverage & $\ge0.86$ & $0.843$ & diagnostic\textsuperscript{$\dag
 \smallskip
 {\footnotesize \textsuperscript{$\dagger$}\,Diagnostic of the studentized base band, not
 a deployed-band failure: these cells motivated the fix. The deployed unstudentized band
-is finite-sample exact at any $K$ (Theorem~\ref{thm:exact}), worst cell $0.893$.}
+is finite-sample exact at any $K$ (Theorem~\ref{thm:exact}); under the corrected
+scorer its worst holdout cell is $0.882$ ($1.65$ MC-SE below the $0.90$ nominal, i.e.\
+binomial-noise compatible with exactness) and no cell fails the preregistered floor
+criterion.}
 \end{table}
 
-\emph{The design-aware layer behaves as designed.} All twelve cells below the $0.88$
-floor routed to base clustered PCB---the deconvolution branch never once rode into a
-floor violation. The selector reduces to PCB at low $\rho$ (width ratio $1.008$),
-activates deconvolution only at $K{=}320$ (never for $K\le160$), and there delivers a
-band $0.577\times$ the conservative width at coverage $0.897$, above its observable
-floor $0.882$.
+\emph{The design-aware layer behaves as designed.} In the sealed run all twelve cells
+below the $0.88$ floor routed to base clustered PCB---the deconvolution branch never
+once rode into a floor violation. Under the corrected scorer the deployed pipeline
+passes every criterion outright: the selector reduces to PCB at low $\rho$ (width
+ratio $1.005$), activates deconvolution only at $K{=}320$ (never for $K\le160$; $24$
+cells, up to $99\%$ of draws at the highest $\rho$), and there delivers a band
+$0.753\times$ the conservative width---wider than the sealed run's $0.577$ because
+the $\alpha_{\text{dec}}$ budget of Theorem~\ref{thm:safe} prices the branch's
+estimated-law remainder honestly---with worst $K{=}320$ cell coverage $0.900$.
 
 \emph{The holdout exposed one base-method deficit, which we then resolved.} The
 \emph{studentized} base band (in-sample pooled modulation) undercovered at small $K$

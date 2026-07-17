@@ -42,7 +42,7 @@ def clustered_quantile(scores: np.ndarray, alpha: float = 0.1) -> float:
 
 def clustered_band(E_cal: np.ndarray, countries_cal: np.ndarray,
                    centers: np.ndarray, alpha: float = 0.1,
-                   tighten: bool = True):
+                   tighten: bool = True, studentize: bool = False):
     """Bands for every round of the held-out country.
 
     E_cal    : (N, T) calibration error curves (country-rounds, target country
@@ -50,9 +50,14 @@ def clustered_band(E_cal: np.ndarray, countries_cal: np.ndarray,
     countries_cal : (N,) country label per calibration row.
     centers  : (R, T) predicted curves for the target country's R rounds.
     Returns (lo, hi) each (R, T).
+
+    The default (studentize=False) is the unstudentized U0 construction —
+    exact at any K by trajectory exchangeability. studentize=True opts into
+    the in-sample S2 modulation, which carries the finite-K self-inclusion
+    deficit documented in SMALLK_CORRECTION_PREREG.
     """
     E_cal = np.asarray(E_cal, float)
-    s = _modulation(E_cal)
+    s = _modulation(E_cal) if studentize else np.ones(E_cal.shape[1])
     _, scores = country_scores(E_cal, np.asarray(countries_cal), s)
     q = clustered_quantile(scores, alpha)
     centers = np.atleast_2d(np.asarray(centers, float))

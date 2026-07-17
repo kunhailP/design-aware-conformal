@@ -20,22 +20,28 @@ R_c \;=\; \max_{r,t}\frac{|F_{c,r}(t)-\mu_r(t)|}{\sigma(t)},
 \]
 where $\widetilde{R}_c$ is the same quantity computed from the observed $\Ftilde$ and
 $\xi_c$ is the induced design contamination. The scalar that governs the whole
-problem is the design-to-transport standard-deviation ratio
+problem is the design-to-\emph{total} standard-deviation ratio
 \[
-\rho \;=\; \frac{\text{SD}(\xi)}{\text{SD}(R)} ,
+\rho \;=\; \frac{\text{SD}(\xi)}{\text{SD}(\widetilde R)}
+\;=\;\sqrt{\frac{\overline{v^2}}{s_R^2+\overline{v^2}}}\;\in\;[0,1),
 \]
-with $\rho\to0$ the design-noise-negligible regime and $\rho$ large the regime in
-which survey noise dominates the between-country spread.
+with $\rho\to0$ the design-noise-negligible regime and $\rho\to1$ the regime in
+which survey noise dominates the between-country spread. (The generative dial in the
+simulations is the unbounded design/transport ratio $\mathrm{SD}(\xi)/\mathrm{SD}(R)$;
+all reported $\rho$ values, gates, and the $\sqrt{1-\rho^2}$ width law use the bounded
+design/total definition above.)
 
 \paragraph{Target and validity.} We want a simultaneous band $\widehat B(r,t)$ that
 covers a \emph{new} country's \emph{latent} trajectory,
 $\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\ge 1-\alpha$.
 Two facts frame everything. Ordinary clustered conformal on the observed scores is
 exact for the \emph{survey-estimate} target $\Ftilde_{\text{new}}$ (it only needs
-exchangeability of countries), and hence conservative for the latent target under a
-symmetric design law; but its width is inflated by the design noise, by a factor that
-grows with $\rho$. Correcting the width requires estimating and removing the design
-contribution---a deconvolution.
+exchangeability of countries); its coverage of the \emph{latent} target differs by an
+explicit gap that vanishes with the design-noise scale
+(Theorem~\ref{thm:oracle}(b)---symmetry of the design law alone is \emph{not} enough
+for conservativeness, so we bound the gap rather than assume its sign). Meanwhile its
+width is inflated by the design noise, by a factor that grows with $\rho$. Correcting
+the width requires estimating and removing the design contribution---a deconvolution.
 
 \paragraph{Country exchangeability.} Exchangeability of countries is our sole identifying
 assumption, and it is weaker than the i.i.d.-respondents assumption standard practice

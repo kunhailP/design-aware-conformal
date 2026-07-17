@@ -22,21 +22,22 @@ def _modulation(E: np.ndarray, floor_frac: float = 0.05) -> np.ndarray:
 
 
 def conformal_band_quantile(E: np.ndarray, alpha: float = 0.1,
-                            studentize: bool = True):
+                            studentize: bool = False):
     """Sup-type conformal quantile q̂ and per-threshold scale s(t).
 
     R_i = max_t |E_i(t)| / s(t); q̂ = ⌈(1−α)(K+1)⌉-th order stat of {R_i}.
     Returns (q̂, s). q̂ = inf when the level exceeds K (honest small-K penalty:
     the band becomes [0,1]).
 
-    studentize=True  → s(t) = in-sample pooled modulation SD_c E_c(t) (variant
-        "S2"): per-threshold-adaptive but the shared data-dependent denominator
-        breaks exchangeability with the unobserved target, giving a finite-K
-        self-inclusion coverage deficit at small K (see SMALLK_CORRECTION_PREREG).
-    studentize=False → s(t) ≡ 1 (variant "U0", the deployed default): the scores
+    studentize=False → s(t) ≡ 1 (variant "U0", the deployed DEFAULT): the scores
         depend only on their own cluster, so {R_i, R_target} are exchangeable and
         the order-statistic band is EXACT at any K —
         P(cover) ≥ ⌈(1−α)(K+1)⌉/(K+1) ≥ 1−α, distribution-free.
+    studentize=True  → s(t) = in-sample pooled modulation SD_c E_c(t) (variant
+        "S2", opt-in only): per-threshold-adaptive but the shared data-dependent
+        denominator breaks exchangeability with the unobserved target, giving a
+        finite-K self-inclusion coverage deficit at small K (quantified in
+        SMALLK_CORRECTION_PREREG; this is why U0 is the default).
     """
     E = np.asarray(E, dtype=float)
     K, T = E.shape
@@ -45,6 +46,31 @@ def conformal_band_quantile(E: np.ndarray, alpha: float = 0.1,
     idx = int(np.ceil((1 - alpha) * (K + 1)))
     q = np.inf if idx > K else float(np.sort(R)[idx - 1])
     return q, s
+
+
+def loo_deviations(F: np.ndarray) -> np.ndarray:
+    """E_c = F_c − mean_{c'≠c} F_{c'}: deployment-mode calibration deviations.
+
+    With an UNSURVEYED target the transport center must exclude the target by
+    necessity. A grand-mean center then puts each calibration unit inside its
+    own center (deviations shrunk by (K−1)/K) while the target sits outside —
+    an asymmetry that biases the conformal quantile downward (anti-conservative,
+    O(1/K)). The leave-one-out deviation removes the self-inclusion: each
+    calibration score excludes its own unit exactly as the target's score
+    excludes the target. The two pools still differ by one unit (K−1 vs K), so
+    the calibration deviations are, if anything, slightly MORE dispersed than
+    the target's — a residual O(1/K²) asymmetry in the conservative direction.
+    For strict finite-sample exactness use a fixed, own-unit (LOCF), or
+    split-fold center — the constructions Theorem 3 states; when the target IS
+    surveyed (validation mode), including it in a common grand mean restores
+    full symmetry and exactness directly.
+    """
+    F = np.asarray(F, dtype=float)
+    K = F.shape[0]
+    if K < 2:
+        raise ValueError("need at least 2 calibration units for a LOO center")
+    tot = F.sum(axis=0, keepdims=True)
+    return F - (tot - F) / (K - 1)
 
 
 def isotonic_tighten(lo: np.ndarray, hi: np.ndarray):
@@ -60,13 +86,14 @@ def isotonic_tighten(lo: np.ndarray, hi: np.ndarray):
 
 def population_conformal_band(cal_errors: np.ndarray, center: np.ndarray,
                               alpha: float = 0.1, tighten: bool = True,
-                              studentize: bool = True):
+                              studentize: bool = False):
     """Full PCB band around `center` = F̂_target(·).
 
     cal_errors : (K, T) source transport-error curves. center : (T,) target
     plug-in headcount curve. Returns (lo, hi) absolute band in [0,1]^T.
-    `studentize=False` deploys the finite-sample-exact unstudentized band (U0),
-    valid at any K (SMALLK_CORRECTION_PREREG).
+    The default (studentize=False) is the finite-sample-exact unstudentized
+    band (U0), valid at any K; `studentize=True` opts into the S2 variant,
+    which carries a finite-K self-inclusion deficit (SMALLK_CORRECTION_PREREG).
     """
     q, s = conformal_band_quantile(cal_errors, alpha, studentize=studentize)
     center = np.asarray(center, dtype=float)

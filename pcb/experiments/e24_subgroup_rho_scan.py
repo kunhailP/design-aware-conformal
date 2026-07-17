@@ -92,15 +92,29 @@ def _cells(dfg, outcome, sg, min_n):
 def _transport_EV(cells):
     """Collapse to cross-country transport errors E and design SDs V (K, len(CORE)).
 
-    Grand-mean center (target-blind); per country keep the max-|dev| round per
-    threshold — the LOCO transport construction of e16."""
+    DEPLOYMENT-mode centers: this scan feeds `dapcb` with `mu` as the center
+    for a hypothetical unsurveyed target, so each calibration country's
+    deviation must be taken against a LEAVE-ONE-OUT center (excluding its own
+    rows), mirroring how the target sits outside the calibration pool. A
+    grand-mean center here would shrink each calibration deviation by
+    (K−1)/K relative to the target's — the self-inclusion asymmetry that
+    biases the conformal quantile downward (see
+    `pcb.inference.conformal_band.loo_deviations`). Per country keep the
+    max-|dev| round per threshold — the LOCO transport construction of e16.
+    (Shipped CSVs predating this fix used the grand-mean center; the ρ/gate
+    diagnostics they report are insensitive to the O(1/K) center shift, but
+    any coverage-bearing rerun should use this construction.)"""
     countries = sorted({k[0] for k in cells})
     Fmat = {c: np.array([cells[k][0] for k in cells if k[0] == c]) for c in countries}
     Vmat = {c: np.array([cells[k][1] for k in cells if k[0] == c]) for c in countries}
-    mu = np.vstack([Fmat[c] for c in countries]).mean(0)
+    allF = np.vstack([Fmat[c] for c in countries])
+    tot, n_tot = allF.sum(0), allF.shape[0]
+    mu = tot / n_tot
     E, V = [], []
     for c in countries:
-        dev = Fmat[c] - mu[None, :]
+        n_c = Fmat[c].shape[0]
+        mu_loo = (tot - Fmat[c].sum(0)) / (n_tot - n_c)   # excludes c's own rows
+        dev = Fmat[c] - mu_loo[None, :]
         j = np.argmax(np.abs(dev), axis=0)
         E.append(dev[j, np.arange(dev.shape[1])])
         V.append(Vmat[c][j, np.arange(dev.shape[1])])

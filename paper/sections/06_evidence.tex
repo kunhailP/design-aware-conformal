@@ -43,10 +43,12 @@ The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On t
 narrowing to the noisiest subpopulations (youth age bands) raises $\rhohat$ from $0.08$
 to at most $0.29$---still far below $\rho_0$---while $K\le33$ leaves $D\ge0.25$, so
 \emph{neither} gate opens (a scan of $42$ subpopulation cells activates deconvolution in
-none). The World Values Survey is the mirror image: with $K\approx100$ countries it
-clears the reliability gate ($D\le0.147$), but it ships no cluster identifiers, so its
-weights-only design noise gives $\rhohat_{\mathrm{LCB}}\le0.09$ and the need gate fails
-decisively. The survey large enough to \emph{estimate} the deconvolution has almost no
+none). The World Values Survey is the mirror image: with $K\approx100$ countries the
+reliability gate is \emph{feasible} for it (the floor $\sqrt{2/(K-1)}$ sits below
+$\tau_D=0.147$; four of the five items measure $D=0.139$--$0.142$ and pass, while the
+importance-of-democracy item sits at $D=0.1473$, a hair's breadth over the frozen
+threshold), but it ships no cluster identifiers, so its weights-only design noise
+gives $\rhohat_{\mathrm{LCB}}\le0.09$ and the need gate fails decisively. The survey large enough to \emph{estimate} the deconvolution has almost no
 design noise to remove; the survey with real clustered design noise has far too few
 countries to estimate it. The two barriers are anti-correlated, and neither of the two
 largest repeated cross-national surveys clears both.
@@ -55,7 +57,8 @@ largest repeated cross-national surveys clears both.
 \includegraphics[width=\textwidth]{unreachability.png}
 \caption{The two barriers, measured on real data. \emph{Left:} across ESS age-band
 subpopulations $\rhohat$ saturates far below $\rho_0=0.47$. \emph{Right:} the finite-$K$
-reliability $D$ sits on its distribution-free floor $\sqrt{2/(K-1)}$; passing the
+reliability $D$ sits on its algorithmic floor $\sqrt{2/(K-1)}$ (deterministic for the
+frozen diagnostic; Proposition~\ref{prop:unreach}a); passing the
 reliability gate needs $K\ge94$, which cross-national surveys ($K\le33$ ESS,
 $\le\!105$ WVS) reach only where---as on WVS---the design noise is too small for the need
 gate.}\label{fig:unreach}

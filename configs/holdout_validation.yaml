@@ -1,0 +1,29 @@
+# Holdout validation grid — RECONSTRUCTED 2026-07-17.
+#
+# The originally sealed configs/ directory was absent from the repository (the
+# runner's hash check made this visible: no config, no manifest). This file
+# reconstructs the documented grid of docs/HOLDOUT_VALIDATION_RESULTS.md
+# (10 DGP families x K in {25,40,80,160,320} x rho in {0.10..0.90} x 800 reps
+# = 360,000 draws) with a FRESH master seed. Runs under this config therefore
+# constitute a rerun that validates the CORRECTED scorer (the band dapcb
+# actually returns, U0/alpha-budget construction) — they are not the original
+# sealed confirmatory run, and results are labeled accordingly.
+master_seed: 20260717
+s_R: 0.1
+T: 8
+rounds_dep: 2
+reps: 800
+K: [25, 40, 80, 160, 320]
+# exact rho grid recovered from results/holdout_safe_selector_cells.csv
+rho: [0.10, 0.25, 0.38, 0.43, 0.47, 0.51, 0.58, 0.72, 0.90]
+dgp_families:
+  - gaussian
+  - heavy_tail_country
+  - weak_dep_rounds
+  - strong_dep_rounds
+  - irregular_length
+  - hetero_design_var
+  - unequal_psu
+  - unequal_weights
+  - skewed_noise
+  - noise_misspec

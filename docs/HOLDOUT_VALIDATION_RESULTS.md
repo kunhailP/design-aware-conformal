@@ -75,3 +75,25 @@ Coverage by K (deployed, pooled over families and ρ): min 0.843 / 0.856 / 0.875
 0.888 / 0.879 and mean 0.932 / 0.933 / 0.939 / 0.944 / 0.930 for K = 25/40/80/160/320.
 Full cell table: `results/holdout_safe_selector.csv`; figure
 `figures/holdout_validation.png`.
+
+---
+
+## Addendum (2026-07-17): corrected-scorer rerun of the full grid
+
+A code audit found the runner above scored the PCB branch with the S2 studentized
+quantiles — a different band from the U0 construction `dapcb` ships. The runner was
+corrected to score the deployed band verbatim (U0 anchors + α-budgeted deconvolution
+branch, Theorem 5′ architecture), and the full 450-cell grid was rerun with a fresh
+seed (`configs/holdout_validation.yaml` reconstructed from this document's grid spec;
+the originally sealed configs/ directory was never committed).
+
+Results (450 cells × 800 reps):
+- worst cell coverage **0.882** (hetero_design_var, K=80, ρ=0.10) — 1.65 MC-SE below
+  nominal 0.90, binomial-compatible with exactness; **450/450 floor-compatible (P1)**
+- P2 (worst ≥ 0.86): **pass** (sealed run: 0.843, fail)
+- E1 low-ρ width vs PCB: **1.005**
+- E2 deconv/conservative width: **0.753** (wider than the sealed 0.577 because the
+  deconvolution branch now runs at its own α_dec = 0.1α budget)
+- E3: deconvolution activates **only at K=320** (24 cells, up to 99% of draws)
+- min K=320 cell coverage 0.900: the sealed run's 0.02% extreme-tail failure mode no
+  longer produces any sub-floor cell under the α-budget.

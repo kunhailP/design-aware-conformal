@@ -9,24 +9,39 @@ the replication package.
 Suppose the countries are exchangeable and the design law is known.
 \emph{(a)} The clustered band is finite-sample valid for the survey-estimate target:
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
-\emph{(b)} Under a symmetric design law it is conservative for the latent target,
-$\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha$, and the deconvolution band with the
-true target scale is valid for the latent target with width a factor
-$\sqrt{1-\rho^2}+o(1)$ of the clustered band.
+\emph{(b)} For the latent target the same band satisfies, for every $u>0$,
+$\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
+\Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$: the gap between the two targets is a
+noise-tail term plus a local anti-concentration term, both vanishing with the
+design-noise scale ($O(\rho)$ under a bounded score density near the quantile), and
+zero by inspection when the design noise is zero. Symmetric design noise alone does
+\emph{not} make the band conservative for the latent target --- a bimodal latent score
+law furnishes a counterexample (Supplementary Material, Remark on the latent-target
+bridge) --- which is why we report the observed $\rho$ that makes the gap negligible
+rather than assuming conservativeness.
+\emph{(c)} The deconvolution band with the true target scale is valid for the latent
+target with width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
 \end{theorem}
 
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
 Let the base band use the \emph{unstudentized} cluster score $R_c=\max_t|E_c(t)|$ (no
-data-dependent modulation). If the countries are exchangeable, then for \emph{every}
-$K$ the band $\widehat B=\text{center}\pm\widehat q$, with $\widehat q$ the
-$\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$, satisfies
+data-dependent modulation), with a center satisfying the symmetric-construction
+condition: fixed, split-fold, per-unit from that unit's own data (the deployed
+own-previous-round centers), or a symmetric function of all $K{+}1$ curves
+(Appendix~\ref{app:proofs} states the four cases). If the countries are exchangeable,
+then for \emph{every} $K$ the band $\widehat B=\text{center}\pm\widehat q$, with
+$\widehat q$ the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$,
+satisfies
 $\Pr(F_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
-distribution-free. In contrast, dividing $R_c$ by an in-sample modulation
-$\widehat s(t)=\mathrm{SD}_c E_c(t)$---which the unobserved target does not share---breaks
-exchangeability and induces an $O(1/K)$ self-inclusion deficit (quantified in
-Appendix~\ref{app:proofs}), so the studentized band attains $1-\alpha$ only as
-$K\to\infty$. We therefore deploy the unstudentized band; on the near-homoskedastic real
-curves its width cost is $\le5\%$.
+distribution-free. Two asymmetries are excluded by construction and quantified when
+present: dividing $R_c$ by an in-sample modulation
+$\widehat s(t)=\mathrm{SD}_c E_c(t)$---which the unobserved target does not
+share---induces an $O(g/K)$ self-inclusion deficit, and centering calibration scores
+on a grand mean that contains their own unit while the unsurveyed target sits outside
+induces an anti-conservative $O(1/K)$ bias, removed by leave-one-out centers
+(Appendix~\ref{app:proofs}). We therefore deploy the unstudentized band with symmetric
+centers; on the near-homoskedastic real curves the width cost of dropping the
+modulation is $\le5\%$.
 \end{theorem}
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
@@ -40,29 +55,43 @@ design variance, controlling the sign of the leading remainder term.
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
 \label{thm:safe}
-Let $\widehat J\in\{\text{PCB},\text{deconvolution},\text{conservative}\}$ be the
-target-blind safe selector of Algorithm~\ref{alg:safe}. Then, finite $(K,B)$,
+Deploy Algorithm~\ref{alg:safe} with unstudentized PCB and conservative branches
+(scores $\max_t|E_c(t)|$ and $\max_t(|E_c(t)|+z\widehat v_c(t))$, both at level
+$\alpha_{\text{anchor}}$) and the deconvolution branch at its own budget
+$\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=(\alpha,0)$
+when the reliability gate is infeasible at the observed $K$
+(Proposition~\ref{prop:unreach}: $K<94$, i.e.\ every cross-national survey) and
+$(0.9\alpha,0.1\alpha)$ otherwise. Then, finite-sample and with \emph{no conditions on
+the selection rule},
 \[
-\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;1-\alpha-\delta,
+\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
+1-\alpha-\varepsilon_{K,B}\,\mathbf 1\{K\ge94\},
 \]
-where $\delta=\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ on the event
-$\{\widehat J=\text{deconvolution}\}$ and $\delta=0$ otherwise; $\delta$ is
-\emph{observable} and $\delta\to0$ as $K$ grows.
+where $\varepsilon_{K,B}$ is Theorem~\ref{thm:estimated}'s estimated-law remainder,
+attached to the deconvolution branch only and reported through the observable
+diagnostic $\widehat\delta_{\text{UCB}}(D)$ when that branch fires.
 \end{theorem}
 
-The proof (Appendix~\ref{app:proofs}) is a target-blind mixture argument: because
-$\widehat J$ is calibration-measurable, coverage is a mixture over branches, each of which
-is valid at $\ge1-\alpha-\delta$ conditional on being selected.
-Theorem~\ref{thm:safe} is the guarantee a user actually deploys: the remainder
-$\delta$ is a computable function of the calibration set, is bounded by the
-preregistered budget whenever deconvolution fires, and is exactly zero on the
-overwhelmingly common low-noise data where the method reduces to PCB.
+The proof (Appendix~\ref{app:proofs}) uses no conditional-on-selection step. Its two
+ingredients are a nested-band lemma---the conservative score dominates the PCB score
+pointwise, so the two bands are nested, and \emph{any} selection between nested bands
+anchored at an exact band is validity-free---and a union bound that charges the
+non-nested deconvolution branch its own $\alpha_{\text{dec}}$ miss budget, but only in
+the $K\ge94$ regime where Proposition~\ref{prop:unreach} shows its gate can open at
+all. The gates of Algorithm~\ref{alg:safe} therefore carry no validity burden; they
+are an efficiency device choosing among individually guaranteed constructions. At
+survey scale the deployed guarantee is exact $1-\alpha$ with no remainder --- the
+guarantee a user actually deploys --- and the only remainder anywhere in the pipeline
+is confined to the many-unit regime where deconvolution can activate.
 
 \paragraph{Efficiency.} Three statements bound the price and payoff (proved in the
 supplement). \emph{(AW-1)} in the low-$\rho$ regime the deconvolution/PCB width ratio is
 $1-\tfrac12\rho^2+O(\rho^4)$, matching the observed reduction to the decimal;
 \emph{(AW-2)} the conservative branch is never wider than the Bonferroni envelope and at
-least as wide as PCB, a genuine upper band; \emph{(AW-3)} because $\widehat J$ ignores the
-target, selection cannot inflate miscoverage. The excess-width oracle inequality (AW-4)
+least as wide as PCB --- under the deployed unstudentized construction the dominance
+over PCB holds pointwise by construction, making the two branches nested;
+\emph{(AW-3)} selection cannot inflate miscoverage, now proved via the nested-band
+lemma and union bound of Theorem~\ref{thm:safe} rather than any conditional-coverage
+claim. The excess-width oracle inequality (AW-4)
 and the $O(g/K)$ modulation self-inclusion deficit---one open, one quantified---are stated
 in Appendix~\ref{app:proofs}.

@@ -70,17 +70,20 @@ def trajectory_quantile(scores: np.ndarray, alpha: float = 0.1):
     return float(np.sort(scores)[m - 1]), m, m / (K + 1)
 
 
-def trajectory_modulation(traj_cal: np.ndarray, kind: str = "pooled",
+def trajectory_modulation(traj_cal: np.ndarray, kind: str = "none",
                           floor_frac: float = 0.05) -> np.ndarray:
-    """s (L, T). `pooled` (default) estimates one s(t) from all K·L curves and
-    repeats it across slots; `per_slot` estimates s_j(t) per recency slot.
+    """s (L, T). `none` (default) is the unstudentized U0 construction, exact
+    at any K; `pooled` estimates one s(t) from all K·L curves and repeats it
+    across slots; `per_slot` estimates s_j(t) per recency slot.
 
-    Default is pooled: with K ≈ 30 countries a per-slot scale is estimated
-    from only K curves and each calibration country contributes 1/K of the
-    scale that studentises its own score — an in-sample shrinkage that the E9
-    audit measured as real undercoverage (trstprl L=4: 22/30 per-slot vs
-    27/30 pooled). The exact theorem uses a split modulation; pooled is the
-    practical variant whose in-sample bias is 4× smaller (1/(K·L)).
+    The default is U0 (`none`): every in-sample modulation puts calibration
+    data in the denominator that studentises its own score, an asymmetry with
+    the unobserved target that costs coverage at small K. With K ≈ 30
+    countries a per-slot scale is estimated from only K curves — the E9 audit
+    measured real undercoverage (trstprl L=4: 22/30 per-slot vs 27/30 pooled)
+    — and even the pooled variant carries an O(1/(K·L)) self-inclusion bias.
+    The exact theorem for a studentized band requires a split modulation;
+    `pooled`/`per_slot` remain available as opt-in sensitivity variants.
     """
     K, L, T = traj_cal.shape
     if kind == "none":                       # U0: unstudentized, exact
@@ -95,7 +98,7 @@ def trajectory_modulation(traj_cal: np.ndarray, kind: str = "pooled",
 
 def fixed_trajectory_band(traj_cal: np.ndarray, centers: np.ndarray,
                           alpha: float = 0.1, tighten: bool = True,
-                          modulation: str = "pooled"):
+                          modulation: str = "none"):
     """Band for a held-out country's L-round trajectory.
 
     traj_cal : (K, L, T) calibration trajectories (target country excluded,

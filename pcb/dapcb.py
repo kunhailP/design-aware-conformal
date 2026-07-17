@@ -16,9 +16,16 @@ Gates (all frozen on the development grid before any confirmatory validation):
   D stability   min_t (s_plug² − mean_c v²) > (0.05·max s_plug)²
 Deconvolution ⟺ A∧B∧C∧D; else ρ̂_LCB≤ρ₀ → PCB, else → conservative.
 
-Guarantee (Theorem 3′): the band covers the whole latent target curve with
-probability ≥ `coverage_level`, finite-sample; for the deconvolution branch
-`coverage_level = 1 − α − δ̂_UCB(D)` is the *observable* remainder.
+Guarantee (Theorem 5′, marginal over the whole procedure): the band covers the
+target curve with probability ≥ `coverage_level`, finite-sample. The validity
+argument uses NO conditional-on-selection step: PCB and conservative are
+unstudentized and nested, so choosing between them is validity-free (Lemma NB);
+the non-nested deconvolution branch is charged a frozen α-budget (BUDGET_DEC)
+via a union bound, and only in the regime where its gate can open at all
+(K ≥ 94, a deterministic consequence of the reliability floor). At
+cross-national-survey K the guarantee is therefore exact 1−α with no remainder;
+when the deconvolution budget is live, `coverage_level = 1 − α − δ̂_UCB(D)`
+reports its estimated-law remainder through the observable diagnostic.
 
 Quickstart
 ----------
@@ -44,6 +51,9 @@ DUCB_A, DUCB_B = 0.0061, 0.0943   # gate B: δ̂_UCB(D) = a + b·D
 G_MIN = 0.10               # gate C: minimum width gain over conservative
 GAIN_MARGIN = 0.05         # gate C: frozen conservative LCB margin (≥1.645·dev SE 0.028)
 Z = 1.6448536              # α/2 budget split in the conservative envelope
+BUDGET_DEC = 0.10          # fraction of α reserved for the (non-nested)
+                           # deconvolution branch when gate B is feasible (K≥94);
+                           # below that K the anchor branches keep the full α
 
 
 def delta_ucb(D: float) -> float:
@@ -81,12 +91,38 @@ class DapcbResult:
         return r + ")"
 
 
-def _quantiles(E, s, sT, V, alpha):
-    """Conformal max-score quantiles for PCB, safe-deconvolution, conservative."""
-    q_pcb = _finite_quantile(np.max(np.abs(E) / s[None], 1), alpha)
-    q_dec = _finite_quantile(np.max(np.abs(E) / np.sqrt(sT[None]**2 + V**2), 1), alpha)
-    q_con = _finite_quantile(np.max((np.abs(E) + Z * V) / s[None], 1), alpha)
+def _quantiles(E, sT, V, alpha_anchor, alpha_dec):
+    """Conformal max-score quantiles for PCB, safe-deconvolution, conservative.
+
+    PCB and conservative use UNSTUDENTIZED scores (U0 construction): each score
+    depends only on its own cluster's data, so the K+1 scores are exchangeable
+    and the order-statistic band is exact at any K. Because the conservative
+    score max_t(|E_c|+z·v_c) dominates the PCB score max_t|E_c| pointwise, the
+    two bands are NESTED (B_PCB ⊆ B_con) at the same level — which makes any
+    data-dependent choice between them validity-free (Lemma NB in the paper:
+    selecting the wider of two nested bands, by any rule, cannot reduce the
+    coverage of the narrower band's guarantee). The deconvolution branch keeps
+    its studentized construction and is calibrated at its own budget alpha_dec.
+    """
+    q_pcb = _finite_quantile(np.max(np.abs(E), 1), alpha_anchor)
+    q_dec = _finite_quantile(np.max(np.abs(E) / np.sqrt(sT[None]**2 + V**2), 1),
+                             alpha_dec)
+    q_con = _finite_quantile(np.max(np.abs(E) + Z * V, 1), alpha_anchor)
     return q_pcb, q_dec, q_con
+
+
+def gate_b_feasible(K: int) -> bool:
+    """Whether gate B can open at all at this K — a deterministic fact.
+
+    The reliability diagnostic obeys D ≥ √(2/(K−1)) BY CONSTRUCTION of the
+    frozen SE formula (ŝ_T ≤ s_plug and the 2s⁴/(K−1) term), so
+    δ̂_UCB(D) ≥ δ̂_UCB(√(2/(K−1))). If that already exceeds δ_max, no data can
+    open gate B (Proposition 1's algorithmic floor: K ≥ 94 at the frozen
+    constants). In that regime the deconvolution branch is unreachable and the
+    deployed guarantee needs no α-budget for it.
+    """
+    floor = float(np.sqrt(2.0 / max(K - 1, 1)))
+    return delta_ucb(floor) <= DELTA_MAX
 
 
 def _gain_lcb(r_dec, r_con):
@@ -125,30 +161,42 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
     center = np.asarray(center, float)
     if E.ndim != 2 or V.shape != E.shape:
         raise ValueError("cal_errors and v_cal must be (K, T) with equal shape")
-    s = _modulation(E)
+    K = E.shape[0]
+    s = _modulation(E)                # diagnostics + deconvolution scale only
     sT = deconv_target_scale(E, V)
-    q_pcb, q_dec, q_con = _quantiles(E, s, sT, V, alpha)
-    # base band is the UNSTUDENTIZED clustered conformal band (U0): finite-sample
-    # exact at any K by exchangeability, P(cover) ≥ ⌈(1−α)(K+1)⌉/(K+1) ≥ 1−α — the
-    # deployed base after the studentized S2 band was found to undercover at small K
-    # (SMALLK_CORRECTION_PREREG / _RESULTS, validated in e25). The deconvolution and
-    # conservative branches (never reached on real cross-national data, E24) keep
-    # their studentized construction as validated in the frozen holdout.
-    q_pcb_u0 = _finite_quantile(np.max(np.abs(E), axis=1), alpha)
-    r_pcb = np.full_like(s, q_pcb_u0)
-    r_dec, r_con = q_dec * sT, q_con * s
+
+    # Validity architecture (Theorem 5′, no conditional-coverage step):
+    #  * PCB and conservative are UNSTUDENTIZED (U0) and NESTED
+    #    (B_PCB ⊆ B_con at the same level), so any target-blind choice between
+    #    them inherits the PCB anchor's exact guarantee for free (Lemma NB) —
+    #    P(miss) = P(miss ∧ J=PCB) + P(miss ∧ J=con) ≤ P(miss_PCB) ≤ α_anchor.
+    #  * The deconvolution branch is NOT nested (it is narrower), so it gets
+    #    its own miss budget via a union bound — but only in the regime where
+    #    gate B can open at all (K ≥ 94, `gate_b_feasible`, a deterministic
+    #    fact). At cross-national-survey K the branch is unreachable and the
+    #    anchor keeps the FULL α: the deployed guarantee is exact with no
+    #    remainder and no selection conditions.
+    feasible = gate_b_feasible(K)
+    a_anchor = alpha * (1.0 - BUDGET_DEC) if feasible else alpha
+    a_dec = alpha * BUDGET_DEC
+    q_pcb, q_dec, q_con = _quantiles(E, sT, V, a_anchor, a_dec)
+    r_pcb = np.full(E.shape[1], q_pcb)
+    r_con = np.full(E.shape[1], q_con)
+    r_dec = q_dec * sT
     rl = rho_lcb(E, V)
     D = deconv_reliability(E, V)
     d_ucb = delta_ucb(D)
     stable = bool((s**2 - (V**2).mean(0) > (0.05 * s.max())**2).all())
 
-    # nominal-safe selector (target-blind): A ∧ B ∧ C ∧ D → deconvolution
+    # branch choice (target-blind; affects width, not validity): A ∧ B ∧ C ∧ D
+    # → deconvolution, else PCB when design noise is negligible, else the
+    # conservative envelope.
     reason, gain_lcb = "", float("nan")
     if rl <= RHO0:                                        # gate A fails: no need
-        branch, radius, cov = "PCB", r_pcb, 1 - alpha
+        branch, radius = "PCB", r_pcb
         reason = "design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB"
     else:
-        gate_b = d_ucb <= DELTA_MAX
+        gate_b = feasible and (d_ucb <= DELTA_MAX)
         gate_d = stable
         if gate_b and gate_d:
             gain_lcb = _gain_lcb(r_dec, r_con)
@@ -156,13 +204,18 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
         else:
             gate_c = False
         if gate_b and gate_d and gate_c:
-            branch, radius, cov = "deconvolution", r_dec, 1 - alpha - d_ucb
+            branch, radius = "deconvolution", r_dec
         else:
-            branch, radius, cov = "conservative", r_con, 1 - alpha
+            branch, radius = "conservative", r_con
             reason = ("finite-K remainder too large (δ̂_UCB > δ_max)" if not gate_b
                       else "deconvolution unstable" if not gate_d
                       else "width gain insufficient (Ĝain_LCB ≤ g_min)"
                       ) + " → conservative fallback"
+    # Marginal guarantee of the WHOLE procedure (not per realized branch):
+    # exact 1−α when the deconvolution branch is unreachable; 1−α−δ̂ once the
+    # α-budget exposes the estimated-law branch (its Theorem-4 remainder,
+    # reported via the observable δ̂_UCB diagnostic).
+    cov = 1 - alpha - (d_ucb if feasible else 0.0)
 
     lo, hi = center - radius, center + radius
     if tighten:

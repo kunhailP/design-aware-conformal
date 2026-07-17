@@ -40,7 +40,9 @@ def test_da_studentized_reduces_to_pcb_when_designs_are_noiseless():
     rng = np.random.default_rng(3)
     E = rng.normal(0, 0.05, size=(40, T_GRID))
     center = np.linspace(0.1, 0.9, T_GRID)
-    lo0, hi0 = population_conformal_band(E, center, 0.1)
+    # the DA variant is studentized by construction, so the zero-noise
+    # reduction is to the S2 (studentized) PCB, not the U0 deployed default
+    lo0, hi0 = population_conformal_band(E, center, 0.1, studentize=True)
     lo1, hi1 = da_studentized_band(E, np.zeros_like(E), center, None, 0.1)
     assert np.allclose(lo0, lo1) and np.allclose(hi0, hi1)
 
@@ -55,7 +57,10 @@ def test_da_worstcase_is_never_narrower_than_plugin():
     lo_d = np.array([np.quantile(b, 0.05, axis=0) for b in boots])
     hi_d = np.array([np.quantile(b, 0.95, axis=0) for b in boots])
     c = h["theta_hat"][-1]
-    lo_p, hi_p = population_conformal_band(E, c, 0.1, tighten=False)
+    # both bands here are S2-studentized constructions; the dominance claim
+    # (worst-case ⊇ plug-in) is within that pair
+    lo_p, hi_p = population_conformal_band(E, c, 0.1, tighten=False,
+                                           studentize=True)
     lo_w, hi_w = da_worstcase_band(E, h["theta_hat"][:-1], lo_d, hi_d, c, 0.1,
                                    tighten=False)
     assert np.all(hi_w - lo_w >= hi_p - lo_p - 1e-12)

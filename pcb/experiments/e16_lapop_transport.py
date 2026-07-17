@@ -87,12 +87,24 @@ def _country_traj(cells):
 
 
 def _E_V(countries, Fmat, Vmat, mu, target):
-    """(K-1, Tc) transport errors E and design SDs V over source countries."""
+    """(K-1, Tc) transport errors E and design SDs V over source countries.
+
+    NOTE on the center: `mu` is the grand mean over ALL country-rounds
+    including the target's. In this VALIDATION construction (surveyed target,
+    scored against the same `mu` in the caller) the center is a symmetric
+    function of all units, so exchangeability is preserved. This is NOT the
+    deployment construction: for an unsurveyed target the center cannot
+    include the target, and a calibration-only grand mean would put each
+    calibration country inside its own center while the target sits outside —
+    use `pcb.inference.conformal_band.loo_deviations` (leave-one-out centers)
+    there instead. The previous comment here ("target-blind; ~mu^{-c}") was
+    wrong on both counts.
+    """
     E, V = [], []
     for c in countries:
         if c == target:
             continue
-        muc = mu  # grand mean center (target-blind; ~mu^{-c}, K large)
+        muc = mu
         dev = Fmat[c] - muc[None, :]                 # (rounds, Tc)
         j = np.argmax(np.abs(dev), axis=0)           # max-|dev| round per t
         E.append(dev[j, np.arange(dev.shape[1])])
