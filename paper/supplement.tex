@@ -115,7 +115,9 @@ $O(\rho)$ under a bounded density of $\widetilde R$ near its upper quantile).
 Equivalently, the \emph{noise-inflated} band with radius $\widehat q+u$ covers the
 latent target at level $1-\alpha-\Pr(|\xi_{K+1}|>u)$ with no anti-concentration
 condition. (c)~The oracle deconvolution band with the true target scale has width a
-factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
+factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band, and under the scale-family
+assumption (A1) of Theorem~4$'$ it is finite-sample \emph{exact} for the latent
+target (Theorem~4$'$(i)).
 
 \begin{proof}
 (a)~By exchangeability of $\{\widetilde R_c\}_{c=1}^{K+1}$ the rank of
@@ -214,27 +216,118 @@ not derived, and is flagged as such. Pooled modulation ($g=1$) is safe; slotwise
 undercovers by $\approx0.382\,L/K$. This $O(g/K)$ deficit is why the deployed band is
 unstudentized.
 
-\subsection{Theorem~4 (estimated-law validity)}
+\begin{lemma}[Scalar-modulation invariance]\label{lem:scalar}
+If the modulation is a single in-sample \emph{scalar} $\widehat s$ (the same number at
+every threshold and slot), the studentized band is \emph{identical} to the
+unstudentized band, hence exact at any $K$: the scores are
+$\max_t|E_c(t)|/\widehat s$, their $m$-th order statistic is $M_{(m)}/\widehat s$ with
+$M_{(m)}$ the unstudentized order statistic, and the band radius
+$\widehat q\cdot\widehat s=M_{(m)}$ --- the data-dependent scalar cancels
+identically. Self-inclusion deficits therefore arise \emph{only} from non-constant
+modulation profiles $\widehat s(t)$, whose \emph{shape} (not level) is what the
+unobserved target fails to share. This sharpens the note above: the $O(g/K)$ penalty
+is the price of profile estimation, and the deployed U0 band gives up only the
+profile adaptivity --- the level normalization was free all along.
+\end{lemma}
 
-\emph{Statement.} With the design law estimated from a size-$B$ stratified-PSU bootstrap
-and $K$ countries, the deconvolution band satisfies
-$\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\varepsilon_{K,B}$, where
-$\varepsilon_{K,B}=O(K^{-1/2})+O(B^{-1/2})\to0$.
+\subsection{Theorem~4$'$ (estimated-law validity, with explicit assumptions)}
 
-\begin{proof}[Proof sketch]
-By the law of total variance $\operatorname{Var}(\widetilde R)=\operatorname{Var}(R)+
-\mathbb E[v^2]$ under conditional mean-zero noise; subtracting a consistent estimate
-$\overline{\widehat v^2}$ identifies $s_R^2$, and the deconvolved scale
-$\widehat s_T^2=\max(s_{\text{plug}}^2-\overline{\widehat v^2},\ \text{floor})$---in the
-deployed finite-$K$-safe form, with a \emph{lower} confidence bound subtracted so the
-correction cannot over-shrink---recovers the target scale. The remainder decomposes as
-(i)~$O(B^{-1/2})$ Monte-Carlo error in $\widehat v^2$, (ii)~$O(K^{-1/2})$ finite-$K$
-quantile and variance estimation, and (iii)~a higher-order Gaussian-shape term; each
-$\to0$ and none is claimed exact. When $\overline{\widehat v^2}\ge s_{\text{plug}}^2$
-(design noise $\gtrsim$ transport signal, $\rho\gtrsim1$) the scale hits the floor and the
-selector hands off to the conservative branch. This is a proof sketch: the constants in
-$\varepsilon_{K,B}$ are order-of-magnitude, not tight.
+The earlier draft stated this result as an order-of-magnitude proof sketch. The
+version below is a theorem: the price is three explicit assumptions, and the reward is
+that the oracle case becomes \emph{exact} and the estimated case carries a proved,
+one-sided remainder. The assumptions are not decorative --- the bimodal counterexample
+of Remark~\ref{rem:bimodal} shows that \emph{some} shape restriction is necessary for
+any latent-target claim, and (A1) is exactly the restriction under which the
+deconvolution's distributional matching is an identity rather than an approximation.
+
+\emph{Assumptions.}
+\emph{(A1, scale family.)} There exist i.i.d.\ random curves $W_1,\dots,W_{K+1}$ and
+deterministic-given-design scales such that the observed calibration curves satisfy
+$\widetilde E_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$ and the latent target curve
+satisfies $E_{K+1}(t)=s_R(t)\,W_{K+1}(t)$. (Gaussian curves with a common correlation
+profile and unit-specific design variances satisfy this; bimodal mixtures of
+Remark~\ref{rem:bimodal} do not.)
+\emph{(A2, anti-concentration.)} $M:=\max_t|W(t)|$ has a density bounded by $L$ on a
+neighborhood of its $(1-\alpha_{\text{dec}})$ quantile $q^*$.
+\emph{(A3, moments and bootstrap.)} The scores have finite fourth moment (kurtosis
+$\kappa$), and the size-$B$ design bootstrap is unbiased for $v_c^2(t)$ with relative
+variance $\le c_v/B$.
+
+\emph{Statement.} Under (A1)--(A3), the always-deconvolve band --- radius
+$\widehat q\cdot\widehat s_T(t)$ with $\widehat q$ the
+$\lceil(1-\alpha_{\text{dec}})(K{+}1)\rceil$-th order statistic of the studentized
+scores $\max_t|\widetilde E_c(t)|/\sqrt{\widehat s_T(t)^2+\widehat v_c(t)^2}$ ---
+satisfies: (i)~with \emph{oracle} scales ($\widehat s_T=s_R$, $\widehat v_c=v_c$) it is
+finite-sample \emph{exact} for the latent target at every $K$; (ii)~with estimated
+scales,
+\[
+\Pr\big(F_{\text{new}}\in\widehat B\big)\;\ge\;1-\alpha_{\text{dec}}
+-\underbrace{2Lq^*\,\delta_{K,B}}_{\text{scale error}}
+-\underbrace{\eta_{K,B}}_{\text{tail event}}
+-\underbrace{r_K}_{\text{order-stat}},
+\qquad
+\delta_{K,B}=C_1\sqrt{\tfrac{\kappa-1+z^2}{K}}+C_2\sqrt{\tfrac{c_v\log(KT)}{B}},
+\]
+with $\eta_{K,B},r_K=O(K^{-1/2})$ explicit from Chebyshev and order-statistic
+concentration, so $\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
+$\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-safe guard makes the scale-error
+term one-sided: except on an event of probability $\le\alpha_2$ (the guard's budget),
+$\widehat s_T\le$ the oracle-consistent scale, so the band errs wide, not narrow.
+
+\begin{proof}
+\emph{(i)} Under (A1) with oracle scales the studentized calibration scores are
+$\max_t|\widetilde E_c|/\sqrt{s_R^2+v_c^2}=\max_t|W_c|=M_c$, i.i.d., and the target's
+studentized score is $\max_t|E_{K+1}|/s_R=M_{K+1}$, an independent copy. The $K{+}1$
+scores are exchangeable, the rank of $M_{K+1}$ is uniform, and the order-statistic
+band is exact --- the argument of Theorem~3 verbatim. (This also proves the oracle
+clause of Theorem~2(c).)
+
+\emph{(ii)} Define the multiplicative perturbations
+$\Delta_c(t)=\sqrt{\widehat s_T^2+\widehat v_c^2}\big/\sqrt{s_R^2+v_c^2}-1$ and
+$\Delta_0(t)=\widehat s_T(t)/s_R(t)-1$, and $\delta^*=\max\big(\max_{c,t}|\Delta_c(t)|,
+\max_t|\Delta_0(t)|\big)$. On $\{\delta^*\le\delta\}$ every studentized calibration
+score is sandwiched, $M_c/(1+\delta)\le\widehat S_c\le M_c/(1-\delta)$ (a uniform
+multiplicative bound on the denominator survives the $\max_t$), hence
+$\widehat q\ge M_{(m)}/(1+\delta)$; and the target's statistic
+$\max_t s_RW_{K+1}/\widehat s_T\le M_{K+1}/(1-\delta)$. A miss therefore implies
+$M_{K+1}>M_{(m)}\,(1-\delta)/(1+\delta)\ge M_{(m)}(1-2\delta)$, so
+\[
+\Pr(\text{miss})\;\le\;\underbrace{\Pr\big(M_{K+1}>M_{(m)}\big)}_{\le\,\alpha_{\text{dec}}
+\text{ (exchangeable ranks)}}
++\ \Pr\big(M_{K+1}\in(M_{(m)}(1-2\delta),\,M_{(m)}]\big)\;+\;\Pr(\delta^*>\delta).
+\]
+For the middle term, $M_{(m)}$ concentrates on $q^*$ at rate $r_K=O(K^{-1/2})$
+(binomial concentration of the empirical CDF at $q^*$ together with (A2)); on that
+event the interval has length $\le2\delta q^*(1+o(1))$ and (A2) bounds its probability
+by $2Lq^*\delta+o(\delta)$. For the last term, decompose
+$\delta^*$ into (a)~the variance-estimation error of $s_{\text{plug}}^2$, which has
+relative standard error $\le\sqrt{(\kappa-1)/K}$ by the fourth-moment bound; (b)~the
+guard subtraction, whose own standard error contributes the $z$-term; and (c)~the
+bootstrap error $\max_{c,t}|\widehat v_c^2-v_c^2|/s^2$, bounded by
+$\sqrt{c_v\log(KT)/B}$ via Chebyshev and a union bound over the $KT$ cells. Choosing
+$\delta=\delta_{K,B}$ makes $\Pr(\delta^*>\delta_{K,B})\le\eta_{K,B}=O(K^{-1/2})$.
+
+\emph{(iii)} The deployed scale subtracts $[\,\overline{\widehat v^2}-z\,\SE\,]_+$, a
+lower confidence bound at level $\alpha_2=\Phi(-z)$: on its coverage event (probability
+$\ge1-\alpha_2$) the subtracted amount does not exceed the true design variance, so
+$\widehat s_T^2\ge s_{\text{plug},0}^2-\overline{v^2}$ errs on the wide side of the
+oracle scale and the corresponding half of the $\Delta_0$ perturbation can only
+\emph{increase} coverage. The two-sided bound of (ii) therefore holds with its
+scale-error term effectively one-sided outside an $\alpha_2$-event.
 \end{proof}
+
+\begin{remark}[What (A1) rules out, and why that is the right boundary]
+(A1) is a distributional-matching condition: the observed and latent scores must sit
+in a common scale family indexed by the design variance. Remark~\ref{rem:bimodal}'s
+bimodal construction violates it and defeats \emph{any} latent-target band built on
+observed scores, so a condition of this type is not an artifact of our proof but a
+feature of the problem. When (A1) is doubtful the pipeline does not rely on it:
+gate~D (stability) and the conservative fallback do not use (A1), and at survey scale
+Theorem~5$'$'s guarantee bypasses this theorem entirely. Machine check:
+\texttt{test\_estimated\_law\_validity.py} verifies (i)-type exactness and the
+$K$/$B$ decay of the remainder on a scale-family DGP, and the bimodal DGP's exclusion
+is verified by \texttt{test\_latent\_target\_bridge.py}.
+\end{remark}
 
 \subsection{Theorem~5$'$ (safe-adaptive finite-$K$ validity---the deployed pipeline)}
 

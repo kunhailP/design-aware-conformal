@@ -45,12 +45,21 @@ modulation is $\le5\%$.
 \end{theorem}
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
-With the design law estimated from a size-$B$ stratified-PSU bootstrap and $K$
-countries, the deconvolution band satisfies
-$\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$, where
-$\varepsilon_{K,B}=O(K^{-1/2})+O(B^{-1/2})\to0$. The finite-$K$-safe scale
+Assume the observed and latent score curves sit in a common scale family indexed by
+the design variance (A1), the sup-score law satisfies an anti-concentration bound
+near its upper quantile (A2), and fourth moments and an unbiased size-$B$ design
+bootstrap exist (A3) --- Appendix~\ref{app:proofs} states all three precisely.
+Then \emph{(i)} with oracle scales the deconvolution band is finite-sample
+\emph{exact} for the latent target at every $K$, and \emph{(ii)} with estimated
+scales it satisfies
+$\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
+$\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$, proved by a sandwich and
+concentration argument with explicit constants. The finite-$K$-safe scale
 $\widehat s_T^2$ (Section~\ref{sec:method}) subtracts a lower confidence bound on the
-design variance, controlling the sign of the leading remainder term.
+design variance, making the scale-error term one-sided (wide, not narrow) outside an
+$\alpha_2$-probability event. Assumption (A1) is not removable: the bimodal
+counterexample of Theorem~\ref{thm:oracle}(b) defeats any latent-target band without
+a shape restriction of this type.
 \end{theorem}
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
