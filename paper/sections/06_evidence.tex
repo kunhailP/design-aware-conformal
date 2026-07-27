@@ -65,6 +65,44 @@ unit it is available and not yet worth taking; and the crossing is where a
 survey's own design noise finally rivals the between-population signal it is
 calibrated against.
 
+\paragraph{The unit is a design parameter with an optimum.} The same two
+quantities that open and close the gates also set the band's width, and they
+pull against each other. Write the deployed half-width at unit size $n$ as
+$W(n)=q_{1-\alpha}\!\big(K(n)\big)\,s_{\text{total}}(n)$ with
+$s_{\text{total}}^2=s_R^2(n)+\overline{v^2}(n)$ and $\overline{v^2}(n)\propto1/n$.
+
+\begin{proposition}[An interior optimal unit]\label{prop:optunit}
+Suppose (i) the conformal factor $q_{1-\alpha}(K)$ is infinite for
+$K<\alpha^{-1}-1$ and strictly decreasing in $K$ thereafter; (ii) the per-unit
+design variance $\overline{v^2}(n)$ is strictly decreasing in $n$; and (iii)
+$s_R^2(n)$ is bounded. Then $W(n)=\infty$ for every unit coarse enough that
+$K(n)<\alpha^{-1}-1$, and $W$ is eventually increasing as $n\to1$ whenever the
+marginal growth of $\overline{v^2}$ exceeds the marginal gain in
+$q_{1-\alpha}$. Under (i)--(iii) a minimizing unit size exists in the interior.
+\end{proposition}
+
+\noindent Coarse units are not merely inefficient---below $K=\alpha^{-1}-1$ the
+conformal level is infeasible and the band is $[0,1]$ at any width---and fine
+units pay design noise. On the ESS the minimum sits at regions of $\ge150$
+respondents ($K\approx116$), where the half-width is $0.138$: $1.5\times$
+narrower than at the finest unit tried ($K\approx319$) and finite where the
+coarsest is not (\texttt{e51}). One caveat travels with the empirical location:
+changing the size threshold changes which regions qualify, so the sweep mixes
+refinement with selection on region size; the mechanism is separable---$q(K)$
+exploding at small $K$, $\overline{v^2}$ growing at small $n$---but the ESS
+minimum is specific to this pool. The country, the default unit of the
+cross-national literature, sits far to the coarse side of it.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{optimal_unit.pdf}
+\caption{The exchangeable unit is a design parameter (ESS regions, trust in
+parliament; medians over rounds 9--11). \emph{Left:} the deployed half-width
+against unit size, infinite where the conformal level is infeasible and minimized
+at regions of $\ge150$ respondents. \emph{Right:} its two factors---the
+standardized conformal factor, which explodes as $K$ falls, and the total scale,
+which grows as units refine.}\label{fig:optunit}
+\end{figure}
+
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{unit_frontier.pdf}
 \caption{Refining the unit relieves both barriers (ESS regions, rounds 9--11;

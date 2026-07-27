@@ -302,6 +302,20 @@ def test_unit_frontier_gates():
     _present("$13.9\\%$ narrower", "in one of the three rounds")
 
 
+def test_optimal_unit_has_an_interior_minimum():
+    d = _csv("optimal_unit.csv")
+    g = d.groupby("min_n").halfwidth.median()
+    fin = g[np.isfinite(g)]
+    best = fin.idxmin()
+    assert best == 150, best
+    assert round(float(fin.loc[best]), 3) == 0.138
+    # coarse end infeasible, fine end strictly worse
+    assert not np.isfinite(g.loc[g.index.max()])
+    assert float(fin.loc[fin.index.min()]) / float(fin.loc[best]) > 1.4
+    assert int(d[d.min_n == 150].K.median()) == 116
+    _present("regions of $\\ge150$", "$1.5\\times$")
+
+
 # ------------------------------------------------------------ no stale text --
 def test_no_stale_pre_joint_counts():
     """The joint construction changed the span count; nothing may still say nine."""
