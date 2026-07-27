@@ -30,6 +30,14 @@ covered surface is true simultaneously:
     selection cost -- because {theta in B} implies theta in A_j for every j in J
     by set inclusion, and the coverage event is a single event.
 
+    Two scope limits follow and are easy to lose. The alpha is spent PER BAND,
+    so a study covering many countries spends one alpha per country and the
+    counts across countries carry no familywise control unless one is added.
+    And `frac_spans_declining` is a LOWER BOUND on the true share, not an
+    estimate; because the shared critical value grows with the length of a
+    country's record while the denominator grows quadratically, the share is
+    comparable within a country and not across.
+
 So: the pairwise claims, the persistent claim, the net span, every sub-span, both
 directions, and the endpoint-robustness statement are all read off one band at
 one level. The sub-span fraction stops being a robustness sweep and becomes a
@@ -87,8 +95,9 @@ def certify_claim_family(curves: np.ndarray, boots: np.ndarray,
     spans = list(combinations(range(L), 2))
     if not spans:
         return dict(c=np.nan, lower={}, upper={}, declines=set(), rises=set(),
-                    net=False, persistent=False, any_pair=False, n_spans=0,
-                    frac_spans_declining=np.nan)
+                    net=False, persistent=False, any_pair=False, episodic=False,
+                    n_spans=0, n_declining=0, n_rising=0,
+                    frac_spans_declining=np.nan, net_lower=np.nan)
 
     # the family of contrasts, and its bootstrap replicates
     dh = np.stack([curves[b, core] - curves[a, core] for a, b in spans])      # (S, |core|)
@@ -102,11 +111,17 @@ def certify_claim_family(curves: np.ndarray, boots: np.ndarray,
     c = float(np.quantile(stat, 1 - alpha))
 
     lo = dh - c * sd                       # certified decline bound per span
-    hi = -dh - c * sd                      # certified rise bound per span
     lower = {s: float(lo[i].min()) for i, s in enumerate(spans)}
-    upper = {s: float(hi[i].min()) for i, s in enumerate(spans)}
     declines = {s for s in spans if lower[s] > 0}
-    rises = {s for s in spans if upper[s] > 0}
+    if two_sided:
+        hi = -dh - c * sd                  # certified rise bound per span
+        upper = {s: float(hi[i].min()) for i, s in enumerate(spans)}
+        rises = {s for s in spans if upper[s] > 0}
+        episodic = bool(declines and rises)
+    else:
+        # c controls only sup (db - dh)/sd, so the reverse direction carries no
+        # guarantee here: return nothing rather than an uncalibrated object.
+        upper = rises = episodic = None
 
     adjacent = [(i, i + 1) for i in range(L - 1)]
     return dict(
@@ -114,8 +129,9 @@ def certify_claim_family(curves: np.ndarray, boots: np.ndarray,
         net=(0, L - 1) in declines,
         persistent=bool(adjacent) and all(p in declines for p in adjacent),
         any_pair=any(p in declines for p in adjacent),
-        episodic=bool(declines and rises),
+        episodic=episodic,
         n_spans=len(spans),
-        n_declining=len(declines), n_rising=len(rises),
+        n_declining=len(declines),
+        n_rising=(len(rises) if rises is not None else None),
         frac_spans_declining=len(declines) / len(spans),
         net_lower=lower[(0, L - 1)])

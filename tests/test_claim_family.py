@@ -1,93 +1,134 @@
 """Contract tests for the claim-family transfer construction.
 
-The theorem being pinned: a single simultaneous band over a country's contrast
-family certifies every derivable ordering claim on ONE coverage event, so the
-joint statement costs one alpha in total regardless of how many claims are read
-off it -- no Bonferroni across sub-spans, no separate budget for the reverse
-direction, and no endpoint-selection cost, because every endpoint choice is
-certified at the same time.
+An earlier version of this file passed four tests that pinned nothing: three
+were algebraic identities of the implementation (declines and rises cannot both
+certify because the two conditions contradict for sd>0; a two-sided critical
+value exceeds a one-sided one because max|x| >= max x; the "rungs" restate the
+return dict), and the fourth had no power at all -- under its fixture the
+certification rate was 0.000 against an assert bound of 0.145, so it could not
+have failed had the procedure been an order of magnitude anti-conservative.
 
-Three checks:
-  1. joint validity -- the probability that ANY certified claim is false is at
-     most alpha, over a null-imposed simulation with a known truth;
-  2. the transfer property itself -- certification is monotone under set
-     inclusion, so a claim implied by a certified claim is certified;
-  3. two-sidedness -- declines and rises cannot both be certified for the same
-     span, and the shared critical value dominates the one-sided one.
+The object the proposition actually needs is the band's own coverage,
+Pr(theta in B) >= 1 - alpha, at the dimension the deployed construction uses:
+the sup runs over L(L-1)/2 contrasts times the core, which is 220 coordinates at
+L=11. That is what these tests measure, under correlated and non-Gaussian errors
+and with the bootstrap drawn by resampling rather than from the true law, plus a
+partial-null case where selection can actually bite.
 """
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from pcb.inference.claim_family import certify_claim_family
 
 ALPHA = 0.10
-L, T, B = 5, 6, 600
+T = 6
 CORE = np.array([False, True, True, True, True, False])
+B = 800
 
 
-def _draw(rng, truth, sd):
-    """Curves + bootstrap under a known truth, with correlated design noise."""
-    err = rng.normal(0, sd, size=(L, T))
-    curves = truth + err
-    # bootstrap replicates around the observed curves, same noise scale
-    boots = curves[None] + rng.normal(0, sd, size=(B, L, T))
-    return curves, boots
+def _panel(rng, L, n, truth, rho=0.6, df=6):
+    """One country: L rounds of n respondents, errors correlated across
+    thresholds and heavy-tailed, with a resampling bootstrap (not the true law)."""
+    chol = np.linalg.cholesky(rho ** np.abs(np.subtract.outer(np.arange(T),
+                                                              np.arange(T)))
+                              + 1e-9 * np.eye(T))
+    def draw(m):
+        z = rng.standard_t(df, size=(m, T)) / np.sqrt(df / (df - 2))
+        return z @ chol.T
+    obs = truth + draw(L) / np.sqrt(n)
+    # bootstrap: resample the same error law, centred on the observed curves
+    boots = obs[None] + draw(B * L).reshape(B, L, T) / np.sqrt(n)
+    return obs, boots
 
 
-def test_joint_validity_under_the_sharp_null():
-    """No true ordering exists, so ANY certified claim is a false certification.
-    The joint error rate over the whole family must respect alpha."""
-    rng = np.random.default_rng(7)
-    reps, bad = 400, 0
-    flat = np.tile(np.linspace(0.1, 0.9, T), (L, 1))     # identical every round
-    for _ in range(reps):
-        curves, boots = _draw(rng, flat, 0.02)
-        r = certify_claim_family(curves, boots, ALPHA, CORE)
-        if r["declines"] or r["rises"]:
-            bad += 1
-    rate = bad / reps
-    assert rate <= ALPHA + 3 * np.sqrt(ALPHA * (1 - ALPHA) / reps), rate
-
-
-def test_transfer_is_monotone_under_implication():
-    """A claim implied by the band is certified: if every adjacent pair
-    certifies a decline, the span from first to last must certify too (the
-    implied ordering is inside the same band)."""
-    rng = np.random.default_rng(11)
-    truth = np.stack([np.linspace(0.05, 0.55, T) + 0.10 * i for i in range(L)])
+def _coverage(L, n, reps, seed):
+    """Fraction of replicates in which the band covers the whole contrast
+    surface -- the event every certified claim rides on."""
+    rng = np.random.default_rng(seed)
+    truth = np.tile(np.linspace(0.1, 0.8, T), (L, 1))
     hits = 0
-    for _ in range(200):
-        curves, boots = _draw(rng, truth, 0.006)
-        r = certify_claim_family(curves, boots, ALPHA, CORE)
-        adjacent = [(i, i + 1) for i in range(L - 1)]
-        if all(p in r["declines"] for p in adjacent):
-            hits += 1
-            assert r["net"], "persistent certified but net was not"
-    assert hits > 0, "the fixture never certified persistence; test is vacuous"
+    for _ in range(reps):
+        obs, boots = _panel(rng, L, n, truth)
+        r = certify_claim_family(obs, boots, ALPHA, CORE)
+        c, sd_ok = r["c"], True
+        # the coverage event: |D_hat - D| <= c*sd at every contrast and core cell
+        for (a, b), lo in r["lower"].items():
+            dh = (obs[b] - obs[a])[CORE]
+            db = (boots[:, b] - boots[:, a])[:, CORE]
+            sd = np.maximum(db.std(0), 1e-6)
+            truth_d = (truth[b] - truth[a])[CORE]
+            if np.any(np.abs(dh - truth_d) > c * sd):
+                sd_ok = False
+                break
+        hits += sd_ok
+    return hits / reps
 
 
-def test_directions_are_exclusive_and_share_one_budget():
-    rng = np.random.default_rng(3)
-    truth = np.stack([np.linspace(0.1, 0.9, T) + 0.04 * i for i in range(L)])
-    curves, boots = _draw(rng, truth, 0.01)
-    two = certify_claim_family(curves, boots, ALPHA, CORE, two_sided=True)
-    one = certify_claim_family(curves, boots, ALPHA, CORE, two_sided=False)
-    assert not (two["declines"] & two["rises"]), "a span certified both ways"
-    # the two-sided band pays for covering both directions
-    assert two["c"] >= one["c"] - 1e-12
-    assert two["declines"] <= one["declines"]
+@pytest.mark.parametrize("L,n", [(5, 1200), (11, 1200)])
+def test_band_covers_the_contrast_surface(L, n):
+    """The proposition assumes a 1-alpha band; this checks the deployed
+    construction delivers one at the dimension it is used at (220 coordinates
+    when L=11), under correlated t-distributed errors."""
+    reps = 500
+    cov = _coverage(L, n, reps, seed=100 + L)
+    se = np.sqrt(0.9 * 0.1 / reps)
+    assert cov >= 1 - ALPHA - 3 * se, (L, cov)
 
 
-def test_every_rung_comes_from_the_same_critical_value():
-    """The rungs are read off one band: there is a single c, and each rung is a
-    set-inclusion statement about it."""
+def test_false_certification_rate_under_the_sharp_null():
+    """No true ordering anywhere, so ANY certified claim is an error. Unlike the
+    previous fixture this one has power: the noise scale is set so that the
+    procedure certifies in a non-negligible fraction of replicates when the
+    critical value is deliberately halved."""
+    rng = np.random.default_rng(11)
+    truth = np.tile(np.linspace(0.1, 0.8, T), (6, 1))
+    reps, bad, bad_halved = 500, 0, 0
+    for _ in range(reps):
+        obs, boots = _panel(rng, 6, 400, truth)
+        r = certify_claim_family(obs, boots, ALPHA, CORE)
+        bad += bool(r["declines"] or r["rises"])
+        # sanity: with c halved the same data DO certify, so the test has power
+        rh = certify_claim_family(obs, boots, 0.999, CORE)
+        bad_halved += bool(rh["declines"] or rh["rises"])
+    assert bad / reps <= ALPHA + 3 * np.sqrt(ALPHA * 0.9 / reps), bad / reps
+    assert bad_halved / reps > 0.25, (
+        f"fixture has no power: even at alpha=0.999 only {bad_halved/reps:.3f} "
+        "certify, so the null test could not detect an invalid procedure")
+
+
+def test_partial_null_selection_does_not_inflate_error():
+    """Half the rounds truly decline and half do not, so the certified subfamily
+    is data-selected. Transfer says selection costs nothing: the probability that
+    ANY certified claim is false must still respect alpha."""
+    rng = np.random.default_rng(23)
+    L = 6
+    truth = np.tile(np.linspace(0.1, 0.8, T), (L, 1))
+    truth[3:] += 0.05                       # a real shift halfway through
+    reps, bad = 500, 0
+    for _ in range(reps):
+        obs, boots = _panel(rng, L, 900, truth)
+        r = certify_claim_family(obs, boots, ALPHA, CORE)
+        wrong = False
+        for (a, b) in r["declines"]:
+            if np.any((truth[b] - truth[a])[CORE] < 0):
+                wrong = True
+        for (a, b) in r["rises"]:
+            if np.any((truth[a] - truth[b])[CORE] < 0):
+                wrong = True
+        bad += wrong
+    assert bad / reps <= ALPHA + 3 * np.sqrt(ALPHA * 0.9 / reps), bad / reps
+
+
+def test_one_sided_branch_returns_no_uncalibrated_reverse_claims():
+    """With two_sided=False the critical value controls only the decline
+    direction, so rise-side objects must not be returned as if certified."""
     rng = np.random.default_rng(5)
-    truth = np.stack([np.linspace(0.1, 0.9, T) + 0.03 * i for i in range(L)])
-    curves, boots = _draw(rng, truth, 0.012)
-    r = certify_claim_family(curves, boots, ALPHA, CORE)
-    assert np.isfinite(r["c"])
-    assert r["n_spans"] == L * (L - 1) // 2
-    assert (r["net"] is True) == ((0, L - 1) in r["declines"])
-    assert r["any_pair"] == any((i, i + 1) in r["declines"] for i in range(L - 1))
-    assert 0.0 <= r["frac_spans_declining"] <= 1.0
+    truth = np.tile(np.linspace(0.1, 0.8, T), (5, 1))
+    obs, boots = _panel(rng, 5, 800, truth)
+    one = certify_claim_family(obs, boots, ALPHA, CORE, two_sided=False)
+    assert one["rises"] is None and one["upper"] is None
+    assert one["episodic"] is None
+    two = certify_claim_family(obs, boots, ALPHA, CORE, two_sided=True)
+    assert two["rises"] is not None and two["c"] >= one["c"] - 1e-12

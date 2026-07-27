@@ -150,22 +150,23 @@ def test_joint_band_net_set():
 def test_ukraine_magnitude_is_a_lower_bound():
     d = _csv("ess_joint_claims.csv")
     ua = d[(d.outcome == "trstprl") & (d.cntry == "UA")].iloc[0]
-    assert 25.5 <= float(ua.net_lower) * 100 <= 26.5
-    _present("at least} $26$ points")
+    assert 25.0 <= float(ua.net_lower) * 100 <= 26.0   # a lower bound rounds DOWN
+    _present("at least} $25$ points")
 
 
-def test_joint_band_erosion_index():
+def test_erosion_share_is_not_ranked_across_countries():
+    """The shared critical value grows with record length, so the share is a
+    within-country quantity only; the manuscript must not rank on it."""
     d = _csv("ess_joint_claims.csv")
-    t = d[d.outcome == "trstprl"].set_index("cntry")
-    for iso, quoted in [("CY", "0.62"), ("ES", "0.58"), ("GR", "0.53"),
-                        ("UA", "0.47"), ("SI", "0.38"), ("IL", "0.36")]:
-        assert f"{float(t.loc[iso, 'frac_declining']):.2f}" == quoted, iso
-        assert f"${quoted}$" in _norm(TEXT), (iso, quoted)
-    zero = sorted(t[t.n_declining == 0].index)
-    assert zero == ["BG", "CH", "CZ", "LT", "LV", "ME", "NO", "RS"], zero
-    for name in ["Bulgaria", "Switzerland", "Czechia", "Lithuania", "Latvia",
-                 "Montenegro", "Norway", "Serbia"]:
-        assert name.lower() in _norm(TEXT)
+    t = d[d.outcome == "trstprl"]
+    assert round(float(t.c.corr(t.n_rounds)), 2) >= 0.9
+    es = t[t.cntry == "ES"].iloc[0]
+    si = t[t.cntry == "SI"].iloc[0]
+    assert (int(es.n_declining), int(es.n_spans)) == (32, 55)
+    assert (int(si.n_declining), int(si.n_spans)) == (21, 55)
+    _present("we do not rank it", "correlation $0.96$")
+    for bad in ["cyprus $0.62$", "eight democracies with no certified erosion"]:
+        assert bad not in _norm(TEXT), f"cross-country ranking survives: {bad}"
 
 
 def test_joint_band_episodic_needs_no_correction():
@@ -313,7 +314,12 @@ def test_unit_frontier_gates():
         "if the selector now activates, the manuscript must say so")
     both = w[w.gate_A_need & w.gate_B_reliability]
     assert round(float(both.raw_width_gain.max()), 3) == 0.139
-    _present("$13.9\\%$ narrower", "in one of\nthree rounds")
+    # the need gate only APPROACHES its cutoff: the manuscript must not claim
+    # both barriers are crossed.
+    assert round(float(w.rho_lcb.max()), 3) == 0.476
+    _present("only \\emph{approaches} its cutoff", "not decisively crossed")
+    for bad in ["both barriers of proposition", "are reachable}, two orders"]:
+        assert bad not in _norm(TEXT), f"overstated frontier claim: {bad}"
 
 
 # ------------------------------------------------------------ no stale text --
