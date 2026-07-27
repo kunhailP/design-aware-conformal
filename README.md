@@ -1,7 +1,7 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 57 passing](https://img.shields.io/badge/tests-57%20passing-green)
+![Tests: 59 passing](https://img.shields.io/badge/tests-59%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Conformal
@@ -29,16 +29,16 @@ This package provides:
 | finding | where |
 |---|---|
 | Marginal readings flag 20/30 ESS countries; the hierarchy certifies net decline in 6, persistence in 1 (Greece) | `e13`, §7 |
-| Over the full 2002–2024 record: persistence in **0/34**, net erosion in 9 — two of them (IL, IT) invisible to any single wave pair | `e36`, §7 |
+| Over the full 2002–2024 record: persistence in **0/34**, while 24/34 certify both declines and recoveries (trust moves in episodes); net erosion in 9, three endpoint-robust, with certified magnitudes | `e36`, `e43`–`e45`, §7 |
 | WVS: marginal readings over-count persistent deconsolidation 2.6–6.5×; the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
 | Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 1, §2/§6 |
-| Five robustness reruns delivered: RWY-rescaled bootstrap, WVS deff ×1.5/×2, round-10 mode audit, LORO exchangeability, real-data severity injection | `e38`–`e42`, Supplement |
+| Nine robustness analyses: RWY-rescaled bootstrap, WVS deff ×1.5/×2, mode audit (from the data's own mode variable), LORO exchangeability, null-imposed severity injection, long-window deff, endpoint sensitivity, certified rises, window-matched Claassen | `e38`–`e46`, Supplement |
 
 ## Quickstart
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 57 contract tests (theorem <-> code)
+python -m pytest tests/ -q          # 59 contract tests (theorem <-> code)
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
 
@@ -84,9 +84,9 @@ pcb/
   inference/      clustered/population conformal, design_aware, safe selector
   data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)
   simulation/ theory/     generators and theory checks
-  experiments/    e6–e42 (simulation arc, ESS/LAPOP/WVS, robustness reruns)
+  experiments/    e6–e46 (simulation arc, ESS/LAPOP/WVS, robustness analyses)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            57 contract tests binding each theorem to its implementation
+tests/            59 contract tests binding each theorem to its implementation
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF
 configs/          frozen validation manifests (seeds, script hashes)

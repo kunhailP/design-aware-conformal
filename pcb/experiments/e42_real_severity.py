@@ -1,14 +1,44 @@
-"""E42 — the promised real-data severity injection (paper §5).
+"""E42 — real-data severity injection: what each rung can detect against the
+ACTUAL ESS design noise (paper §5).
 
 E32 gives the power curve of each rung under simulated ESS-like design noise
-(threshold SE 0.012). Here we measure the same curves against the REAL design
-noise: for every core country-pair (rounds 9-11), inject a known persistent
-decline of delta CDF points across the low-trust core into the observed
-difference (dh + delta on core thresholds) and rerun the exact certification
-machinery with the country's own stratified-PSU bootstrap draws. Detection rate
-across (country, pair) cells at each delta is the real-data power of the pair
-rung; injecting into ALL of a country's pairs gives the persistent rung; the
-first-to-last span gives the net rung.
+(threshold SE 0.012). Here we measure the same curves against the real thing:
+for every core country-pair (rounds 9-11), inject a known persistent decline of
+delta CDF points across the low-trust core and rerun the exact certification
+machinery with the country's own stratified-PSU bootstrap draws.
+
+Injection semantics (this is the delicate part). `certify_decline_differences`
+certifies when D_hat - c*sd >= 0 with c the (1-alpha) quantile of the
+*studentized* bootstrap deviations (db - dh)/sd. A shift of the estimand moves
+the point estimate AND travels with the bootstrap distribution centred on it:
+so the injection must be added to `dh` and to `db` alike. Adding it only to
+`dh` (as an earlier version of this script did) lowers c by delta/sd while
+raising the margin by delta -- counting the injection twice and overstating
+power by roughly a factor of two in delta.
+
+Two designs are reported, because they answer different questions:
+
+  POWER (primary, null-imposed).  A power curve needs a known truth. We keep
+  each country-pair's real design-noise structure -- the bootstrap covariance
+  induced by its actual PSU/stratum design -- but replace the estimand by the
+  injected decline: dh <- delta*inj and db <- (db - dh) + delta*inj. At
+  delta=0 this is the sharp null and the certification rate is the realized
+  size; at delta>0 it is the rung's power against a known persistent decline
+  of that size, at real ESS design noise.
+
+  DETECTION (secondary, additive).  dh <- dh + delta*inj, db <- db + delta*inj:
+  the injected decline on top of whatever each country actually did. At
+  delta=0 this is the observed certification rate. This measures how much
+  extra decline it would take to bring the certified set to a given size, not
+  the rung's power.
+
+Rungs, each built exactly as the deployed instrument builds it:
+  pair       : one adjacent-round difference at a time;
+  persistent : one simultaneous band over ALL adjacent pairs x core thresholds;
+  net        : the DIRECT first-to-last span contrast (not a sum of adjacent
+               pair draws -- summing re-resamples the interior rounds and
+               inflates the variance to V(F_9)+2V(F_10)+V(F_11) instead of the
+               telescoped V(F_9)+V(F_11) the deployed net band uses).
 
 Output: results/real_severity.csv
 Run:    python -m pcb.experiments.e42_real_severity   (~30 min)
@@ -25,7 +55,7 @@ import pcb.experiments.e13_ess_audit as e13
 from pcb.experiments.e12_ess_decline import ALPHA, CORE_T
 from pcb.inference.decline_certify import certify_decline_differences
 
-DELTAS = (0.0, 0.01, 0.02, 0.03, 0.04, 0.06, 0.08)
+DELTAS = (0.0, 0.01, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.12)
 OUTCOME = "trstprl"
 
 
@@ -37,7 +67,7 @@ def main():
     df = df[df._w.notna() & (df._w > 0)]
 
     inj = np.where(CORE_T, 1.0, 0.0)
-    cells = []          # (cntry, [(dh, db) per pair])
+    cells = []          # (cntry, [(dh, db) per adjacent pair], (dh_net, db_net))
     for c, csub in df.groupby("cntry", observed=True):
         core_rounds = [r for r in sorted(csub.essround.unique())
                        if klass.get((c, r)) == "core"]
@@ -51,38 +81,69 @@ def main():
                                  csub[csub.essround == r1], OUTCOME, rng)
             if out is not None:
                 pp.append(out)
-        if pp:
-            cells.append((c, pp))
-    n_pairs = sum(len(pp) for _, pp in cells)
-    print(f"{len(cells)} countries, {n_pairs} pairs; injecting persistent "
-          f"declines of delta CDF points over the preregistered core\n")
+        if not pp:
+            continue
+        # direct first-to-last span contrast, as the deployed net band builds it
+        net = e13._pair_diff(csub[csub.essround == core_rounds[0]],
+                             csub[csub.essround == core_rounds[-1]], OUTCOME, rng)
+        cells.append((c, pp, net))
+    n_pairs = sum(len(pp) for _, pp, _ in cells)
+    n_net = sum(1 for _, _, net in cells if net is not None)
+    print(f"{len(cells)} countries, {n_pairs} adjacent pairs, {n_net} with a "
+          f"direct span contrast; injecting persistent declines of delta CDF "
+          f"points over the preregistered core\n")
 
     rows = []
-    for delta in DELTAS:
-        pair_hits = persist_hits = net_hits = 0
-        for c, pp in cells:
-            H = np.array([dh + delta * inj for dh, _ in pp])
-            Bd = np.moveaxis(np.array([db for _, db in pp]), 1, 0)
-            pair_hits += sum(
-                certify_decline_differences(H[[i]], Bd[:, [i]], ALPHA, CORE_T)
-                ["design_aware"] for i in range(len(pp)))
-            persist_hits += certify_decline_differences(H, Bd, ALPHA, CORE_T)[
-                "design_aware"]
-            # net over the span: sum of injected pair differences
-            net_hits += certify_decline_differences(
-                H.sum(0, keepdims=True), Bd.sum(1, keepdims=True), ALPHA,
-                CORE_T)["design_aware"]
-        rows.append(dict(delta=delta, pair_rate=round(pair_hits / n_pairs, 3),
-                         net_rate=round(net_hits / len(cells), 3),
-                         persist_rate=round(persist_hits / len(cells), 3)))
-        print(f"delta={delta:.2f}: pair {rows[-1]['pair_rate']:.2f}  "
-              f"net {rows[-1]['net_rate']:.2f}  "
-              f"persist {rows[-1]['persist_rate']:.2f}")
+    for design in ("power", "detection"):
+        blurb = ("null-imposed: estimand REPLACED by the injection"
+                 if design == "power"
+                 else "additive: injection on top of the observed decline")
+        print(f"\n--- {design} ({blurb}) ---")
+        for delta in DELTAS:
+            pair_hits = persist_hits = net_hits = 0
+            for c, pp, net in cells:
+                if design == "power":
+                    # replace the estimand; keep the real design-noise structure
+                    H = np.array([delta * inj for _ in pp])
+                    Bd = np.moveaxis(
+                        np.array([db - dh[None] + delta * inj for dh, db in pp]),
+                        1, 0)
+                else:
+                    # the shift travels with the bootstrap distribution
+                    H = np.array([dh + delta * inj for dh, _ in pp])
+                    Bd = np.moveaxis(
+                        np.array([db + delta * inj for _, db in pp]), 1, 0)
+                pair_hits += sum(
+                    certify_decline_differences(H[[i]], Bd[:, [i]], ALPHA, CORE_T)
+                    ["design_aware"] for i in range(len(pp)))
+                persist_hits += certify_decline_differences(H, Bd, ALPHA, CORE_T)[
+                    "design_aware"]
+                if net is not None:
+                    dh_n, db_n = net
+                    # over the span the per-pair decline accumulates over its steps
+                    acc = delta * len(pp)
+                    if design == "power":
+                        hn = acc * inj
+                        bn = db_n - dh_n[None] + acc * inj
+                    else:
+                        hn = dh_n + acc * inj
+                        bn = db_n + acc * inj
+                    net_hits += certify_decline_differences(
+                        hn[None], bn[:, None], ALPHA, CORE_T)["design_aware"]
+            rows.append(dict(design=design, delta=delta,
+                             pair_rate=round(pair_hits / n_pairs, 3),
+                             net_rate=round(net_hits / max(n_net, 1), 3),
+                             persist_rate=round(persist_hits / len(cells), 3)))
+            print(f"delta={delta:.2f}: pair {rows[-1]['pair_rate']:.3f}  "
+                  f"net {rows[-1]['net_rate']:.3f}  "
+                  f"persist {rows[-1]['persist_rate']:.3f}")
     res = pd.DataFrame(rows)
     res.to_csv("results/real_severity.csv", index=False)
-    print("\n(delta=0 row = the observed certification rates, no injection; "
-          "E32 simulation predicted 80% power at net 0.02-0.03, "
-          "persistent 0.06-0.08)")
+    print("\ndelta = per-pair decline in CDF points over the core; the net row "
+          "accumulates it over the span.\npower/delta=0 is the realized size "
+          "(nominal 0.10); detection/delta=0 is the observed certification rate."
+          "\nE32's simulation at SE 0.012 predicted 80% power at net 0.02-0.03 "
+          "and persistent 0.06-0.08 per pair.")
 
 
 if __name__ == "__main__":

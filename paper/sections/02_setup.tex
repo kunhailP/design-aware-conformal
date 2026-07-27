@@ -70,12 +70,14 @@ $R$ is not identified from the law of $\widetilde R$ without restrictions on the
 of $\xi$: there exist distinct pairs $(\mathcal L_R,\mathcal L_\xi)\ne
 (\mathcal L_R',\mathcal L_\xi')$ with $\mathcal L_R * \mathcal L_\xi = \mathcal L_{R'}
 * \mathcal L_{\xi'}$. (ii)~Consequently, among non-randomized bands that are
-measurable functions of the observed scores only, no band whose radius is almost
-surely smaller than the plug-in radius---the $(1-\alpha)$ conformal order statistic
-of $|\widetilde R|$---by more than the conformal discreteness slack is valid for the
-latent target on a class of design laws containing $\xi\equiv0$. Uniform improvement
-over the plug-in beyond that slack therefore requires shrinking the class of
-admissible noise laws.
+measurable functions of the observed scores only, any band whose radius lies
+almost surely below the $(\lceil(1-\alpha)(K{+}1)\rceil{-}1)$-th order statistic
+of $\{|\widetilde R_c|\}$ has latent coverage at most
+$(\lceil(1-\alpha)(K{+}1)\rceil-1)/(K{+}1)<1-\alpha$ on the member $\xi\equiv0$
+of the class, which it cannot distinguish from the contaminated one. The only
+room below the plug-in radius is the conformal discreteness slack, which
+randomized smoothing exhausts; \emph{uniform} improvement beyond it requires
+shrinking the class of admissible noise laws.
 \end{theorem}
 
 The reading is constructive (proof in Appendix~\ref{app:proofs}): a band both honest

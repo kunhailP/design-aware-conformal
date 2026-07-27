@@ -8,10 +8,10 @@ $\rhohat\le0.22$ on LAPOP (Figure~\ref{fig:rho}), at most $0.29$ in the ESS
 subgroup scan, well below the $\rho_0=0.47$ cutoff. Two directional caveats attach
 to every $\rhohat$ we report: the PSU bootstrap resamples $m$-of-$m$ without
 Rao--Wu--Yue rescaling \citep{rao1992recent} and single-PSU strata contribute no
-variance, so the estimates are downward-biased \emph{floors}. A rescaled rerun
-confirms the floors are tight: the maxima move to $0.281$ (ESS) and $0.222$
-(LAPOP), still severalfold below $\rho_0$, with zero gate activations and every
-certification count unchanged (Supplementary Material). The safe selector
+variance, so the estimates are downward-biased \emph{floors}. The Rao--Wu--Yue rescaled rerun confirms the floors are tight: maxima $0.281$
+(ESS) and $0.222$ (LAPOP), still severalfold below $\rho_0$, zero gate
+activations, every certification count unchanged; and singleton strata, which no
+rescaling repairs, are $1$ of $7{,}028$ in the core rounds. The safe selector
 thus reduces to clustered PCB on all real data---not by assumption but by its own
 low-$\rho$ gate.
 

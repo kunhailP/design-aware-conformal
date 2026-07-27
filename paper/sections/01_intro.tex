@@ -28,27 +28,24 @@ calibrates on---other countries' attitude distributions---are themselves
 estimates in as truth, blind to each ``country'' being a noisy estimate of a
 latent population function.
 
-The two errors are genuinely distinct. Writing $F_{c,r}(t)$ for country $c$'s latent
-attitude CDF at threshold $t$ in wave $r$, and $\Ftilde_{c,r}(t)$ for its complex-survey
-estimate,
+The two errors are distinct. Writing $F_{c,r}(t)$ for country $c$'s latent CDF at
+threshold $t$ in wave $r$ and $\Ftilde_{c,r}(t)$ for its complex-survey estimate,
 \begin{equation}\label{eq:decomp}
 \Ftilde_{c,r}(t) - \mu_r(t)
 \;=\; \underbrace{\big(F_{c,r}(t)-\mu_r(t)\big)}_{\text{transport error}}
 \;+\; \underbrace{\big(\Ftilde_{c,r}(t)-F_{c,r}(t)\big)}_{\text{design error}},
 \end{equation}
-where $\mu_r$ is the transport center. A conformal band calibrated on the observed
-$\Ftilde$ scores treats the sum as if it were the transport error alone: when the
-design error is non-negligible the band is systematically too wide, yet any correction
-that subtracts the survey noise can make it too narrow, because the correction is itself
-estimated from a small number of countries.
+where $\mu_r$ is the transport center. A band calibrated on the observed
+$\Ftilde$ scores treats the sum as the transport error alone: when the design
+error is non-negligible the band is too wide, yet any correction subtracting the
+survey noise can make it too narrow, being itself estimated from few countries.
 
 \paragraph{Contributions.} We make four.
-\emph{First, a diagnosis and a portable instrument.} We separate the two wrong units---the
-claim unit (a wave-pair contrast standing in for a persistent distribution-wide
-trajectory) and the calibration unit (estimated distributions treated as latent, the
-omitted design-error layer of~\eqref{eq:decomp})---and give a finite-sample simultaneous
-band over a country's whole trajectory, with a multiplicity-honest guarantee hierarchy
-that corrects the first.
+\emph{First, a diagnosis and a portable instrument.} We separate the claim unit
+(a wave-pair contrast standing in for a distribution-wide trajectory) from the
+calibration unit (the omitted design-error layer of~\eqref{eq:decomp}), and give
+a finite-sample simultaneous band over a country's whole trajectory with a
+multiplicity-honest guarantee hierarchy that corrects the first.
 \emph{Second, a provably-valid deployed procedure with an unconditional guarantee.}
 The band we recommend is a clustered ``population'' conformal band (PCB), finite-sample
 exact at \emph{any} $K$ (Theorem~\ref{thm:exact}), inside an adaptive selector whose
@@ -63,11 +60,12 @@ estimated trajectory, with an explicit, design-noise-bounded gap to the latent o
 validate the frozen procedure in three disclosed layers, ending with a fresh
 sealed run on six unseen DGP families (Section~\ref{sec:simulation}).
 \emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
-instrument changes the substantive picture. For European trust, the design-aware
-hierarchy certifies net decline in six of thirty (2018--2024) and persistence in
-one (Greece), not the twenty flagged marginally; over the full 2002--2024 record
-\emph{no} country certifies persistence while nine certify net erosion---two of
-them (Israel, Italy) invisible to any single wave pair. Globally, a wave-pair reading of
+instrument changes the substantive picture. For European trust the hierarchy
+certifies net decline in six of thirty (2018--2024), not the twenty flagged
+marginally; over the full 2002--2024 record \emph{no} country certifies
+persistence, twenty-four of thirty-four certify both declines and recoveries,
+and nine certify net erosion---two of them (Israel, Italy) invisible to any
+single wave pair, three robust to dropping either endpoint. Globally, a wave-pair reading of
 the Foa--Mounk ``deconsolidation'' battery on the WVS/EVS (1981--2022) over-counts
 the persistent phenomenon by $2.6$--$6.5\times$; aggregating per-item
 certifications turns the correction into a discovery---the thirteen-country
@@ -87,10 +85,10 @@ noise, while the ESS has genuine clustered noise but $K\le33$. The reader should
 therefore not expect the deconvolution to activate empirically; its payoff regime
 is many-unit settings such as small areas, demonstrated in simulation.
 
-The remainder situates the contribution among the conformal and political-trust
-literatures (Section~\ref{sec:related}), sets up the problem and impossibility result
-(Section~\ref{sec:setup}),
-builds the safe adaptive method and its theory (Sections~\ref{sec:method}--\ref{sec:theory}),
-validates it in simulation (Section~\ref{sec:simulation}), characterizes the real-data
-regime (Section~\ref{sec:evidence}), reanalyzes political trust (Section~\ref{sec:political}),
-and discusses scope (Section~\ref{sec:discussion}).
+The remainder situates the contribution (Section~\ref{sec:related}), sets up the
+problem and the impossibility result (Section~\ref{sec:setup}), builds the method
+and its theory (Sections~\ref{sec:method}--\ref{sec:theory}), validates it
+(Section~\ref{sec:simulation}), characterizes the real-data regime
+(Section~\ref{sec:evidence}), reanalyzes political trust
+(Section~\ref{sec:political}), and discusses scope
+(Section~\ref{sec:discussion}).

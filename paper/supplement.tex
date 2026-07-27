@@ -314,7 +314,7 @@ $\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-safe guard makes the scale
 term one-sided: on the intersection of the guard's per-threshold coverage events
 (probability $\ge1-T\alpha_2$ by a union bound over the $T$ thresholds, or
 $\ge1-\alpha_2$ with a Bonferroni-adjusted guard level $\alpha_2/T$),
-$\widehat s_T\le$ the oracle-consistent scale, so the band errs wide, not narrow.
+$\widehat s_T$ is at least the oracle-consistent scale (the guard subtracts \emph{less} design variance than the truth), so the band errs wide, not narrow.
 
 \begin{proof}
 \emph{(i)} Under (A1) with oracle scales the studentized calibration scores are
@@ -340,8 +340,10 @@ $M_{K+1}>M_{(m)}\,(1-\delta)/(1+\delta)\ge M_{(m)}(1-2\delta)$, so
 \]
 For the middle term, $M_{(m)}$ concentrates on $q^*$ at rate $r_K=O(K^{-1/2})$
 (binomial concentration of the empirical CDF at $q^*$ together with (A2)); on that
-event the interval has length $\le2\delta q^*(1+o(1))$ and (A2) bounds its probability
-by $2Lq^*\delta+o(\delta)$. For the last term, decompose
+event $M_{(m)}$ lies in the neighbourhood of $q^*$ where (A2)'s density bound
+holds, the interval has length $\le2\delta q^*(1+o(1))$, and (A2) bounds its
+probability by $2Lq^*\delta+o(\delta)$; the complementary excursion event is
+absorbed into $r_K$. For the last term, decompose
 $\delta^*$ into (a)~the variance-estimation error of $s_{\text{plug}}^2$, which has
 relative standard error $\le\sqrt{(\kappa-1)/K}$ by the fourth-moment bound and,
 by the boundedness clause of (A3), a Bernstein tail
@@ -436,18 +438,61 @@ quantile is a genuine order statistic rather than the sample maximum near the
 feasibility boundary. Then, finite-sample and
 with no conditions on the selection rule,
 \[
-\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
-\begin{cases}
-1-\alpha, & K<94\ \text{(deconvolution unreachable)},\\[2pt]
-1-\alpha-\varepsilon_{K,B}, & K\ge94,
-\end{cases}
+\Pr\big(\Ftilde_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;1-\alpha
+\quad (K<94,\ \text{deconvolution unreachable}),
 \]
-where $\varepsilon_{K,B}$ is the estimated-law remainder of Theorem~4 attached to the
-deconvolution branch only, reported at deployment through the observable diagnostic
-$\widehat\delta_{\text{UCB}}(D)$. For the survey-estimate target T1 the $K<94$ statement
-is exact; for the latent target T2 it carries the additive T1$\to$T2 gap of
-Theorem~2(b), negligible at the observed $\rhohat\le0.22$ (national level; at most
-$0.29$ in the ESS subgroup scan).
+exactly and with exchangeability alone, for the survey-estimate target T1; the
+latent target T2 carries in addition the two-term gap of Theorem~2(b),
+negligible at the observed $\rhohat\le0.22$ (national level; at most $0.29$ in
+the ESS subgroup scan). When $K\ge94$, so that the deconvolution branch is
+reachable, then \emph{under} (A1)--(A3),
+\[
+\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
+1-\alpha-\varepsilon_{K,B},
+\]
+now for the \emph{latent} target directly, where $\varepsilon_{K,B}$ is the
+estimated-law remainder of Theorem~4$'$ attached to the deconvolution branch
+only and reported at deployment through the observable diagnostic
+$\widehat\delta_{\text{UCB}}(D)$. The two clauses therefore state different
+targets, because they rest on different assumptions: exchangeability alone
+reaches T1; (A1)--(A3) --- which the $K\ge94$ clause already inherits from
+Theorem~4$'$ --- additionally reach T2, via the following domination lemma.
+Without (A1)--(A3) the $K\ge94$ worst case is
+$\alpha_{\text{anchor}}+\Pr(\widehat J=\text{dec})$ for T1.
+
+\begin{lemma}[Anchor domination under the scale family]\label{lem:dominate}
+Under (A1), let $M_c=\max_t|W_c(t)|$ and let $R^{\text{lat}}_{K+1}=
+\max_t s_R(t)|W_{K+1}(t)|$ be the latent target's unstudentized score. Each
+calibration score satisfies
+$R_c=\max_t\sqrt{s_R(t)^2+v_c(t)^2}\,|W_c(t)|\ \ge\ \max_t s_R(t)|W_c(t)|$
+pointwise in $t$, so $R_c$ stochastically dominates an i.i.d.\ copy of
+$R^{\text{lat}}_{K+1}$. Hence the anchor quantile $\widehat q$, an order
+statistic of $\{R_c\}$, stochastically dominates the same order statistic of
+$K$ i.i.d.\ copies of $R^{\text{lat}}$, and
+$\Pr(R^{\text{lat}}_{K+1}\le\widehat q)\ge
+\lceil(1-\alpha_{\text{anchor}})(K{+}1)\rceil/(K{+}1)\ge1-\alpha_{\text{anchor}}$:
+the anchor branches are valid for the \emph{latent} target, not merely
+conservative for it, under (A1).
+\end{lemma}
+
+\begin{proof}
+$\sqrt{s_R^2+v_c^2}\ge s_R$ pointwise gives the pointwise inequality on the
+integrands, hence on the suprema, hence $R_c\ge R^{\text{lat}}_c$ almost surely
+for the copy built from the same $W_c$. Coupling the $K$ calibration units to
+$K$ i.i.d.\ copies of $R^{\text{lat}}$ in this way makes every order statistic
+of $\{R_c\}$ at least the corresponding order statistic of the copies, and the
+conformal rank identity applied to the $K{+}1$ i.i.d.\ latent scores gives the
+displayed bound.
+\end{proof}
+
+\noindent With Lemma~\ref{lem:dominate} the $K\ge94$ union bound runs on the
+latent target throughout: the anchor term is $\alpha_{\text{anchor}}$ by the
+lemma, the deconvolution term is $\alpha_{\text{dec}}+\varepsilon_{K,B}$ by
+Theorem~4$'$(ii), which is a latent-target statement to begin with. (Machine
+check: \texttt{test\_anchor\_domination.py}.) Note the lemma uses (A1) only
+through the common shape process; it is exactly the shape restriction that
+Remark~\ref{rem:bimodal} shows is unavoidable for \emph{any} latent-target
+claim built on observed scores.
 
 \begin{proof}
 The conservative score dominates the PCB score pointwise
@@ -762,18 +807,27 @@ Claassen's country--year support-for-democracy estimates (the corrected AJPS
 series; Harvard Dataverse \texttt{doi:10.7910/DVN/HWLW0J}) pool the same item
 families our WVS/EVS reanalysis certifies item-by-item. Merging his corrected
 series (change over $2006\to2017$, where his panel ends) with our $\ge2$-item
-screened universe ($74$ countries; \texttt{e37},
-\texttt{results/claassen\_compare.csv}): certified-core membership is essentially
-independent of the sign of his smoothed trend ($6$ of $13$ core members fall in
-his series, versus $32$ of $61$ non-core), and seven core members---including both
-Western entries (Finland, Switzerland) and all three MENA members---are flat or
-rising in the pooled series. The divergence decomposes into \emph{window} (his
-panel ends in 2017; wave-7 fieldwork 2017--2022 drives several certifications) and
-\emph{pooling} (a battery-level latent level dilutes single-item distributional
-collapses, e.g.\ the strongman/army pair). The two instruments are complements,
-not competitors---but the certified core is \emph{not recoverable} from the
-smoothed latent panel, which is the concrete sense in which the finite-sample,
-item-level object adds information to the model-based level.
+screened universe ($74$ countries; \texttt{e37}): certified-core membership is
+essentially independent of the sign of his smoothed trend ($6$ of $13$ core
+members fall in his series, versus $32$ of $61$ non-core).
+
+That comparison is confounded two ways, as its own decomposition admits: his
+panel ends in 2017 while WVS wave-7 fieldwork (2017--2022) drives several of our
+certifications, and his latent construct excludes institutional-confidence
+items that drive several core memberships. Divergence produced by
+non-overlapping data is not information added by our method, so we removed both
+confounds (\texttt{e46}; \texttt{claassen\_window\_matched.csv}): recertifying
+the whole hierarchy on fieldwork ending by 2017, and restricting the comparison
+to the four support-for-democracy items. The independence survives matching. On
+the window-matched, all-item comparison ($65$ countries) the core declines in
+his series at $0.50$ versus $0.49$ for the rest (Fisher one-sided $p=0.60$); on
+the item-matched restriction, $0.44$ versus $0.50$ ($p=0.75$). So the divergence
+is not a window artifact and not an artifact of the institutional-trust item:
+what the pooled latent level and the item-level certification identify are
+genuinely different sets, and the certified core is not recoverable from the
+former. The two instruments are complements---his answers a question about a
+smoothed latent level, ours about distribution-wide movement in a named item
+with finite-sample error control.
 
 \paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
 drafts are now part of the package.
@@ -805,14 +859,24 @@ non-Eastern pool is anti-conservative---consistent with the East-dominated
 certified core of the WVS reanalysis, and irrelevant to the within-country
 certifications, which use no exchangeability.
 \emph{(d) Real-data severity injection} (\texttt{e42};
-\texttt{real\_severity.csv}): injecting a known persistent decline of $\delta$
-CDF points over the preregistered core into the observed rounds-9--11 pair
-differences ($30$ countries, $57$ pairs, each with its own stratified-PSU
-bootstrap): the net rung reaches $80\%$ detection between $\delta=0.03$ and
-$0.04$ per pair, the persistent rung only at $\delta\approx0.08$---the same
-ordering and similar thresholds as the E32 simulation (real design noise sits
-slightly above the simulated $0.012$ SE), confirming on real data that the net
-rung is the powered instrument for secular-scale decline.
+\texttt{real\_severity.csv}). Two designs, because they answer different
+questions. \emph{Power (null-imposed):} the estimand is \emph{replaced} by an
+injected decline of $\delta$ CDF points over the preregistered core --- $\widehat
+D\leftarrow\delta$ and the bootstrap draws recentred on it --- keeping each of the
+$30$ countries' $57$ real stratified-PSU bootstraps. At $\delta=0$ this is the
+sharp null and all three rungs certify in $0.000$ of countries (nominal $0.10$);
+$80\%$ power arrives at $\delta=0.02$--$0.03$ per pair for the net rung, $0.04$
+for the pairwise rung, and $\approx0.06$ for the persistent rung. This
+reproduces E32's simulated ordering and thresholds against genuine design noise.
+\emph{Detection (additive):} the injection is added on top of what each country
+actually did, so $\delta=0$ returns the observed certification rates ($0.20$ net,
+$0.03$ persistent) and the curve answers ``how much further decline would bring
+the certified set to a given size'' --- a different quantity, reported alongside.
+A caution for anyone reusing this design: the shift must travel with the
+bootstrap distribution. Adding it only to the point estimate lowers the
+studentized critical value by $\delta/\mathrm{sd}$ \emph{while} raising the
+margin, counting the injection twice; an earlier version of this script did so
+and overstated power by roughly a factor of two in $\delta$.
 \emph{(e) WVS design-effect sensitivity} (\texttt{e39};
 \texttt{wvs\_deff\_sensitivity.csv}): rerunning the full five-item certification
 with the weights-only bootstrap variance inflated by deff $1.5$ and $2.0$: at
@@ -822,6 +886,51 @@ the core loses only Trinidad and Tobago ($12$ remain) and the
 marginal-to-persistent gap widens from $2.6$--$6.5\times$ to $3.0$--$8.3\times$
 --- confirming the paper's directional claim that the shipped gap is a lower
 bound.
+
+\paragraph{The long window, stress-tested four ways.} The rounds-1--11 analysis
+(\texttt{e36}) mixes design-bootstrap cells (rounds 9--11) with weights-only
+cells (rounds 1--8): $174$ of $231$ pairs have a weights-only side. Because each
+cell is self-studentized, the sup-$t$ critical value is scale-free per cell and
+the understatement enters only through the final margins, in the inclusive
+direction --- protective for the \emph{zero persistent} result, a liability for
+the \emph{nine net} result. Four checks bound it.
+\emph{(i) Design-effect sensitivity} (\texttt{e44};
+\texttt{ess\_long\_window\_deff.csv}): inflating the weights-only cells'
+bootstrap variance by deff $1.5$ and $2.0$ leaves the net counts \emph{exactly}
+unchanged ($9$ for trust, $8$ for satisfaction, same membership at every deff)
+and the persistent counts at zero; only the any-pair rung moves ($28\to25$,
+$24\to22$). The nine are not an artifact of the missing clustering variance.
+\emph{(ii) Endpoint sensitivity} (\texttt{e43};
+\texttt{ess\_endpoint\_sensitivity.csv}): re-certifying the net rung over every
+admissible sub-span spanning at least two adjacent steps, only Cyprus, Spain and
+the United Kingdom certify with either endpoint round dropped; Spain and Cyprus
+also certify in most sub-spans ($31/45$ and $12/15$), the two strongest cases in
+the data. Ukraine ($6/10$ sub-spans), Greece ($5/10$), Israel ($8/21$) and Italy
+($4/10$) are endpoint-dependent, and the main text says so.
+\emph{(iii) Certified magnitudes} (\texttt{e45};
+\texttt{ess\_magnitudes.csv}): the same one-sided band that certifies a decline
+returns its size, the largest $d$ with $\widehat D(t)-c\,\mathrm{sd}(t)\ge d$ at
+every core threshold; these are the entries of the main text's magnitude table and the paper's
+citable quantities.
+\emph{(iv) Certified recoveries} (\texttt{e45}; \texttt{ess\_rises.csv}):
+running the identical machinery with the inequality reversed certifies rises.
+Over the full record, $56$ rising pairs in $27$ countries against $59$ falling
+pairs in $28$, with $24$ countries certifying both. The zero at the persistent
+rung is therefore not a bare null: the episodic alternative is itself certified.
+
+\paragraph{Nonresponse and sample-type limits the machinery does not reach.}
+Two exposures deserve naming rather than absorption into ``measurement
+constancy.'' ESS response rates fell markedly across the 2002--2024 window, and
+nonresponse correlates with political trust; post-stratification on demographic
+margins cannot absorb a secular composition drift, which would produce exactly
+the slow monotone CDF movement the net rung certifies. This is a bias, not a
+variance, and no design bootstrap addresses it; the endpoint-robust subset is
+the reading least exposed to it, since it does not depend on any single wave.
+Second, the WVS/EVS trend file pools country-waves of heterogeneous sample type,
+including waves whose frames or substitution rules make design-based variance
+ill-defined; for those, ``weights-only bootstrap $\times$ deff'' is a
+sensitivity, not a variance, and the certified-core entries resting on them
+should be read with the per-country technical records to hand.
 
 \paragraph{Design-preserving stress test, reinterpreted.} Subsampling the real
 AmericasBarometer while preserving its stratified-PSU structure, pooled $\rhohat$

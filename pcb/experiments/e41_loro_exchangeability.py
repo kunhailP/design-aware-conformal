@@ -37,39 +37,47 @@ ROUNDS = (9, 10, 11)
 
 
 def _traj(p, outcome):
-    """country -> (L, |core|) trajectory matrix over available core rounds."""
+    """country -> {essround: (|core|,) curve} over available core rounds.
+
+    Keyed by ESS round, not by position: a country that skipped a round (e.g.
+    Greece and Israel field only rounds 10-11) must be scored against the
+    centers of the rounds it actually fielded, not against whatever sits at the
+    same index of a longer trajectory.
+    """
     cols = [f"{outcome}_t{t}" for t in CORE_T]
     out = {}
     for c, g in p[p.essround.isin(ROUNDS)].groupby("cntry"):
         g = g.sort_values("essround")
         if len(g) < 2:
             continue
-        out[c] = g[cols].to_numpy(float)
+        out[c] = {int(r): row for r, row in
+                  zip(g["essround"].to_numpy(), g[cols].to_numpy(float))}
     return out
 
 
-def _score(F, mu_rows):
-    """sup-|deviation| of a trajectory from per-round centers (align by round)."""
-    return float(np.nanmax(np.abs(F - mu_rows)))
+def _round_mean(traj_list):
+    """Per-round mean curve across a set of trajectories, keyed by round."""
+    mu = {}
+    for r in ROUNDS:
+        rows = [t[r] for t in traj_list if r in t]
+        if rows:
+            mu[r] = np.mean(rows, axis=0)
+    return mu
+
+
+def _score(traj, mu):
+    """sup-|deviation| of a trajectory from the per-round centers it shares."""
+    devs = [np.abs(curve - mu[r]) for r, curve in traj.items() if r in mu]
+    return float(np.max(np.concatenate(devs))) if devs else np.nan
 
 
 def _loo_scores(trajs, members):
     """Calibration scores with leave-one-out centers over `members`."""
     scores = {}
     for c in members:
-        others = [trajs[o] for o in members if o != c]
-        mu = _round_mean(others)
-        scores[c] = _score(trajs[c], mu[: trajs[c].shape[0]])
+        mu = _round_mean([trajs[o] for o in members if o != c])
+        scores[c] = _score(trajs[c], mu)
     return scores
-
-
-def _round_mean(mats):
-    L = max(m.shape[0] for m in mats)
-    out = np.full((L, len(CORE_T)), np.nan)
-    for r in range(L):
-        rows = [m[r] for m in mats if m.shape[0] > r]
-        out[r] = np.nanmean(rows, axis=0)
-    return out
 
 
 def main():
@@ -90,25 +98,28 @@ def main():
             q_idx = int(np.ceil((1 - ALPHA) * (len(cal) + 1))) - 1
             q = np.sort(list(cal_scores.values()))[min(q_idx, len(cal) - 1)]
             mu = _round_mean([trajs[c] for c in cal])
-            covered = sum(_score(trajs[c], mu[: trajs[c].shape[0]]) <= q
-                          for c in test)
+            covered = sum(_score(trajs[c], mu) <= q for c in test)
             rows.append(dict(outcome=outcome, region=region, n_test=len(test),
                              n_cal=len(cal), covered=covered,
                              coverage=round(covered / len(test), 3),
                              q_loro=round(q, 4)))
-        # exchangeable baseline: full-pool LOO self-coverage
+        # Self-coverage of the full pool. NOTE: this is near-tautological
+        # (the fraction of LOO scores at or below their own ceil((1-a)(K+1))-th
+        # order statistic is m/K by construction); it is reported only as a
+        # numerical check that the pipeline is wired correctly, NOT as evidence
+        # for exchangeability. The regional holdouts carry the content.
         scores = _loo_scores(trajs, have)
         q_idx = int(np.ceil((1 - ALPHA) * (len(have) + 1))) - 1
         qs = np.sort(list(scores.values()))
         q = qs[min(q_idx, len(have) - 1)]
         cov = sum(s <= q for s in scores.values())
-        rows.append(dict(outcome=outcome, region="ALL (LOO baseline)",
+        rows.append(dict(outcome=outcome, region="ALL (self-coverage check)",
                          n_test=len(have), n_cal=len(have) - 1, covered=cov,
                          coverage=round(cov / len(have), 3), q_loro=round(q, 4)))
     res = pd.DataFrame(rows)
     res.to_csv("results/loro_exchangeability.csv", index=False)
     print(res.to_string(index=False))
-    worst = res[res.region != "ALL (LOO baseline)"].coverage.min()
+    worst = res[res.region != "ALL (self-coverage check)"].coverage.min()
     print(f"\nworst held-out-region coverage: {worst:.3f} (nominal 0.90; "
           f"binomial noise on n<=11 is large — read counts, not rates)")
 

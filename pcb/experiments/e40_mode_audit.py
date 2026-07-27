@@ -34,7 +34,46 @@ import pcb.experiments.e13_ess_audit as e13
 from pcb.experiments.e12_ess_decline import ALPHA, CORE_T
 from pcb.inference.decline_certify import certify_decline_differences
 
-SC_R10 = {"AT", "CY", "DE", "ES", "IL", "LV", "PL", "RS", "SE"}
+SC_MODES = {3, 4}          # 3 = CAWI, 4 = self-administered paper
+VIDEO_MODE = 2             # video (web-based) interview, distinct from CAPI
+
+
+def _mode_table():
+    """Country x round administration mode, read from the data's own `mode`
+    variable (not from external documentation). Round 9 ships mode='not
+    available'; it was face-to-face throughout per the ESS9 documentation."""
+    import pyreadstat
+    d, _ = pyreadstat.read_dta("data/ess/Datafile-subset.dta",
+                               usecols=["essround", "cntry", "mode"])
+    d = d[d.essround.isin([9, 10, 11])]
+    rows = []
+    for (c, r), g in d.groupby(["cntry", "essround"], observed=True):
+        m = g["mode"]
+        n = len(g)
+        sc = float(m.isin(SC_MODES).mean())
+        vid = float((m == VIDEO_MODE).mean())
+        rows.append(dict(cntry=str(c), essround=int(r), n=n,
+                         share_selfcompletion=round(sc, 4),
+                         share_video=round(vid, 4),
+                         mode=("self-completion" if sc > 0.5 else
+                               "face-to-face (mode not recorded)"
+                               if m.isna().all() else "face-to-face")))
+    return pd.DataFrame(rows).sort_values(["cntry", "essround"])
+
+
+def _singleton_strata(df):
+    """How many strata contribute a single PSU (and so no internal variance) in
+    the core country-rounds -- the one bias the rescaled bootstrap cannot fix."""
+    tot = single = resp_single = 0
+    for (c, r), g in df.groupby(["cntry", "essround"], observed=True):
+        if g["psu"].isna().all() or g["stratum"].isna().all():
+            continue
+        k = g.groupby("stratum", observed=True)["psu"].nunique()
+        tot += len(k); single += int((k <= 1).sum())
+        if (k <= 1).any():
+            bad = set(k[k <= 1].index)
+            resp_single += int(g["stratum"].isin(bad).sum())
+    return tot, single, resp_single
 
 
 def main():
@@ -44,19 +83,30 @@ def main():
     df = df.assign(_w=df["anweight"].fillna(df["pspwght"]))
     df = df[df._w.notna() & (df._w > 0)]
 
-    # --- (1) mode table over the certification window -------------------------
-    rows = []
-    for c in sorted(df.cntry.unique()):
-        for r in (9, 10, 11):
-            if klass.get((c, r)) != "core":
-                continue
-            mode = "self-completion" if (r == 10 and c in SC_R10) else "face-to-face"
-            rows.append(dict(cntry=c, essround=r, mode=mode))
-    mt = pd.DataFrame(rows)
+    # --- (1) mode table, derived from the data --------------------------------
+    mt = _mode_table()
     mt.to_csv("results/ess_mode_table.csv", index=False)
-    n_sc = mt[(mt.essround == 10) & (mt["mode"] == "self-completion")].cntry.nunique()
-    print(f"mode table written: {mt.cntry.nunique()} countries; "
-          f"{n_sc} self-completion at round 10\n")
+    sc10 = sorted(mt[(mt.essround == 10) &
+                     (mt["mode"] == "self-completion")].cntry.unique())
+    SC_R10 = set(sc10)
+    vid = mt[(mt.essround.isin([10, 11])) & (mt.share_video > 0)]
+    print(f"mode table (from the data's own `mode` variable): "
+          f"{mt.cntry.nunique()} countries")
+    print(f"  round-10 self-completion ({len(sc10)}): {sc10}")
+    print(f"  video interviewing present in {vid.cntry.nunique()} countries "
+          f"(rounds 10-11), max share {vid.share_video.max():.2f} — collapsed "
+          f"into face-to-face here, disclosed in the paper")
+
+    core = df[[klass.get((c, r)) == "core"
+               for c, r in zip(df.cntry, df.essround)]]
+    tot, single, resp = _singleton_strata(core)
+    print(f"  singleton strata in the core rounds: {single} of {tot} "
+          f"({100*single/max(tot,1):.2f}%), covering {resp} respondents "
+          f"({100*resp/max(len(core),1):.2f}%)\n")
+    pd.DataFrame([dict(strata_total=tot, strata_singleton=single,
+                       respondents_in_singleton=resp,
+                       respondents_total=len(core))]).to_csv(
+        "results/ess_singleton_strata.csv", index=False)
 
     # --- (2) mode-constant rerun ----------------------------------------------
     shipped = pd.read_csv("results/ess_country_certification.csv")

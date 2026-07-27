@@ -1,91 +1,91 @@
-cntry,essround,mode
-AT,9,face-to-face
-AT,10,self-completion
-AT,11,face-to-face
-BE,9,face-to-face
-BE,10,face-to-face
-BE,11,face-to-face
-BG,9,face-to-face
-BG,10,face-to-face
-BG,11,face-to-face
-CH,9,face-to-face
-CH,10,face-to-face
-CH,11,face-to-face
-CY,9,face-to-face
-CY,10,self-completion
-CY,11,face-to-face
-CZ,9,face-to-face
-CZ,10,face-to-face
-DE,9,face-to-face
-DE,10,self-completion
-DE,11,face-to-face
-DK,9,face-to-face
-EE,9,face-to-face
-EE,10,face-to-face
-EE,11,face-to-face
-ES,9,face-to-face
-ES,10,self-completion
-ES,11,face-to-face
-FI,9,face-to-face
-FI,10,face-to-face
-FI,11,face-to-face
-FR,9,face-to-face
-FR,10,face-to-face
-FR,11,face-to-face
-GB,9,face-to-face
-GB,10,face-to-face
-GB,11,face-to-face
-GR,10,face-to-face
-GR,11,face-to-face
-HR,9,face-to-face
-HR,10,face-to-face
-HR,11,face-to-face
-HU,9,face-to-face
-HU,10,face-to-face
-HU,11,face-to-face
-IE,9,face-to-face
-IE,10,face-to-face
-IE,11,face-to-face
-IL,10,self-completion
-IL,11,face-to-face
-IS,9,face-to-face
-IS,10,face-to-face
-IS,11,face-to-face
-IT,9,face-to-face
-IT,10,face-to-face
-IT,11,face-to-face
-LT,9,face-to-face
-LT,10,face-to-face
-LT,11,face-to-face
-LV,9,face-to-face
-LV,10,self-completion
-LV,11,face-to-face
-ME,9,face-to-face
-ME,10,face-to-face
-ME,11,face-to-face
-MK,10,face-to-face
-NL,9,face-to-face
-NL,10,face-to-face
-NL,11,face-to-face
-NO,9,face-to-face
-NO,10,face-to-face
-NO,11,face-to-face
-PL,9,face-to-face
-PL,10,self-completion
-PL,11,face-to-face
-PT,9,face-to-face
-PT,10,face-to-face
-PT,11,face-to-face
-RS,9,face-to-face
-RS,10,self-completion
-RS,11,face-to-face
-SE,9,face-to-face
-SE,10,self-completion
-SE,11,face-to-face
-SI,9,face-to-face
-SI,10,face-to-face
-SI,11,face-to-face
-SK,9,face-to-face
-SK,10,face-to-face
-SK,11,face-to-face
-UA,11,face-to-face
+cntry,essround,n,share_selfcompletion,share_video,mode
+AT,9,2499,0.0,0.0,face-to-face (mode not recorded)
+AT,10,2003,0.9516,0.0,self-completion
+AT,11,2354,0.0,0.0004,face-to-face
+BE,9,1767,0.0,0.0,face-to-face (mode not recorded)
+BE,10,1341,0.0,0.0119,face-to-face
+BE,11,1594,0.0,0.0019,face-to-face
+BG,9,2198,0.0,0.0,face-to-face (mode not recorded)
+BG,10,2718,0.0,0.0,face-to-face
+BG,11,2239,0.0,0.0,face-to-face
+CH,9,1542,0.0,0.0,face-to-face (mode not recorded)
+CH,10,1523,0.0,0.0328,face-to-face
+CH,11,1384,0.0,0.0412,face-to-face
+CY,9,781,0.0,0.0,face-to-face (mode not recorded)
+CY,10,875,1.0,0.0,self-completion
+CY,11,685,0.0,0.0,face-to-face
+CZ,9,2398,0.0,0.0,face-to-face (mode not recorded)
+CZ,10,2476,0.0,0.0,face-to-face
+DE,9,2358,0.0,0.0,face-to-face (mode not recorded)
+DE,10,8725,1.0,0.0,self-completion
+DE,11,2420,0.0,0.0,face-to-face
+DK,9,1572,0.0,0.0,face-to-face (mode not recorded)
+EE,9,1904,0.0,0.0,face-to-face (mode not recorded)
+EE,10,1542,0.0,0.1556,face-to-face
+EE,11,1293,0.0,0.0,face-to-face
+ES,9,1668,0.0,0.0,face-to-face (mode not recorded)
+ES,10,2283,1.0,0.0,self-completion
+ES,11,1844,0.0,0.0,face-to-face
+FI,9,1755,0.0,0.0,face-to-face (mode not recorded)
+FI,10,1577,0.0,0.1522,face-to-face
+FI,11,1563,0.0,0.2681,face-to-face
+FR,9,2010,0.0,0.0,face-to-face (mode not recorded)
+FR,10,1977,0.0,0.0233,face-to-face
+FR,11,1771,0.0,0.0407,face-to-face
+GB,9,2204,0.0,0.0,face-to-face (mode not recorded)
+GB,10,1149,0.0,0.0479,face-to-face
+GB,11,1684,0.0,0.0261,face-to-face
+GR,10,2799,0.0,0.0082,face-to-face
+GR,11,2757,0.0,0.0,face-to-face
+HR,9,1810,0.0,0.0,face-to-face (mode not recorded)
+HR,10,1592,0.0,0.0597,face-to-face
+HR,11,1563,0.0,0.0,face-to-face
+HU,9,1661,0.0,0.0,face-to-face (mode not recorded)
+HU,10,1849,0.0,0.0,face-to-face
+HU,11,2118,0.0,0.0005,face-to-face
+IE,9,2216,0.0,0.0,face-to-face (mode not recorded)
+IE,10,1770,0.0,0.0034,face-to-face
+IE,11,2017,0.0,0.0,face-to-face
+IL,10,1308,1.0,0.0,self-completion
+IL,11,906,0.0,0.0,face-to-face
+IS,9,861,0.0,0.0,face-to-face (mode not recorded)
+IS,10,903,0.0,0.3688,face-to-face
+IS,11,842,0.0,0.4181,face-to-face
+IT,9,2745,0.0,0.0,face-to-face (mode not recorded)
+IT,10,2640,0.0,0.1731,face-to-face
+IT,11,2865,0.0,0.0052,face-to-face
+LT,9,1835,0.0,0.0,face-to-face (mode not recorded)
+LT,10,1659,0.0,0.0,face-to-face
+LT,11,1365,0.0,0.0015,face-to-face
+LV,9,918,0.0,0.0,face-to-face (mode not recorded)
+LV,10,1023,1.0,0.0,self-completion
+LV,11,1252,0.0,0.0,face-to-face
+ME,9,1200,0.0,0.0,face-to-face (mode not recorded)
+ME,10,1278,0.0,0.0,face-to-face
+ME,11,1609,0.0,0.0,face-to-face
+MK,10,1429,0.0,0.0028,face-to-face
+NL,9,1673,0.0,0.0,face-to-face (mode not recorded)
+NL,10,1470,0.0,0.1687,face-to-face
+NL,11,1695,0.0,0.046,face-to-face
+NO,9,1406,0.0,0.0,face-to-face (mode not recorded)
+NO,10,1411,0.0,0.348,face-to-face
+NO,11,1337,0.0,0.4839,face-to-face
+PL,9,1500,0.0,0.0,face-to-face (mode not recorded)
+PL,10,2065,1.0,0.0,self-completion
+PL,11,1442,0.0,0.0,face-to-face
+PT,9,1055,0.0,0.0,face-to-face (mode not recorded)
+PT,10,1838,0.0,0.0044,face-to-face
+PT,11,1373,0.0,0.0,face-to-face
+RS,9,2043,0.0,0.0,face-to-face (mode not recorded)
+RS,10,1505,1.0,0.0,self-completion
+RS,11,1563,0.0,0.0,face-to-face
+SE,9,1539,0.0,0.0,face-to-face (mode not recorded)
+SE,10,2287,1.0,0.0,self-completion
+SE,11,1230,0.0,0.1195,face-to-face
+SI,9,1318,0.0,0.0,face-to-face (mode not recorded)
+SI,10,1252,0.0,0.0,face-to-face
+SI,11,1248,0.0,0.0,face-to-face
+SK,9,1083,0.0,0.0,face-to-face (mode not recorded)
+SK,10,1418,0.0,0.0,face-to-face
+SK,11,1442,0.0,0.0055,face-to-face
+UA,11,2661,0.0,0.0,face-to-face

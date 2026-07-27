@@ -57,12 +57,10 @@ concentration argument with constants depending only on the constants of
 (A1)--(A3). The finite-$K$-safe scale
 $\widehat s_T^2$ (Section~\ref{sec:method}) subtracts a lower confidence bound on the
 design variance, making the scale-error term one-sided (wide, not narrow) outside an
-$\alpha_2$-probability event. Some shape restriction is not removable---the bimodal
-counterexample of Theorem~\ref{thm:oracle}(b) defeats any latent-target band without
-one---and (A1) is one sufficient choice, strong enough to make the distributional
-matching exact; alternatives (e.g.\ smoothness conditions under a known noise law,
-as in the deconvolution literature) trade finite-sample exactness for weaker
-assumptions.
+$\alpha_2$-probability event. Some shape restriction is not removable---the bimodal counterexample of
+Theorem~\ref{thm:oracle}(b) defeats any latent-target band without one---and (A1)
+is one sufficient choice, strong enough to make the distributional matching
+exact.
 \end{theorem}
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
@@ -78,18 +76,17 @@ otherwise $\alpha_{\text{dec}}=\min\{\max(0.1\alpha,\,3/(K{+}1)),\,\alpha/2\}$ w
 $\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$, a frozen function of $K$ alone.
 Then, finite-sample and with \emph{no conditions on the selection rule},
 \[
-\Pr\big(\Ftilde_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;
-1-\alpha-\varepsilon_{K,B}\,\mathbf 1\{K\ge94\},
+\Pr\big(\Ftilde_{\text{new},r}(t)\in\widehat B\big)\ge1-\alpha\ \ (K<94),
+\qquad
+\Pr\big(F_{\text{new},r}(t)\in\widehat B\big)\ge1-\alpha-\varepsilon_{K,B}\ \
+(K\ge94).
 \]
-where $\varepsilon_{K,B}$ is Theorem~\ref{thm:estimated}'s estimated-law
-remainder, attached to the deconvolution branch only---the $K\ge94$ clause therefore
-inherits that theorem's assumptions (A1)--(A3), while the $K<94$ clause needs
-exchangeability only---and reported through the observable diagnostic
-$\widehat\delta_{\text{UCB}}(D)$ when that branch fires. As in
-Theorem~\ref{thm:exact}, the $K<94$ statement is exact for the survey-estimate
-target T1; the latent target T2 adds the T1$\to$T2 gap of
-Theorem~\ref{thm:oracle}(b). (The deconvolution branch, when it fires, targets T2
-directly under (A1)--(A3).)
+The clauses name different targets because they rest on different assumptions:
+exchangeability alone gives the estimated trajectory T1 exactly (the latent T2
+adding Theorem~\ref{thm:oracle}(b)'s gap), while (A1)--(A3)---already inherited
+from Theorem~\ref{thm:estimated} through its remainder $\varepsilon_{K,B}$, which
+is attached to the deconvolution branch only---additionally deliver the latent
+target directly, by an anchor-domination lemma (Appendix~\ref{app:proofs}).
 \end{theorem}
 
 The proof (Appendix~\ref{app:proofs}) uses no conditional-on-selection step: a
@@ -98,19 +95,12 @@ selection between nested bands anchored at an exact band is validity-free---an
 instance of nested-conformal machinery \citep{gupta2022nested,yang2024selection};
 our contribution is engineering the branches so it applies) plus a union bound
 charging the non-nested deconvolution branch its own budget, only where its gate can
-open. The gates therefore carry no validity burden; at survey scale the deployed
-guarantee is exact $1-\alpha$ for the survey-estimate trajectory, full stop, and
-honest for the latent one through the reported, $\rho$-bounded gap. Two scope notes.
-First, in the $K\ge94$ regime the \emph{reported} level
-$1-\alpha-\widehat\delta_{\text{UCB}}(D)$ is a frozen calibrated bound
-(Supplementary Material, S3), not a theorem---the theorem-level statement is the
-display above, and without (A1)--(A3) the worst case when deconvolution fires is
-$\alpha_{\text{anchor}}+\Pr(\widehat J=\text{dec})$. Second,
-Theorem~\ref{thm:exact}'s condition covers the deployed certification and
-validation modes; the unsurveyed-target mode with leave-one-out centers carries a
-residual $O(1/K^2)$ asymmetry bounded only heuristically
-(Appendix~\ref{app:proofs})---users needing a strict guarantee there should use a
-split-fold center.
+open. The gates carry no validity burden. Two scope notes: in the $K\ge94$ regime the
+\emph{reported} level $1-\alpha-\widehat\delta_{\text{UCB}}(D)$ is a frozen
+calibrated bound, not a theorem; and the unsurveyed-target mode with
+leave-one-out centers carries a residual $O(1/K^2)$ asymmetry bounded only
+heuristically---users needing a strict guarantee there should use a split-fold
+center.
 
 \paragraph{Efficiency.} \emph{(AW-1, proved)} the low-$\rho$ deconvolution/PCB
 width ratio is $1-\tfrac12\rho^2+O(\rho^4)$; \emph{(AW-2)} conservative

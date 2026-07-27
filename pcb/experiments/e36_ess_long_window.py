@@ -36,6 +36,13 @@ from pcb.inference.decline_certify import certify_decline_differences
 OUTCOMES = ("trstprl", "stfdem")
 MIN_N = 100
 
+# Design-effect inflation applied to the WEIGHTS-ONLY (rounds 1-8) cells only:
+# draws are rescaled about the point estimate, F + sqrt(deff)*(F_b - F), so the
+# sup-t critical value scales exactly by sqrt(deff). 1.0 = the shipped
+# analysis; e44 drives this to 1.5 and 2.0 as a sensitivity for the counts that
+# the understated weights-only variance could inflate.
+DEFF_EXTENDED = 1.0
+
 
 def _boot_for(sub, outcome, klass_cr, rng):
     """CDF + bootstrap draws for one country-round; design boot iff 'core'."""
@@ -45,7 +52,10 @@ def _boot_for(sub, outcome, klass_cr, rng):
     F = _wcdf(y, w)
     if klass_cr == "core":
         return F, _design_boot(y, w, s, p, rng)
-    return F, _naive_boot(y, w, rng)
+    B = _naive_boot(y, w, rng)
+    if DEFF_EXTENDED != 1.0:
+        B = F[None, :] + np.sqrt(DEFF_EXTENDED) * (B - F[None, :])
+    return F, B
 
 
 def audit_country_long(csub, usable, klass, c, outcome, rng):

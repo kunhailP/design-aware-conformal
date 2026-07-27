@@ -7,7 +7,7 @@ Two tiers. Everything is deterministic under the committed seeds
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 57 contract tests (theorem <-> code)
+python -m pytest tests/ -q          # 59 contract tests (theorem <-> code)
 # out of the box (each writes results/*.csv; ~seconds to ~minutes unless noted):
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1
 python -m pcb.experiments.e32_severity              # severity/power
@@ -42,6 +42,16 @@ python -m pcb.experiments.e13_ess_audit             # ESS certification counts (
 python -m pcb.experiments.e36_ess_long_window       # long window 2002–2024 (§7)
 python -m pcb.experiments.e26_wvs_deconsolidation   # WVS/EVS Foa–Mounk (§7; ~1–2 h)
 python -m pcb.experiments.e34_wvs_country_flags     # per-country rung flags
+# robustness analyses (all require the microdata)
+python -m pcb.experiments.e38_rescaled_bootstrap    # Rao-Wu-Yue rescaling
+python -m pcb.experiments.e39_wvs_deff_sensitivity  # WVS deff x1.5/x2
+python -m pcb.experiments.e40_mode_audit            # mode table + singleton strata
+python -m pcb.experiments.e41_loro_exchangeability  # leave-one-region-out
+python -m pcb.experiments.e42_real_severity         # null-imposed power curve
+python -m pcb.experiments.e43_endpoint_sensitivity  # net-rung endpoint robustness
+python -m pcb.experiments.e44_long_window_deff      # long-window deff sensitivity
+python -m pcb.experiments.e45_magnitudes_and_rises  # certified sizes + recoveries
+python -m pcb.experiments.e46_claassen_window_matched  # window/item-matched
 # supporting real-data experiments
 python -m pcb.experiments.e12_ess_decline
 python -m pcb.experiments.e23_ess_youth
