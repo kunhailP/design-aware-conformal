@@ -164,7 +164,7 @@ def test_erosion_share_is_not_ranked_across_countries():
     si = t[t.cntry == "SI"].iloc[0]
     assert (int(es.n_declining), int(es.n_spans)) == (32, 55)
     assert (int(si.n_declining), int(si.n_spans)) == (21, 55)
-    _present("we do not rank it", "correlation $0.96$")
+    _present("we do not rank on it", "correlation $0.96$")
     for bad in ["cyprus $0.62$", "eight democracies with no certified erosion"]:
         assert bad not in _norm(TEXT), f"cross-country ranking survives: {bad}"
 
