@@ -42,12 +42,22 @@ python -m pytest tests/ -q          # 57 contract tests (theorem <-> code)
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
 
-Using the method on your own data:
+Using the method on your own data — Python:
 
 ```python
 from pcb import dapcb
 fit = dapcb(cal_errors, v_cal, center, alpha=0.10)
 fit.band, fit.selected_branch, fit.coverage_level, fit.fallback_reason
+```
+
+or R (`rpkg/dapcb`, a pure-R port validated against the Python reference by
+golden tests to 1e-10; `R CMD check` clean):
+
+```r
+install.packages("rpkg/dapcb_1.0.0.tar.gz", repos = NULL, type = "source")
+library(dapcb)
+fit <- dapcb(E, V, center, alpha = 0.10)
+print(fit)   # branch, coverage level, diagnostics
 ```
 
 ## Reproduce
@@ -69,6 +79,7 @@ Common targets: `make test`, `make tier1`, `make figures`, `make paper`.
 
 ```
 paper/            LaTeX source + compiled PDFs (main, supplement, title page)
+rpkg/dapcb/        R package: pure-R dapcb port, vignette, golden cross-language tests
 pcb/
   inference/      clustered/population conformal, design_aware, safe selector
   data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)

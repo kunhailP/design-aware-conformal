@@ -1,0 +1,11 @@
+{
+ "alpha": 0.1,
+ "branch": "conservative",
+ "rho_hat": 0.9529196690871091,
+ "rho_lcb": 0.7942279607124765,
+ "reliability": 58.412865477469815,
+ "delta_ucb": 5.514433214525403,
+ "coverage_level": 0.9,
+ "gain_lcb": null,
+ "overlap_warning": true
+}

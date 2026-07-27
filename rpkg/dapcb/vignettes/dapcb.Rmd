@@ -1,0 +1,88 @@
+---
+title: "Your survey data to a simultaneous band in ten lines"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Your survey data to a simultaneous band in ten lines}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4)
+```
+
+## What `dapcb` does
+
+You have $K$ source populations (countries, districts, schools) whose
+curve-valued outcomes — say, an attitude CDF over a response scale, possibly
+across several survey waves — were **estimated from complex samples**. You want
+a band for a *new* population's curve that is simultaneously valid over the
+whole grid, in finite samples, with the *population* as the exchangeable unit.
+
+`dapcb()` returns that band, and decides — via four frozen, target-blind
+gates — whether correcting for the survey design noise in the calibration
+curves is *reliable* at your $K$. When it is not (which includes every
+cross-national survey we know of), the method reduces to an exact clustered
+conformal band and tells you why.
+
+## Ten lines
+
+```{r}
+library(dapcb)
+set.seed(1)
+K <- 30; T_ <- 9                                    # 30 countries, 9 thresholds
+E <- matrix(rnorm(K * T_, 0, 0.05), K, T_)          # transport-error curves
+V <- matrix(abs(rnorm(K * T_, 0.006, 0.001)), K, T_) # design-noise SDs (bootstrap)
+center <- pmin(cumsum(abs(rnorm(T_, 0.09, 0.02))), 1) # predicted target curve
+
+fit <- dapcb(E, V, center, alpha = 0.10)
+print(fit)
+```
+
+The inputs:
+
+- `E` — each row is one source population's transport-error curve
+  $E_c(t) = \hat F_c(t) - \tilde F_c(t)$ over the threshold grid (observed
+  curve minus its transport prediction);
+- `V` — the design-based SD of each curve cell, from your survey's
+  stratified-PSU or replicate-weight bootstrap (zeros for a census);
+- `center` — the predicted curve for the new population.
+
+## Reading the result
+
+```{r}
+fit$selected_branch      # "PCB" | "conservative" | "deconvolution"
+fit$coverage_level       # guaranteed lower bound on simultaneous coverage
+fit$fallback_reason      # why the aggressive branch was not used
+round(cbind(lo = fit$lo, hi = fit$hi), 3)
+```
+
+```{r band-plot}
+t <- seq_len(length(center))
+plot(t, center, type = "l", lwd = 2, ylim = c(0, 1),
+     xlab = "threshold", ylab = "CDF", main = "dapcb simultaneous band")
+polygon(c(t, rev(t)), c(fit$lo, rev(fit$hi)), border = NA,
+        col = grDevices::adjustcolor("steelblue", 0.25))
+lines(t, center, lwd = 2)
+```
+
+## The guarantee, in one paragraph
+
+The PCB and conservative branches use unstudentized scores, so the $K{+}1$
+scores are exchangeable and the order-statistic band is **exact at any $K$**
+for the estimated trajectory; because the conservative score dominates the PCB
+score pointwise, the two bands are nested and *any* selection between them is
+validity-free. The deconvolution branch — which subtracts design noise and is
+narrower — carries its own frozen miss budget and can only activate when a
+deterministic reliability floor ($K \ge 94$ at the frozen constants) and three
+data gates all pass; `coverage_level` reports the resulting guarantee either
+way. Details, proofs, and the survey-scale unreachability result are in the
+companion paper.
+
+## Cross-language validation
+
+This package is a pure-R port of the reference Python implementation
+(`pcb.dapcb` in the replication package). Seven golden cases — spanning all
+three branches, a census source, the $K=94$ feasibility boundary, and a tiny-$K$
+edge case — are shipped under `inst/golden/` and checked to $10^{-10}$ at
+`R CMD check` time.

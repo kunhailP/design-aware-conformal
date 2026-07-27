@@ -27,3 +27,18 @@ jobs:
         run: |
           python -m pcb.experiments.e32_severity
           python -m pcb.experiments.e28_wrong_unit_coverage
+
+  r-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: R CMD check (golden cross-language tests)
+        run: |
+          cd rpkg
+          R CMD build dapcb --no-build-vignettes
+          _R_CHECK_FORCE_SUGGESTS_=false R CMD check dapcb_*.tar.gz --no-manual --ignore-vignettes
+      - name: Fail on ERROR/WARNING
+        run: "! grep -E 'Status.*(ERROR|WARNING)' rpkg/dapcb.Rcheck/00check.log"

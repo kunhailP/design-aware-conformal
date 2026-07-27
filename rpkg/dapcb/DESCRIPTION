@@ -1,0 +1,25 @@
+Package: dapcb
+Type: Package
+Title: Design-Aware Population Conformal Bands
+Version: 1.0.0
+Authors@R: person("The", "Authors", role = c("aut", "cre"),
+    email = "anonymized@review.invalid",
+    comment = "Anonymized while the companion paper is under review")
+Description: Finite-sample simultaneous conformal bands for whole trajectories
+    of population-level curves (e.g. a country's attitude CDF across survey
+    waves), with the population as the exchangeable unit. Implements the
+    nominal-safe adaptive selector of the companion paper "The Wrong Unit of
+    Uncertainty": a clustered population conformal band that is exact at any
+    number of calibration populations, inside a selection-free selector that
+    activates a design-noise deconvolution only where four target-blind gates
+    certify it is reliable, and otherwise falls back to the exact clustered
+    band or a conservative envelope. A pure-R port of the reference Python
+    implementation; numerical agreement is enforced by golden tests generated
+    from the Python package.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.1
+Depends: R (>= 3.6)
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/kunhailP/design-aware-conformal

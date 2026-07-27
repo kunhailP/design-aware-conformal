@@ -14,3 +14,5 @@ results/holdout_safe_selector.csv
 build/
 dist/
 /figures/
+rpkg/dapcb.Rcheck/
+rpkg/*.tar.gz

@@ -1,0 +1,11 @@
+{
+ "alpha": 0.1,
+ "branch": "PCB",
+ "rho_hat": 0.5000341120008297,
+ "rho_lcb": 0.2570897341547739,
+ "reliability": 0.8827024514448306,
+ "delta_ucb": 0.08933884117124752,
+ "coverage_level": 0.9,
+ "gain_lcb": null,
+ "overlap_warning": true
+}

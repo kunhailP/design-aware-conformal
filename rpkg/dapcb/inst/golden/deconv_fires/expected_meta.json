@@ -1,0 +1,11 @@
+{
+ "alpha": 0.1,
+ "branch": "deconvolution",
+ "rho_hat": 0.5315642339683256,
+ "rho_lcb": 0.49975726830503686,
+ "reliability": 0.11654161762694482,
+ "delta_ucb": 0.017089874542220895,
+ "coverage_level": 0.8829101254577791,
+ "gain_lcb": 0.19272007737405478,
+ "overlap_warning": false
+}
