@@ -1,7 +1,25 @@
 # Handoff — where this manuscript stands and what remains
 
-Last updated: 2026-07-17. Branch: `repair/theorem-code-validation` (not yet merged
-to `main`, by design — merge once the author-only items below are done).
+Last updated: 2026-07-27. Branch: `repair/theorem-code-validation` (not yet merged
+to `main`, by design — merge once the remaining author items below are done).
+
+> **2026-07-27 session update.** Items A1 and A2 are DONE: the `pcb/data` loaders
+> are restored (root cause: an unanchored `data/` .gitignore pattern silently
+> excluded them) and DATA_SOURCES/REPRODUCIBILITY now describe THIS project with
+> checksums; e13 (ESS) and e26 (WVS) verified to reproduce the committed CSVs
+> bit-identically from the licensed microdata; LAPOP CSVs refreshed from current
+> code (11/1,119 booleans moved, no claim affected). The theory section was
+> restated to carry the T1/T2 target distinction on its face (plus Thm 1(ii),
+> Thm 4' A3/rates, calibrated-bound labeling, LOO disclosure). New experiments:
+> **e34** per-country WVS flags, **e35** V-Dem cross-tabs (regime refinement in
+> §7; predictive null in supplement), **e36 the long window** (rounds 1–11:
+> persistence 0/34, net erosion 9, Israel/Italy pairwise-invisible — now the
+> abstract/intro co-headline), **e37** Claassen comparison (core not recoverable
+> from the pooled latent panel). Supplement bibliography restored (citations were
+> rendering as '?'). Word budget: 5,894 body + 114 captions. Items A3 (AI
+> disclosure: author will write), B5–B9 (rescaled bootstrap, deff sensitivity,
+> mode audit, severity injection, LORO), and the SDDF design-file merge for
+> rounds 1–8 remain open.
 
 ## Current state (one paragraph)
 
