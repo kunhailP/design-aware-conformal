@@ -1,0 +1,7 @@
+group,window,n,median_dpoly,prop_declining
+certified core (>=2 persist),2022->2025,13,-0.014,0.615
+certified core (>=2 persist),2017->2025,13,-0.028,0.846
+"marginal >=2 (anypair plug-in), not core",2022->2025,54,-0.0085,0.741
+"marginal >=2 (anypair plug-in), not core",2017->2025,54,-0.0385,0.741
+not flagged (anypair plug-in <2),2022->2025,9,-0.013,0.778
+not flagged (anypair plug-in <2),2017->2025,9,0.002,0.444

@@ -1,0 +1,6 @@
+universe: screened on >=2 items, n=78
+latest V-Dem year: 2025
+core n=13, marginal-not-core n=54
+MannWhitney(one-sided, core more negative) p=0.7952
+Fisher(one-sided, core more often declining) p=0.8910
+median d2022: core -0.0140, marginal -0.0085
