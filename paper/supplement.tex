@@ -923,22 +923,20 @@ unchanged ($9$ for trust, $8$ for satisfaction, same membership at every deff)
 and the persistent counts at zero; only the any-pair rung moves ($28\to25$,
 $24\to22$). The nine are not an artifact of the missing clustering variance.
 \emph{(ii) Endpoint sensitivity} (\texttt{e43};
-\texttt{ess\_endpoint\_sensitivity.csv}): re-certifying the net rung over every
-admissible sub-span spanning at least two adjacent steps, only Cyprus, Spain and
-the United Kingdom certify with either endpoint round dropped; Spain and Cyprus
-also certify in most sub-spans ($31/45$ and $12/15$), the two strongest cases in
-the data. Ukraine ($6/10$ sub-spans), Greece ($5/10$), Israel ($8/21$) and Italy
-($4/10$) are endpoint-dependent, and the main text says so.
-\emph{(iii) Certified magnitudes} (\texttt{e45};
-\texttt{ess\_magnitudes.csv}): the same one-sided band that certifies a decline
-returns its size, the largest $d$ with $\widehat D(t)-c\,\mathrm{sd}(t)\ge d$ at
-every core threshold; these are the entries of the main text's magnitude table and the paper's
-citable quantities.
-\emph{(iv) Certified recoveries} (\texttt{e45}; \texttt{ess\_rises.csv}):
-running the identical machinery with the inequality reversed certifies rises.
-Over the full record, $56$ rising pairs in $27$ countries against $59$ falling
-pairs in $28$, with $24$ countries certifying both. The zero at the persistent
-rung is therefore not a bare null: the episodic alternative is itself certified.
+\texttt{ess\_endpoint\_sensitivity.csv}) re-certified the span rung over every
+admissible sub-span as a separate test each, and found only Cyprus, Spain and
+the United Kingdom surviving the removal of either endpoint. That analysis is
+\emph{superseded} by the joint construction of the main text
+(the claim-family transfer proposition of the main text, \texttt{e50}), under which every endpoint
+choice is certified on one coverage event and no selection cost arises; we keep
+the run in the package because it shows what the per-family construction cost.
+\emph{(iii) Certified magnitudes and recoveries} (\texttt{e45}, superseded by
+\texttt{e50}): the same one-sided band that certifies a decline returns its
+size, the largest $d$ with $\widehat D(t)-c\,\mathrm{sd}(t)\ge d$ at every core
+threshold, and reversing the inequality certifies rises. Computed per family,
+these gave $56$ rising pairs against $59$ falling and $24$ countries with both,
+at $\alpha$ per family; computed inside the joint band they give $23$ of
+thirty-three at $\alpha$ in total, which is the number the main text reports.
 
 \paragraph{Nonresponse and sample-type limits the machinery does not reach.}
 Two exposures deserve naming rather than absorption into ``measurement
@@ -946,8 +944,9 @@ constancy.'' ESS response rates fell markedly across the 2002--2024 window, and
 nonresponse correlates with political trust; post-stratification on demographic
 margins cannot absorb a secular composition drift, which would produce exactly
 the slow monotone CDF movement the net rung certifies. This is a bias, not a
-variance, and no design bootstrap addresses it; the endpoint-robust subset is
-the reading least exposed to it, since it does not depend on any single wave.
+variance, and no design bootstrap addresses it; the erosion index---the share of a country's ordered
+contrasts that certify---is the reading least exposed to it, since no single
+wave carries it.
 Second, the WVS/EVS trend file pools country-waves of heterogeneous sample type,
 including waves whose frames or substitution rules make design-based variance
 ill-defined; for those, ``weights-only bootstrap $\times$ deff'' is a

@@ -303,6 +303,14 @@ def test_unit_frontier_gates():
 
 
 # ------------------------------------------------------------ no stale text --
+def test_no_stale_pre_joint_counts():
+    """The joint construction changed the span count; nothing may still say nine."""
+    flat = _norm(TEXT)
+    for bad in ["net erosion in nine", "certifies in nine",
+                "only three of the nine", "three of them robust to dropping"]:
+        assert bad not in flat, f"stale pre-joint-band claim: {bad}"
+
+
 def test_no_unverified_robustness_superlatives():
     """Guard against the caption failure mode: a blanket 'all entries unchanged'
     claim about a table whose magnitude columns were never recomputed."""
