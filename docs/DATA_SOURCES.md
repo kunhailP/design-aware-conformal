@@ -1,71 +1,74 @@
-# Data Sources: Provenance, Licence, and Selection Criteria
+# Data sources — exact files, retrieval, and placement
 
-The unit of analysis is the *population*. A population is a country-year (or
-survey-year) sample drawn from a common distribution of poverty curves. The
-number of exchangeable populations available for estimation is the primary
-constraint on the analysis.
+Three licensed survey microdata files drive every real-data result. None is
+redistributed here (`/data/` is gitignored); each is freely available after
+registration with its provider. Place the files exactly as below — the loaders in
+`pcb/data/` hard-code these paths.
 
-## E1: DrivenData competition data
+## 1. European Social Survey (ESS), rounds 1–11
 
-The household-microdata experiment (E1) uses household-level data from a
-DrivenData prediction competition.
+- **What**: ESS Data Wizard subset of the integrated files, all countries, rounds
+  1–11, with the variables listed below.
+- **Where**: <https://ess.sikt.no> → Data Wizard → select rounds 1–11, all
+  countries, and the variables: `essround, cntry, trstprl, trstplt, trstprt,
+  stfdem, ppltrst, dweight, pspwght, pweight, anweight, psu, stratum, prob`.
+  Download as Stata (`.dta`). Registration is free; the ESS End User Licence
+  applies.
+- **Place at**: `data/ess/Datafile-subset.dta`
+- **Verify**: 1,959,409,874 bytes; sha256
+  `bbabd8f6a071d566e9cc7741d321b3c09d70ec500efd221bb668fef749e581b2`
+- **Notes**: PSU/stratum ship in the *integrated* files only from round 9; rounds
+  1–8 carry outcomes and weights (the long-window analysis `e36` uses a
+  weights-only bootstrap there, disclosed in the paper). The separate Sample
+  Design Data Files (rounds 1–8) would upgrade those rounds to the full design
+  bootstrap and are flagged as a revision item.
 
-- Files: `data/train_hh_features.csv` (household features),
-  `data/train_hh_gt.csv` (ground-truth household consumption), and
-  `data/train_rates_gt.csv` (per-threshold poverty headcounts). The expected
-  schema is documented in `data/schema/`.
-- The data comprise three source surveys, partitioned into 24 pseudo-populations
-  by survey and stratum.
-- **Not redistributed.** The DrivenData competition licence does not permit
-  redistribution, so these files are not committed to the repository. Users must
-  obtain the data directly from the competition and place the files under
-  `data/`.
+## 2. World Values Survey / EVS trend file, 1981–2022
 
-## E3: World Bank Poverty and Inequality Platform (PIP)
+- **What**: WVS/EVS joint trend file, Stata version 4.1
+  (`Trends_VS_1981_2022_stata_v4_1`).
+- **Where**: <https://www.worldvaluessurvey.org/WVSEVStrend.jsp> (registration and
+  purpose statement required by the WVSA/EVS terms).
+- **Place at**: `data/wvs/data_pa/Trends_VS_1981_2022_Stata_v4_1.dta`
+- **Verify**: 499,799,219 bytes; sha256
+  `d12c6e3ced6bef34a08917eb504c392795efa2aa7a7e614de37cfdc35c822c0f`
+- **Notes**: the trend file ships weights (exposed as `_w` by the loader) but
+  **no PSU/stratum identifiers**; every WVS band in the paper is therefore
+  weights-only, with the understated-variance direction disclosed.
 
-The cross-country transport experiment (E3) uses real cross-country, cross-year
-poverty curves from the World Bank Poverty and Inequality Platform (PIP).
+## 3. AmericasBarometer / LAPOP Grand Merge, 2004–2023
 
-- Acquired via `pcb/data/fetch_pip.py` (run `python -m pcb.data.fetch_pip`),
-  which queries the PIP API and caches the raw responses under `data/external/`.
-- For each population the script fetches the poverty headcount at a grid of
-  poverty lines (the poverty curve), together with covariates including the
-  distributional mean, median, Gini, mean log deviation, deciles, reporting
-  aggregates, and region.
-- Coverage: approximately 2,475 country-year surveys spanning 171 countries.
-  Populations with a complete curve across all requested poverty lines are
-  retained.
-- Each population is keyed as (country, year, welfare type), where welfare type
-  distinguishes consumption-based from income-based surveys.
-- Licence: World Bank, CC-BY 4.0 (public data).
+- **What**: `Grand_Merge_2004-2023_LAPOP_AmericasBarometer_v1.0_FREE.dta` (free
+  public version).
+- **Where**: <https://www.vanderbilt.edu/lapop/> → data access (free after
+  registration).
+- **Place at**:
+  `data/lapop/raw/Grand_Merge_2004-2023_LAPOP_AmericasBarometer_v1.0_FREE.dta`
+- **Verify**: 1,118,523,828 bytes; sha256
+  `06af29d17362db51f78720651b39d1734ca7f8255484fc3a1923becc37fa3c29`
+- **Notes**: full stratified-PSU structure ships in the merged file; the loader
+  excludes the 2021 phone-mode round (documented in `pcb/data/audit_lapop.py`).
 
-## Candidate external sources for extending E3
+## Public, redistributable inputs
 
-The following public and application-access microdata sources are candidate
-extensions for increasing the number and diversity of populations. They are
-listed here factually as options.
+- **V-Dem v15** country–year (`v2x_regime`, `v2x_polyarchy`): via the
+  `vdemdata` repository (<https://github.com/vdeminstitute/vdemdata>,
+  `data/vdem.RData`); path set by `VDEM_PATH` for `e35`.
+- **Claassen support-for-democracy panel** (corrected AJPS series): Harvard
+  Dataverse `doi:10.7910/DVN/HWLW0J` (`Support_democracy_ajps_correct.csv`);
+  path set by `CLAASSEN_PATH` for `e37`. Original PA-2019 materials:
+  `doi:10.7910/DVN/A47LUM`.
 
-| Source | Unit | Outcome | Access | Note |
-|---|---|---|---|---|
-| World Bank LSMS / Microdata Library | country-year | consumption aggregate | public-use files (per study) | Closest match to the PIP welfare measure; requires substantial harmonisation. |
-| LIS (Luxembourg Income Study) | country-year | harmonised income | application / remote execution | Income-based poverty with harmonised variables. |
-| IPUMS International | country-census-year | employment, education, and housing deprivation | free, registration required | Generalises from consumption poverty to broader social deprivation indicators. |
-| DHS (Demographic and Health Surveys) | country-year | wealth index, asset, and health deprivation | application | Asset-based deprivation rather than consumption. |
+## Loader entry points (code is authoritative for recodes)
 
-## Selection criteria for E3 populations
+| survey | schema audit | cache built |
+|---|---|---|
+| ESS | `python -m pcb.data.audit_ess` | `data/ess/core_audit.parquet` |
+| ESS panel | `python -m pcb.data.ess_panel` | `data/ess/panel.parquet` |
+| WVS | `python -m pcb.data.audit_wvs` | `data/wvs/trends_deconsolidation.parquet` |
+| LAPOP | `python -m pcb.data.audit_lapop` | `data/lapop/*.parquet` |
 
-A population is eligible for inclusion if it satisfies the following:
-
-- It provides a usable welfare aggregate (consumption or income).
-- It provides survey weights, and ideally stratum and primary sampling unit
-  identifiers.
-- Its poverty threshold definition is comparable to, or convertible onto, a
-  common threshold grid.
-- It can be held entirely out of model training, so that transport to the target
-  population is evaluated out of sample.
-
-## Population-unit definition
-
-The default population unit is `survey_year` / `country_year`. The unit is chosen
-so that populations can plausibly be treated as exchangeable draws from a common
-distribution of poverty curves.
+Weight construction: ESS uses `anweight` with `pspwght` fallback (the
+population-size weight `pweight` is a within-country constant and cancels in
+country CDFs). Item recodes, missing-code handling, and sample filters live in
+the loaders — treat the code, not this file, as the authority.

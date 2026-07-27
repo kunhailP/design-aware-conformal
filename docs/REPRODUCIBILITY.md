@@ -1,80 +1,77 @@
-# Reproducibility and Compute
+# Reproducibility and compute
 
-Every number and public figure in the paper regenerates from two open data snapshots
-with a single command:
+Two tiers. Everything is deterministic under the committed seeds
+(`pcb.util.det_seed`); Python 3.11, pins in `requirements.txt`.
+
+## Tier 1 — no microdata (simulation / theory / benchmarks / public data)
 
 ```bash
-pip install -r requirements.txt
-make reproduce
+pip install -r requirements.txt && pip install -e .
+python -m pytest tests/ -q          # 57 contract tests (theorem <-> code)
+# out of the box (each writes results/*.csv; ~seconds to ~minutes unless noted):
+python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1
+python -m pcb.experiments.e32_severity              # severity/power
+python -m pcb.experiments.e29_beyond_surveys        # unreachability beyond surveys
+python -m pcb.experiments.e11_gate5c                # theorem checks
+python -m pcb.experiments.e19_selector_sweep        # selector transition
+python -m pcb.experiments.e21_safe_selector         # dev grid
+python -m pcb.experiments.e22_holdout_validation    # 450-cell grid (~hours)
+python -m pcb.experiments.e30_certified_core        # core aggregation (frozen CSV input)
+python -m pcb.experiments.e31_positive_regime       # many-unit payoff
+python -m pcb.experiments.e33_final_validation      # sealed final grid (~hours)
+python -m pcb.experiments.e35_vdem_crosstab         # V-Dem cross-tabs (public)
+python -m pcb.experiments.e37_claassen_compare      # Claassen comparison (public)
 ```
 
-`make reproduce` (driver: `scripts/reproduce.py`) runs four stages: fetch public data,
-run all public-data experiments, regenerate the public figures, and a self-check that
-compares the regenerated results against the values reported in the paper and exits
-non-zero on any mismatch.
+Verified 2026-07-27 in a fresh environment: 8 of these reproduce their committed
+CSVs bit-identically (e11's outputs were refreshed from current code the same day).
 
-## Compute profile
+## Tier 2 — licensed microdata (the two named reanalyses + LAPOP validation)
 
-CPU- and RAM-bound; no GPU. The whole public pipeline runs on a laptop in a few
-minutes. The dominant cost is repeated leave-one-population-out cross-validation and the
-simulation grid, not dense linear algebra. LightGBM runs on CPU throughout.
+Obtain and place the three files per `docs/DATA_SOURCES.md` (checksums there),
+then:
 
-- Public reproduction (`make reproduce`): 4-8 vCPU, 8 GB RAM, a few minutes.
-- Simulation grid alone (E2): parallelises across replicates via joblib if available.
-- Optional private household layer (E1): 16 vCPU, 64 GB RAM.
+```bash
+# schema audits + caches (order matters; each ~1–5 min)
+python -m pcb.data.audit_ess
+python -m pcb.data.ess_panel
+python -m pcb.data.audit_wvs
+python -m pcb.data.audit_lapop
+# headline reanalyses
+python -m pcb.experiments.e13_ess_audit             # ESS certification counts (§7)
+python -m pcb.experiments.e36_ess_long_window       # long window 2002–2024 (§7)
+python -m pcb.experiments.e26_wvs_deconsolidation   # WVS/EVS Foa–Mounk (§7; ~1–2 h)
+python -m pcb.experiments.e34_wvs_country_flags     # per-country rung flags
+# supporting real-data experiments
+python -m pcb.experiments.e12_ess_decline
+python -m pcb.experiments.e23_ess_youth
+python -m pcb.experiments.e24_subgroup_rho_scan
+python -m pcb.experiments.e15_lapop_certify
+python -m pcb.experiments.e16_lapop_transport
+python -m pcb.experiments.e17_lapop_change_transport
+python -m pcb.experiments.e18_semisynthetic
+```
 
-## Determinism and seeding
+Verified 2026-07-27 against the committed results from the raw licensed files:
+`e13` (ESS certification) and `e26` (WVS all five items, all rungs) reproduce
+**bit-identically**; LAPOP outputs were refreshed from current code (post-repair
+version skew; 11 of 1,119 pair-level booleans moved, no paper claim affected).
 
-- Every public experiment is deterministic. Randomness is seeded explicitly inside
-  each script with a fixed `numpy.random.default_rng(seed)` (e.g. `e4_audit` uses
-  `default_rng(0)`; `h2_phase` and `run_sim_grid` use fixed per-replicate seeds). Several
-  experiments (`e3_baselines`, `e3_localized`, `e3_stress`, `e5_education`) use no
-  randomness at all; they are exact functions of the input snapshot.
-- No wall-clock date or time is used in any computational logic.
-- Calibration and noise models are fit out of sample only (enforced in
-  `models/predict_oof`), so calibration never uses data the model was trained on.
-- The two public data snapshots are committed (`data/external/pip_curves.csv`,
-  `data/external/education_curves.csv`) so results reproduce exactly even if the upstream
-  World Bank APIs change. `make data` (or `python scripts/reproduce.py --refetch`)
-  re-downloads them; expect minor drift if the APIs have been updated since.
+## Figures
 
-## Expected self-check values
+`python -m pcb.figures.<name>` writes to `figures/` (created on demand);
+`fig_certified_core` writes `paper/figures/` directly. Paper figures regenerate
+from the committed `results/*.csv` — microdata is not needed for figures.
 
-`make reproduce` (or `python scripts/reproduce.py --check`) verifies, within tolerance:
+## Compute
 
-| check | expected |
-|---|---|
-| baselines: pointwise-band (M2) simultaneous coverage (consumption, 123 countries) | 54.1% |
-| baselines: Gaussian-sup simultaneous coverage | 81.8% |
-| baselines: PCB simultaneous coverage | 88.9% |
-| localized: localized-band (M3′) / PCB width ratio (consumption) | 0.815 |
-| audit: certified share of funding decisions | 46% |
-| breadth: education pointwise-band simultaneous coverage | 51.4% |
-| breadth: education PCB simultaneous coverage | 88.5% |
+Everything runs on a single multicore machine; no GPU. The heavy items are the
+validation grids (`e22`, `e33`; hours) and `e26` (~1–2 hours). Memory: the ESS
+and LAPOP `.dta` reads peak at ~8–16 GB; the parquet caches make reruns cheap.
 
-## Environment setup
+## Determinism
 
-- `pip install -r requirements.txt`. Versions are pinned to the exact set used to
-  produce the paper (Python 3.11; numpy 2.4, pandas 3.0, scikit-learn 1.9, lightgbm 4.6,
-  scipy 1.17, matplotlib 3.11).
-- CPU only; no GPU or accelerator required.
-
-## Entry points
-
-All driven through the `Makefile` (run `make help` for the list):
-
-`make reproduce`, `make data`, `make experiments`, `make figures`, `make theory`,
-`make test`, `make paper`, `make e1` (optional private layer)
-
-## Scope of public reproduction
-
-- Fully public and self-checked: all simultaneous-coverage numbers (the within-population
-  bootstrap interval, the random-effects variance-inflated interval, the pointwise band,
-  Gaussian-sup, and PCB), the localized-band efficiency decomposition, the stress, region,
-  and forward-transport results, the bias-boundary phase experiment (H2), the audit
-  sufficiency and value-of-information results, the educational-attainment breadth result,
-  the simulation grid, and the appendix theory checks. Figures `fig3`, `fig9`, `fig10`.
-- Optional private layer (E1): the household-microdata reanalysis and figures `fig1`,
-  `fig7`, `fig8` derive from DrivenData competition files that are not redistributable.
-  Their committed PNGs and summary CSVs are provided; rebuild them with `make e1` once the
-  files are placed in `data/`.
+All RNG flows through `pcb.util.det_seed(...)` (named, per-cell seeds); reruns of
+any experiment reproduce its committed CSV exactly on the same dependency pins.
+The one disclosed exception is documented in the paper (§5): the original sealed
+holdout config was lost and its corrected-scorer rerun uses a fresh seed.
