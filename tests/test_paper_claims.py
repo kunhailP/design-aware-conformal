@@ -114,41 +114,53 @@ def test_long_window_pairs_and_weightsonly():
 
 
 def test_israel_italy_have_no_certified_pair():
-    """The under-detection showcase: net certified with zero certified pairs."""
+    """The under-detection showcase: span certified with no certified pair."""
     d = _csv("ess_long_window.csv")
     t = d[d.outcome == "trstprl"].set_index("cntry")
     for c in ("IL", "IT"):
         assert bool(t.loc[c, "net_da"]) and int(t.loc[c, "pair_da"]) == 0, c
-    _present("no individual certified pair")
+    _present("no certified adjacent pair")
 
 
 # ------------------------------------------------- endpoint robustness (e43) --
-def test_endpoint_robust_trio():
-    d = _csv("ess_endpoint_sensitivity.csv")
-    t = d[(d.outcome == "trstprl") & (d.net_full == True)]  # noqa: E712
-    robust = sorted(t.cntry[t.robust == True])              # noqa: E712
-    assert robust == ["CY", "ES", "GB"], robust
-    _present("only Cyprus, Spain and the United Kingdom survive")
+def test_joint_band_net_set():
+    """Every rung is read off one band (Proposition: claim-family transfer)."""
+    d = _csv("ess_joint_claims.csv")
+    t = d[d.outcome == "trstprl"]
+    got = sorted(t.cntry[t.net])
+    assert got == ["CY", "ES", "GB", "GR", "HU", "IL", "IT", "UA"], got
+    assert int(t.persistent.sum()) == 0
+    _present("certifies in \\emph{eight} countries")
 
 
-def test_subspan_fractions_quoted_in_text():
-    d = _csv("ess_endpoint_sensitivity.csv")
-    t = d[(d.outcome == "trstprl") & (d.n_spans > 0)].set_index("cntry")
-    for iso, quoted in [("CY", "0.80"), ("ES", "0.69"), ("UA", "0.60"),
-                        ("SI", "0.51"), ("GR", "0.50"), ("IT", "0.40")]:
-        got = round(float(t.loc[iso, "frac_cert"]), 2)
-        assert f"{got:.2f}" == quoted, (iso, got, quoted)
+def test_ukraine_magnitude_is_a_lower_bound():
+    d = _csv("ess_joint_claims.csv")
+    ua = d[(d.outcome == "trstprl") & (d.cntry == "UA")].iloc[0]
+    assert 25.5 <= float(ua.net_lower) * 100 <= 26.5
+    _present("at least} $26$ points")
+
+
+def test_joint_band_erosion_index():
+    d = _csv("ess_joint_claims.csv")
+    t = d[d.outcome == "trstprl"].set_index("cntry")
+    for iso, quoted in [("CY", "0.62"), ("ES", "0.58"), ("GR", "0.53"),
+                        ("UA", "0.47"), ("SI", "0.38"), ("IL", "0.36")]:
+        assert f"{float(t.loc[iso, 'frac_declining']):.2f}" == quoted, iso
         assert f"${quoted}$" in _norm(TEXT), (iso, quoted)
-
-
-def test_zero_subspan_countries():
-    d = _csv("ess_endpoint_sensitivity.csv")
-    t = d[(d.outcome == "trstprl") & (d.n_spans > 0)]
-    zero = sorted(t.cntry[t.n_cert == 0])
-    assert zero == ["BG", "CH", "LT", "LV", "ME", "NO", "RS"], zero
-    for name in ["Bulgaria", "Switzerland", "Lithuania", "Latvia", "Montenegro",
-                 "Norway", "Serbia"]:
+    zero = sorted(t[t.n_declining == 0].index)
+    assert zero == ["BG", "CH", "CZ", "LT", "LV", "ME", "NO", "RS"], zero
+    for name in ["Bulgaria", "Switzerland", "Czechia", "Lithuania", "Latvia",
+                 "Montenegro", "Norway", "Serbia"]:
         assert name.lower() in _norm(TEXT)
+
+
+def test_joint_band_episodic_needs_no_correction():
+    d = _csv("ess_joint_claims.csv")
+    for oc in ("trstprl", "stfdem"):
+        assert int(d[d.outcome == oc].episodic.sum()) == 23, oc
+    _present("twenty-three of thirty-three")
+    assert "eighteen of thirty-four" not in _norm(TEXT), (
+        "the Bonferroni patch is superseded by the joint band")
 
 
 # --------------------------------------------------------------- WVS rungs --
@@ -255,17 +267,6 @@ def test_mode_table_self_completion_set():
     sc = sorted(d[(d.essround == 10) &
                   (d["mode"] == "self-completion")].cntry.unique())
     assert sc == ["AT", "CY", "DE", "ES", "IL", "LV", "PL", "RS", "SE"], sc
-
-
-def test_episodic_counts_are_multiplicity_controlled():
-    d = _csv("ess_rises_bonferroni.csv")
-    t = d[d.outcome == "trstprl"]
-    assert int(t.epi.sum()) == 24 and int(t.epi_b.sum()) == 18
-    assert int(d[d.outcome == "stfdem"].epi_b.sum()) == 19
-    assert int(t.rises_b.sum()) == 34 and int(t.falls_b.sum()) == 34
-    _present("eighteen of thirty-four")
-    assert "twenty-four of thirty-four certify both" not in _norm(TEXT), (
-        "the uncontrolled any-pair conjunction must not be the headline")
 
 
 def test_claassen_window_matched_core_turnover():

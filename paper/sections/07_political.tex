@@ -12,14 +12,36 @@ we add a formal instrument that says so and the wrong-unit diagnosis of
 design-based uncertainty layer \citep{taihusolt2024} and whose data end in 2019,
 where our window begins.
 
-\paragraph{A hierarchy of claims.} The claims differ in their unit. A
-\emph{pairwise} claim asks whether some pair of waves shows a distributional
-shift; \emph{any-pair} aggregates these within a country; \emph{net} asks whether
-the first-to-last span declined; \emph{persistent country-wide} asks whether the
-whole distribution declined \emph{simultaneously} across the trajectory---one band
-holding over all wave pairs and thresholds at once; \emph{Bonferroni} further
-controls the number of countries examined. Each rung is strictly stronger than the
-last, and conflating them is exactly the over-detection this paper is about.
+\paragraph{A hierarchy of claims, and one band beneath it.} The claims differ in
+their unit. A \emph{pairwise} claim asks whether some pair of waves shows a
+distributional shift; \emph{any-pair} aggregates these within a country;
+\emph{net} asks whether the first-to-last span declined; \emph{persistent
+country-wide} asks whether the whole distribution declined \emph{simultaneously}
+across the trajectory; \emph{Bonferroni} further controls the number of countries
+examined. Each rung is strictly stronger than the last, and conflating them is
+exactly the over-detection this paper is about.
+
+The rungs are not separate tests: each of them, every sub-span, and the reverse
+direction is a deterministic function of one object---the country's surface of
+wave-pair contrasts---so all are certified on one coverage event.
+
+\begin{proposition}[Claim-family transfer]\label{prop:transfer}
+Let $\widehat B$ be a simultaneous $1-\alpha$ band for a country's contrast
+surface $\theta=\{\theta_{a,b}(t)\}$ over every ordered pair of observed rounds,
+and let $\{A_j\}$ be \emph{any} family of claims, each a set of surfaces. Define
+the certified subfamily $J=\{j:\widehat B\subseteq A_j\}$. Then
+$\Pr\big(\theta\in A_j\ \text{for every}\ j\in J\big)\ge1-\alpha$, with no
+dependence on $|J|$: on $\{\theta\in\widehat B\}$, set inclusion delivers every
+certified claim at once.
+\end{proposition}
+
+The proof is the line just given; the consequence is structural. Reading all
+rungs off a single studentized sup-$t$ band over the whole contrast
+family---one critical value, both directions---removes the corrections a
+per-rung construction needs: no Bonferroni across a country's pairs, no separate
+budget for certified recoveries, and no endpoint-selection cost, since every
+choice of first and last round is certified at once. The price is a wider
+critical value, and we report what it costs.
 
 \paragraph{Which instrument certifies what.} Within-country \emph{certification}
 is a design-based simultaneous (sup-$t$) band on wave-pair CDF differences from
@@ -58,58 +80,55 @@ trajectory to its full record (rounds 1--11; median six pairs, up to ten; rounds
 included---certify persistent distribution-wide decline over their full record.
 The null is not a bare one: reversing the inequality certifies
 \emph{recoveries}, and across the $231$ adjacent pairs of the trust series
-certified movement is directionally balanced. Controlling multiplicity within
-each country---Bonferroni over its pairs and both directions, so that ``at least
-one certified fall and one certified rise'' is itself a level-$0.10$ country
-claim---gives $34$ rises against $34$ falls and \emph{eighteen} of thirty-four
-countries with both; nineteen of thirty-four for satisfaction with democracy
-(\texttt{e45}; the uncontrolled any-pair counts are $56/59$ and $24$, and we
-report the controlled ones because the any-pair rung is the one this paper
-demotes). Whatever European trust did over two decades, it was not a monotone
+certified movement is directionally balanced. Inside the same band, and therefore at the same $\alpha$,
+\emph{twenty-three} of thirty-three countries certify at least one decline
+\emph{and} at least one recovery---for both outcomes (\texttt{e50}). No
+multiplicity correction enters: the two directions share one critical value by
+construction. Whatever European trust did over two decades, it was not a monotone
 slide. We stop short of calling it episodic: that would additionally require
 same-signed runs and returns toward baseline, which these counts do not
 establish.
 
-Net erosion across the whole span certifies in nine
-(Table~\ref{tab:magnitudes}), with the same membership at any design effect in
-$[0.6,2.0]$ on the weights-only rounds and breakdown points of $2.5$ to
-$\infty$ against a measured core-round deff of $0.9$--$2.4$ (\texttt{e44},
-\texttt{e47}); Israel and Italy certify it with \emph{no individual certified
-pair}---slow erosion invisible to any pairwise reading, the under-detection face
-of the wrong unit. But a span claim is itself a two-wave contrast, and the
-discipline this paper asks of others applies to its own strongest positive
-claim. Re-certifying over every admissible sub-span (\texttt{e43}), only
-Cyprus, Spain and the United Kingdom survive dropping either endpoint:
-Ukraine's certified decline of \emph{at least} $28$ points runs from the
-post-Orange-Revolution wave of 2005 to a wartime sample, and Greece's and
-Israel's spans begin or end in a crisis wave. The endpoint-free summary is the \emph{share of a country's admissible
-sub-spans that certify}, the quantity a twenty-year claim should be indexed on:
-Cyprus $0.80$, Spain $0.69$, Ukraine $0.60$, Slovenia $0.51$, Greece $0.50$,
-Italy $0.40$, Israel and the United Kingdom $0.38$, France and Portugal
-$0.33$---down to \emph{zero} for Bulgaria, Switzerland, Lithuania, Latvia,
-Montenegro, Norway and Serbia. Slovenia certifies over more of its record than
-the United Kingdom yet never enters the nine, its first-to-last contrast
-happening not to certify: the binary is the endpoint-selected quantity, the
-fraction is not.
+Under Proposition~\ref{prop:transfer}---one band, every ordered contrast and
+both directions at $\alpha=0.10$ jointly (\texttt{e50})---net erosion over the
+whole span certifies in \emph{eight} countries (Cyprus, Spain, the United
+Kingdom, Greece, Hungary, Israel, Italy, Ukraine; Table~\ref{tab:magnitudes}).
+The joint statement costs one country against a per-rung construction and buys
+the rest of this paragraph. Israel and Italy certify the span with
+\emph{no certified adjacent pair}---slow erosion invisible to any pairwise
+reading, the under-detection face of the wrong unit. Because every choice of
+first and last round is certified at the same time, the endpoint-free summary is
+free: the \emph{share of a country's ordered contrasts that certify a decline},
+which is what a twenty-year claim should be indexed on. Cyprus $0.62$, Spain
+$0.58$, Greece $0.53$, Ukraine $0.47$, Slovenia $0.38$, Israel $0.36$---down to
+\emph{zero} for Bulgaria, Switzerland, Czechia, Lithuania, Latvia, Montenegro,
+Norway and Serbia, eight democracies with no certified erosion anywhere in their
+record. Slovenia certifies over more of its record than several members of the
+eight yet does not enter, its first-to-last contrast happening not to certify:
+the binary is the endpoint-selected quantity, the fraction is not. Ukraine's certified span decline of \emph{at least} $26$ points still runs from
+the post-Orange-Revolution wave of 2005 to a wartime sample: a certified
+statement about those two waves, which the fraction places in context.
 
 \begin{table}[t]\centering
-\caption{Certified net decline in parliamentary trust, 2002--2024: a $90\%$
-simultaneous lower bound over the preregistered core, in CDF points. The
-certified \emph{set} is unchanged at any weights-only design effect in
-$[0.6,2.0]$; the bounds shrink under inflation.}\label{tab:magnitudes}
-\begin{tabular}{lccccc}
+\caption{Certified net decline in parliamentary trust, 2002--2024, read off one
+band covering every ordered contrast and both directions at $\alpha=0.10$
+jointly. \emph{Decline $\ge$}: simultaneous lower bound over the preregistered
+core, in CDF points. \emph{Contrasts}: ordered round pairs certified declining,
+of all admissible; their share is the endpoint-free erosion index. The certified
+set is unchanged at any weights-only design effect in
+$[0.6,2.0]$.}\label{tab:magnitudes}
+\begin{tabular}{lcccc}
 \toprule
-country & rounds & decline $\ge$ & pairs cert. & endpoint-robust & sub-spans \\
+country & rounds & decline $\ge$ & contrasts & share \\
 \midrule
-Ukraine & 2--11 & 0.282 & 2/4 & no & 6/10 \\
-Cyprus & 3--11 & 0.092 & 2/5 & \textbf{yes} & 12/15 \\
-United Kingdom & 1--11 & 0.090 & 4/10 & \textbf{yes} & 17/45 \\
-Israel & 1--11 & 0.054 & 0/5 & no & 8/21 \\
-Greece & 1--11 & 0.046 & 2/3 & no & 5/10 \\
-Hungary & 1--11 & 0.038 & 3/10 & no & 10/45 \\
-Spain & 1--11 & 0.036 & 3/10 & \textbf{yes} & 31/45 \\
-Italy & 1--11 & 0.034 & 0/3 & no & 4/10 \\
-France & 1--11 & 0.014 & 2/10 & no & 15/45 \\
+Ukraine & 2--11 & 25.9 & 7/15 & 0.47 \\
+Cyprus & 3--11 & \phantom{0}6.2 & 13/21 & 0.62 \\
+United Kingdom & 1--11 & \phantom{0}6.1 & 11/55 & 0.20 \\
+Greece & 1--11 & \phantom{0}3.1 & 8/15 & 0.53 \\
+Israel & 1--11 & \phantom{0}2.6 & 10/28 & 0.36 \\
+Italy & 1--11 & \phantom{0}1.6 & 5/15 & 0.33 \\
+Hungary & 1--11 & \phantom{0}1.1 & 9/55 & 0.16 \\
+Spain & 1--11 & \phantom{0}0.6 & 32/55 & 0.58 \\
 \bottomrule
 \end{tabular}
 \end{table}
