@@ -12,13 +12,15 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import os
 import numpy as np
 import pandas as pd
 
-BLUE, AQUA, YELLOW, GREEN = "#2a78d6", "#1baf7a", "#eda100", "#008300"
-RED = "#e34948"
+BLUE, AQUA, YELLOW, GREEN = "#0072B2", "#56B4E9", "#E69F00", "#009E73"
+RED = "#D55E00"
 TEXT, MUTED, GRID = "#1a1a19", "#6b6a63", "#e5e4dd"
 METH = [("M0_plugin", "M0 plug-in\n(no uncertainty)", YELLOW),
         ("M1_naive", "M1 naive boot\n(no clustering)", AQUA),
@@ -60,7 +62,7 @@ def fig_counts(pair):
                  "design-aware certification is stricter and valid",
                  fontsize=11, color=TEXT, x=0.02, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/plug_in_vs_design_aware_certification.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/plug_in_vs_design_aware_certification.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/plug_in_vs_design_aware_certification.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -88,7 +90,7 @@ def fig_reclass(pair):
                  "declines, keeps the strong ones",
                  fontsize=11, color=TEXT, x=0.02, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.93))
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/country_reclassification_map.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/country_reclassification_map.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/country_reclassification_map.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -148,7 +150,7 @@ def fig_hierarchy(cty):
                  fontsize=10.5, color=TEXT, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.93))
     os.makedirs("figures", exist_ok=True)
-    fig.savefig("figures/guarantee_hierarchy.png", dpi=200)
+    fig.savefig("figures/guarantee_hierarchy.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/guarantee_hierarchy.pdf", bbox_inches="tight")
     plt.close(fig)
 
 

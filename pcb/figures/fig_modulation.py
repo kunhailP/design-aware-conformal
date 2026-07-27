@@ -1,4 +1,3 @@
-import os
 """Gate-4A figures: self-inclusion shrinkage and coverage over K x L.
 
 figures/modulation_score_shrinkage.png : calibration/target score ratio vs K,
@@ -11,14 +10,17 @@ figures/coverage_by_K_L.png : trajectory simultaneous coverage vs K, same
 Run:  python -m pcb.figures.fig_modulation   (after e10_modulation_validity)
 """
 from __future__ import annotations
+import os
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import pandas as pd
 
 # fixed categorical slot order (validated: worst adjacent CVD dE 24.2)
-COLORS = {"U0": "#2a78d6", "S1": "#1baf7a", "S2": "#eda100", "S3": "#008300"}
+COLORS = {"U0": "#0072B2", "S1": "#56B4E9", "S2": "#E69F00", "S3": "#009E73"}
 LABELS = {"U0": "U0 unstudentized (exact)",
           "S1": "S1 split modulation (exact)",
           "S2": "S2 pooled in-sample (empirical)",
@@ -76,7 +78,7 @@ def main():
         "cal / target score ratio")
     _draw(axes, sim, "cal_target_ratio", ref=1.0, ref_label="symmetric (=1)")
     fig.tight_layout(rect=(0, 0, 0.985, 0.93))
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/modulation_score_shrinkage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/modulation_score_shrinkage.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/modulation_score_shrinkage.pdf", bbox_inches="tight")
     plt.close(fig)
 
     fig, axes = _panel_grid(

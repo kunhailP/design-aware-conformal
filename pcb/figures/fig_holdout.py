@@ -13,14 +13,16 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import os
 import numpy as np
 import pandas as pd
 
 TEXT, MUTED, GRID = "#1a1a19", "#6b6a63", "#e5e4dd"
-RED = "#e34948"
-KCOL = {25: "#eda100", 40: "#1baf7a", 80: "#2a78d6", 160: "#6f42c1", 320: "#008300"}
+RED = "#D55E00"
+KCOL = {25: "#E69F00", 40: "#56B4E9", 80: "#0072B2", 160: "#6f42c1", 320: "#009E73"}
 
 
 def _ax(ax):
@@ -43,7 +45,7 @@ def main():
 
     fig, (axL, axR) = plt.subplots(1, 2, figsize=(10.5, 4), facecolor="#fcfcfb")
     _ax(axL); _ax(axR)
-    axL.axhspan(0.88, 0.90, color="#1baf7a", alpha=0.10)
+    axL.axhspan(0.88, 0.90, color="#56B4E9", alpha=0.10)
     axL.axhline(0.90, color=MUTED, lw=1.1, ls=":")
     axL.axhline(0.88, color=RED, lw=1.1, ls="--")
     axL.text(0.03, 0.905, "nominal 0.90", fontsize=7.5, color=MUTED)
@@ -72,7 +74,7 @@ def main():
     axR.set_title("Efficient branch unlocks with K;\nsmall K abstains (honest)",
                   fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/holdout_validation.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/holdout_validation.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/holdout_validation.pdf", bbox_inches="tight")
     plt.close(fig)
     print("wrote figures/holdout_validation.png")
 

@@ -12,13 +12,15 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import os
 import numpy as np
 import pandas as pd
 
-BLUE, AQUA, YELLOW = "#2a78d6", "#1baf7a", "#eda100"
-RED, MUTED2 = "#e34948", "#8a897f"
+BLUE, AQUA, YELLOW = "#0072B2", "#56B4E9", "#E69F00"
+RED, MUTED2 = "#D55E00", "#8a897f"
 TEXT, MUTED, GRID = "#1a1a19", "#6b6a63", "#e5e4dd"
 LAB = {"b13": "Trust in\nlegislature", "sat": "Satisfaction\nw/ democracy",
        "ing4": "Support for\ndemocracy"}
@@ -61,7 +63,7 @@ def fig_rho(level, change):
                  "stay\nlow-ρ — real cross-national inference never reaches the "
                  "deconvolution regime", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_level_vs_change_rho.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_level_vs_change_rho.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/lapop_level_vs_change_rho.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -92,7 +94,7 @@ def fig_width(change):
                  "T3/T1≈1−½ρ²\n(AW-1), T3/T2<1 conservative dominance (AW-2)",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_change_width_by_method.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_change_width_by_method.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/lapop_change_width_by_method.pdf", bbox_inches="tight")
     plt.close(fig)
 
 

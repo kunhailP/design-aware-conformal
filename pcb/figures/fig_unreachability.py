@@ -19,6 +19,8 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator
 import os
@@ -26,7 +28,7 @@ import numpy as np
 import pandas as pd
 
 TEXT, MUTED, GRID, SURF = "#1a1a19", "#6b6a63", "#e5e4dd", "#fcfcfb"
-RED, BLUE, GREEN, GOLD = "#e34948", "#2a78d6", "#1baf7a", "#eda100"
+RED, BLUE, GREEN, GOLD = "#D55E00", "#0072B2", "#56B4E9", "#E69F00"
 RHO0, TAU_D = 0.47, (0.02 - 0.0061) / 0.0943      # gate-A cutoff, gate-B D-threshold
 KSTAR = 1 + 2 / TAU_D**2                           # min K for gate B (≈94)
 
@@ -105,7 +107,7 @@ def main():
                   "empty at survey scale)", fontsize=9.5, color=TEXT, loc="left")
 
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/unreachability.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/unreachability.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/unreachability.pdf", bbox_inches="tight")
     plt.close(fig)
     print(f"τ_D={TAU_D:.4f}  K*={KSTAR:.1f}  "
           f"max ρ̂={d.rho_hat.max():.3f}  max ρ̂_LCB={d.rho_lcb.max():.3f}  "

@@ -20,6 +20,8 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator
 import os
@@ -32,8 +34,8 @@ from pcb.util import det_seed
 
 # --- house style ------------------------------------------------------------
 TEXT, MUTED, GRID, SURF = "#1a1a19", "#6b6a63", "#e5e4dd", "#fcfcfb"
-COL = {"oracle": "#1a1a19", "naive": "#e34948",
-       "safe": "#eda100", "safe_dec": "#eda100", "selector": "#1baf7a"}
+COL = {"oracle": "#1a1a19", "naive": "#D55E00",
+       "safe": "#E69F00", "safe_dec": "#E69F00", "selector": "#56B4E9"}
 KS = [25, 40, 80, 160, 320]
 LS = [4, 8, 16]
 S_R, RHO, ALPHA, REPS = 1.0, 0.90, 0.10, 2000   # ρ = design SD / transport SD
@@ -158,7 +160,7 @@ def fig_shrinkage(shrink):
                  "the safe guard shrinks less, and both converge as $K$ grows",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_shrinkage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_shrinkage.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/theory_shrinkage.pdf", bbox_inches="tight")
     plt.close(fig)
     print("wrote figures/theory_shrinkage.png")
 
@@ -191,7 +193,7 @@ def fig_coverage(cov):
                  "$K$ (worse as $L$ grows); the deployed selector abstains and stays "
                  "valid", fontsize=10.5, color=TEXT, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.96))
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_coverage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_coverage.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/theory_coverage.pdf", bbox_inches="tight")
     plt.close(fig)
     print("wrote figures/theory_coverage.png")
 

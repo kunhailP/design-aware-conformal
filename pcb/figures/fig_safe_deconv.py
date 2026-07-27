@@ -11,13 +11,15 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import os
 import numpy as np
 import pandas as pd
 
-BLUE, AQUA, GREEN, YELLOW = "#2a78d6", "#1baf7a", "#008300", "#eda100"
-RED, MUTED2 = "#e34948", "#8a897f"
+BLUE, AQUA, GREEN, YELLOW = "#0072B2", "#56B4E9", "#009E73", "#E69F00"
+RED, MUTED2 = "#D55E00", "#8a897f"
 TEXT, MUTED, GRID = "#1a1a19", "#6b6a63", "#e5e4dd"
 
 
@@ -71,7 +73,7 @@ def main():
     axR.set_title("Residual gap is finite-K:\ncoverage → nominal as K grows "
                   "(ε_{K,B}→0)", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/safe_deconv_coverage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/safe_deconv_coverage.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/safe_deconv_coverage.pdf", bbox_inches="tight")
     plt.close(fig)
     print("wrote figures/safe_deconv_coverage.png")
 

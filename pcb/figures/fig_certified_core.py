@@ -13,14 +13,16 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
 TEXT, MUTED = "#1a1a19", "#6b6a63"
-FILL = {"post-communist": "#2a78d6",
-        "MENA / Arab-Spring aftermath": "#eda100",
-        "Latin America & Caribbean": "#1baf7a",
+FILL = {"post-communist": "#0072B2",
+        "MENA / Arab-Spring aftermath": "#E69F00",
+        "Latin America & Caribbean": "#56B4E9",
         "Sub-Saharan Africa": "#8d5fd3",
         "Consolidated West": "#d6452a",
         "Asia": "#008394", "other": "#6b6a63"}
@@ -64,7 +66,7 @@ def main():
                  "(WVS/EVS 1981–2022; weights-aware simultaneous bands)",
                  fontsize=11, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("paper/figures/certified_core.png", dpi=200)
+    fig.savefig("paper/figures/certified_core.png", dpi=300, bbox_inches="tight"); fig.savefig("paper/figures/certified_core.pdf", bbox_inches="tight")
     print("wrote paper/figures/certified_core.png")
 
 

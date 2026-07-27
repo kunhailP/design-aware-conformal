@@ -13,13 +13,15 @@ from __future__ import annotations
 import matplotlib
 
 matplotlib.use("Agg")
+from pcb.figures.style import use as _style_use
+_style_use()
 import matplotlib.pyplot as plt
 import os
 import numpy as np
 import pandas as pd
 
-BLUE, AQUA, YELLOW, GREEN = "#2a78d6", "#1baf7a", "#eda100", "#008300"
-RED = "#e34948"
+BLUE, AQUA, YELLOW, GREEN = "#0072B2", "#56B4E9", "#E69F00", "#009E73"
+RED = "#D55E00"
 TEXT, MUTED, GRID = "#1a1a19", "#6b6a63", "#e5e4dd"
 LABELS = {"b13": "Trust in legislature", "sat": "Satisfaction w/ democracy",
           "ing4": "Support for democracy"}
@@ -58,7 +60,7 @@ def fig_repro(pair):
                  "survey\nuncertainty roughly halves certifications (M0→survey-aware)",
                  fontsize=10, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_external_reproduction.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_external_reproduction.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/lapop_external_reproduction.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -83,7 +85,7 @@ def fig_deff(pair):
                  "proper stratified-PSU band is materially wider (up to ~1.9×)",
                  fontsize=10, color=TEXT, loc="left")
     fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_design_effect.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_design_effect.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/lapop_design_effect.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
