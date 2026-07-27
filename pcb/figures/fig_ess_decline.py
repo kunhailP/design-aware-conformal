@@ -92,18 +92,7 @@ def fig_reclass(pair):
     plt.close(fig)
 
 
-def fig_hierarchy(cty):
-    """Guarantee-unit funnel: plug-in vs design-aware certified-decline country
-    counts at increasingly strict units (trstprl)."""
-    p = cty[cty.outcome == "trstprl"]
-    levels = [("any-pair\n(marginal)", int(p.any_plugin.sum()), int(p.any_da.sum())),
-              ("repeated\n(≥2 pairs)", int((p.pair_plugin >= 2).sum()),
-               int((p.pair_da >= 2).sum())),
-              ("net decline\n(first→last)", int(p.net_plugin.sum()),
-               int(p.net_da.sum())),
-              ("persistent\n(country-wide)", int(p.persist_plugin.sum()),
-               int(p.persist_da.sum()))]
-    fig, ax = plt.subplots(figsize=(7.4, 3.8), facecolor="#fcfcfb")
+def _funnel(ax, levels, title, legend=False, ylabel=False):
     _ax(ax)
     x = np.arange(len(levels)); w = 0.38
     plug = [l[1] for l in levels]; da = [l[2] for l in levels]
@@ -118,14 +107,48 @@ def fig_hierarchy(cty):
                     color=TEXT, fontweight="bold")
     ax.set_xticks(x); ax.set_xticklabels([l[0] for l in levels], fontsize=8.5,
                                          color=TEXT)
-    ax.set_ylabel("countries with certified\ntrust decline", fontsize=9, color=TEXT)
-    ax.set_ylim(0, max(plug) + 2.5)
-    ax.legend(fontsize=8, frameon=False, loc="upper right", labelcolor=TEXT)
-    ax.set_title("Tightening the guarantee unit and propagating survey\n"
-                 "uncertainty narrows certified trust declines to one (Greece)",
-                 fontsize=10, color=TEXT, loc="left")
-    fig.tight_layout()
-    os.makedirs("figures", exist_ok=True); fig.savefig("figures/guarantee_hierarchy.png", dpi=200)
+    ax.set_ylim(0, max(plug) + 3.0)
+    ax.set_title(title, fontsize=9.5, color=TEXT, loc="left")
+    if ylabel:
+        ax.set_ylabel("countries with certified\ntrust decline", fontsize=9,
+                      color=TEXT)
+    if legend:
+        ax.legend(fontsize=8, frameon=False, loc="upper right", labelcolor=TEXT)
+
+
+def _levels(p):
+    return [("any-pair\n(marginal)", int(p.any_plugin.sum()), int(p.any_da.sum())),
+            ("repeated\n(≥2 pairs)", int((p.pair_plugin >= 2).sum()),
+             int((p.pair_da >= 2).sum())),
+            ("net decline\n(first→last)", int(p.net_plugin.sum()),
+             int(p.net_da.sum())),
+            ("persistent\n(country-wide)", int(p.persist_plugin.sum()),
+             int(p.persist_da.sum()))]
+
+
+def fig_hierarchy(cty):
+    """Guarantee-unit funnel (trstprl): rounds 9-11 beside the full 2002-24
+    record (e36) — one persistent country in the short window, none over the
+    long one."""
+    p = cty[cty.outcome == "trstprl"]
+    panels = [("Rounds 9–11 (2018–24), K=30", _levels(p))]
+    try:
+        lw = pd.read_csv("results/ess_long_window.csv")
+        panels.append(("Full record 1–11 (2002–24), K=34",
+                       _levels(lw[lw.outcome == "trstprl"])))
+    except FileNotFoundError:
+        pass
+    fig, axes = plt.subplots(1, len(panels),
+                             figsize=(4.9 * len(panels) + 1.0, 3.9),
+                             facecolor="#fcfcfb")
+    axes = np.atleast_1d(axes)
+    for i, (ax, (title, levels)) in enumerate(zip(axes, panels)):
+        _funnel(ax, levels, title, legend=(i == 0), ylabel=(i == 0))
+    fig.suptitle("Certified trust declines collapse up the guarantee hierarchy",
+                 fontsize=10.5, color=TEXT, x=0.01, ha="left")
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    os.makedirs("figures", exist_ok=True)
+    fig.savefig("figures/guarantee_hierarchy.png", dpi=200)
     plt.close(fig)
 
 
