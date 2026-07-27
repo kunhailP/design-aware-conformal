@@ -5,11 +5,10 @@ coverage, and the safe selector meets its guarantees on data it has never seen.
 
 \subsection{The wrong unit collapses coverage}\label{sec:wrongunit-sim}
 
-On a ground-truth simulation ($K=30$ exchangeable countries, $T=6$ thresholds,
-errors correlated across rounds and thresholds; Table~\ref{tab:wrongunit}) we ask
-each band for \emph{trajectory} coverage---the whole country curve-path at once. All
-three bands are unstudentized and finite-sample constructed, so only the unit of the
-score varies. The per-round band, marginally valid at the round level, covers the
+On a ground-truth simulation ($K=30$ countries, $T=6$ thresholds, errors
+correlated across rounds and thresholds; Table~\ref{tab:wrongunit}) we ask each
+band for \emph{trajectory} coverage---the whole curve-path at once. All three
+bands are unstudentized and finite-sample, so only the score's unit varies. The per-round band, marginally valid at the round level, covers the
 whole trajectory only $0.82$ at $L=2$ and $0.50$ at $L=8$; the marginal band
 collapses faster; the country-trajectory band holds $\approx0.90$ at every $L$,
 because the trajectory is a single exchangeable unit. This is the coverage face of

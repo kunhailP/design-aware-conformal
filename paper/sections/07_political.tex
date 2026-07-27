@@ -1,10 +1,10 @@
 \section{Political reanalysis: how many democracies really declined?}\label{sec:political}
 
 We analyze trust in parliament (\texttt{trstprl}) and satisfaction with democracy
-(\texttt{stfdem}) in ESS rounds 9--11 (fieldwork 2018--2024; the window in which
-PSU/stratum identifiers ship in the integrated file---earlier rounds' sample-design
-files exist separately and would extend the trajectory, a flagged revision), asking
-at each rung of the hierarchy in how many countries a decline survives.
+(\texttt{stfdem}) in ESS rounds 9--11 (fieldwork 2018--2024, the window whose
+integrated files ship PSU/stratum identifiers), then extend every trajectory to
+the full record (rounds 1--11, 2002--2024), asking at each rung of the hierarchy
+in how many countries a decline survives.
 
 The comparative literature has grown skeptical of a continent-wide trust decline
 \citep{norris2017western,voeten2017people,wuttke2022europeans,valgardsson2025crisis};
@@ -16,58 +16,63 @@ where our window begins. A mean can fall because a mode hollows out or
 a tail thickens, with different substantive meanings \citep{dimaggio1996americans};
 requiring the distribution's core to shift is the stronger claim.
 
-\paragraph{A hierarchy of claims.} The claims differ in their unit and are not
-interchangeable. A \emph{pairwise} claim asks whether some pair of waves shows a
-distributional shift; an \emph{any-pair} claim aggregates these within a country; a
-\emph{net} claim asks whether the first-to-last span declined; a \emph{persistent
-country-wide} claim asks whether the \emph{whole} distribution declined
-\emph{simultaneously} across the trajectory---a single band that must hold over all
-wave pairs and all thresholds at once; and a \emph{Bonferroni-across-countries} claim
-further controls the number of countries examined. Each rung is strictly stronger
-than the last, and conflating them is exactly the over-detection this paper is about.
+\paragraph{A hierarchy of claims.} The claims differ in their unit. A
+\emph{pairwise} claim asks whether some pair of waves shows a distributional
+shift; \emph{any-pair} aggregates these within a country; \emph{net} asks whether
+the first-to-last span declined; \emph{persistent country-wide} asks whether the
+whole distribution declined \emph{simultaneously} across the trajectory---one band
+holding over all wave pairs and thresholds at once; \emph{Bonferroni} further
+controls the number of countries examined. Each rung is strictly stronger than the
+last, and conflating them is exactly the over-detection this paper is about.
 
-\paragraph{Which instrument certifies what.} Two instruments carry different
-guarantees. Within-country \emph{certification} is a design-based simultaneous
-(sup-$t$) band on wave-pair CDF differences from the stratified-PSU bootstrap
-\citep{rao1988resampling,wolter2007introduction}---an asymptotic design-consistency
-guarantee in which country exchangeability plays no role. The conformal
-\emph{transport} band of Theorems~\ref{thm:exact}--\ref{thm:safe} calibrates
-cross-country prediction and the regime diagnostics. Headline counts below are
-certification counts; the theory sections' finite-sample language does not transfer
-to them.
+\paragraph{Which instrument certifies what.} Within-country \emph{certification} is
+a design-based simultaneous (sup-$t$) band on wave-pair CDF differences from the
+stratified-PSU bootstrap \citep{rao1988resampling,wolter2007introduction}---an
+asymptotic design-consistency guarantee in which country exchangeability plays no
+role. The conformal \emph{transport} band of
+Theorems~\ref{thm:exact}--\ref{thm:safe} calibrates cross-country prediction and
+the regime diagnostics. Headline counts are certification counts; the theory
+sections' finite-sample language does not transfer to them.
 
-\paragraph{The counts collapse up the hierarchy.} For \texttt{trstprl} over ESS
-rounds 9--11 (fieldwork 2018--2024), a marginal pairwise reading flags $20$ of $30$
-countries; requiring an any-pair design-aware band drops this to $12$; the net
-first-to-last decline holds in $6$ (Austria, Belgium, Estonia, the United Kingdom,
-Greece, the Netherlands); and the \emph{persistent, design-aware simultaneous} band
-over the preregistered low-trust core of the scale---the strongest rung---is
-certified in \textbf{one} country, Greece, which also survives the Bonferroni
-correction across countries. One disclosure is essential to reading that count:
-\emph{Greece fielded only rounds 10 and 11 in this window}, so its trajectory is a
-single wave pair and the persistent, net, and any-pair rungs coincide for it---the
-top rung degenerates, for the sole surviving country, to the strongest available
-version of a one-pair claim (the same holds for Czechia and Israel, which do not
-certify). Among the $27$ countries with two pairs, \emph{none} certifies
-persistence, while the United Kingdom, Belgium, and the Netherlands pass the
-\emph{plug-in} persistent rung and are demoted by the design-aware layer alone. The
-honest co-headline is therefore: \textbf{net decline in six of thirty; persistent
-decline in one, and that one on a single pair}. The severity analysis
-(Section~\ref{sec:simulation}) explains why the net rung must carry the
-secular-decline question: the persistent rung has $80\%$ power only against
-crisis-scale declines, so its non-certifications are weak evidence of absence,
-while a certification that passes it is correspondingly strong. For \texttt{stfdem}
-the pattern repeats ($23$ marginal, $14$ any-pair, $8$ net, one persistent---Greece,
-again one pair), though there Greece does \emph{not} survive the Bonferroni rung.
+\paragraph{The counts collapse up the hierarchy.} For \texttt{trstprl} over rounds
+9--11, a marginal pairwise reading flags $20$ of $30$ countries; an any-pair
+design-aware band drops this to $12$; net first-to-last decline holds in $6$
+(Austria, Belgium, Estonia, the United Kingdom, Greece, the Netherlands); and the
+\emph{persistent, design-aware simultaneous} band over the preregistered low-trust
+core---the strongest rung---certifies \textbf{one}, Greece, which also survives
+Bonferroni across countries. One disclosure is essential: \emph{Greece fielded
+only rounds 10 and 11 here}, so its trajectory is a single pair and the top rungs
+coincide for it (as for Czechia and Israel, which do not certify). Among the $27$
+two-pair countries \emph{none} certifies persistence, while the United Kingdom,
+Belgium, and the Netherlands pass the \emph{plug-in} persistent rung and are
+demoted by the design-aware layer alone. The honest co-headline: \textbf{net
+decline in six of thirty; persistent decline in one, on a single pair}. The severity analysis
+(Section~\ref{sec:simulation}) explains why: the persistent rung has $80\%$ power
+only against crisis-scale declines, so its non-certifications are weak evidence of
+absence. For \texttt{stfdem} the pattern repeats ($23$ marginal, $14$ any-pair,
+$8$ net, one persistent---Greece, again one pair, failing Bonferroni there).
 Greece is the case the literature regards as a crisis-era legitimacy collapse
 \citep{armingeon2014democracy,torcal2014decline}, though those accounts concern
 2009--2015 and the certified pair is 2020/21$\to$2023/24, a later episode.
+
+\paragraph{The long window: the secular question, asked properly.} Extending every
+trajectory to its full record (rounds 1--11; median six pairs, up to ten; rounds
+1--8 weights-only, which errs \emph{inclusive}) reframes the twenty-year narrative
+in both directions (\texttt{e36}; Supplementary Material). \emph{Zero} of
+thirty-four countries---plug-in included---certify persistent distribution-wide
+decline over their full trajectory: two decades of European trust move as episodes
+with recoveries, not a monotone slide, as the severity analysis predicts. Net
+erosion over the span is certified in nine (Cyprus, Spain, France, the United
+Kingdom, Greece, Hungary, Israel, Italy, Ukraine)---Greece now over its full
+2002--2024 span, resolving the single-pair caveat---and Israel and Italy certify
+with \emph{no individual certified pair}: slow erosion invisible to any pairwise
+reading. The wrong unit over-detects in one direction and under-detects in the
+other.
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{guarantee_hierarchy.png}
 \caption{Certified declining countries collapse up the guarantee hierarchy
-(pairwise $\to$ any-pair $\to$ net $\to$ persistent design-aware; ESS rounds 9--11,
-$K=30$ countries, $\alpha=0.10$), from $20$ marginally to $6$ net to one
-persistent (Greece, a single-pair trajectory).}\label{fig:hierarchy}
+(ESS rounds 9--11, $K=30$, $\alpha=0.10$): $20$ marginal $\to$ $6$ net $\to$ one
+persistent (Greece, single-pair).}\label{fig:hierarchy}
 \end{figure}
 
 \paragraph{The reclassified countries, and the honest word for them.} They are the
@@ -99,12 +104,12 @@ reanalysis of the ``democratic deconsolidation'' thesis
 \citep{foa2016democratic,foa2017signs} on the WVS/EVS trends (1981--2022,
 $59$--$77$ countries with $\ge2$ waves), recoding the five-item battery so that
 deconsolidation is a persistent decline over each scale's preregistered core. The
-verdict is calibration, not denial. A \emph{marginal wave-pair reading of the same data}---a
-criterion we construct to instantiate the bottom rung, not one any published author
-uses; Foa and Mounk's own empirics are cohort-level comparisons---flags $36$--$64$
-countries per item; the persistent, weights-aware object is certified in $6$--$17$
-(8--24\%), a $2.6$--$6.5\times$ gap between rungs, with the design-aware layer
-demoting a further $17$--$40\%$ per item. Three caveats govern these counts. The
+verdict is calibration, not denial. A \emph{marginal wave-pair reading of the same
+data}---a criterion we construct to instantiate the bottom rung; Foa and Mounk's
+own empirics are cohort comparisons---flags $36$--$64$ countries per item; the
+persistent, weights-aware object certifies $6$--$17$ (8--24\%), a
+$2.6$--$6.5\times$ rung gap, with the design-aware layer demoting a further
+$17$--$40\%$ per item. Three caveats govern these counts. The
 WVS ships no PSU/stratum identifiers, so the weights-only bootstrap understates
 design variance under clustered designs; understated variance can only
 \emph{inflate} certified counts, so the rung gap is, if anything, a lower bound (a

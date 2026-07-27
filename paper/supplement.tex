@@ -730,6 +730,51 @@ $\alpha_{\text{dec}}$-budgeted branch and cannot touch the survey-scale guarante
 
 \section{Additional empirical robustness}\label{sup:empirical}
 
+\paragraph{The ESS long window (rounds 1--11, 2002--2024): construction and full
+counts.} The integrated ESS files ship usable PSU/stratum identifiers only for
+rounds 9--11; rounds 1--8 ship outcomes and post-stratification weights
+(\texttt{anweight} with \texttt{pspwght} fallback; the population-size weight is a
+within-country constant and drops out of country CDFs). The long-window audit
+(\texttt{e36}, \texttt{results/ess\_long\_window.csv}) therefore uses the
+stratified-PSU design bootstrap for rounds classified \emph{core} (9--11) and a
+weights-only respondent bootstrap---the WVS treatment---for rounds classified
+\emph{extended} (1--8), with the same one-directional caveat: understated design
+variance can only \emph{inflate} certified counts. Pairs are adjacent ESS rounds
+both fielded by the country ($231$ pairs across $34$ countries per outcome; median
+six pairs, maximum ten; $174$ pairs have at least one weights-only side). Counts up
+the hierarchy, trust in parliament: any-pair $31$ plug-in~/ $28$ design-aware; net
+first-to-last span $14$~/ $9$ (Cyprus, Spain, France, the United Kingdom, Greece,
+Hungary, Israel, Italy, Ukraine); persistent country-wide \emph{zero}~/
+\emph{zero}, and zero under Bonferroni. Satisfaction with democracy: $31$~/ $24$
+any-pair, $12$~/ $8$ net, zero persistent. Because the zero persistent count is
+obtained under a variance treatment that errs \emph{inclusive}, it is robust in
+the disclosed direction: adding the missing design variance could only keep it at
+zero. Israel and Italy certify the net rung with \emph{no} individually certified
+pair---their $22$-year erosion is real but slower than any single wave step, the
+under-detection face of the wrong-unit diagnosis---while Greece certifies the net
+rung over its full 2002--2024 participation (rounds 1, 2, 4, 5, 10, 11), so the
+headline's single-pair caveat concerns the top rung only. Upgrading rounds 1--8 to
+the full design bootstrap requires merging the separately shipped Sample Design
+Data Files and remains flagged for the archived replication.
+
+\paragraph{Same-items comparison with the Claassen latent panel (public data).}
+Claassen's country--year support-for-democracy estimates (the corrected AJPS
+series; Harvard Dataverse \texttt{doi:10.7910/DVN/HWLW0J}) pool the same item
+families our WVS/EVS reanalysis certifies item-by-item. Merging his corrected
+series (change over $2006\to2017$, where his panel ends) with our $\ge2$-item
+screened universe ($74$ countries; \texttt{e37},
+\texttt{results/claassen\_compare.csv}): certified-core membership is essentially
+independent of the sign of his smoothed trend ($6$ of $13$ core members fall in
+his series, versus $32$ of $61$ non-core), and seven core members---including both
+Western entries (Finland, Switzerland) and all three MENA members---are flat or
+rising in the pooled series. The divergence decomposes into \emph{window} (his
+panel ends in 2017; wave-7 fieldwork 2017--2022 drives several certifications) and
+\emph{pooling} (a battery-level latent level dilutes single-item distributional
+collapses, e.g.\ the strongman/army pair). The two instruments are complements,
+not competitors---but the certified core is \emph{not recoverable} from the
+smoothed latent panel, which is the concrete sense in which the finite-sample,
+item-level object adds information to the model-based level.
+
 \paragraph{Design-preserving stress test, reinterpreted.} Subsampling the real
 AmericasBarometer while preserving its stratified-PSU structure, pooled $\rhohat$
 rises to $\approx0.23$ and then \emph{turns over} at the deepest subsampling

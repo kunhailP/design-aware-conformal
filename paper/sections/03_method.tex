@@ -10,9 +10,9 @@ over threshold grid $t$, with per-country design SD $\widehat v_c(t)$ from the
 stratified-PSU bootstrap:
 \emph{(i) Clustered PCB} takes the conformal quantile of the \emph{unstudentized}
 scores $\max_t|\widetilde E_c(t)|$ (the U0 construction of
-Theorem~\ref{thm:exact}); it is finite-sample exact for the survey-estimate target at
-any $K$, and its latent-target gap is the explicit two-term bound of
-Theorem~\ref{thm:oracle}(b), vanishing with the design-noise scale. \emph{(ii) Deconvolution} studentizes by the
+Theorem~\ref{thm:exact}): finite-sample exact for the survey-estimate target at any
+$K$, with the latent-target gap of Theorem~\ref{thm:oracle}(b) vanishing with the
+design-noise scale. \emph{(ii) Deconvolution} studentizes by the
 finite-$K$-safe target scale
 $\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
 which subtracts a \emph{lower} confidence bound on the design variance so the
@@ -74,6 +74,6 @@ deconvolution\;}
 
 \paragraph{Deployment.} The method ships as one call,
 \texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, in an installable Python package
-(\texttt{pcb}), returning the band with the selected branch, all diagnostics, the
-coverage level, and the fallback reason---the user sees why the band was built as it
-was and reads off its finite-$K$ guarantee.
+(\texttt{pcb}), returning the band, selected branch, diagnostics, coverage level,
+and fallback reason---the user sees why the band was built and reads off its
+finite-$K$ guarantee.
