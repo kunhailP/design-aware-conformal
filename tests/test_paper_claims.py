@@ -97,29 +97,43 @@ def test_ess_net_six_membership():
 def test_long_window_counts():
     d = _csv("ess_long_window.csv")
     t = d[d.outcome == "trstprl"]
-    assert len(t) == 34, len(t)
+    assert len(t) == 34, len(t)   # e36 universe (>=2 usable rounds)
     assert int(t.any_da.sum()) == 28
     assert int(t.net_da.sum()) == 9
     assert int(t.persist_da.sum()) == 0
     assert int(t.persist_plugin.sum()) == 0, "plug-in must also certify zero"
-    _present("\\emph{Zero} of thirty-four countries")
+    _present("\\emph{Zero} of the thirty-three countries")
 
 
-def test_long_window_pairs_and_weightsonly():
-    d = _csv("ess_long_window.csv")
+def test_joint_contrast_totals():
+    d = _csv("ess_joint_claims.csv")
     t = d[d.outcome == "trstprl"]
-    assert int(t.n_pairs.sum()) == 231
-    assert int(t.n_pairs_weightsonly.sum()) == 174
-    _present("$231$ adjacent pairs")
+    assert int(t.n_spans.sum()) == 1173
+    assert int(t.n_declining.sum()) == 193 and int(t.n_rising.sum()) == 212
+    _present("$1{,}173$ ordered contrasts", "$193$ declining against $212$")
+    assert "231 adjacent pairs" not in _norm(TEXT), "stale pre-joint pair count"
 
 
-def test_israel_italy_have_no_certified_pair():
-    """The under-detection showcase: span certified with no certified pair."""
-    d = _csv("ess_long_window.csv")
+def test_no_false_under_detection_claim():
+    """IL and IT DO have certified adjacent pairs under the joint band."""
+    d = _csv("ess_joint_claims.csv")
     t = d[d.outcome == "trstprl"].set_index("cntry")
-    for c in ("IL", "IT"):
-        assert bool(t.loc[c, "net_da"]) and int(t.loc[c, "pair_da"]) == 0, c
-    _present("no certified adjacent pair")
+    assert bool(t.loc["IL", "any_pair"]) and bool(t.loc["IT", "any_pair"])
+    for bad in ["no certified adjacent pair", "invisible to any single wave pair",
+                "invisible to any pairwise reading"]:
+        assert bad not in _norm(TEXT), f"claim falsified by the joint band: {bad}"
+
+
+def test_no_unsupported_interior_optimum():
+    """E52 refutes it with composition and unit size controlled."""
+    d = _csv("controlled_unit_size.csv")
+    g = d.groupby("target").halfwidth.median()
+    fixed = g.loc[[t for t in (40, 60, 90, 125, 175, 250, 350) if t in g.index]]
+    assert fixed.is_monotonic_decreasing, "coarsening should reduce the width"
+    for bad in ["has an interior optimum", "an interior optimal unit",
+                "sits far to the coarse side", "design parameter with an optimum"]:
+        assert bad not in _norm(TEXT), f"unsupported claim survives: {bad}"
+    _present("there is no interior optimum", "feasibility floor")
 
 
 # ------------------------------------------------- endpoint robustness (e43) --
@@ -299,21 +313,7 @@ def test_unit_frontier_gates():
         "if the selector now activates, the manuscript must say so")
     both = w[w.gate_A_need & w.gate_B_reliability]
     assert round(float(both.raw_width_gain.max()), 3) == 0.139
-    _present("$13.9\\%$ narrower", "in one of the three rounds")
-
-
-def test_optimal_unit_has_an_interior_minimum():
-    d = _csv("optimal_unit.csv")
-    g = d.groupby("min_n").halfwidth.median()
-    fin = g[np.isfinite(g)]
-    best = fin.idxmin()
-    assert best == 150, best
-    assert round(float(fin.loc[best]), 3) == 0.138
-    # coarse end infeasible, fine end strictly worse
-    assert not np.isfinite(g.loc[g.index.max()])
-    assert float(fin.loc[fin.index.min()]) / float(fin.loc[best]) > 1.4
-    assert int(d[d.min_n == 150].K.median()) == 116
-    _present("regions of $\\ge150$", "$1.5\\times$")
+    _present("$13.9\\%$ narrower", "in one of\nthree rounds")
 
 
 # ------------------------------------------------------------ no stale text --

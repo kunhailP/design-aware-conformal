@@ -45,63 +45,46 @@ survey with real clustered noise has far too few countries.
 statements about how many exchangeable populations a survey contains and how
 much sample sits behind each, so refining the unit moves them together: $K$
 grows, relieving the floor $D\ge\sqrt{2/(K-1)}$, while the sample behind each
-population shrinks, raising $\rho$. ESS regions---harmonized NUTS units, with
-PSUs nested inside, so each carries a genuine stratified-PSU bootstrap---let us
-trace that frontier on real survey data (\texttt{e49}, Figure~\ref{fig:frontier}).
-Sweeping the minimum region size from $400$ respondents down to $25$ takes $K$
-from $21$--$30$ to $300$--$315$ and $\rhohat_{\mathrm{LCB}}$ from
-$0.08$--$0.10$ to $0.45$--$0.47$, on the small-area estimand this regime is
-about: a region's departure from its own national distribution. The reliability gate opens in every round below $80$ respondents per region
-($K\approx200$; in two of three already at $100$), and at $25$--$30$
-respondents ($K\approx293$--$300$) the need gate opens as well, in one of the
-three rounds ($\rhohat_{\mathrm{LCB}}=0.476$ against $\rho_0=0.47$).
-\emph{Both barriers of Proposition~\ref{prop:unreach} are therefore reachable},
-two orders of magnitude below the country---and the deployed selector still
-abstains, for a third reason: the deconvolution on offer is $13.9\%$ narrower
-than the conservative band, and the frozen efficiency gate asks for $10\%$ after
-a five-point margin. The boundary is sharper than ``unreachable at survey
-scale.'' At the national unit the correction is unavailable; at the subnational
-unit it is available and not yet worth taking; and the crossing is where a
-survey's own design noise finally rivals the between-population signal it is
-calibrated against.
+population shrinks, raising $\rho$. ESS regions, with PSUs nested inside so each
+carries a genuine stratified-PSU bootstrap, let us trace that frontier on real
+survey data (\texttt{e49}, Figure~\ref{fig:frontier}); the estimand there is the
+small-area one this regime concerns, a region's departure from its own national
+distribution. Sweeping the minimum region size from $400$ respondents to $25$
+takes $K$ from $21$--$30$ to $300$--$315$ and $\rhohat_{\mathrm{LCB}}$ from
+$0.08$ to $0.47$. The reliability gate opens in every round below $80$
+respondents per region, and at $25$--$30$ the need gate opens too, in one of
+three rounds ($\rhohat_{\mathrm{LCB}}=0.476$ against $\rho_0=0.47$): \emph{both
+barriers of Proposition~\ref{prop:unreach} are reachable}, two orders of
+magnitude below the country. The selector still abstains, for a third reason---the
+deconvolution on offer is $13.9\%$ narrower and the frozen efficiency gate asks
+for $10\%$ after a five-point margin. At the national unit the correction is
+unavailable; at the subnational unit it is available and not yet worth taking.
 
-\paragraph{The unit is a design parameter with an optimum.} The same two
-quantities that open and close the gates also set the band's width, and they
-pull against each other. Write the deployed half-width at unit size $n$ as
-$W(n)=q_{1-\alpha}\!\big(K(n)\big)\,s_{\text{total}}(n)$ with
-$s_{\text{total}}^2=s_R^2(n)+\overline{v^2}(n)$ and $\overline{v^2}(n)\propto1/n$.
-
-\begin{proposition}[An interior optimal unit]\label{prop:optunit}
-Suppose (i) the conformal factor $q_{1-\alpha}(K)$ is infinite for
-$K<\alpha^{-1}-1$ and strictly decreasing in $K$ thereafter; (ii) the per-unit
-design variance $\overline{v^2}(n)$ is strictly decreasing in $n$; and (iii)
-$s_R^2(n)$ is bounded. Then $W(n)=\infty$ for every unit coarse enough that
-$K(n)<\alpha^{-1}-1$, and $W$ is eventually increasing as $n\to1$ whenever the
-marginal growth of $\overline{v^2}$ exceeds the marginal gain in
-$q_{1-\alpha}$. Under (i)--(iii) a minimizing unit size exists in the interior.
-\end{proposition}
-
-\noindent Coarse units are not merely inefficient---below $K=\alpha^{-1}-1$ the
-conformal level is infeasible and the band is $[0,1]$ at any width---and fine
-units pay design noise. On the ESS the minimum sits at regions of $\ge150$
-respondents ($K\approx116$), where the half-width is $0.138$: $1.5\times$
-narrower than at the finest unit tried ($K\approx319$) and finite where the
-coarsest is not (\texttt{e51}). One caveat travels with the empirical location:
-changing the size threshold changes which regions qualify, so the sweep mixes
-refinement with selection on region size; the mechanism is separable---$q(K)$
-exploding at small $K$, $\overline{v^2}$ growing at small $n$---but the ESS
-minimum is specific to this pool. The country, the default unit of the
-cross-national literature, sits far to the coarse side of it.
-
-\begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{optimal_unit.pdf}
-\caption{The exchangeable unit is a design parameter (ESS regions, trust in
-parliament; medians over rounds 9--11). \emph{Left:} the deployed half-width
-against unit size, infinite where the conformal level is infeasible and minimized
-at regions of $\ge150$ respondents. \emph{Right:} its two factors---the
-standardized conformal factor, which explodes as $K$ falls, and the total scale,
-which grows as units refine.}\label{fig:optunit}
-\end{figure}
+\paragraph{How coarse should the unit be? A feasibility floor, not an optimum.}
+The same refinement that opens the gates also sets the band's width, and the
+direction is not obvious a priori: refining multiplies $K$, which tightens the
+conformal quantile, but shrinks the sample behind each unit, which inflates the
+design noise the band must carry. We tested it with the confounds removed (\texttt{e52}): within each
+country-round we build units of a \emph{target} size by grouping whole PSUs at
+random, so size is controlled rather than filtered, composition is fixed, and
+each unit keeps its own stratified-PSU bootstrap. Over the range where the
+country set is constant (targets of $40$ to $350$ respondents), the half-width
+falls \emph{monotonically} as units coarsen, $0.190$ to $0.065$: there is no
+interior optimum and refinement is strictly costly. An earlier sweep over NUTS
+regions appeared to show one; the Supplementary Material reports why it did not
+survive, because the artifact is easy to reproduce. What does bind is a
+corner. The conformal level is \emph{infeasible} whenever
+$K<\alpha^{-1}-1$: the required order statistic exceeds the sample and the band
+is $[0,1]$ at any width. The practical rule is therefore the opposite of
+refinement---take the coarsest unit your question admits, subject to
+$K\ge\alpha^{-1}-1$---and the cross-national default is on the right side of it
+($K=30$--$34$ against a floor of nine). This is a sharp and, as far as we know,
+unremarked constraint on cluster-conformal practice; it is a statement about the
+\emph{calibration} unit of a transport band, and it does not bear on the unit of
+an estimand, which a research question fixes. Unit choice in the substantive
+sense---which areal partition to analyze---is the modifiable areal unit problem
+\citep{openshaw1984modifiable,robinson1950ecological}, and we are not adding to
+it.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{unit_frontier.pdf}

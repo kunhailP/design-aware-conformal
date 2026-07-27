@@ -135,9 +135,15 @@ def fig_hierarchy(cty):
     p = cty[cty.outcome == "trstprl"]
     panels = [("Rounds 9–11 (2018–24), K=30", _levels(p))]
     try:
-        lw = pd.read_csv("results/ess_long_window.csv")
-        panels.append(("Full record 1–11 (2002–24), K=34",
-                       _levels(lw[lw.outcome == "trstprl"])))
+        jc = pd.read_csv("results/ess_joint_claims.csv")
+        q = jc[jc.outcome == "trstprl"]
+        panels.append((f"Full record, one joint band (K={len(q)})",
+                       [("any-pair\n(marginal)", int(q.any_pair.sum()),
+                         int(q.any_pair.sum())),
+                        ("net decline\n(first→last)", int(q.net.sum()),
+                         int(q.net.sum())),
+                        ("persistent\n(country-wide)", int(q.persistent.sum()),
+                         int(q.persistent.sum()))]))
     except FileNotFoundError:
         pass
     fig, axes = plt.subplots(1, len(panels),

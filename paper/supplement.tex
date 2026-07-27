@@ -836,6 +836,32 @@ change; $B=200$ design bootstrap). All country-outcomes sit well below
 $\rho_0=0.47$; the estimates are downward-biased floors.}\label{fig:rho-supp}
 \end{figure}
 
+\paragraph{An artifact we found and report: the apparent optimal unit.}
+Sweeping a minimum size threshold over ESS NUTS regions produces a clean U-shape
+in band width, minimized at regions of $\ge150$ respondents, and we initially
+read it as an interior optimum in the exchangeable unit. It does not survive
+controls, and the reasons are instructive. First, \texttt{region} is not one
+nesting level: codes run three to five characters (NUTS1--3) and countries use
+different levels, so pooled ``regions'' differ in scale by an order of magnitude.
+Second, the threshold selects which regions qualify \emph{and} which countries
+appear at all. Third and most damaging, the scored object changes along the
+sweep: units are taken relative to their own country's mean region curve only
+where that country contributes two or more qualifying regions, so at the coarse
+end almost every unit is a raw curve and at the fine end almost every unit is a
+within-country deviation---which is what drives the between-unit dispersion from
+$0.20$ down to $0.09$, not refinement.
+
+Rebuilding the sweep without those confounds (\texttt{e52}) settles it. Within
+each country-round we group whole PSUs at random into units of a target size, so
+size is controlled rather than filtered, composition is fixed, and every unit
+still carries its own stratified-PSU bootstrap. Over the range where the country
+set is constant (targets $40$ to $350$; thirty countries) the half-width falls
+\emph{monotonically} as units coarsen---$0.190$, $0.156$, $0.131$, $0.110$,
+$0.093$, $0.076$, $0.065$---with no interior minimum anywhere. Refinement is
+strictly costly, and the only binding constraint is the feasibility floor of the
+main text. We report the refuted version because the confound (an estimand that
+shifts silently along a sweep) is easy to reproduce and hard to see.
+
 \paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
 drafts are now part of the package.
 \emph{(a) Rao--Wu--Yue rescaled bootstrap} (\texttt{e38}; \texttt{*\_rescaled.csv}):
