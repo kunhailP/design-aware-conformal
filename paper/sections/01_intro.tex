@@ -46,17 +46,20 @@ calibration unit (the omitted design-error layer of~\eqref{eq:decomp}), and give
 a finite-sample simultaneous band over a country's whole trajectory with a
 multiplicity-honest guarantee hierarchy that corrects the first.
 \emph{Second, a provably-valid deployed procedure.} The band we recommend is a
-clustered ``population'' conformal band (PCB), finite-sample exact at \emph{any}
-$K$ (Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
-how it selects: the PCB and conservative branches are \emph{nested}, and selection
-among nested bands anchored at an exact band is validity-free, so the four
+clustered ``population'' conformal band, finite-sample exact at \emph{any} $K$
+(Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
+how it selects: its two anchor branches are \emph{nested}, and selection among
+nested bands anchored at an exact one is validity-free, so the four
 target-blind gates are an efficiency device, not a validity assumption
-(Theorem~\ref{thm:safe}). At cross-national $K$ the deployed guarantee is exact
-$1-\alpha$ for the estimated trajectory, with a design-noise-bounded gap to the
-latent one. We validate the frozen procedure in three disclosed layers, ending
-with a fresh sealed run on six unseen DGP families.
+(Theorem~\ref{thm:safe}). We validate the frozen procedure in three disclosed
+layers, ending with a sealed run on six unseen DGP families.
 \emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
-instrument changes the substantive picture. For European trust the hierarchy
+instrument changes the substantive picture. One division of labour belongs here rather than on a later page: the counts come
+from within-country design-based bootstrap bands, in which exchangeability plays
+no role, while the conformal apparatus supplies the transport band, the regime
+diagnostics, and the scope boundary that forbids a design-aware correction at
+this scale. The theory licenses the reduction; the reduction certifies the
+counts. For European trust the hierarchy
 certifies net decline in six of thirty (2018--2024), not the twenty flagged
 marginally; over the full 2002--2024 record \emph{no} country certifies
 persistence, twenty-three of thirty-three certify both declines and recoveries,
@@ -85,10 +88,11 @@ unremarked: below $K=\alpha^{-1}-1$ the conformal level cannot be met at any
 width, so a too-coarse unit is infeasible rather than inefficient
 (Section~\ref{sec:evidence}).
 
-The remainder situates the contribution (Section~\ref{sec:related}), sets up the
-problem and the impossibility result (Section~\ref{sec:setup}), builds the method
-and its theory (Sections~\ref{sec:method}--\ref{sec:theory}), validates it
+The remainder sets up the problem and the impossibility result
+(Section~\ref{sec:setup}), builds the method and its theory
+(Sections~\ref{sec:method}--\ref{sec:theory}), validates it
 (Section~\ref{sec:simulation}), characterizes the real-data regime
 (Section~\ref{sec:evidence}), reanalyzes political trust
-(Section~\ref{sec:political}), and discusses scope
+(Section~\ref{sec:political}), situates the contribution
+(Section~\ref{sec:related}) and discusses scope
 (Section~\ref{sec:discussion}).

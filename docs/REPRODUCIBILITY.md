@@ -7,7 +7,7 @@ Two tiers. Everything is deterministic under the committed seeds
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 59 contract tests (theorem <-> code)
+python -m pytest tests/ -q          # 89 tests (contracts + claim ledger)
 # out of the box (each writes results/*.csv; ~seconds to ~minutes unless noted):
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1
 python -m pcb.experiments.e32_severity              # severity/power
@@ -42,6 +42,7 @@ python -m pcb.experiments.e13_ess_audit             # ESS certification counts (
 python -m pcb.experiments.e36_ess_long_window       # long window 2002–2024 (§7)
 python -m pcb.experiments.e26_wvs_deconsolidation   # WVS/EVS Foa–Mounk (§7; ~1–2 h)
 python -m pcb.experiments.e34_wvs_country_flags     # per-country rung flags
+python -m pcb.experiments.e50_joint_claim_family    # the joint band (paper Table 2)
 # robustness analyses (all require the microdata)
 python -m pcb.experiments.e38_rescaled_bootstrap    # Rao-Wu-Yue rescaling
 python -m pcb.experiments.e39_wvs_deff_sensitivity  # WVS deff x1.5/x2
@@ -95,3 +96,12 @@ same failure mode more than once — a number or a scope word in the text
 drifting from what the experiment produced — so the ledger exists to make that
 class of error impossible to ship. A claim in the paper but not in the ledger is
 a claim no one is checking.
+
+## Superseded and withdrawn experiments
+
+Some scripts remain in the package but no longer back a claim in the manuscript.
+`e43` (endpoint sensitivity), `e45` (per-family magnitudes and rises) and `e44`
+(per-family design-effect sweep) are **superseded** by the joint band, `e50`.
+`e48`, `e49` and `e51` are **withdrawn**: the ESS-region frontier and the
+apparent optimal unit were artifacts, diagnosed in the supplement. They are kept
+so the diagnosis is reproducible; nothing in the paper cites them as live.

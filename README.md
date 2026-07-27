@@ -1,7 +1,7 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 59 passing](https://img.shields.io/badge/tests-59%20passing-green)
+![Tests: 89 passing](https://img.shields.io/badge/tests-89%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Conformal
@@ -29,16 +29,16 @@ This package provides:
 | finding | where |
 |---|---|
 | Marginal readings flag 20/30 ESS countries; the hierarchy certifies net decline in 6, persistence in 1 (Greece) | `e13`, §7 |
-| Over the full 2002–2024 record: persistence in **0/34**, while 24/34 certify both declines and recoveries (trust moves in episodes); net erosion in 9, three endpoint-robust, with certified magnitudes | `e36`, `e43`–`e45`, §7 |
+| Over the full 2002–2024 record, read off one joint band: persistence in **0/33**, span erosion in **8**, and 23/33 certifying both a decline and a recovery at one α | `e50`, §7 |
 | WVS: marginal readings over-count persistent deconsolidation 2.6–6.5×; the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
 | Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 1, §2/§6 |
-| Nine robustness analyses: RWY-rescaled bootstrap, WVS deff ×1.5/×2, mode audit (from the data's own mode variable), LORO exchangeability, null-imposed severity injection, long-window deff, endpoint sensitivity, certified rises, window-matched Claassen | `e38`–`e46`, Supplement |
+| Robustness: RWY-rescaled bootstrap, WVS and joint-band design-effect sweeps, mode audit from the data's own mode variable, LORO exchangeability, null-imposed severity injection, window-matched Claassen — plus two **withdrawn** results with published diagnoses | `e38`–`e53`, Supplement |
 
 ## Quickstart
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 59 contract tests (theorem <-> code)
+python -m pytest tests/ -q          # 89 tests (contracts + claim ledger)
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
 
@@ -84,9 +84,11 @@ pcb/
   inference/      clustered/population conformal, design_aware, safe selector
   data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)
   simulation/ theory/     generators and theory checks
-  experiments/    e6–e46 (simulation arc, ESS/LAPOP/WVS, robustness analyses)
+  experiments/    e6–e53 (simulation arc, ESS/LAPOP/WVS, robustness analyses;
+                  e43–e49, e51 are superseded or withdrawn — see the supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            59 contract tests binding each theorem to its implementation
+tests/            89 tests: theorem<->code contracts plus a claim ledger pinning
+                  every headline number in the paper to the CSV that licenses it
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF
 configs/          frozen validation manifests (seeds, script hashes)

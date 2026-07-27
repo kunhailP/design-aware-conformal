@@ -33,6 +33,11 @@ from pcb.experiments.e12_ess_decline import (ALPHA, CORE_T, _design_boot,
 OUTCOMES = ("trstprl", "stfdem")
 MIN_N = 100
 
+# Design-effect inflation applied to the WEIGHTS-ONLY (rounds 1-8) cells only,
+# so the joint certified set can be stress-tested the way the per-family set was
+# in E44. Driven by e53; 1.0 is the shipped analysis.
+DEFF_EXTENDED = 1.0
+
 
 def main():
     os.makedirs("results", exist_ok=True)
@@ -54,9 +59,14 @@ def main():
                 y, w, s, p = _round_stats(csub[csub.essround == r], outcome)
                 if len(y) < MIN_N:
                     continue
-                F.append(_wcdf(y, w))
-                B.append(_design_boot(y, w, s, p, rng) if kl.get((c, r)) == "core"
-                         else _naive_boot(y, w, rng))
+                Fc = _wcdf(y, w)
+                if kl.get((c, r)) == "core":
+                    Bc = _design_boot(y, w, s, p, rng)
+                else:
+                    Bc = _naive_boot(y, w, rng)
+                    if DEFF_EXTENDED != 1.0:
+                        Bc = Fc[None, :] + np.sqrt(DEFF_EXTENDED) * (Bc - Fc[None, :])
+                F.append(Fc); B.append(Bc)
                 rr.append(int(r))
             if len(rr) < 3:
                 continue

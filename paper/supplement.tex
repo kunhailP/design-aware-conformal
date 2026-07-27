@@ -189,8 +189,12 @@ surveyed-target validation mode). With the unstudentized cluster score
 $R_c=\max_t|E_c(t)|$ and the countries exchangeable, for \emph{every} $K$ the band
 $\widehat B=\text{center}\pm\widehat q$ with $\widehat q$ the
 $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$
-satisfies $\Pr(F_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge
-1-\alpha$, distribution-free.
+satisfies
+$\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge
+1-\alpha$, distribution-free---for the \emph{survey-estimate} trajectory T1,
+since the scores are built from estimate-scale curves; the latent target T2
+carries in addition the two-term gap of Theorem~2(b), or is reached directly
+under (A1) by the anchor-domination lemma below.
 
 \begin{proof}
 Under any of (i)--(iv) the map from the $K{+}1$ curves to the $K{+}1$ scores is
@@ -204,7 +208,7 @@ never anti-conservative, since the order statistic weakly increases). Therefore 
 $\{1,\dots,K{+}1\}$, and with $\widehat q=R_{(m)}$, $m=\lceil(1-\alpha)(K{+}1)\rceil$,
 $\Pr(R_{K+1}\le\widehat q)=m/(K{+}1)\ge1-\alpha$. The simultaneous coverage event is
 pointwise equivalent to the scalar event:
-$F_{\text{new}}(t)\in\widehat B(t)\ \forall t\iff|E_{K+1}(t)|\le\widehat q\ \forall t\iff
+$\Ftilde_{\text{new}}(t)\in\widehat B(t)\ \forall t\iff|E_{K+1}(t)|\le\widehat q\ \forall t\iff
 \max_t|E_{K+1}(t)|\le\widehat q\iff R_{K+1}\le\widehat q$. Hence simultaneous coverage is
 $\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$, distribution-free. Intersecting the band with
 $[0,1]$ and applying the isotonic tightening $L(t)=\mathrm{clip}_{[0,1]}(\max_{t'\le t}
