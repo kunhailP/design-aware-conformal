@@ -4,7 +4,7 @@
 clustered conformal---instructively. Across both surveys, both estimands, and
 three outcomes, cross-national inference is a uniformly \emph{low design-noise}
 regime:
-$\rhohat\le0.22$ on LAPOP (Figure~\ref{fig:rho}), at most $0.29$ in the ESS
+$\rhohat\le0.22$ on LAPOP, at most $0.29$ in the ESS
 subgroup scan, well below the $\rho_0=0.47$ cutoff. Two directional caveats attach
 to every $\rhohat$ we report: the PSU bootstrap resamples $m$-of-$m$ without
 Rao--Wu--Yue rescaling \citep{rao1992recent} and single-PSU strata contribute no
@@ -13,51 +13,71 @@ variance, so the estimates are downward-biased \emph{floors}. The Rao--Wu--Yue r
 activations, every certification count unchanged; and singleton strata, which no
 rescaling repairs, are $1$ of $7{,}028$ in the core rounds. The safe selector
 thus reduces to clustered PCB on all real data---not by assumption but by its own
-low-$\rho$ gate.
-
-\begin{figure}[t]\centering
-\includegraphics[width=.7\textwidth]{lapop_level_vs_change_rho.pdf}
-\caption{Design-to-total SD ratio $\rhohat$, AmericasBarometer (levels and change;
-$B=200$ design bootstrap). All country-outcomes sit well below $\rho_0=0.47$;
-estimates are downward-biased floors (text).}\label{fig:rho}
-\end{figure}
+low-$\rho$ gate---at the national unit, which the frontier below qualifies.
 
 \paragraph{Why the deconvolution is unreachable, precisely.}
 
 \begin{proposition}[Survey-scale unreachability]\label{prop:unreach}
-The deployed selector activates the deconvolution branch only if a \emph{need} gate
-$\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both hold,
-with $D=\max_t \widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Two facts bound
-these, both \emph{algorithmic identities of the frozen procedure}
-(Appendix~\ref{app:proofs} separates this deterministic statement from its
-kurtosis-dependent statistical interpretation).
+The deployed selector activates deconvolution only if a \emph{need} gate
+$\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both
+hold, $D=\max_t \widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Both are
+bounded by \emph{algorithmic identities of the frozen procedure}.
 \emph{(a)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
 $s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$: the need gate fires only when design
-noise is an appreciable fraction of the between-population signal. \emph{(b)} Since
-$\widehat s_T\le s_{\mathrm{plug}}$ by construction, $D\ge\sqrt{2/(K-1)}$; the
-reliability gate requires $K\ge 1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen
-$\tau_D=0.147$.
+noise is an appreciable fraction of the between-population signal.
+\emph{(b)} Since $\widehat s_T\le s_{\mathrm{plug}}$ by construction,
+$D\ge\sqrt{2/(K-1)}$, so the reliability gate requires $K\ge1+2/\tau_D^2$, i.e.\
+$K\ge94$ at the frozen $\tau_D=0.147$. (Appendix~\ref{app:proofs} separates the
+deterministic statement from its kurtosis-dependent interpretation.)
 \end{proposition}
 
 The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On
 the ESS the noisiest subpopulations raise $\rhohat$ only to $0.29$ while $K\le33$
-leaves $D\ge0.25$: \emph{neither} gate opens ($42$ cells, zero activations). The WVS is the mirror image: its \emph{full item-coverage}
-sets ($K=95$--$105$) make the reliability gate feasible (four items at
-$D=0.139$--$0.142$; importance-of-democracy misses at $0.1473$), but the
-\emph{certification} samples ($\ge2$ waves, $K=59$--$77$) sit below $94$, closing
-the gate outright---and in either denominator the weights-only
-$\rhohat_{\mathrm{LCB}}\le0.09$ fails the need gate decisively.
-The survey large enough to estimate the deconvolution has almost no design noise to
-remove; the survey with real clustered design noise has far too few countries. The
-barriers transfer beyond surveys; the one many-unit setting where the need gate
-fires (MRP-style small areas) is demonstrated in the Supplementary Material, along
-with the AmericasBarometer's design-effect audit (median deff $1.14$--$1.21$, up to
-$2.0$).
+leaves $D\ge0.25$: \emph{neither} gate opens ($42$ cells, zero activations). The
+WVS is the mirror image---its full item-coverage sets ($K=95$--$105$) make the
+reliability gate feasible, but the certification samples ($K=59$--$77$) sit below
+$94$, and in either denominator the weights-only
+$\rhohat_{\mathrm{LCB}}\le0.09$ fails the need gate decisively. The survey large
+enough to estimate the deconvolution has almost no design noise to remove; the
+survey with real clustered noise has far too few countries.
+
+\paragraph{The barrier belongs to the unit, not to surveys.} Both gates are
+statements about how many exchangeable populations a survey contains and how
+much sample sits behind each, so refining the unit moves them together: $K$
+grows, relieving the floor $D\ge\sqrt{2/(K-1)}$, while the sample behind each
+population shrinks, raising $\rho$. ESS regions---harmonized NUTS units, with
+PSUs nested inside, so each carries a genuine stratified-PSU bootstrap---let us
+trace that frontier on real survey data (\texttt{e49}, Figure~\ref{fig:frontier}).
+Sweeping the minimum region size from $400$ respondents down to $25$ takes $K$
+from $21$--$30$ to $300$--$315$ and $\rhohat_{\mathrm{LCB}}$ from
+$0.08$--$0.10$ to $0.45$--$0.47$, on the small-area estimand this regime is
+about: a region's departure from its own national distribution. The reliability gate opens in every round below $80$ respondents per region
+($K\approx200$; in two of three already at $100$), and at $25$--$30$
+respondents ($K\approx293$--$300$) the need gate opens as well, in one of the
+three rounds ($\rhohat_{\mathrm{LCB}}=0.476$ against $\rho_0=0.47$).
+\emph{Both barriers of Proposition~\ref{prop:unreach} are therefore reachable},
+two orders of magnitude below the country---and the deployed selector still
+abstains, for a third reason: the deconvolution on offer is $13.9\%$ narrower
+than the conservative band, and the frozen efficiency gate asks for $10\%$ after
+a five-point margin. The boundary is sharper than ``unreachable at survey
+scale.'' At the national unit the correction is unavailable; at the subnational
+unit it is available and not yet worth taking; and the crossing is where a
+survey's own design noise finally rivals the between-population signal it is
+calibrated against.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{unit_frontier.pdf}
+\caption{Refining the unit relieves both barriers (ESS regions, rounds 9--11;
+medians over rounds, shaded range). \emph{Left:} the remainder bound falls past
+$\delta_{\max}$, in every round by $80$ respondents per region. \emph{Right:}
+$\rhohat_{\mathrm{LCB}}$ reaches $\rho_0$, crossing in one round at
+$25$--$30$.}\label{fig:frontier}
+\end{figure}
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{unreachability.pdf}
-\caption{The two barriers on real data. \emph{Left:} ESS age-band subpopulations
-($42$ cells), $\rhohat$ vs $\rho_0=0.47$ (max $0.29$). \emph{Right:} reliability
-$D$ vs its floor $\sqrt{2/(K-1)}$; the gate needs $K\ge94$, reached only by WVS
-full item-coverage sets, where the need gate fails.}\label{fig:unreach}
+\caption{The two barriers at the national unit. \emph{Left:} ESS age-band
+subpopulations ($42$ cells), $\rhohat$ vs $\rho_0$. \emph{Right:} $D$ vs its floor
+$\sqrt{2/(K-1)}$; only WVS full item-coverage sets reach $K\ge94$, and there the
+need gate fails.}\label{fig:unreach}
 \end{figure}

@@ -27,7 +27,8 @@ from pcb.util import det_seed
 from pcb.data.audit_ess import audit, load
 import pcb.experiments.e36_ess_long_window as e36
 
-DEFFS = (1.0, 1.5, 2.0)
+DEFFS = (0.6, 0.8, 1.0, 1.5, 2.0)   # both directions: the measured
+                                    # core-round deff is 0.8-2.5, median ~1.06
 
 
 def main():

@@ -829,6 +829,13 @@ former. The two instruments are complements---his answers a question about a
 smoothed latent level, ours about distribution-wide movement in a named item
 with finite-sample error control.
 
+\begin{figure}[t]\centering
+\includegraphics[width=.7\textwidth]{lapop_level_vs_change_rho.pdf}
+\caption{Design-to-total SD ratio $\rhohat$, AmericasBarometer (levels and
+change; $B=200$ design bootstrap). All country-outcomes sit well below
+$\rho_0=0.47$; the estimates are downward-biased floors.}\label{fig:rho-supp}
+\end{figure}
+
 \paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
 drafts are now part of the package.
 \emph{(a) Rao--Wu--Yue rescaled bootstrap} (\texttt{e38}; \texttt{*\_rescaled.csv}):
@@ -838,12 +845,27 @@ draw leaves \emph{every} ESS certification count unchanged at every rung
 subgroup-scan maximum $\rhohat$ from $0.288$ to $0.281$ and the LAPOP
 change-transport maximum from $0.212$ to $0.222$---both still severalfold below
 $\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
-Single-PSU strata still contribute no variance; that residual understatement is
-the one caveat the rerun cannot remove.
-\emph{(b) Round-10 mode audit} (\texttt{e40}; \texttt{ess\_mode\_table.csv}):
-per the ESS10 mode documentation, nine countries (AT, CY, DE, ES, IL, LV, PL,
-RS, SE) switched to self-completion at round 10; rounds 9 and 11 are
-face-to-face throughout the integrated file. Excluding the mode-confounded
+Single-PSU strata, the one thing rescaling cannot repair, turn out to be
+negligible here: \emph{one} stratum of $7{,}028$ in the core rounds, covering
+eleven respondents. The more consequential structural fact is different and we
+state it plainly: in $52$ of the $90$ core country-rounds the median PSU
+contains a single respondent---these are register samples of individuals, where
+\texttt{psu} carries no clustering to absorb. the main text's
+``uniformly low design-noise regime'' is therefore in substantial part a
+statement about which countries sample individuals from population registers,
+not a universal property of survey inference.
+\emph{(b) Round-10 mode audit} (\texttt{e40}; \texttt{ess\_mode\_table.csv}),
+built from the data's own \texttt{mode} variable rather than from external
+documentation: nine countries (AT, CY, DE, ES, IL, LV, PL, RS, SE) switched to
+self-completion at round 10; rounds 9 and 11 are face-to-face throughout the
+integrated file. One further mode change the binary partition hides: video
+interviewing appears in twenty countries at rounds 10--11, at shares up to
+$0.48$ (Norway), including Estonia and the Netherlands, two of the six
+net-certified countries in the rounds-9--11 result. We collapse video into
+face-to-face because no parallel-mode randomization exists in this extract to
+identify its effect; the certifications spanning a video introduction are
+conditional on that collapse, and \texttt{ess\_mode\_table.csv} ships the
+per-cell shares so a reader can exclude them. Excluding the mode-confounded
 pairs: the net counts are \emph{unchanged} ($6$ and $8$; the $9\to11$ endpoints
 are both face-to-face), the persistent count is unchanged (Greece---itself
 face-to-face in both certified rounds), and only the nine switchers' any-pair
@@ -1024,6 +1046,22 @@ Foa--Mounk reanalysis is only half-supported: the young show \emph{more} persist
 decline in rating democracy essential ($7$ vs.\ $3$ countries) but \emph{not} in
 openness to strongman or army rule ($0$--$1$ vs.\ $4$), against the ``youth embrace
 authoritarianism'' reading.
+
+\paragraph{Two flagged readings in the certified core.} \emph{Finland and
+Switzerland.} Persistent rising openness to strongman or army rule in two of the
+most stable democracies contradicts most published accounts. These two items
+carry documented translation and response-option instabilities, and both
+countries' trend files interleave EVS and WVS administrations---a distribution-wide
+shift is exactly what an administration change produces, and our machinery
+corrects sampling error only. We therefore report the pair as a candidate
+finding conditional on a within-programme measurement audit, which requires the
+programme-level microdata. \emph{Turkey, the Philippines, Mexico.} These certify
+only on importance of democracy, an item that enters the battery in the
+mid-2000s; ``only on \texttt{imp\_dem}'' therefore mixes substance with
+differential window length, and the reading---persistent downgrading of
+democracy's importance without wholesale attitudinal collapse---should be held
+loosely. Wave coverage varies by country and item throughout, so multi-item
+certification is mechanically harder where fewer items are measured.
 
 \paragraph{V-Dem cross-tabs of the certified core (public data; descriptive).}
 Two checks against the V-Dem country--year data (v15; Regimes-of-the-World

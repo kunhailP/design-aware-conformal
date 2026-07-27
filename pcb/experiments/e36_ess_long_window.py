@@ -9,10 +9,13 @@ extends every country's trajectory to its full ESS participation record:
       stratified-PSU design bootstrap (as E12/E13);
   rounds classified "extended" (1–8: outcomes + weights, no/degenerate design
       variables in the integrated file):
-      weights-only respondent bootstrap — the WVS treatment. Understated design
-      variance can only *inflate* certified counts (err-inclusive), the same
-      one-directional caveat as the WVS reanalysis; the separate SDDF files for
-      rounds 1–8 would upgrade these rounds to the full design bootstrap.
+      weights-only respondent bootstrap — the WVS treatment. Whether this
+      understates or overstates design variance is an empirical question, not a
+      one-directional caveat: measured on the core rounds, the design effect
+      ranges 0.8-2.5 (median ~1.06), so ESS stratification puts design variance
+      BELOW independent resampling about as often as above. E44 therefore
+      stresses this in both directions (deff 0.6-2.0). The separate SDDF files
+      for rounds 1-8 would settle it directly.
 
 Units mirror E13 exactly: any-pair / net (first→last participation) / persistent
 (one simultaneous band over ALL adjacent-round pairs × low-trust core), plug-in
@@ -40,7 +43,8 @@ MIN_N = 100
 # draws are rescaled about the point estimate, F + sqrt(deff)*(F_b - F), so the
 # sup-t critical value scales exactly by sqrt(deff). 1.0 = the shipped
 # analysis; e44 drives this to 1.5 and 2.0 as a sensitivity for the counts that
-# the understated weights-only variance could inflate.
+# the weights-only variance could distort in either direction (E44 sweeps
+# 0.6-2.0, since the measured core-round deff is below 1 as often as above).
 DEFF_EXTENDED = 1.0
 
 
@@ -83,8 +87,8 @@ def audit_country_long(csub, usable, klass, c, outcome, rng):
     persist = certify_decline_differences(H, Bd, ALPHA, CORE_T)
 
     F0, B0 = cells[rounds[0]]; F1, B1 = cells[rounds[-1]]
-    net = certify_decline_differences((F1 - F0)[None], (B1 - B0)[:, None],
-                                      ALPHA, CORE_T)
+    Hn, Bn = (F1 - F0)[None], (B1 - B0)[:, None]
+    net = certify_decline_differences(Hn, Bn, ALPHA, CORE_T)
     return dict(
         n_rounds=len(rounds), r_first=rounds[0], r_last=rounds[-1],
         n_pairs=len(recs),
@@ -97,7 +101,7 @@ def audit_country_long(csub, usable, klass, c, outcome, rng):
         any_da=any(r["pair_da"] for r in recs),
         net_plugin=net["plugin"], net_da=net["design_aware"],
         persist_plugin=persist["plugin"], persist_da=persist["design_aware"],
-        _H=H, _Bd=Bd)
+        _H=H, _Bd=Bd, _Hn=Hn, _Bn=Bn)
 
 
 def main():
@@ -116,19 +120,27 @@ def main():
             rng = np.random.default_rng(det_seed("e36", outcome, c))
             res = audit_country_long(csub, usable, kl, c, outcome, rng)
             if res:
-                stash[(outcome, c)] = (res.pop("_H"), res.pop("_Bd"))
+                stash[(outcome, c)] = (res.pop("_H"), res.pop("_Bd"),
+                                       res.pop("_Hn"), res.pop("_Bn"))
                 rows.append(dict(outcome=outcome, cntry=c, **res))
     cty = pd.DataFrame(rows)
 
-    # Bonferroni across the countries actually analyzed, per outcome
-    bonf = []
+    # Bonferroni across the countries actually analyzed, per outcome. Screening
+    # multiplicity is orthogonal to claim strength, so it applies at the NET rung
+    # too, not only at the persistent one: "nine of thirty-four at alpha=0.10"
+    # carries an expected 3.4 false certifications under the complete null.
+    bonf, bonf_net = [], []
     for outcome in OUTCOMES:
         Kc = (cty.outcome == outcome).sum()
         for _, r in cty[cty.outcome == outcome].iterrows():
-            H, Bd = stash[(outcome, r.cntry)]
-            pb = certify_decline_differences(H, Bd, ALPHA / max(Kc, 1), CORE_T)
-            bonf.append(pb["design_aware"])
+            H, Bd, Hn, Bn = stash[(outcome, r.cntry)]
+            a = ALPHA / max(Kc, 1)
+            bonf.append(certify_decline_differences(H, Bd, a, CORE_T)["design_aware"])
+            bonf_net.append(
+                certify_decline_differences(Hn, Bn, a, CORE_T)["design_aware"]
+                if Hn is not None else False)
     cty["persist_da_bonf"] = bonf
+    cty["net_da_bonf"] = bonf_net
 
     os.makedirs("results", exist_ok=True)
     cty.to_csv("results/ess_long_window.csv", index=False)
@@ -144,6 +156,8 @@ def main():
               f"   -> {sorted(p.cntry[p.net_da])}")
         print(f"  persistent plug {int(p.persist_plugin.sum()):2d} / DA "
               f"{int(p.persist_da.sum()):2d}   -> {sorted(p.cntry[p.persist_da])}")
+        print(f"  net+Bonf   DA {int(p.net_da_bonf.sum()):2d}"
+              f"   -> {sorted(p.cntry[p.net_da_bonf])}")
         print(f"  persistent+Bonf DA {int(p.persist_da_bonf.sum()):2d}"
               f"   -> {sorted(p.cntry[p.persist_da_bonf])}")
         med = p.n_pairs.median()

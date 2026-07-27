@@ -1,15 +1,14 @@
 \section{Introduction}
 
-Comparative politics increasingly treats a national public as a \emph{distribution}
-rather than a mean. Trust in parliament or satisfaction with democracy in a country
-and year is a cumulative distribution function over a response scale, and
-repeated cross-national surveys---the European Social Survey
+Comparative politics increasingly treats a national public as a
+\emph{distribution} rather than a mean. Trust in parliament in a country and year
+is a cumulative distribution function over a response scale, and repeated
+cross-national surveys---the European Social Survey
 \citep[ESS;][]{kaminska2017survey}, the World Values Survey, the AmericasBarometer
-\citep{lapop2023pulse}---let us track how that distribution moves across waves
-and \emph{transport} it: predict one country's trajectory from the
-others, or flag departures from a common pattern. Prediction bands and conformal
-methods are a natural tool here, promising finite-sample, distribution-free
-coverage.
+\citep{lapop2023pulse}---let us track how that distribution moves across waves and
+\emph{transport} it: predict one country's trajectory from the others, or flag
+departures from a common pattern. Conformal methods are a natural tool, promising
+finite-sample, distribution-free coverage.
 
 \paragraph{Two wrong units.} A claim and its calibration can each be attached to the
 wrong object. The \emph{claim} ``democratic trust is declining'' is typically built
@@ -46,44 +45,42 @@ survey noise can make it too narrow, being itself estimated from few countries.
 calibration unit (the omitted design-error layer of~\eqref{eq:decomp}), and give
 a finite-sample simultaneous band over a country's whole trajectory with a
 multiplicity-honest guarantee hierarchy that corrects the first.
-\emph{Second, a provably-valid deployed procedure with an unconditional guarantee.}
-The band we recommend is a clustered ``population'' conformal band (PCB), finite-sample
-exact at \emph{any} $K$ (Theorem~\ref{thm:exact}), inside an adaptive selector whose
-validity does not depend on how it selects: the PCB and conservative branches are
-\emph{nested}, and selection among nested bands anchored at an exact band is
-validity-free, so the four target-blind gates are an efficiency device, not a validity
-assumption (Theorem~\ref{thm:safe}). The design-error-correcting branch carries its own
-miss budget, and only at the many-unit scale where it can activate at all; at
-cross-national-survey $K$ the deployed guarantee is exact $1-\alpha$ for the
-estimated trajectory, with an explicit, design-noise-bounded gap to the latent one
-(Theorem~\ref{thm:oracle}b). We
-validate the frozen procedure in three disclosed layers, ending with a fresh
-sealed run on six unseen DGP families (Section~\ref{sec:simulation}).
+\emph{Second, a provably-valid deployed procedure.} The band we recommend is a
+clustered ``population'' conformal band (PCB), finite-sample exact at \emph{any}
+$K$ (Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
+how it selects: the PCB and conservative branches are \emph{nested}, and selection
+among nested bands anchored at an exact band is validity-free, so the four
+target-blind gates are an efficiency device, not a validity assumption
+(Theorem~\ref{thm:safe}). At cross-national $K$ the deployed guarantee is exact
+$1-\alpha$ for the estimated trajectory, with a design-noise-bounded gap to the
+latent one. We validate the frozen procedure in three disclosed layers, ending
+with a fresh sealed run on six unseen DGP families.
 \emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
 instrument changes the substantive picture. For European trust the hierarchy
 certifies net decline in six of thirty (2018--2024), not the twenty flagged
 marginally; over the full 2002--2024 record \emph{no} country certifies
-persistence, twenty-four of thirty-four certify both declines and recoveries,
-and nine certify net erosion---two of them (Israel, Italy) invisible to any
-single wave pair, three robust to dropping either endpoint. Globally, a wave-pair reading of
+persistence, eighteen of thirty-four certify both declines and recoveries under
+multiplicity control, and nine certify net erosion---two of them (Israel,
+Italy) invisible to any single wave pair, three robust to dropping either
+endpoint. Globally, a wave-pair reading of
 the Foa--Mounk ``deconsolidation'' battery on the WVS/EVS (1981--2022) over-counts
 the persistent phenomenon by $2.6$--$6.5\times$; aggregating per-item
 certifications turns the correction into a discovery---the thirteen-country
 \emph{certified core} concentrates in post-communist and Arab-Spring-aftermath
 states, with no consolidated Western democracy certifying on more than one item.
-\emph{Fourth, the scope condition that justifies this deployment.} We delineate when
-a design-aware correction is available, so abstention is principled rather than a
-concession. Without the design-noise law the latent transport-error distribution is
+\emph{Fourth, the scope condition that justifies this deployment, and where it
+ends.} Without the design-noise law the latent transport-error distribution is
 non-identified (Theorem~\ref{thm:impossible}); with it, the correction is still
-\emph{unreachable} at cross-national scale for the deployed procedure: the measured
-design-to-total ratio $\rho$ stays severalfold below the level at which
-deconvolution helps, and the reliability diagnostic obeys the algorithmic floor
-$D\ge\sqrt{2/(K-1)}$---an identity of the frozen procedure---requiring $K\ge94$
-exchangeable populations. The two largest surveys fail in \emph{opposite} ways: the
-WVS clears the size barrier ($K\approx100$) with negligible weights-only design
-noise, while the ESS has genuine clustered noise but $K\le33$. The reader should
-therefore not expect the deconvolution to activate empirically; its payoff regime
-is many-unit settings such as small areas, demonstrated in simulation.
+\emph{unreachable} at cross-national scale, because the measured design-to-total
+ratio stays severalfold below the level at which deconvolution helps while the
+reliability diagnostic obeys the algorithmic floor $D\ge\sqrt{2/(K-1)}$,
+requiring $K\ge94$ exchangeable populations. The two largest surveys fail in
+\emph{opposite} ways: the WVS clears the size barrier ($K\approx100$) with
+negligible weights-only noise, the ESS has genuine clustered noise but $K\le33$.
+Both failures are properties of the \emph{unit}, and we show it: refining to ESS
+subnational regions carries $K$ to $300$ and lifts $\rho$ to the gate, so that
+both barriers are reachable on real survey data and the selector then abstains
+on efficiency alone (Section~\ref{sec:evidence}).
 
 The remainder situates the contribution (Section~\ref{sec:related}), sets up the
 problem and the impossibility result (Section~\ref{sec:setup}), builds the method

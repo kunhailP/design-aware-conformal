@@ -1,0 +1,67 @@
+min_n,essround,estimand,K,median_region_n,rho_hat,rho_lcb,D,floor,delta_ucb,gate_A_need,gate_B_reliability,gate_C_efficiency,gate_D_stability,raw_width_gain,gain_lcb,branch,coverage
+400,9,within-country deviation,22,500,0.149,0.1002,0.3172,0.3086,0.036,False,False,False,True,0.0083,,PCB,0.9
+400,10,within-country deviation,30,540,0.1278,0.0846,0.2667,0.2626,0.0313,False,False,False,True,0.0054,,PCB,0.9
+400,11,within-country deviation,21,503,0.1352,0.0926,0.3256,0.3162,0.0368,False,False,False,True,0.0075,,PCB,0.9
+400,9,raw region curve,22,500,0.1807,0.1253,0.3166,0.3086,0.036,False,False,False,True,0.0119,,PCB,0.9
+400,10,raw region curve,30,540,0.1935,0.1304,0.2698,0.2626,0.0315,False,False,False,True,0.0123,,PCB,0.9
+400,11,raw region curve,21,503,0.1766,0.1215,0.3331,0.3162,0.0375,False,False,False,True,0.0128,,PCB,0.9
+300,9,within-country deviation,35,433,0.159,0.1139,0.2521,0.2425,0.0299,False,False,False,True,0.0103,,PCB,0.9
+300,10,within-country deviation,49,442,0.1483,0.1092,0.2101,0.2041,0.0259,False,False,False,True,0.0087,,PCB,0.9
+300,11,within-country deviation,37,450,0.1422,0.1067,0.2437,0.2357,0.0291,False,False,False,True,0.009,,PCB,0.9
+300,9,raw region curve,35,433,0.1734,0.1292,0.2488,0.2425,0.0296,False,False,False,True,0.0118,,PCB,0.9
+300,10,raw region curve,49,442,0.1866,0.1407,0.2103,0.2041,0.0259,False,False,False,True,0.0134,,PCB,0.9
+300,11,raw region curve,37,450,0.194,0.1479,0.2488,0.2357,0.0296,False,False,False,True,0.0164,,PCB,0.9
+200,9,within-country deviation,86,272,0.2688,0.2153,0.1729,0.1534,0.0224,False,False,False,True,0.0323,,PCB,0.9
+200,10,within-country deviation,82,331,0.226,0.1758,0.1696,0.1571,0.0221,False,False,False,True,0.0213,,PCB,0.9
+200,11,within-country deviation,68,324,0.2058,0.1638,0.1859,0.1728,0.0236,False,False,False,True,0.0192,,PCB,0.9
+200,9,raw region curve,86,272,0.1734,0.1425,0.158,0.1534,0.021,False,False,False,True,0.0129,,PCB,0.9
+200,10,raw region curve,82,331,0.2014,0.1596,0.1639,0.1571,0.0216,False,False,False,True,0.0165,,PCB,0.9
+200,11,raw region curve,68,324,0.1967,0.1593,0.1821,0.1728,0.0233,False,False,False,True,0.0171,,PCB,0.9
+150,9,within-country deviation,116,238,0.4359,0.357,0.1809,0.1319,0.0232,False,False,False,True,0.0867,,PCB,0.8768
+150,10,within-country deviation,117,272,0.3408,0.27,0.1572,0.1313,0.0209,False,False,False,True,0.0491,,PCB,0.8791
+150,11,within-country deviation,109,233,0.3788,0.315,0.1668,0.1361,0.0218,False,False,False,True,0.0659,,PCB,0.8782
+150,9,raw region curve,116,238,0.2001,0.1663,0.1377,0.1319,0.0191,False,True,False,True,0.0173,,PCB,0.8809
+150,10,raw region curve,117,272,0.2214,0.1777,0.139,0.1313,0.0192,False,True,False,True,0.02,,PCB,0.8808
+150,11,raw region curve,109,233,0.2155,0.1804,0.1439,0.1361,0.0197,False,True,False,True,0.0207,,PCB,0.8803
+100,9,within-country deviation,173,199,0.4685,0.4001,0.1483,0.1078,0.0201,False,False,False,True,0.1024,,PCB,0.8799
+100,10,within-country deviation,189,177,0.4503,0.3859,0.1351,0.1031,0.0188,False,True,False,True,0.0938,,PCB,0.8812
+100,11,within-country deviation,165,186,0.4206,0.3647,0.1361,0.1104,0.0189,False,True,False,True,0.0831,,PCB,0.8811
+100,9,raw region curve,173,199,0.2191,0.1875,0.1142,0.1078,0.0169,False,True,False,True,0.0214,,PCB,0.8831
+100,10,raw region curve,189,177,0.2347,0.2014,0.1102,0.1031,0.0165,False,True,False,True,0.0245,,PCB,0.8835
+100,11,raw region curve,165,186,0.2222,0.193,0.1163,0.1104,0.0171,False,True,False,True,0.0224,,PCB,0.8829
+80,9,within-country deviation,198,164,0.4957,0.4265,0.1448,0.1008,0.0198,False,True,False,True,0.1156,,PCB,0.8802
+80,10,within-country deviation,214,159,0.4739,0.409,0.1316,0.0969,0.0185,False,True,False,True,0.105,,PCB,0.8815
+80,11,within-country deviation,199,167,0.451,0.3957,0.127,0.1005,0.0181,False,True,False,True,0.0967,,PCB,0.8819
+80,9,raw region curve,198,164,0.2327,0.1997,0.1083,0.1008,0.0163,False,True,False,True,0.0243,,PCB,0.8837
+80,10,raw region curve,214,159,0.2418,0.2092,0.1037,0.0969,0.0159,False,True,False,True,0.0261,,PCB,0.8841
+80,11,raw region curve,199,167,0.2254,0.198,0.1058,0.1005,0.0161,False,True,False,True,0.0232,,PCB,0.8839
+60,9,within-country deviation,230,150,0.505,0.4408,0.1336,0.0935,0.0187,False,True,False,True,0.1215,,PCB,0.8813
+60,10,within-country deviation,251,143,0.507,0.443,0.1257,0.0894,0.018,False,True,False,True,0.1221,,PCB,0.882
+60,11,within-country deviation,236,139,0.4588,0.4069,0.1167,0.0923,0.0171,False,True,False,True,0.1007,,PCB,0.8829
+60,9,raw region curve,230,150,0.2391,0.2078,0.1008,0.0935,0.0156,False,True,False,True,0.026,,PCB,0.8844
+60,10,raw region curve,251,143,0.2542,0.2221,0.0966,0.0894,0.0152,False,True,False,True,0.0292,,PCB,0.8848
+60,11,raw region curve,236,139,0.2318,0.2053,0.0976,0.0923,0.0153,False,True,False,True,0.0247,,PCB,0.8847
+50,9,within-country deviation,254,131,0.5362,0.4677,0.1345,0.0889,0.0188,False,True,False,True,0.1369,,PCB,0.8812
+50,10,within-country deviation,269,135,0.5083,0.4462,0.122,0.0864,0.0176,False,True,False,True,0.1232,,PCB,0.8824
+50,11,within-country deviation,258,128,0.4731,0.422,0.1144,0.0882,0.0169,False,True,False,True,0.1083,,PCB,0.8831
+50,9,raw region curve,254,131,0.2533,0.2201,0.0966,0.0889,0.0152,False,True,False,True,0.0289,,PCB,0.8848
+50,10,raw region curve,269,135,0.2555,0.224,0.0934,0.0864,0.0149,False,True,False,True,0.0296,,PCB,0.8851
+50,11,raw region curve,258,128,0.2395,0.2134,0.094,0.0882,0.015,False,True,False,True,0.0266,,PCB,0.885
+40,9,within-country deviation,275,120,0.5193,0.4563,0.118,0.0854,0.0172,False,True,False,True,0.1272,,PCB,0.8828
+40,10,within-country deviation,290,127,0.5243,0.4533,0.1175,0.0832,0.0172,False,True,False,True,0.1266,,PCB,0.8828
+40,11,within-country deviation,288,112,0.4719,0.4236,0.107,0.0835,0.0162,False,True,False,True,0.1078,,PCB,0.8838
+40,9,raw region curve,275,120,0.2606,0.2276,0.093,0.0854,0.0149,False,True,False,True,0.0306,,PCB,0.8851
+40,10,raw region curve,290,127,0.27,0.2333,0.0902,0.0832,0.0146,False,True,False,True,0.0319,,PCB,0.8854
+40,11,raw region curve,288,112,0.2466,0.2209,0.0891,0.0835,0.0145,False,True,False,True,0.0283,,PCB,0.8855
+30,9,within-country deviation,293,115,0.5393,0.4762,0.117,0.0828,0.0171,True,True,False,True,0.1387,0.0753,conservative,0.8829
+30,10,within-country deviation,310,123,0.5284,0.4617,0.1133,0.0805,0.0168,False,True,False,True,0.1301,,PCB,0.8832
+30,11,within-country deviation,304,108,0.4896,0.4402,0.1065,0.0812,0.0161,False,True,False,True,0.1166,,PCB,0.8839
+30,9,raw region curve,293,115,0.2702,0.2372,0.0907,0.0828,0.0147,False,True,False,True,0.0332,,PCB,0.8853
+30,10,raw region curve,310,123,0.2731,0.2381,0.0873,0.0805,0.0143,False,True,False,True,0.0331,,PCB,0.8857
+30,11,raw region curve,304,108,0.2512,0.2253,0.0871,0.0812,0.0143,False,True,False,True,0.0294,,PCB,0.8857
+25,9,within-country deviation,300,112,0.5321,0.4706,0.1158,0.0818,0.017,True,True,False,True,0.1351,0.0499,conservative,0.883
+25,10,within-country deviation,315,122,0.536,0.4692,0.1139,0.0798,0.0168,False,True,False,True,0.1347,,PCB,0.8832
+25,11,within-country deviation,313,105,0.4974,0.4463,0.1059,0.0801,0.0161,False,True,False,True,0.1198,,PCB,0.8839
+25,9,raw region curve,300,112,0.2694,0.2369,0.0896,0.0818,0.0145,False,True,False,True,0.033,,PCB,0.8855
+25,10,raw region curve,315,122,0.2788,0.2436,0.0871,0.0798,0.0143,False,True,False,True,0.0346,,PCB,0.8857
+25,11,raw region curve,313,105,0.2559,0.2291,0.0859,0.0801,0.0142,False,True,False,True,0.0303,,PCB,0.8858

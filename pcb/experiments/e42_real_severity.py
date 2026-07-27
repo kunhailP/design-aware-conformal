@@ -18,13 +18,19 @@ power by roughly a factor of two in delta.
 
 Two designs are reported, because they answer different questions:
 
-  POWER (primary, null-imposed).  A power curve needs a known truth. We keep
-  each country-pair's real design-noise structure -- the bootstrap covariance
-  induced by its actual PSU/stratum design -- but replace the estimand by the
-  injected decline: dh <- delta*inj and db <- (db - dh) + delta*inj. At
-  delta=0 this is the sharp null and the certification rate is the realized
-  size; at delta>0 it is the rung's power against a known persistent decline
-  of that size, at real ESS design noise.
+  POWER (primary, null-imposed, Monte Carlo).  A power curve needs a known
+  truth AND a randomly drawn estimate: fixing D_hat at the truth makes
+  certification the deterministic event delta >= c*max sd, which is a
+  minimum-detectable-effect calculation, not power (and returns a structural
+  0.000 at delta=0 for any data and any alpha -- not a size estimate). We
+  therefore keep each country-pair's real design-noise structure and, per
+  replicate, draw the estimation error from its own bootstrap:
+      e_b   = db[b] - dh                      (a draw of D_hat - D)
+      D_hat = delta*inj + e_b                 (estimate under the injected truth)
+      draws = D_hat + (db - dh)               (bootstrap recentred on it)
+  At delta=0 the certification rate is then the honest realized size; at
+  delta>0 it is the rung's power against a known persistent decline of that
+  size, at real ESS design noise.
 
   DETECTION (secondary, additive).  dh <- dh + delta*inj, db <- db + delta*inj:
   the injected decline on top of whatever each country actually did. At
@@ -57,6 +63,7 @@ from pcb.inference.decline_certify import certify_decline_differences
 
 DELTAS = (0.0, 0.01, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.12)
 OUTCOME = "trstprl"
+REPS = 200          # Monte Carlo replicates per country in the power design
 
 
 def main():
@@ -93,47 +100,71 @@ def main():
           f"direct span contrast; injecting persistent declines of delta CDF "
           f"points over the preregistered core\n")
 
+    rng = np.random.default_rng(det_seed("e42", "montecarlo"))
     rows = []
     for design in ("power", "detection"):
-        blurb = ("null-imposed: estimand REPLACED by the injection"
+        blurb = ("null-imposed Monte Carlo: truth = injection, estimate drawn "
+                 f"from the country's own bootstrap, {REPS} reps"
                  if design == "power"
                  else "additive: injection on top of the observed decline")
         print(f"\n--- {design} ({blurb}) ---")
         for delta in DELTAS:
             pair_hits = persist_hits = net_hits = 0
+            pair_n = persist_n = net_n = 0
             for c, pp, net in cells:
-                if design == "power":
-                    # replace the estimand; keep the real design-noise structure
-                    H = np.array([delta * inj for _ in pp])
-                    Bd = np.moveaxis(
-                        np.array([db - dh[None] + delta * inj for dh, db in pp]),
-                        1, 0)
-                else:
-                    # the shift travels with the bootstrap distribution
+                if design != "power":
                     H = np.array([dh + delta * inj for dh, _ in pp])
                     Bd = np.moveaxis(
                         np.array([db + delta * inj for _, db in pp]), 1, 0)
-                pair_hits += sum(
-                    certify_decline_differences(H[[i]], Bd[:, [i]], ALPHA, CORE_T)
-                    ["design_aware"] for i in range(len(pp)))
-                persist_hits += certify_decline_differences(H, Bd, ALPHA, CORE_T)[
-                    "design_aware"]
-                if net is not None:
-                    dh_n, db_n = net
-                    # over the span the per-pair decline accumulates over its steps
-                    acc = delta * len(pp)
-                    if design == "power":
-                        hn = acc * inj
-                        bn = db_n - dh_n[None] + acc * inj
-                    else:
-                        hn = dh_n + acc * inj
-                        bn = db_n + acc * inj
-                    net_hits += certify_decline_differences(
-                        hn[None], bn[:, None], ALPHA, CORE_T)["design_aware"]
+                    pair_hits += sum(
+                        certify_decline_differences(H[[i]], Bd[:, [i]], ALPHA,
+                                                    CORE_T)["design_aware"]
+                        for i in range(len(pp)))
+                    pair_n += len(pp)
+                    persist_hits += certify_decline_differences(
+                        H, Bd, ALPHA, CORE_T)["design_aware"]
+                    persist_n += 1
+                    if net is not None:
+                        dh_n, db_n = net
+                        acc = delta * len(pp)
+                        net_hits += certify_decline_differences(
+                            (dh_n + acc * inj)[None], (db_n + acc * inj)[:, None],
+                            ALPHA, CORE_T)["design_aware"]
+                        net_n += 1
+                    continue
+                # --- power: redraw the estimate each replicate -----------------
+                B = pp[0][1].shape[0]
+                for _ in range(REPS):
+                    idx = rng.integers(0, B)
+                    H, Bd_list = [], []
+                    for dh, db in pp:
+                        err = db[idx] - dh                    # a draw of D_hat - D
+                        Dhat = delta * inj + err
+                        H.append(Dhat)
+                        Bd_list.append(Dhat[None, :] + (db - dh[None]))
+                    H = np.array(H)
+                    Bd = np.moveaxis(np.array(Bd_list), 1, 0)
+                    pair_hits += sum(
+                        certify_decline_differences(H[[i]], Bd[:, [i]], ALPHA,
+                                                    CORE_T)["design_aware"]
+                        for i in range(len(pp)))
+                    pair_n += len(pp)
+                    persist_hits += certify_decline_differences(
+                        H, Bd, ALPHA, CORE_T)["design_aware"]
+                    persist_n += 1
+                    if net is not None:
+                        dh_n, db_n = net
+                        acc = delta * len(pp)
+                        err = db_n[idx] - dh_n
+                        Dn = acc * inj + err
+                        net_hits += certify_decline_differences(
+                            Dn[None], (Dn[None, :] + (db_n - dh_n[None]))[:, None],
+                            ALPHA, CORE_T)["design_aware"]
+                        net_n += 1
             rows.append(dict(design=design, delta=delta,
-                             pair_rate=round(pair_hits / n_pairs, 3),
-                             net_rate=round(net_hits / max(n_net, 1), 3),
-                             persist_rate=round(persist_hits / len(cells), 3)))
+                             pair_rate=round(pair_hits / max(pair_n, 1), 3),
+                             net_rate=round(net_hits / max(net_n, 1), 3),
+                             persist_rate=round(persist_hits / max(persist_n, 1), 3)))
             print(f"delta={delta:.2f}: pair {rows[-1]['pair_rate']:.3f}  "
                   f"net {rows[-1]['net_rate']:.3f}  "
                   f"persist {rows[-1]['persist_rate']:.3f}")

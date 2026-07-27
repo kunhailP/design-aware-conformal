@@ -85,3 +85,13 @@ All RNG flows through `pcb.util.det_seed(...)` (named, per-cell seeds); reruns o
 any experiment reproduce its committed CSV exactly on the same dependency pins.
 The one disclosed exception is documented in the paper (§5): the original sealed
 holdout config was lost and its corrected-scorer rerun uses a fresh seed.
+
+## Claim ledger
+
+`tests/test_paper_claims.py` pins every headline number in `paper/` to the
+result table that licenses it, and fails if either moves. It runs in CI with the
+contract tests. Three rounds of referee reports on this manuscript found the
+same failure mode more than once — a number or a scope word in the text
+drifting from what the experiment produced — so the ledger exists to make that
+class of error impossible to ship. A claim in the paper but not in the ledger is
+a claim no one is checking.
