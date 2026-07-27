@@ -24,7 +24,7 @@ pcb/              method library + experiments
   simulation/ theory/ data/    generators, theory checks, survey loaders
   experiments/    e6-e26 (design-aware arc; ESS/LAPOP/WVS) + e28-e30 (benchmarks, certified core)
   figures/        figure generators
-tests/            contract tests (theorem <-> code), 54 total
+tests/            contract tests (theorem <-> code), 57 total
 results/          precomputed result tables (CSV)
 docs/             preregistrations, results write-ups, proofs, data sources
 ```
@@ -34,7 +34,7 @@ docs/             preregistrations, results write-ups, proofs, data sources
 ```bash
 pip install -r requirements.txt   # exact pinned environment
 # or: pip install -e .            # the pcb package alone (pyproject.toml)
-python -m pytest tests/ -q                        # 54 contract tests (should pass)
+python -m pytest tests/ -q                        # 57 contract tests (should pass)
 # Simulation / theory — no microdata needed, run out of the box:
 python -m pcb.experiments.e28_wrong_unit_coverage   # wrong-unit coverage collapse
 python -m pcb.experiments.e29_beyond_surveys        # unreachability beyond surveys

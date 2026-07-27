@@ -45,20 +45,19 @@ the archived replication.
 
 \paragraph{Validation, in three disclosed layers.} \emph{(i)}~A sealed holdout
 (450 cells: ten DGP families $\times$ $K\in\{25,\dots,320\}$ $\times$ nine $\rho$;
-800 reps each) was frozen and run once---but an audit later found its scorer
-evaluated the S2 studentized band rather than the deployed band, and its findings
-motivated the switch to the U0 base band and the Theorem~\ref{thm:safe}
-architecture, so we label it development. \emph{(ii)}~A corrected-scorer rerun of
-the same grid scores the deployed band verbatim (fresh seed; the original sealed
-config was not preserved---disclosed): all $450$ cells floor-compatible, worst cell
-$0.882$, deconvolution active only at $K=320$, low-$\rho$ width $1.005\times$ plain
-PCB. \emph{(iii)}~Because both layers had touched the final design, we sealed one
-further validation of the final pipeline on six \emph{new} DGP families and new
-grids, script hash recorded before first execution, run once, reported as produced
-including a first-seal generator bug we diagnosed and disclosed (E33): $120/120$
-cells floor-compatible, worst cell $0.878$, zero deconvolution activations below
-$K=94$ as the algorithmic floor requires. Full tables, the development grid, and
-the finite-$K$ over-shrinkage mechanism are in the Supplementary Material.
+800 reps each) was frozen and run once---but an audit found its scorer evaluated
+the S2 studentized band rather than the deployed band, and its findings motivated
+the switch to U0 and the Theorem~\ref{thm:safe} architecture, so we label it
+development. \emph{(ii)}~A corrected-scorer rerun of the same grid scores the
+deployed band verbatim (fresh seed; the original sealed config was not
+preserved---disclosed): all $450$ cells floor-compatible, worst $0.882$,
+deconvolution active only at $K=320$, low-$\rho$ width $1.005\times$ plain PCB.
+\emph{(iii)}~Because both layers had touched the final design, we sealed one
+further validation on six \emph{new} DGP families and grids, script hash recorded
+before first execution, run once, reported as produced including a disclosed
+first-seal generator bug (E33): $120/120$ cells floor-compatible, worst $0.878$,
+zero deconvolution activations below $K=94$ as the floor requires. Full tables and
+the finite-$K$ mechanism are in the Supplementary Material.
 
 \paragraph{Design-preserving stress test, honestly bounded.} Subsampling the real
 AmericasBarometer, the deployed selector never fires; but the pooled $\rhohat$

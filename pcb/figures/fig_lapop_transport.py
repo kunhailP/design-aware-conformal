@@ -14,6 +14,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -61,7 +62,7 @@ def fig_width(loco):
                  "than\nthe conservative envelope (T3 < T2) — low-ρ regime: "
                  "no harm + efficiency", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout(rect=(0, 0, 1, 0.97))
-    fig.savefig("figures/lapop_candidate_b_vs_conservative.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_candidate_b_vs_conservative.png", dpi=200)
     plt.close(fig)
 
 
@@ -83,7 +84,7 @@ def fig_rho(loco):
                  "signal\ndwarfs within-country survey noise (n≈1500/cell)",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/lapop_width_by_rho.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_width_by_rho.png", dpi=200)
     plt.close(fig)
 
 
@@ -110,7 +111,7 @@ def fig_stress(stress):
                  "coverage\n(0.929 ≥ 0.90 nominal) at 7% less width",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/lapop_transport_certification.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_transport_certification.png", dpi=200)
     plt.close(fig)
 
 

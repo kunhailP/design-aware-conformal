@@ -1,4 +1,4 @@
-data/
+/data/
 __pycache__/
 *.pyc
 .DS_Store
@@ -13,3 +13,4 @@ results/holdout_safe_selector.csv
 *.egg-info/
 build/
 dist/
+/figures/

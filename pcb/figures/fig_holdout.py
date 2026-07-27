@@ -14,6 +14,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -71,7 +72,7 @@ def main():
     axR.set_title("Efficient branch unlocks with K;\nsmall K abstains (honest)",
                   fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/holdout_validation.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/holdout_validation.png", dpi=200)
     plt.close(fig)
     print("wrote figures/holdout_validation.png")
 

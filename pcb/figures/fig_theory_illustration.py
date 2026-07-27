@@ -22,6 +22,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator
+import os
 import numpy as np
 
 from pcb.dapcb import dapcb
@@ -157,7 +158,7 @@ def fig_shrinkage(shrink):
                  "the safe guard shrinks less, and both converge as $K$ grows",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/theory_shrinkage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_shrinkage.png", dpi=200)
     plt.close(fig)
     print("wrote figures/theory_shrinkage.png")
 
@@ -190,7 +191,7 @@ def fig_coverage(cov):
                  "$K$ (worse as $L$ grows); the deployed selector abstains and stays "
                  "valid", fontsize=10.5, color=TEXT, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.96))
-    fig.savefig("figures/theory_coverage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_coverage.png", dpi=200)
     plt.close(fig)
     print("wrote figures/theory_coverage.png")
 

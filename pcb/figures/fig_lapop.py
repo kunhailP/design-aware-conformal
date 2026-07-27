@@ -14,6 +14,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -57,7 +58,7 @@ def fig_repro(pair):
                  "survey\nuncertainty roughly halves certifications (M0→survey-aware)",
                  fontsize=10, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/lapop_external_reproduction.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_external_reproduction.png", dpi=200)
     plt.close(fig)
 
 
@@ -82,7 +83,7 @@ def fig_deff(pair):
                  "proper stratified-PSU band is materially wider (up to ~1.9×)",
                  fontsize=10, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/lapop_design_effect.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_design_effect.png", dpi=200)
     plt.close(fig)
 
 

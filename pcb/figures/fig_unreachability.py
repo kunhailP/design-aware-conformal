@@ -21,6 +21,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator
+import os
 import numpy as np
 import pandas as pd
 
@@ -104,7 +105,7 @@ def main():
                   "empty at survey scale)", fontsize=9.5, color=TEXT, loc="left")
 
     fig.tight_layout()
-    fig.savefig("figures/unreachability.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/unreachability.png", dpi=200)
     plt.close(fig)
     print(f"τ_D={TAU_D:.4f}  K*={KSTAR:.1f}  "
           f"max ρ̂={d.rho_hat.max():.3f}  max ρ̂_LCB={d.rho_lcb.max():.3f}  "

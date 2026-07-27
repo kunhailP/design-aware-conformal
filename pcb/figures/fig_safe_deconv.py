@@ -12,6 +12,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -70,7 +71,7 @@ def main():
     axR.set_title("Residual gap is finite-K:\ncoverage → nominal as K grows "
                   "(ε_{K,B}→0)", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/safe_deconv_coverage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/safe_deconv_coverage.png", dpi=200)
     plt.close(fig)
     print("wrote figures/safe_deconv_coverage.png")
 

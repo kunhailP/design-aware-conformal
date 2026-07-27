@@ -1,15 +1,15 @@
 \section{Introduction}
 
 Comparative politics increasingly treats a national public as a \emph{distribution}
-rather than a mean. Trust in parliament, satisfaction with democracy, or support for
-the political system in a country and year is a whole cumulative distribution
-function over a response scale, and repeated cross-national surveys---the European
-Social Survey \citep[ESS;][]{kaminska2017survey}, the World Values Survey, the
-AmericasBarometer \citep{lapop2023pulse}---let us track how that distribution moves
-across waves and, increasingly, \emph{transport} it: predict one country's trajectory
-from the others, or flag which countries depart from a common pattern. Prediction bands
-and conformal methods are a natural tool here, promising finite-sample,
-distribution-free coverage.
+rather than a mean. Trust in parliament or satisfaction with democracy in a country
+and year is a cumulative distribution function over a response scale, and
+repeated cross-national surveys---the European Social Survey
+\citep[ESS;][]{kaminska2017survey}, the World Values Survey, the AmericasBarometer
+\citep{lapop2023pulse}---let us track how that distribution moves across waves
+and \emph{transport} it: predict one country's trajectory from the
+others, or flag departures from a common pattern. Prediction bands and conformal
+methods are a natural tool here, promising finite-sample, distribution-free
+coverage.
 
 \paragraph{Two wrong units.} A claim and its calibration can each be attached to the
 wrong object. The \emph{claim} ``democratic trust is declining'' is typically built
@@ -59,7 +59,9 @@ validity does not depend on how it selects: the PCB and conservative branches ar
 validity-free, so the four target-blind gates are an efficiency device, not a validity
 assumption (Theorem~\ref{thm:safe}). The design-error-correcting branch carries its own
 miss budget, and only at the many-unit scale where it can activate at all; at
-cross-national-survey $K$ the deployed guarantee is exact $1-\alpha$, full stop. We
+cross-national-survey $K$ the deployed guarantee is exact $1-\alpha$ for the
+estimated trajectory, with an explicit, design-noise-bounded gap to the latent one
+(Theorem~\ref{thm:oracle}b). We
 validate the frozen procedure in three disclosed layers, ending with a fresh sealed
 run on six data-generating-process families its design had never seen
 (Section~\ref{sec:simulation}).
@@ -81,14 +83,11 @@ non-identified (Theorem~\ref{thm:impossible}); with it, the correction is still
 design-to-total ratio $\rho$ stays severalfold below the level at which
 deconvolution helps, and the reliability diagnostic obeys the algorithmic floor
 $D\ge\sqrt{2/(K-1)}$---an identity of the frozen procedure---requiring $K\ge94$
-exchangeable populations (a differently calibrated correction could move the
-threshold, though not below the floor's arithmetic). The two largest surveys fail in
-\emph{opposite} ways: the WVS clears the size barrier ($K\approx100$) with
-negligible weights-only design noise, while the ESS has genuine clustered noise but
-$K\le33$. The abstaining reduction, not a correction, is therefore the right object
-at survey scale, and the reader should not expect the deconvolution to activate
-empirically---its payoff regime is many-unit settings such as small areas, which we
-demonstrate in simulation.
+exchangeable populations. The two largest surveys fail in \emph{opposite} ways: the
+WVS clears the size barrier ($K\approx100$) with negligible weights-only design
+noise, while the ESS has genuine clustered noise but $K\le33$. The reader should
+therefore not expect the deconvolution to activate empirically; its payoff regime
+is many-unit settings such as small areas, demonstrated in simulation.
 
 The remainder situates the contribution among the conformal and political-trust
 literatures (Section~\ref{sec:related}), sets up the problem and impossibility result

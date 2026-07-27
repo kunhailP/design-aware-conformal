@@ -71,11 +71,11 @@ the `POLITICAL_PAYOFF_ESTIMAND.md` hierarchy:
 the period than the start, over the low-trust range):
 - **Plug-in is INVALID**: false-certification on non-declining countries **.222**,
   far above α = 0.10 — ignoring survey uncertainty over-certifies decline (it
-  wrongly flags 33% of stable and 21% of one-off-dip countries).
-- **Design-aware is valid**: false-certification **.008 ≤ α**, while retaining
+  wrongly flags 25% of stable and 21% of one-off-dip countries).
+- **Design-aware is valid**: false-certification **.010 ≤ α**, while retaining
   strong power on true decliners (.68–.996).
 - **Headline: plug-in flags 51.2% of countries as in net decline; design-aware
-  certifies 34.0%.** The 17-point gap is precisely the over-certification that
+  certifies 34.2%.** The 17-point gap is precisely the over-certification that
   propagating survey-design uncertainty removes — the substantive "N flagged → M
   certified" result, in simulation.
 

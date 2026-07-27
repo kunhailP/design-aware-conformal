@@ -25,8 +25,8 @@ at an exact band is validity-free (Theorem~\ref{thm:safe}), so the selector need
 conditional-coverage argument.
 
 \paragraph{The three questions.} A naive selector asks \emph{can we deconvolve} and
-\emph{do we need to}; the finite-$K$ failure comes from the missing third question,
-\emph{can we do it safely at this $K$?}---which the safe selector adds explicitly.
+\emph{do we need to}; the safe selector adds the missing third question, \emph{can
+we do it safely at this $K$?}
 
 \paragraph{Safe selector (Algorithm~\ref{alg:safe}).} Let $\rhohat_{\text{LCB}}$ be
 a conservative lower bound on $\rho$, $D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$ a
@@ -47,8 +47,10 @@ $\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate ca
 open at all; at the $K$ of every certification sample in this paper the anchors keep
 the full $\alpha$ and the deployed guarantee is exact. All constants are
 frozen before validation (Section~\ref{sec:theory}, Appendix~\ref{app:spec}); when
-deconvolution is used the reported guarantee is the observable
-$1-\alpha-\widehat\delta_{\text{UCB}}(D)$.
+deconvolution is used the reported level is the observable
+$1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a frozen \emph{calibrated} bound
+validated in Section~\ref{sec:simulation} (the theorem-level guarantee is
+Theorem~\ref{thm:estimated}'s $\varepsilon_{K,B}$).
 
 \begin{algorithm}[t]
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}

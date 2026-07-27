@@ -13,6 +13,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -59,7 +60,7 @@ def fig_counts(pair):
                  "design-aware certification is stricter and valid",
                  fontsize=11, color=TEXT, x=0.02, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    fig.savefig("figures/plug_in_vs_design_aware_certification.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/plug_in_vs_design_aware_certification.png", dpi=200)
     plt.close(fig)
 
 
@@ -87,7 +88,7 @@ def fig_reclass(pair):
                  "declines, keeps the strong ones",
                  fontsize=11, color=TEXT, x=0.02, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.93))
-    fig.savefig("figures/country_reclassification_map.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/country_reclassification_map.png", dpi=200)
     plt.close(fig)
 
 
@@ -124,7 +125,7 @@ def fig_hierarchy(cty):
                  "uncertainty narrows certified trust declines to one (Greece)",
                  fontsize=10, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/guarantee_hierarchy.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/guarantee_hierarchy.png", dpi=200)
     plt.close(fig)
 
 

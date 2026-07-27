@@ -12,6 +12,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -66,7 +67,7 @@ def main():
     axR.set_title("Larger K unlocks the efficient branch;\nsmall K abstains "
                   "(honest inference)", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/safe_selector_grid.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/safe_selector_grid.png", dpi=200)
     plt.close(fig)
     print("wrote figures/safe_selector_grid.png")
 

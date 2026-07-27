@@ -74,14 +74,18 @@ political claim concerns.
 \emph{Statement.} Let the observed score be $\widetilde R=R+\xi$ with $R\perp\xi$ and
 $\xi$ mean-zero. (i)~The law of $R$---hence its $(1-\alpha)$ quantile---is not identified
 from the law of $\widetilde R$ without restrictions on the law of $\xi$. (ii)~Among
-\emph{non-randomized} bands measurable with respect to the observed scores only, any
-band that is valid for the latent target on the subclass of design laws containing
-$\xi\equiv0$ must be at least as wide as the plug-in band whose radius is the
-$(1-\alpha)$ conformal order statistic of $|\widetilde R|$, up to the conformal
-discreteness slack $\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)$. (A randomized
-band can shave exactly that slack and no more; and by Remark~\ref{rem:bimodal} no
-observed-score band---including the plug-in---is latent-valid over \emph{all}
-admissible laws, so validity must be read relative to the stated subclass.)
+\emph{non-randomized} bands measurable with respect to the observed scores only, no
+band whose radius is almost surely smaller than the plug-in radius---the
+$(1-\alpha)$ conformal order statistic of $|\widetilde R|$---by more than the conformal
+discreteness slack $\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)$ is valid for
+the latent target on the subclass of design laws containing $\xi\equiv0$. (The
+statement excludes uniform improvement; a band narrower on some realizations and
+wider on others is not excluded, which is why we phrase the main-text reading as
+``no observed-score band can beat the plug-in \emph{uniformly} by more than the
+slack.'' A randomized band can shave exactly that slack and no more; and by
+Remark~\ref{rem:bimodal} no observed-score band---including the plug-in---is
+latent-valid over \emph{all} admissible laws, so validity must be read relative to
+the stated subclass.)
 
 \begin{proof}
 (i)~Convolution is not invertible without knowing the noise law. Take
@@ -96,10 +100,11 @@ conformal rank identity gives $\Pr(\widetilde R_{K+1}\le\widehat q)=
 \lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$ at $\widehat q$ the corresponding order statistic,
 so any non-randomized radius below the $\lceil(1-\alpha)(K{+}1)\rceil{-}1$-th order
 statistic of $\{|\widetilde R_c|\}$ has latent coverage
-$\le(\lceil(1-\alpha)(K{+}1)\rceil-1)/(K{+}1)<1-\alpha$ on this member. A band
-materially narrower than the plug-in therefore undercovers the latent target on the
-$\xi\equiv0$ law it cannot distinguish from the contaminated one; the only room below
-the plug-in is the discreteness slack, which randomized smoothing exhausts. Thus
+$\le(\lceil(1-\alpha)(K{+}1)\rceil-1)/(K{+}1)<1-\alpha$ on this member. A band whose
+radius sits almost surely below the plug-in by more than the slack therefore
+undercovers the latent target on the $\xi\equiv0$ law it cannot distinguish from the
+contaminated one; the only room below the plug-in is the discreteness slack, which
+randomized smoothing exhausts. Thus
 strict efficiency beyond that slack is attainable only by shrinking the class of
 admissible laws---i.e.\ by supplying the law of $\xi$ (equivalently the $v_c$), which
 is exactly the design-bootstrap information.
@@ -145,7 +150,9 @@ $\Pr(\widetilde R_{K+1}>\widehat q-u)\le\alpha+\Pr(\widetilde R_{K+1}\in(\wideha
 $\{R_{K+1}>\widehat q+u\}\subseteq\{\widetilde R_{K+1}>\widehat q\}\cup\{|\xi_{K+1}|>u\}$
 directly. (c)~The oracle deconvolution scale satisfies $s_T^2=s^2(1-\rho^2)$ by the law
 of total variance $\operatorname{Var}(\widetilde R)=\operatorname{Var}(R)+\mathbb E[v^2]$
-under conditional mean-zero noise, giving the width factor $\sqrt{1-\rho^2}+o(1)$.
+under conditional mean-zero noise, giving the width factor $\sqrt{1-\rho^2}+o(1)$,
+the $o(1)$ as $K\to\infty$ from replacing the two laws' finite-$K$ conformal
+quantiles by their population counterparts.
 \end{proof}
 
 \begin{remark}[Symmetric noise alone is \emph{not} sufficient for latent
@@ -162,8 +169,9 @@ replication package's contract test \texttt{test\_latent\_target\_bridge.py}). B
 latent score laws of this shape arise naturally when a minority of countries follows a
 distinct regime. This is why Theorem~2(b) is stated as an explicit two-term bound (small
 noise $\Rightarrow$ small gap) rather than as unconditional conservativeness, and why on
-real data we report the design-noise scale ($\rho\le0.23$ across all surveys examined,
-Section~S4) that makes the gap negligible rather than assuming it away. Under additional
+real data we report the design-noise scale ($\rhohat\le0.22$ at the national level
+across all surveys examined, and $\le0.29$ including the noisiest ESS age-band
+subgroups; Section~S4) that makes the gap negligible rather than assuming it away. Under additional
 shape conditions (e.g.\ a unimodal latent law with $\widehat q$ above its mode, or a
 log-concave latent density) the classical dominance argument does go through, but we do
 not rely on it.
@@ -187,8 +195,12 @@ satisfies $\Pr(F_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+
 \begin{proof}
 Under any of (i)--(iv) the map from the $K{+}1$ curves to the $K{+}1$ scores is
 symmetric in the units (conditional on the fold in case~(ii)), so the scores
-$E_1,\dots,E_{K+1}$ are exchangeable elements of $\mathbb R^T$, and by continuity the
-scores $\{R_c\}$ are a.s.\ distinct. Therefore the rank of $R_{K+1}$ is uniform on
+$E_1,\dots,E_{K+1}$ are exchangeable elements of $\mathbb R^T$. If the score law is
+atomless the $\{R_c\}$ are a.s.\ distinct; with atoms (possible for discrete
+survey scales), break ties by a symmetric uniform randomization---the standard
+conformal device---which preserves exchangeability of the ranks, and the guarantee
+holds as stated (without randomization, ties can only make the band conservative,
+never anti-conservative, since the order statistic weakly increases). Therefore the rank of $R_{K+1}$ is uniform on
 $\{1,\dots,K{+}1\}$, and with $\widehat q=R_{(m)}$, $m=\lceil(1-\alpha)(K{+}1)\rceil$,
 $\Pr(R_{K+1}\le\widehat q)=m/(K{+}1)\ge1-\alpha$. The simultaneous coverage event is
 pointwise equivalent to the scalar event:
@@ -269,9 +281,15 @@ idealization---the price of finite-sample exactness. Bimodal mixtures of
 Remark~\ref{rem:bimodal} violate it.
 \emph{(A2, anti-concentration.)} $M:=\max_t|W(t)|$ has a density bounded by $L$ on a
 neighborhood of its $(1-\alpha_{\text{dec}})$ quantile $q^*$.
-\emph{(A3, moments and bootstrap.)} The scores have finite fourth moment (kurtosis
-$\kappa$), and the size-$B$ design bootstrap is unbiased for $v_c^2(t)$ with relative
-variance $\le c_v/B$.
+\emph{(A3, moments, boundedness, and bootstrap.)} The scores have finite fourth
+moment (kurtosis $\kappa$) and the error curves are uniformly bounded (automatic on
+the CDF scale, where $|\widetilde E_c(t)|\le1$), so that empirical second moments
+and bootstrap replicate averages obey Bernstein-type sub-exponential tail bounds;
+and the size-$B$ design bootstrap is unbiased for $v_c^2(t)$ with relative variance
+$\le c_v/B$. (Boundedness is what buys the logarithmic---rather than
+polynomial---dependence on $KT$ below; without it, Chebyshev alone gives the same
+conclusion with $\log(KT)$ replaced by a polynomial factor and a correspondingly
+slower rate.)
 
 \emph{Statement.} Under (A1)--(A3), the always-deconvolve band --- radius
 $\widehat q\cdot\widehat s_T(t)$ with $\widehat q$ the
@@ -286,11 +304,11 @@ scales,
 -\underbrace{\eta_{K,B}}_{\text{tail event}}
 -\underbrace{r_K}_{\text{order-stat}},
 \qquad
-\delta_{K,B}=C_1\sqrt{\tfrac{\kappa-1+z^2}{K}}+C_2\sqrt{\tfrac{c_v\log(KT)}{B}},
+\delta_{K,B}=C_1\sqrt{\tfrac{(\kappa-1+z^2)\log K}{K}}+C_2\sqrt{\tfrac{c_v\log(KT)}{B}},
 \]
-with $\eta_{K,B},r_K=O(K^{-1/2})$ obtainable from Chebyshev and order-statistic
-concentration ($C_1,C_2$ depend on $(\kappa,z,L,q^*)$ through those inequalities; we
-do not display numerical values), so
+with $\eta_{K,B},r_K=O(K^{-1/2})$ obtainable from the Bernstein bounds of (A3) and
+order-statistic concentration ($C_1,C_2$ depend on $(\kappa,z,L,q^*)$ through those
+inequalities; we do not display numerical values), so
 $\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
 $\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-safe guard makes the scale-error
 term one-sided: on the intersection of the guard's per-threshold coverage events
@@ -325,11 +343,17 @@ For the middle term, $M_{(m)}$ concentrates on $q^*$ at rate $r_K=O(K^{-1/2})$
 event the interval has length $\le2\delta q^*(1+o(1))$ and (A2) bounds its probability
 by $2Lq^*\delta+o(\delta)$. For the last term, decompose
 $\delta^*$ into (a)~the variance-estimation error of $s_{\text{plug}}^2$, which has
-relative standard error $\le\sqrt{(\kappa-1)/K}$ by the fourth-moment bound; (b)~the
-guard subtraction, whose own standard error contributes the $z$-term; and (c)~the
-bootstrap error $\max_{c,t}|\widehat v_c^2-v_c^2|/s^2$, bounded by
-$\sqrt{c_v\log(KT)/B}$ via Chebyshev and a union bound over the $KT$ cells. Choosing
-$\delta=\delta_{K,B}$ makes $\Pr(\delta^*>\delta_{K,B})\le\eta_{K,B}=O(K^{-1/2})$.
+relative standard error $\le\sqrt{(\kappa-1)/K}$ by the fourth-moment bound and,
+by the boundedness clause of (A3), a Bernstein tail
+$\Pr\big(|\widehat s_{\text{plug}}^2/s_{\text{plug}}^2-1|>u\big)\le
+2\exp\{-cKu^2\}$ for $u$ below a constant; (b)~the guard subtraction, whose own
+standard error contributes the $z$-term with the same tail; and (c)~the bootstrap
+error $\max_{c,t}|\widehat v_c^2-v_c^2|/s^2$, bounded by $\sqrt{c_v\log(KT)/B}$ via
+the Bernstein bound and a union bound over the $KT$ cells. The $\log K$ and
+$\log(KT)$ factors inside $\delta_{K,B}$ are what make these exponential tails
+summable: choosing $\delta=\delta_{K,B}$ with $C_1,C_2$ large enough constants makes
+$\Pr(\delta^*>\delta_{K,B})\le\eta_{K,B}=O(K^{-1/2})$ (polynomial-in-$1/K$ bounds of
+any desired order are available by inflating $C_1,C_2$).
 
 \emph{(iii)} The deployed scale subtracts $[\,\overline{\widehat v^2}-z\,\SE\,]_+$, a
 lower confidence bound at per-threshold level $\alpha_2=\Phi(-z)$: on the
@@ -339,7 +363,14 @@ any threshold, so
 $\widehat s_T^2\ge s_{\text{plug},0}^2-\overline{v^2}$ errs on the wide side of the
 oracle scale and the corresponding half of the $\Delta_0$ perturbation can only
 \emph{increase} coverage. The two-sided bound of (ii) therefore holds with its
-scale-error term effectively one-sided outside an $\alpha_2$-event.
+scale-error term effectively one-sided outside the stated event. One deployment
+honesty note: the shipped guard uses the per-threshold $z=1.645$
+($\alpha_2\approx0.05$) \emph{without} the Bonferroni adjustment, so at
+$T\approx10$--$26$ the uniform union bound $1-T\alpha_2$ is weak or vacuous; the
+one-sidedness should be read as per-threshold protection at the deployed settings,
+and the Bonferroni-adjusted guard level $\alpha_2/T$ (obtained by passing
+$z=\Phi^{-1}(1-\alpha_2/T)$ to the shipped scale guard, whose $z$ is a free
+parameter) is the configuration under which the uniform statement is nontrivial.
 \end{proof}
 
 \begin{remark}[What (A1) rules out, and why that is the right boundary]
@@ -415,7 +446,8 @@ where $\varepsilon_{K,B}$ is the estimated-law remainder of Theorem~4 attached t
 deconvolution branch only, reported at deployment through the observable diagnostic
 $\widehat\delta_{\text{UCB}}(D)$. For the survey-estimate target T1 the $K<94$ statement
 is exact; for the latent target T2 it carries the additive T1$\to$T2 gap of
-Theorem~2(b), negligible at the observed $\rho\le0.23$.
+Theorem~2(b), negligible at the observed $\rhohat\le0.22$ (national level; at most
+$0.29$ in the ESS subgroup scan).
 
 \begin{proof}
 The conservative score dominates the PCB score pointwise
@@ -679,8 +711,9 @@ numerically below the floor by at most $1.7$ MC-SE, as expected from binomial no
 around an exact level), and the width cost
 is $1.02$--$1.05\times$ on the real ESS transport bands (trust-CDF errors are
 $\approx$homoskedastic across the low-trust core, so the constant-width band is
-competitive; the only cells where it pays more than $10\%$ are synthetic heavy-tailed
-curves at $K{=}15$, where the studentized alternative is itself invalid).
+competitive; the cells where it pays more than $10\%$ are synthetic heavy-tailed and
+irregular-length curves at $K{=}15$---the latter at $1.17$--$1.18\times$---where the
+studentized alternative is itself invalid).
 
 \paragraph{Extreme-tail behavior of the remainder bound.} Beyond the base-method deficit
 resolved by deploying the unstudentized clustered band, the holdout exposed a second,

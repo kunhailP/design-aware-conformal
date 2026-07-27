@@ -13,6 +13,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 
@@ -60,7 +61,7 @@ def fig_rho(level, change):
                  "stay\nlow-ρ — real cross-national inference never reaches the "
                  "deconvolution regime", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/lapop_level_vs_change_rho.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_level_vs_change_rho.png", dpi=200)
     plt.close(fig)
 
 
@@ -91,7 +92,7 @@ def fig_width(change):
                  "T3/T1≈1−½ρ²\n(AW-1), T3/T2<1 conservative dominance (AW-2)",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
-    fig.savefig("figures/lapop_change_width_by_method.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/lapop_change_width_by_method.png", dpi=200)
     plt.close(fig)
 
 

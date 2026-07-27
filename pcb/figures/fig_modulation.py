@@ -1,3 +1,4 @@
+import os
 """Gate-4A figures: self-inclusion shrinkage and coverage over K x L.
 
 figures/modulation_score_shrinkage.png : calibration/target score ratio vs K,
@@ -75,7 +76,7 @@ def main():
         "cal / target score ratio")
     _draw(axes, sim, "cal_target_ratio", ref=1.0, ref_label="symmetric (=1)")
     fig.tight_layout(rect=(0, 0, 0.985, 0.93))
-    fig.savefig("figures/modulation_score_shrinkage.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/modulation_score_shrinkage.png", dpi=200)
     plt.close(fig)
 
     fig, axes = _panel_grid(
@@ -85,7 +86,7 @@ def main():
     _draw(axes, sim, "coverage", ref=0.90, ref_label="nominal")
     axes[0].set_ylim(0.75, 1.0)
     fig.tight_layout(rect=(0, 0, 0.985, 0.93))
-    fig.savefig("figures/coverage_by_K_L.png", dpi=200)
+    os.makedirs("figures", exist_ok=True); fig.savefig("figures/coverage_by_K_L.png", dpi=200)
     plt.close(fig)
     print("wrote figures/modulation_score_shrinkage.png, "
           "figures/coverage_by_K_L.png")
