@@ -333,6 +333,28 @@ def _retired_test_unit_frontier_gates():
         assert bad not in _norm(TEXT), f"overstated frontier claim: {bad}"
 
 
+def test_small_area_activation():
+    """The one place the deployed selector activates on real survey data."""
+    d = _csv("small_area_transport.csv")
+    a = d[d.pool == "all countries"]
+    fired = a[a.branch == "deconvolution"]
+    assert len(fired) == 4, len(fired)
+    assert set(fired.min_n) == {40, 60} and set(fired.essround) == {9, 10}
+    assert int(fired.K.min()) == 228 and int(fired.K.max()) == 287
+    assert 0.14 <= float(fired.gain_lcb.min()) and float(fired.gain_lcb.max()) <= 0.22
+    assert round(float(1 - fired.width_ratio.max()), 2) == 0.15
+    assert round(float(1 - fired.width_ratio.min()), 2) == 0.17
+    assert round(float(fired.coverage.min()), 3) == 0.881
+    assert int(a.gate_A.sum()) == 8 and len(a) == 23
+    _present("$15$--$17\\%$ narrower", "eight of twenty-three")
+    # the common-level sensitivity must be reported, not buried
+    c = d[d.pool == "common NUTS level"]
+    assert (c.branch == "deconvolution").sum() == 0
+    assert int(c.gate_A.sum()) == 9 and len(c) == 21
+    assert int(c.K.max()) == 140
+    _present("nine of twenty-one unit-rounds", "$K\\le140$")
+
+
 # ------------------------------------------------------------ no stale text --
 def test_no_stale_pre_joint_counts():
     """The joint construction changed the span count; nothing may still say nine."""
