@@ -41,64 +41,21 @@ $\rhohat_{\mathrm{LCB}}\le0.09$ fails the need gate decisively. The survey large
 enough to estimate the deconvolution has almost no design noise to remove; the
 survey with real clustered noise has far too few countries.
 
-\paragraph{The barrier belongs to the unit, not to surveys.} Both gates are
-statements about how many exchangeable populations a survey contains and how
-much sample sits behind each, so refining the unit moves them together: $K$
-grows, relieving the floor $D\ge\sqrt{2/(K-1)}$, while the sample behind each
-population shrinks, raising $\rho$. ESS regions, with PSUs nested inside so each
-carries a genuine stratified-PSU bootstrap, let us trace that frontier on real
-survey data (\texttt{e49}, Figure~\ref{fig:frontier}); the estimand there is the
-small-area one this regime concerns, a region's departure from its own national
-distribution. Sweeping the minimum region size from $400$ respondents to $25$
-takes $K$ from $21$--$30$ to $300$--$315$ and $\rhohat_{\mathrm{LCB}}$ from
-$0.08$ to $0.47$. The reliability barrier clears cleanly: $D$ falls below its gate in every round
-once units drop under $80$ respondents, which is an algebraic consequence of $K$
-and replicates throughout. The need barrier only \emph{approaches} its cutoff.
-Its maximum over the sweep is $\rhohat_{\mathrm{LCB}}=0.476$ against
-$\rho_0=0.47$, in one of three rounds, at two of thirty-three unit-rounds---and
-that $1\%$ margin is inside the specification noise of the estimand: accounting
-for the design variance of the \emph{demeaned} curve rather than the raw one
-moves it to $0.460$, below the cutoff, while dropping the countries that
-contribute a single region moves it to $0.495$, above. Without demeaning at all
-the ratio never exceeds $0.24$. What the frontier establishes is therefore the
-weaker and still useful claim: the reliability barrier is a property of $K$ and
-dissolves at the subnational unit, while the need barrier comes within one
-percent of its cutoff on the small-area estimand and is not decisively crossed.
-
-\paragraph{How coarse should the unit be? A feasibility floor, not an optimum.}
-The same refinement that opens the gates also sets the band's width, and the
-direction is not obvious a priori: refining multiplies $K$, which tightens the
-conformal quantile, but shrinks the sample behind each unit, which inflates the
-design noise the band must carry. We tested it with the confounds removed (\texttt{e52}): within each
-country-round we build units of a \emph{target} size by grouping whole PSUs at
-random, so size is controlled rather than filtered, composition is fixed, and
-each unit keeps its own stratified-PSU bootstrap. Over the range where the
-country set is constant (targets of $40$ to $350$ respondents), the half-width
-falls \emph{monotonically} as units coarsen, $0.190$ to $0.065$: there is no
-interior optimum and refinement is strictly costly. An earlier sweep over NUTS
-regions appeared to show one; the Supplementary Material reports why it did not
-survive, because the artifact is easy to reproduce. What does bind is a
-corner. The conformal level is \emph{infeasible} whenever
-$K<\alpha^{-1}-1$: the required order statistic exceeds the sample and the band
-is $[0,1]$ at any width. The practical rule is therefore the opposite of
-refinement---take the coarsest unit your question admits, subject to
-$K\ge\alpha^{-1}-1$---and the cross-national default is on the right side of it
-($K=30$--$34$ against a floor of nine). This is a sharp and, as far as we know,
-unremarked constraint on cluster-conformal practice; it is a statement about the
-\emph{calibration} unit of a transport band, and it does not bear on the unit of
-an estimand, which a research question fixes. Unit choice in the substantive
-sense---which areal partition to analyze---is the modifiable areal unit problem
-\citep{openshaw1984modifiable,robinson1950ecological}, and we are not adding to
-it.
-
-\begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{unit_frontier.pdf}
-\caption{Refining the unit relieves both barriers (ESS regions, rounds 9--11;
-medians over rounds, shaded range). \emph{Left:} the remainder bound falls past
-$\delta_{\max}$, in every round by $80$ respondents per region. \emph{Right:}
-$\rhohat_{\mathrm{LCB}}$ reaches $\rho_0$, crossing in one round at
-$25$--$30$.}\label{fig:frontier}
-\end{figure}
+\paragraph{How coarse can the calibration unit be?} One constraint on that
+choice is sharp and, as far as we know, unremarked: the conformal level is
+\emph{infeasible} whenever $K<\alpha^{-1}-1$, because the required order
+statistic exceeds the sample and the band is $[0,1]$ at any width. A too-coarse
+unit is therefore not inefficient but unusable, and the cross-national default
+clears the floor comfortably ($K=30$--$34$ against nine). Refining below what the
+floor demands is not free either: building units of a controlled target size by
+grouping whole PSUs within each country---so size is set rather than filtered and
+every country contributes at every size---the band's half-width falls
+\emph{monotonically} as units coarsen, from $0.190$ at forty respondents per unit
+to $0.065$ at three hundred and fifty (\texttt{e52}). These are statements about
+the \emph{calibration} unit of a transport band; the unit of an estimand is fixed
+by the question, and choosing among substantive areal partitions is the
+modifiable areal unit problem \citep{openshaw1984modifiable,robinson1950ecological},
+to which we add nothing.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{unreachability.pdf}

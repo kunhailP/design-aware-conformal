@@ -78,13 +78,12 @@ reliability diagnostic obeys the algorithmic floor $D\ge\sqrt{2/(K-1)}$,
 requiring $K\ge94$ exchangeable populations. The two largest surveys fail in
 \emph{opposite} ways: the WVS clears the size barrier ($K\approx100$) with
 negligible weights-only noise, the ESS has genuine clustered noise but $K\le33$.
-Both failures are properties of the \emph{unit}: refining to ESS subnational
-regions carries $K$ to $300$ and lifts $\rho$ to the gate, so both barriers are
-reachable on real survey data and the selector then abstains on efficiency alone
-(Section~\ref{sec:evidence}). Refinement is not free---with unit size controlled,
-narrower units strictly widen the band---and the one hard constraint on the
-calibration unit is a feasibility floor, $K\ge\alpha^{-1}-1$, below which the
-conformal level cannot be met at all.
+The reader should therefore not expect the deconvolution to activate
+empirically; its payoff regime is many-unit settings such as small areas, which
+we demonstrate in simulation. One constraint on the \emph{calibration} unit is sharp and, as far as we know,
+unremarked: below $K=\alpha^{-1}-1$ the conformal level cannot be met at any
+width, so a too-coarse unit is infeasible rather than inefficient
+(Section~\ref{sec:evidence}).
 
 The remainder situates the contribution (Section~\ref{sec:related}), sets up the
 problem and the impossibility result (Section~\ref{sec:setup}), builds the method

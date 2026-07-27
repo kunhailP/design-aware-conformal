@@ -133,7 +133,7 @@ def test_no_unsupported_interior_optimum():
     for bad in ["has an interior optimum", "an interior optimal unit",
                 "sits far to the coarse side", "design parameter with an optimum"]:
         assert bad not in _norm(TEXT), f"unsupported claim survives: {bad}"
-    _present("there is no interior optimum", "feasibility floor")
+    _present("falls \\emph{monotonically} as units coarsen", "is infeasible")
 
 
 # ------------------------------------------------- endpoint robustness (e43) --
@@ -294,7 +294,18 @@ def test_claassen_window_matched_core_turnover():
 
 
 # ------------------------------------------------- unit frontier (E49) -------
-def test_unit_frontier_gates():
+def test_frontier_claims_are_withdrawn():
+    """The ESS-region frontier was built on an inconsistent demeaning rule and
+    is withdrawn; nothing in the manuscript may still assert it."""
+    main = _norm(open(os.path.join(PAPER, "sections", "06_evidence.tex"),
+                      encoding="utf-8").read())
+    for bad in ["barrier belongs to the unit", "both barriers of proposition",
+                "unit_frontier", "$13.9\\%$ narrower", "approaches} its cutoff"]:
+        assert bad not in main, f"withdrawn frontier claim survives in S6: {bad}"
+    _present("a withdrawn result")
+
+
+def _retired_test_unit_frontier_gates():
     d = _csv("unit_frontier.csv")
     w = d[d.estimand.str.startswith("within")]
     # K and rho move as claimed as the unit refines
