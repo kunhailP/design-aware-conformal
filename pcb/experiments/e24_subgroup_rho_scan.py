@@ -50,6 +50,10 @@ SUBGROUPS = {
 }
 
 
+RESCALE = False   # Rao-Wu-Yue rescaling: draw m-1 PSUs per stratum with replacement
+                  # and scale stratum sums by m/(m-1); unbiases the between-PSU
+                  # variance that plain m-of-m understates. Flip via e38 only.
+
 def _wcdf_core(y, w):
     ind = y[:, None] <= CORE[None, :]
     return (w[:, None] * ind).sum(0) / w.sum()
@@ -65,6 +69,11 @@ def _design_sd_core(y, w, stratum, psu, rng, B=B_DESIGN):
     bc = np.zeros((B, len(CORE))); bt = np.zeros(B)
     for s in np.unique(strat):
         rows = np.flatnonzero(strat == s); m = len(rows)
+        if m > 1 and RESCALE:
+            f = m / (m - 1.0)
+            idx = rows[rng.integers(0, m, size=(B, m - 1))]
+            bc += cnt[idx].sum(1) * f; bt += tot[idx].sum(1) * f
+            continue
         idx = rows[rng.integers(0, m, size=(B, m))] if m > 1 else \
             np.broadcast_to(rows, (B, 1))
         bc += cnt[idx].sum(1); bt += tot[idx].sum(1)

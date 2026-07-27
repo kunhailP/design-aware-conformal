@@ -30,9 +30,8 @@ design-to-\emph{total} SD ratio
 \;=\;\sqrt{\frac{\overline{v^2}}{s_R^2+\overline{v^2}}}\;\in\;[0,1),
 \]
 $\rho\to0$ the design-noise-negligible regime, $\rho\to1$ noise-dominated. (The
-simulations' generative dial is the unbounded $\mathrm{SD}(\xi)/\mathrm{SD}(R)$; all
-reported $\rho$ values and the $\sqrt{1-\rho^2}$ width law use the bounded
-definition.)
+simulations' generative dial is the unbounded $\mathrm{SD}(\xi)/\mathrm{SD}(R)$;
+reported $\rho$ values use the bounded definition.)
 
 \paragraph{Target and validity.} We want a simultaneous band $\widehat B(r,t)$ that
 covers a \emph{new} country's \emph{latent} trajectory,
@@ -43,8 +42,8 @@ exchangeability of countries); its coverage of the \emph{latent} target differs 
 explicit gap that vanishes with the design-noise scale
 (Theorem~\ref{thm:oracle}(b)---symmetry of the design law alone is \emph{not} enough
 for conservativeness, so we bound the gap rather than assume its sign). Meanwhile its
-width is inflated by the design noise, by a factor that grows with $\rho$. Correcting
-the width requires estimating and removing the design contribution---a deconvolution.
+width is inflated by the design noise by a factor growing with $\rho$; correcting
+it requires estimating and removing the design contribution---a deconvolution.
 
 \paragraph{Country exchangeability, stated honestly.} The transport band's
 identifying assumption is a superpopulation postulate: participating countries'
@@ -54,9 +53,12 @@ idealization, tempered three ways: the headline certifications of
 Section~\ref{sec:political} do not use it (they are within-country design-bootstrap
 statements); under approximate exchangeability the \citet{barber2023conformal}
 bound controls the coverage gap by an unobserved total-variation distance, treated
-as qualitative and probed via a leave-one-region-out audit flagged for the
-archived replication; and the Bonferroni rung protects against screening
-multiplicity---a distinct safeguard that does not repair non-exchangeability.
+as qualitative; a leave-one-region-out audit finds near-nominal held-out coverage
+except for the post-communist East ($6/9$ and $5/9$ at nominal $0.90$)---a
+quantified scope condition on transport \emph{into} that bloc (Supplementary
+Material); and the
+Bonferroni rung protects against screening multiplicity---a distinct safeguard
+that does not repair non-exchangeability.
 
 \paragraph{The impossibility.} The central obstruction is that the deconvolution is
 not identified from the contaminated scores alone.

@@ -775,6 +775,54 @@ not competitors---but the certified core is \emph{not recoverable} from the
 smoothed latent panel, which is the concrete sense in which the finite-sample,
 item-level object adds information to the model-based level.
 
+\paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
+drafts are now part of the package.
+\emph{(a) Rao--Wu--Yue rescaled bootstrap} (\texttt{e38}; \texttt{*\_rescaled.csv}):
+flipping every stratified-bootstrap site from $m$-of-$m$ to the rescaled $m{-}1$
+draw leaves \emph{every} ESS certification count unchanged at every rung
+($12/6/1$ trust, $14/8/1$ satisfaction, Bonferroni included), moves the ESS
+subgroup-scan maximum $\rhohat$ from $0.288$ to $0.281$ and the LAPOP
+change-transport maximum from $0.212$ to $0.222$---both still severalfold below
+$\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
+Single-PSU strata still contribute no variance; that residual understatement is
+the one caveat the rerun cannot remove.
+\emph{(b) Round-10 mode audit} (\texttt{e40}; \texttt{ess\_mode\_table.csv}):
+per the ESS10 mode documentation, nine countries (AT, CY, DE, ES, IL, LV, PL,
+RS, SE) switched to self-completion at round 10; rounds 9 and 11 are
+face-to-face throughout the integrated file. Excluding the mode-confounded
+pairs: the net counts are \emph{unchanged} ($6$ and $8$; the $9\to11$ endpoints
+are both face-to-face), the persistent count is unchanged (Greece---itself
+face-to-face in both certified rounds), and only the nine switchers' any-pair
+claims are affected (marked mode-confounded rather than re-certified).
+\emph{(c) Leave-one-region-out exchangeability audit} (\texttt{e41};
+\texttt{loro\_exchangeability.csv}): calibrating the U0 transport band on all
+countries outside a region and scoring the held-out region's trajectories,
+Nordic/Western/Southern blocs cover at $6$--$8$ of $6$--$8$ (nominal $0.90$),
+the full-pool leave-one-out baseline at $28/30$ for both outcomes, but the
+post-communist East covers only $6/9$ (trust) and $5/9$ (satisfaction): a
+quantified scope condition---transport \emph{into} the Eastern bloc from a
+non-Eastern pool is anti-conservative---consistent with the East-dominated
+certified core of the WVS reanalysis, and irrelevant to the within-country
+certifications, which use no exchangeability.
+\emph{(d) Real-data severity injection} (\texttt{e42};
+\texttt{real\_severity.csv}): injecting a known persistent decline of $\delta$
+CDF points over the preregistered core into the observed rounds-9--11 pair
+differences ($30$ countries, $57$ pairs, each with its own stratified-PSU
+bootstrap): the net rung reaches $80\%$ detection between $\delta=0.03$ and
+$0.04$ per pair, the persistent rung only at $\delta\approx0.08$---the same
+ordering and similar thresholds as the E32 simulation (real design noise sits
+slightly above the simulated $0.012$ SE), confirming on real data that the net
+rung is the powered instrument for secular-scale decline.
+\emph{(e) WVS design-effect sensitivity} (\texttt{e39};
+\texttt{wvs\_deff\_sensitivity.csv}): rerunning the full five-item certification
+with the weights-only bootstrap variance inflated by deff $1.5$ and $2.0$: at
+$\times1.5$ every per-item persistent count is within $2$ of the base and the
+$\ge2$-item certified core is \emph{identical} ($13$ countries); at $\times2.0$
+the core loses only Trinidad and Tobago ($12$ remain) and the
+marginal-to-persistent gap widens from $2.6$--$6.5\times$ to $3.0$--$8.3\times$
+--- confirming the paper's directional claim that the shipped gap is a lower
+bound.
+
 \paragraph{Design-preserving stress test, reinterpreted.} Subsampling the real
 AmericasBarometer while preserving its stratified-PSU structure, pooled $\rhohat$
 rises to $\approx0.23$ and then \emph{turns over} at the deepest subsampling

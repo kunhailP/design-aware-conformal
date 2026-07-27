@@ -30,6 +30,10 @@ B_BOOT = 300
 OUTCOMES = ("trstprl", "stfdem")
 
 
+RESCALE = False   # Rao-Wu-Yue rescaling: draw m-1 PSUs per stratum with replacement
+                  # and scale stratum sums by m/(m-1); unbiases the between-PSU
+                  # variance that plain m-of-m understates. Flip via e38 only.
+
 def weighted_cdf(y: np.ndarray, w: np.ndarray) -> np.ndarray:
     ind = y[:, None] <= np.arange(T_GRID)[None, :]
     return (w[:, None] * ind).sum(0) / w.sum()
@@ -49,6 +53,12 @@ def design_boot_sd(y, w, stratum, psu, B=B_BOOT, rng=None) -> np.ndarray:
     for s in np.unique(strat):
         rows = np.flatnonzero(strat == s)
         m = len(rows)
+        if m > 1 and RESCALE:
+            f = m / (m - 1.0)
+            idx = rows[rng.integers(0, m, size=(B, m - 1))]
+            boot_c += cnt[idx].sum(axis=1) * f
+            boot_t += tot[idx].sum(axis=1) * f
+            continue
         idx = rows[rng.integers(0, m, size=(B, m))] if m > 1 else \
             np.broadcast_to(rows, (B, 1))
         boot_c += cnt[idx].sum(axis=1)

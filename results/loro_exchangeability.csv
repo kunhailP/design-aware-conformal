@@ -1,0 +1,11 @@
+outcome,region,n_test,n_cal,covered,coverage,q_loro
+trstprl,North,7,23,6,0.857,0.3482
+trstprl,West,8,22,7,0.875,0.342
+trstprl,South,6,24,6,1.0,0.3865
+trstprl,East,9,21,6,0.667,0.3115
+trstprl,ALL (LOO baseline),30,29,28,0.933,0.362
+stfdem,North,7,23,7,1.0,0.3687
+stfdem,West,8,22,7,0.875,0.3532
+stfdem,South,6,24,6,1.0,0.3208
+stfdem,East,9,21,5,0.556,0.2684
+stfdem,ALL (LOO baseline),30,29,28,0.933,0.3089

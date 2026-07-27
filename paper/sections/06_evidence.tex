@@ -8,8 +8,10 @@ $\rhohat\le0.22$ on LAPOP (Figure~\ref{fig:rho}), at most $0.29$ in the ESS
 subgroup scan, well below the $\rho_0=0.47$ cutoff. Two directional caveats attach
 to every $\rhohat$ we report: the PSU bootstrap resamples $m$-of-$m$ without
 Rao--Wu--Yue rescaling \citep{rao1992recent} and single-PSU strata contribute no
-variance, so the estimates are downward-biased \emph{floors}; the qualitative
-conclusion survives because the gap to $\rho_0$ is severalfold. The safe selector
+variance, so the estimates are downward-biased \emph{floors}. A rescaled rerun
+confirms the floors are tight: the maxima move to $0.281$ (ESS) and $0.222$
+(LAPOP), still severalfold below $\rho_0$, with zero gate activations and every
+certification count unchanged (Supplementary Material). The safe selector
 thus reduces to clustered PCB on all real data---not by assumption but by its own
 low-$\rho$ gate.
 
@@ -40,13 +42,12 @@ $\tau_D=0.147$.
 The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On the
 ESS, the noisiest subpopulations (youth age bands) raise $\rhohat$ only to $0.29$,
 while $K\le33$ leaves $D\ge0.25$: \emph{neither} gate opens ($42$ cells scanned,
-zero activations). The WVS is the mirror image, with one denominator made explicit:
-its \emph{full item-coverage} sets ($K=95$--$105$) make the reliability gate
-feasible (four items pass at $D=0.139$--$0.142$; importance-of-democracy misses at
-$0.1473$), but the \emph{certification} samples of Section~\ref{sec:political}
-($\ge2$ waves, $K=59$--$77$) sit below $94$, where the floor closes the gate
-outright---and in either denominator its weights-only $\rhohat_{\mathrm{LCB}}\le
-0.09$ (itself biased low by the missing clustering) fails the need gate decisively.
+zero activations). The WVS is the mirror image: its \emph{full item-coverage}
+sets ($K=95$--$105$) make the reliability gate feasible (four items at
+$D=0.139$--$0.142$; importance-of-democracy misses at $0.1473$), but the
+\emph{certification} samples ($\ge2$ waves, $K=59$--$77$) sit below $94$, closing
+the gate outright---and in either denominator the weights-only
+$\rhohat_{\mathrm{LCB}}\le0.09$ fails the need gate decisively.
 The survey large enough to estimate the deconvolution has almost no design noise to
 remove; the survey with real clustered design noise has far too few countries. The
 barriers transfer beyond surveys; the one many-unit setting where the need gate

@@ -34,6 +34,10 @@ CORE_T = np.zeros(T, bool); CORE_T[1:5] = True     # low-trust core t ∈ {1,2,3
 OUTCOMES = ("trstprl", "stfdem")
 
 
+RESCALE = False   # Rao-Wu-Yue rescaling: draw m-1 PSUs per stratum with replacement
+                  # and scale stratum sums by m/(m-1); unbiases the between-PSU
+                  # variance that plain m-of-m understates. Flip via e38 only.
+
 def _round_stats(sub, outcome):
     """(y, w, stratum, psu) for valid responses of one country-round."""
     ok = sub[outcome].notna()
@@ -56,6 +60,11 @@ def _design_boot(y, w, stratum, psu, rng):
     bc = np.zeros((B, T)); bt = np.zeros(B)
     for s in np.unique(strat):
         rows = np.flatnonzero(strat == s); m = len(rows)
+        if m > 1 and RESCALE:
+            f = m / (m - 1.0)
+            idx = rows[rng.integers(0, m, size=(B, m - 1))]
+            bc += cnt[idx].sum(1) * f; bt += tot[idx].sum(1) * f
+            continue
         idx = rows[rng.integers(0, m, size=(B, m))] if m > 1 else \
             np.broadcast_to(rows, (B, 1))
         bc += cnt[idx].sum(1); bt += tot[idx].sum(1)

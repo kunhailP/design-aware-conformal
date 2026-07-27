@@ -33,6 +33,10 @@ B_DESIGN = 400                 # PSU-bootstrap draws for design SD
 B_STRESS = 300                 # design-resampling stress-test replications
 
 
+RESCALE = False   # Rao-Wu-Yue rescaling: draw m-1 PSUs per stratum with replacement
+                  # and scale stratum sums by m/(m-1); unbiases the between-PSU
+                  # variance that plain m-of-m understates. Flip via e38 only.
+
 def _wcdf_core(y, w, thr, core):
     return ((w[:, None] * (y[:, None] <= thr[None, :])).sum(0) / w.sum())[core]
 
@@ -47,6 +51,11 @@ def _design_draws(y, w, strata, upm, thr, core, n, rng):
     bc = np.zeros((n, len(thr))); bt = np.zeros(n)
     for s in np.unique(strat):
         rows = np.flatnonzero(strat == s); m = len(rows)
+        if m > 1 and RESCALE:
+            f = m / (m - 1.0)
+            idx = rows[rng.integers(0, m, size=(n, m - 1))]
+            bc += cnt[idx].sum(1) * f; bt += tot[idx].sum(1) * f
+            continue
         idx = rows[rng.integers(0, m, size=(n, m))] if m > 1 else \
             np.broadcast_to(rows, (n, 1))
         bc += cnt[idx].sum(1); bt += tot[idx].sum(1)

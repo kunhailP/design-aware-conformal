@@ -38,9 +38,9 @@ $\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ (remainder within budget); (C)
 $\widehat{\text{Gain}}-\Delta_g>g_{\min}$ (beats conservative by a margin); (D)
 stability. Otherwise the band is PCB when $\rhohat_{\text{LCB}}\le\rho_0$ and the
 conservative envelope when design noise is real but information insufficient. Every
-gate is a function of the calibration set only, so the selector is target-blind ---
-though, by the nested-band argument of Theorem~\ref{thm:safe}, validity would survive
-even an adversarial selection between the two anchor branches. The deconvolution
+gate is a function of the calibration set only, so the selector is
+target-blind---and by Theorem~\ref{thm:safe}'s nested-band argument, validity
+survives even adversarial selection between the anchor branches. The deconvolution
 branch, which is \emph{not} nested, is charged its own miss budget
 $\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ (the anchors run at
 $\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate can
