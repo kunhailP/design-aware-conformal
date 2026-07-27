@@ -9,17 +9,17 @@ reduction---a clustered band exact at any $K$ inside a selection-free selector
 (Theorems~\ref{thm:exact}, \ref{thm:safe})---and the design-aware layer certifies,
 rather than corrects, at survey scale.
 
-\paragraph{When it reduces to ordinary conformal.} On real cross-national data the
-method reduces \emph{exactly} to clustered population conformal
-(Section~\ref{sec:evidence}): the machinery certifies that the simple band is the
-honest one and reports the $\rho$ that justifies it. The deconvolution regime needs
-both many exchangeable units and comparable design noise---never both at survey
-scale, but routinely in many-unit clustered settings. A simulation of that setting
-(E31, Supplementary Material) confirms the payoff is real: at $K\approx220$--$300$
-small areas with posterior noise $\approx0.7$ of the between-area signal, the frozen
-pipeline activates deconvolution on up to $98\%$ of draws at $0.69$--$0.74\times$
-the conservative width with valid coverage---the positive-regime frontier the
-survey-scale impossibility leaves open.
+\paragraph{When it reduces to ordinary conformal.} On real cross-national data
+the method reduces \emph{exactly} to clustered population conformal: the
+machinery certifies that the simple band is the honest one and reports the $\rho$
+that justifies it. The deconvolution regime needs both many exchangeable units
+and comparable design noise---never both at survey scale, but routinely in
+many-unit clustered settings. A simulation of that setting (E31) confirms the
+payoff is real: at $K\approx220$--$300$ small areas with posterior noise
+$\approx0.7$ of the between-area signal, the frozen pipeline deconvolves on up to
+$98\%$ of draws at $0.69$--$0.74\times$ the conservative width with valid
+coverage---the positive-regime frontier the survey-scale impossibility leaves
+open.
 
 \paragraph{Limitations.} Four scope conditions, stated fully in the Supplementary
 Material. \emph{Sampling error only:} the machinery is silent on measurement
@@ -32,10 +32,11 @@ Rao--Wu--Yue rescaled rerun leaves every certification count and gate decision
 unchanged (Supplementary Material), though single-PSU strata still carry no
 variance information.
 \emph{A superpopulation postulate:} transport-band exchangeability is over a
-non-sampled, panel-attriting country set (the certifications do not use it).
+non-sampled, panel-attriting country set (the certifications do not use it), and
+holds worse for the post-communist bloc than elsewhere.
 \emph{Metadata:} without design metadata (WVS) only weights-only replication is
-possible, and the Gaussian-calibrated finite-$K$ remainder is not fully robust under
-strong dependence---confined by Theorem~\ref{thm:safe} to the $K\ge94$ regime.
+possible, and the Gaussian-calibrated finite-$K$ remainder is confined by
+Theorem~\ref{thm:safe} to the $K\ge94$ regime.
 
 \paragraph{The general lesson.} Attaching uncertainty to the right unit changes
 substantive conclusions: persistence in none of thirty-four European democracies
