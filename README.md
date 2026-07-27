@@ -1,65 +1,95 @@
 # The Wrong Unit of Uncertainty
 
-Replication package for *"The Wrong Unit of Uncertainty: Adaptive Design-Aware
-Conformal Inference for Repeated Cross-National Surveys."*
+![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+![Tests: 57 passing](https://img.shields.io/badge/tests-57%20passing-green)
+![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
-**Anonymized for double-blind review** — author and affiliation are withheld.
+Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Conformal
+Bands for Repeated Cross-National Surveys"* (under review, anonymized).
 
 ## What this is
 
 Claims about repeated cross-national surveys attach uncertainty to the wrong unit
 twice: a wave-pair mean contrast stands in for a persistent, distribution-wide
 trajectory, and an estimated distribution stands in for the latent one it samples.
-This package provides a multiplicity-honest simultaneous band over a country's whole
-trajectory, an impossibility result and a survey-scale unreachability boundary for
-the design-aware correction, a provably-valid deployed procedure, and two named
-reanalyses (ESS trust; WVS Foa–Mounk deconsolidation).
+This package provides:
 
-## Layout
+- a **finite-sample simultaneous band** over a country's whole attitude
+  trajectory, with the country as the exchangeable unit and an ordered claim
+  hierarchy (pairwise → any-pair → net → persistent → Bonferroni);
+- a **non-identification theorem and survey-scale unreachability boundary** for
+  the design-aware (deconvolution) correction, with a provably selection-free
+  deployed selector;
+- two named reanalyses — **ESS parliamentary trust** (2002–2024) and the
+  **WVS/EVS Foa–Mounk deconsolidation battery** (1981–2022) — plus V-Dem
+  cross-tabs and a same-items comparison with the Claassen latent panel.
 
+## Headline results (all regenerate from `results/*.csv`)
+
+| finding | where |
+|---|---|
+| Marginal readings flag 20/30 ESS countries; the hierarchy certifies net decline in 6, persistence in 1 (Greece) | `e13`, §7 |
+| Over the full 2002–2024 record: persistence in **0/34**, net erosion in 9 — two of them (IL, IT) invisible to any single wave pair | `e36`, §7 |
+| WVS: marginal readings over-count persistent deconsolidation 2.6–6.5×; the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
+| Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 1, §2/§6 |
+| Five robustness reruns delivered: RWY-rescaled bootstrap, WVS deff ×1.5/×2, round-10 mode audit, LORO exchangeability, real-data severity injection | `e38`–`e42`, Supplement |
+
+## Quickstart
+
+```bash
+pip install -r requirements.txt && pip install -e .
+python -m pytest tests/ -q          # 57 contract tests (theorem <-> code)
+python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
-paper/            LaTeX source (main.tex, sections/, figures/, refs.bib)
-pcb/              method library + experiments
-  inference/      clustered/population conformal, design_aware, safe selector
-  simulation/ theory/ data/    generators, theory checks, survey loaders
-  experiments/    e6-e26 (design-aware arc; ESS/LAPOP/WVS) + e28-e30 (benchmarks, certified core)
-  figures/        figure generators
-tests/            contract tests (theorem <-> code), 57 total
-results/          precomputed result tables (CSV)
-docs/             preregistrations, results write-ups, proofs, data sources
+
+Using the method on your own data:
+
+```python
+from pcb import dapcb
+fit = dapcb(cal_errors, v_cal, center, alpha=0.10)
+fit.band, fit.selected_branch, fit.coverage_level, fit.fallback_reason
 ```
 
 ## Reproduce
 
-```bash
-pip install -r requirements.txt   # exact pinned environment
-# or: pip install -e .            # the pcb package alone (pyproject.toml)
-python -m pytest tests/ -q                        # 57 contract tests (should pass)
-# Simulation / theory — no microdata needed, run out of the box:
-python -m pcb.experiments.e28_wrong_unit_coverage   # wrong-unit coverage collapse
-python -m pcb.experiments.e29_beyond_surveys        # unreachability beyond surveys
-python -m pcb.experiments.e11_gate5c                # theorem checks
-python -m pcb.experiments.e19_selector_sweep        # selector transition
-python -m pcb.experiments.e21_safe_selector         # safe-adaptive selector grid
-python -m pcb.experiments.e22_holdout_validation    # confirmatory holdout (corrected scorer)
-python -m pcb.experiments.e30_certified_core        # WVS certified core (from tracked CSV)
-python -m pcb.experiments.e31_positive_regime       # many-unit regime where deconvolution pays
-python -m pcb.experiments.e32_severity              # power of each claim rung
-python -m pcb.experiments.e33_final_validation      # fresh sealed validation of the final pipeline
-```
+Two tiers — see **[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)** for the
+full protocol and what was verified bit-identical:
+
+- **Tier 1 (no microdata)**: all simulation/theory/benchmark experiments and the
+  V-Dem/Claassen public-data analyses run out of the box.
+- **Tier 2 (licensed microdata)**: the ESS/WVS/LAPOP reanalyses. Exact files,
+  registration links, placement paths, and sha256 checksums are in
+  **[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md)**. The ESS certification and
+  the full WVS hierarchy reproduce the committed CSVs **bit-identically**.
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.
-Figures: `python -m pcb.figures.<name>`.
+Common targets: `make test`, `make tier1`, `make figures`, `make paper`.
 
-## Data availability
+## Layout
 
-The simulation, theory, and benchmark experiments above reproduce with **no
-external data**. The real-data reanalyses use **licensed microdata that we cannot
-redistribute**:
+```
+paper/            LaTeX source + compiled PDFs (main, supplement, title page)
+pcb/
+  inference/      clustered/population conformal, design_aware, safe selector
+  data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)
+  simulation/ theory/     generators and theory checks
+  experiments/    e6–e42 (simulation arc, ESS/LAPOP/WVS, robustness reruns)
+  figures/        figure generators (write to figures/; tracked copies in paper/figures/)
+tests/            57 contract tests binding each theorem to its implementation
+results/          precomputed result tables (CSV) — every paper number lives here
+docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF
+configs/          frozen validation manifests (seeds, script hashes)
+```
 
-- **ESS** (European Social Survey) — trust reanalysis (E12, E13, E23, E24)
-- **WVS/EVS** (World Values Survey) — Foa–Mounk deconsolidation (E26)
-- **LAPOP** (AmericasBarometer) — external design validation (E15–E18)
+## Data notice
 
-Download each from its provider and place under `data/ess/`, `data/wvs/`,
-`data/lapop/` respectively; see `docs/DATA_SOURCES.md` for exact files and schema.
+`/data/` is gitignored: the ESS, WVS/EVS, and LAPOP microdata are licensed by
+their providers and never committed. Download each from its provider and place
+per `docs/DATA_SOURCES.md`. Everything else — code, results, paper — is
+MIT-licensed (see `LICENSE`); the licensed survey data are **not** covered by
+that license.
+
+## Citation
+
+See [`CITATION.cff`](CITATION.cff). Until the paper is published, cite the
+package by its title and this repository.
