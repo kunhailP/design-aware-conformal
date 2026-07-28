@@ -13,11 +13,11 @@ stratified-PSU bootstrap:
 exact for the survey-estimate target at any $K$, with the latent gap of
 Theorem~\ref{thm:oracle}(b). \emph{(ii) Deconvolution} studentizes by the
 finite-$K$-safe target scale
-$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
+$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\, \overline{\widehat v^2}(t)-z\, \SE\, ]_+, \ \text{floor}\big)$,
 which subtracts a \emph{lower} confidence bound on the design variance so the
 correction cannot over-shrink; its width scales as $\sqrt{1-\rho^2}$ relative to
 PCB. \emph{(iii) Conservative} inflates each unstudentized score by the design SD,
-$\max_t(|\widetilde E_c(t)|+z\,\widehat v_c(t))$ --- a score that dominates the PCB
+$\max_t(|\widetilde E_c(t)|+z\, \widehat v_c(t))$ , a score that dominates the PCB
 score pointwise, so the conservative band \emph{contains} the PCB band by
 construction. This nesting is load-bearing: selection between nested bands anchored at an exact
 band is validity-free, so the selector needs no conditional-coverage argument.
@@ -37,10 +37,10 @@ $\widehat{\text{Gain}}-\Delta_g>g_{\min}$ (beats conservative by a margin); (D)
 stability. Otherwise the band is PCB when $\rhohat_{\text{LCB}}\le\rho_0$ and the
 conservative envelope when design noise is real but information insufficient. Every
 gate is a function of the calibration set only, so the selector is
-target-blind---and by Theorem~\ref{thm:safe}'s nested-band argument, validity
+target-blind, and by Theorem~\ref{thm:safe}'s nested-band argument, validity
 survives even adversarial selection between the anchor branches. The deconvolution
-branch, which is \emph{not} nested, is charged its own miss budget
-$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ (the anchors run at
+branch, which is not nested, is charged its own miss budget
+$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)), \alpha/2\}$ (the anchors run at
 $\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate can
 open at all. At the $K$ of every certification sample in this paper the anchors keep
 the full $\alpha$ and the deployed guarantee is exact. All constants are
@@ -48,19 +48,19 @@ frozen before validation (Appendix~\ref{app:spec}); when
 deconvolution is used the reported level is the observable
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a frozen \emph{calibrated} bound
 (the theorem-level guarantee is
-Theorem~\ref{thm:estimated}'s $\varepsilon_{K,B}$).
+Theorem~\ref{thm:estimated}'s $\varepsilon_{K, B}$).
 
 \begin{algorithm}[t]
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}
 \KwIn{calibration curves $\{\widetilde R_c\}$ (unit = country), design replicates
 $\{\widehat v_c\}$, target curve $\widehat F_{\text{new}}$, level $\alpha$;
-frozen $\rho_0,\delta_{\max},g_{\min},\Delta_g$ and the $K$-only budget rule
+frozen $\rho_0, \delta_{\max}, g_{\min}, \Delta_g$ and the $K$-only budget rule
 $\alpha_{\text{dec}}(K)$}
-set $(\alpha_{\text{anchor}},\alpha_{\text{dec}})$ by the frozen budget rule
+set $(\alpha_{\text{anchor}}, \alpha_{\text{dec}})$ by the frozen budget rule
 (full $\alpha$ to the anchors when gate B is infeasible at this $K$)\;
-compute diagnostics $s$, $\widehat s_T$, $\rhohat_{\text{LCB}},D,
+compute diagnostics $s$, $\widehat s_T$, $\rhohat_{\text{LCB}}, D,
 \widehat\delta_{\text{UCB}}(D)$; the nested unstudentized anchor radii
-$r_{\text{PCB}},r_{\text{con}}$ at level $\alpha_{\text{anchor}}$; and
+$r_{\text{PCB}}, r_{\text{con}}$ at level $\alpha_{\text{anchor}}$; and
 $r_{\text{dec}}$ at level $\alpha_{\text{dec}}$\;
 \uIf{$\rhohat_{\text{LCB}}\le\rho_0$}{branch $\leftarrow$ PCB\;}
 \uElseIf{$\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ \textbf{and} stable
@@ -72,5 +72,5 @@ deconvolution\;}
 
 \paragraph{Deployment.} The method ships as one call,
 \texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning the band, selected
-branch, diagnostics, coverage level, and fallback reason---so the user sees why
+branch, diagnostics, coverage level, and fallback reason, so the user sees why
 the band was built and reads off its finite-$K$ guarantee.

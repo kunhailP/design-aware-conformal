@@ -4,32 +4,32 @@ Uncertainty in claims about repeated cross-national surveys is usually computed 
 the wrong unit---twice. We gave a multiplicity-honest simultaneous band for the
 claim unit and a hard boundary for the calibration unit: non-identified without the
 design-noise law (Theorem~\ref{thm:impossible}), unreachable at cross-national
-scale with it (Proposition~\ref{prop:unreach}). The honest deployed object is the
-reduction---a clustered band exact at any $K$ inside a selection-free selector
-(Theorems~\ref{thm:exact}, \ref{thm:safe})---and the design-aware layer certifies,
+scale with it (Proposition~\ref{prop:unreach}). The deployed object is the
+reduction, a clustered band exact at any $K$ inside a selection-free selector
+(Theorems~\ref{thm:exact}, \ref{thm:safe}), and the design-aware layer certifies,
 rather than corrects, at survey scale.
 
 \paragraph{When it reduces to ordinary conformal.} At the national unit the
-method reduces \emph{exactly} to clustered population conformal: the machinery
-certifies that the simple band is the honest one and reports the $\rho$ that
-justifies it. The deconvolution regime needs many exchangeable units \emph{and}
-comparable design noise---never both across countries, but reachable one unit
+method reduces exactly to clustered population conformal: the machinery
+certifies that the simple band is the right one here, and reports the $\rho$
+that says so. The deconvolution regime needs many exchangeable units and
+comparable design noise, never both across countries, but reachable one unit
 down (Section~\ref{sec:evidence}) and routine in simulation at many-unit scale
 (\texttt{e31}: $K\approx220$--$300$ small areas, deconvolution on up to $98\%$ of draws
 at $0.69$--$0.74\times$ the conservative width with valid coverage).
 
 \paragraph{Limitations.} Four scope conditions, stated fully in the Supplementary
-Material. \emph{Sampling error only:} the machinery is silent on measurement
+Material. \emph{Sampling error only: } the machinery is silent on measurement
 non-invariance (wording and translation changes, house effects, mode switches),
 which produces exactly the shifts the bands certify; certifications straddling
 such changes are conditional on measurement constancy.
-\emph{Variance-estimator bias:} the deployed $m$-of-$m$ PSU bootstrap
+\emph{Variance-estimator bias: } the deployed $m$-of-$m$ PSU bootstrap
 \citep{rao1992recent,wolter2007introduction} biases design variance downward,
 though the Rao--Wu--Yue rescaled rerun leaves every count and gate unchanged.
-\emph{A superpopulation postulate:} transport-band exchangeability is over a
+\emph{A superpopulation postulate: } transport-band exchangeability is over a
 non-sampled, panel-attriting country set (the certifications do not use it), and
 holds worse for the post-communist bloc than elsewhere.
-\emph{Metadata:} without design metadata (WVS) only weights-only replication is
+\emph{Metadata: } without design metadata (WVS) only weights-only replication is
 possible.
 
 \paragraph{The general lesson.} Attaching uncertainty to the right unit changes
@@ -37,10 +37,10 @@ substantive conclusions: persistence in none of thirty-three European democracie
 over two decades yet span erosion in eight, mostly invisible to adjacent-wave readings; a
 several-fold over-count of persistent deconsolidation, with the surviving core
 concentrated outside the consolidated West. The pattern is not confined to
-surveys: wherever prediction is calibrated on estimated objects---small-area model
+surveys: wherever prediction is calibrated on estimated objects: small-area model
 outputs, learned features, meta-analytic effects
-(Remark~\ref{rem:general})---the calibration targets carry their own error, and
+(Remark~\ref{rem:general}), the calibration targets carry their own error, and
 the claim unit is often coarser than the trend asserted. The right response is not
 to widen every band reflexively but to state the strongest object the data
 support, correct the estimation noise when it can be identified, and abstain
-honestly when it cannot.
+when it cannot.

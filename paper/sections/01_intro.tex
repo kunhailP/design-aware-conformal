@@ -5,7 +5,7 @@ Comparative politics increasingly treats a national public as a
 is a cumulative distribution function over a response scale. Repeated
 cross-national surveys---the European Social Survey
 \citep[ESS;][]{kaminska2017survey}, the World Values Survey, the AmericasBarometer
-\citep{lapop2023pulse}---let us track how that distribution moves across waves and
+\citep{lapop2023pulse}, let us track how that distribution moves across waves and
 \emph{transport} it: predict one country's trajectory from the others.
 Conformal methods are a natural tool, promising finite-sample,
 distribution-free coverage.
@@ -16,7 +16,7 @@ from a single wave-pair mean contrast, then narrated as a country-level trend. O
 instrument is a finite-sample simultaneous band over a country's whole trajectory,
 with the country as the exchangeable unit, and an ordered hierarchy of claims:
 pairwise $\to$ any-pair $\to$ net $\to$ persistent $\to$ Bonferroni. The top
-rung is \emph{strictly stronger} than the net-trend claim the literature
+rung is strictly stronger than the net-trend claim the literature
 typically intends, so we treat the two as co-headlines. This
 multiplicity-honest core needs no survey design and applies to any repeated
 distributional claim.
@@ -25,12 +25,12 @@ The second, subtler wrong unit is the calibration: the objects conformal transpo
 calibrates on are themselves \emph{estimated} from complex probability samples,
 and standard practice plugs them in as truth.
 
-The two errors are distinct. Writing $F_{c,r}(t)$ for country $c$'s latent CDF at
-threshold $t$ in wave $r$ and $\Ftilde_{c,r}(t)$ for its complex-survey estimate,
+The two errors are distinct. Writing $F_{c, r}(t)$ for country $c$'s latent CDF at
+threshold $t$ in wave $r$ and $\Ftilde_{c, r}(t)$ for its complex-survey estimate,
 \begin{equation}\label{eq:decomp}
-\Ftilde_{c,r}(t) - \mu_r(t)
-\;=\; \underbrace{\big(F_{c,r}(t)-\mu_r(t)\big)}_{\text{transport error}}
-\;+\; \underbrace{\big(\Ftilde_{c,r}(t)-F_{c,r}(t)\big)}_{\text{design error}},
+\Ftilde_{c, r}(t) - \mu_r(t)
+\;=\; \underbrace{\big(F_{c, r}(t)-\mu_r(t)\big)}_{\text{transport error}}
+\;+\; \underbrace{\big(\Ftilde_{c, r}(t)-F_{c, r}(t)\big)}_{\text{design error}},
 \end{equation}
 where $\mu_r$ is the transport center. A band calibrated on the observed
 $\Ftilde$ scores treats the sum as the transport error alone: when the design
@@ -44,7 +44,7 @@ calibration unit (the omitted design-error layer of~\eqref{eq:decomp}), and give
 a finite-sample simultaneous band over a country's whole trajectory with a
 multiplicity-honest guarantee hierarchy that corrects the first.
 \emph{Second, a provably-valid deployed procedure.} The band we recommend is a
-clustered ``population'' conformal band, finite-sample exact at \emph{any} $K$
+clustered ``population'' conformal band, finite-sample exact at any $K$
 (Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
 how it selects. Its two anchor branches are \emph{nested}, and selection among
 nested bands anchored at an exact one is validity-free; the four
@@ -54,9 +54,9 @@ layers, ending with a sealed run on six unseen DGP families.
 \emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
 instrument changes the substantive picture. For European trust the hierarchy
 certifies net decline in six of thirty (2018--2024), not the twenty flagged
-marginally. Over the full 2002--2024 record \emph{no} country certifies
+marginally. Over the full 2002--2024 record no country certifies
 persistence, twenty-three of thirty-three certify both declines and recoveries,
-and eight certify span erosion---all read off one band at one level, by a
+and eight certify span erosion, all read off one band at one level, by a
 claim-family transfer argument that removes the multiplicity and
 endpoint-selection corrections a per-rung construction needs. Globally, a wave-pair reading of
 the Foa--Mounk ``deconsolidation'' battery on the WVS/EVS (1981--2022) over-counts
@@ -67,11 +67,11 @@ states.
 \emph{Fourth, the scope condition that justifies this deployment, and where it
 ends.} Without the design-noise law the latent transport-error distribution is
 non-identified (Theorem~\ref{thm:impossible}). With it, the correction is still
-\emph{unreachable} at cross-national scale: the measured design-to-total
+unreachable at cross-national scale: the measured design-to-total
 ratio stays severalfold below the level at which deconvolution helps, while the
 reliability diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$ that
 requires $K\ge94$ exchangeable populations. The two largest surveys fail in
-\emph{opposite} ways: the WVS clears the size barrier ($K\approx100$) with
+opposite ways: the WVS clears the size barrier ($K\approx100$) with
 negligible design noise, the ESS has genuine clustered noise but $K\le33$. One
 unit down, on a region's departure from its national distribution with
 $K\approx230$--$290$ regions, the frozen selector does activate it, and holding

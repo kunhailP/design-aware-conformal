@@ -102,7 +102,7 @@ def test_long_window_counts():
     assert int(t.net_da.sum()) == 9
     assert int(t.persist_da.sum()) == 0
     assert int(t.persist_plugin.sum()) == 0, "plug-in must also certify zero"
-    _present("\\emph{Zero} of the thirty-three countries")
+    _present("Zero of the thirty-three countries")
 
 
 def test_joint_contrast_totals():
@@ -144,14 +144,14 @@ def test_joint_band_net_set():
     got = sorted(t.cntry[t.net])
     assert got == ["CY", "ES", "GB", "GR", "HU", "IL", "IT", "UA"], got
     assert int(t.persistent.sum()) == 0
-    _present("certifies in \\emph{eight} countries")
+    _present("certifies in eight countries")
 
 
 def test_ukraine_magnitude_is_a_lower_bound():
     d = _csv("ess_joint_claims.csv")
     ua = d[(d.outcome == "trstprl") & (d.cntry == "UA")].iloc[0]
     assert 25.0 <= float(ua.net_lower) * 100 <= 26.0   # a lower bound rounds DOWN
-    _present("at least} $25$ points")
+    _present("at least $25$ points")
 
 
 def test_erosion_share_is_not_ranked_across_countries():

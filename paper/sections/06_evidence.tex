@@ -1,7 +1,7 @@
 \section{Evidence from the ESS and the AmericasBarometer}\label{sec:evidence}
 
-\paragraph{The regime characterization.} On real data the honest band reduces to
-clustered conformal---instructively. Across both surveys, both estimands, and
+\paragraph{The regime characterization.} On real data the selector reduces to
+clustered conformal, and the reason is worth stating. Across both surveys, both estimands, and
 three outcomes, cross-national inference is a uniformly \emph{low design-noise}
 regime:
 $\rhohat\le0.22$ on LAPOP, at most $0.29$ in the ESS
@@ -12,7 +12,7 @@ contribute no variance. The rescaled rerun confirms the floors are tight: maxima
 $0.281$ (ESS) and $0.222$ (LAPOP), still severalfold below $\rho_0$, zero gate
 activations, every certification count unchanged; and singleton strata, which no
 rescaling repairs, are $1$ of $7{,}028$ in the core rounds. The safe selector
-thus reduces to clustered PCB on all real data---not by assumption but by its own
+thus reduces to clustered PCB on all real data, not by assumption but by its own
 low-$\rho$ gate.
 
 \paragraph{Why the deconvolution is unreachable, precisely.}
@@ -22,10 +22,10 @@ The deployed selector activates deconvolution only if a \emph{need} gate
 $\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both
 hold, $D=\max_t \widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$. Both are
 bounded by \emph{algorithmic identities of the frozen procedure}.
-\emph{(a)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
+(a) $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}\in[0,1)$ with
 $s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$: the need gate fires only when design
 noise is an appreciable fraction of the between-population signal.
-\emph{(b)} Since $\widehat s_T\le s_{\mathrm{plug}}$ by construction,
+(b) Since $\widehat s_T\le s_{\mathrm{plug}}$ by construction,
 $D\ge\sqrt{2/(K-1)}$, so the reliability gate requires $K\ge1+2/\tau_D^2$, i.e.\
 $K\ge94$ at the frozen $\tau_D=0.147$. (Appendix~\ref{app:proofs} separates the
 deterministic statement from its kurtosis-dependent interpretation.)
@@ -33,8 +33,8 @@ deterministic statement from its kurtosis-dependent interpretation.)
 
 The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On
 the ESS the noisiest subpopulations raise $\rhohat$ only to $0.29$ while $K\le33$
-leaves $D\ge0.25$: \emph{neither} gate opens ($42$ cells, zero activations). The
-WVS is the mirror image---its full item-coverage sets ($K=95$--$105$) make the
+leaves $D\ge0.25$: neither gate opens ($42$ cells, zero activations). The
+WVS is the mirror image: its full item-coverage sets ($K=95$--$105$) make the
 reliability gate feasible, the certification samples ($K=59$--$77$) do not, and
 in either denominator the weights-only $\rhohat_{\mathrm{LCB}}\le0.09$ fails the
 need gate decisively. The survey large enough to estimate the deconvolution has
@@ -43,8 +43,8 @@ too few countries.
 
 \paragraph{Where the correction does live: small areas, on this same survey.}
 The barrier is about the unit, and the ESS itself contains a finer one. Take the
-estimand this regime is actually for---a region's departure from its own
-\emph{national} distribution, $D_g=F_g-F_{\text{nation}}$---and calibrate the
+estimand this regime is actually for, a region's departure from its own
+\emph{national} distribution, $D_g=F_g-F_{\text{nation}}$, and calibrate the
 transport band across regions (\texttt{e54}). A single stratified-PSU bootstrap
 of the whole country recomputes $F_g$ and $F_{\text{nation}}$ on every replicate,
 so the design SD is that of the difference; the missing-value sentinel and the
@@ -54,7 +54,7 @@ two usable regions to express a departure at all.
 On that estimand the design-to-total ratio is not marginal: $\rhohat_{\text{LCB}}$
 runs $0.26$--$0.52$ and clears $\rho_0=0.47$ in eight of twenty-three
 unit-rounds. Reliability needs scale, and the two gates open together only once
-$K\gtrsim230$---units of forty to sixty respondents, rounds 9 and 10,
+$K\gtrsim230$: units of forty to sixty respondents, rounds 9 and 10,
 $K=228$--$287$. There the \emph{frozen} selector, no constant retuned,
 activates the design-aware branch for the first time on real survey data: a band
 $15$--$17\%$ narrower than the conservative envelope at the reported level
@@ -67,14 +67,14 @@ variance in a region's sup-departure: the objection this paper would itself
 raise is that the effective unit is the country and $K$ is really $27$. Holding
 out whole countries answers it (\texttt{e55}). Calibrating on the other
 twenty-six countries' regions, the plug-in anchor covers $0.893$--$0.903$
-against its $0.900$ target in all twelve cells, and---the informative
-contrast---differs by at most $0.015$ from leave-one-\emph{region}-out
+against its $0.900$ target in all twelve cells, and, the informative
+contrast, differs by at most $0.015$ from leave-one-\emph{region}-out
 calibration, which keeps the held-out region's country-mates. Deleting nine
 country-mates from the calibration set costs nothing, so within-country
 dependence does not deflate the quantile. In the activating cells the selected
-band covers $0.94$--$0.98$ against its nominal $0.88$---scored on the observed
+band covers $0.94$--$0.98$ against its nominal $0.88$, scored on the observed
 departure, hence a lower bound for a branch targeting the latent one. Coverage
-\emph{conditional} on the country does not transfer: the median held-out country
+conditional on the country does not transfer: the median held-out country
 is fully covered but the tenth percentile is $0.75$, the worst three (Bulgaria,
 Greece, Hungary, $0.53$--$0.63$) being those with the largest regional
 heterogeneity. The guarantee is marginal over regions, as conformal guarantees
@@ -84,20 +84,20 @@ Two further scope conditions travel with it. Reaching $K\gtrsim230$ requires poo
 regions coded at different NUTS levels; restricted to the fourteen countries
 sharing one level the need gate still opens in nine of twenty-one unit-rounds,
 but $K\le140$ keeps the reliability gate shut and the selector falls back to the
-conservative envelope---the same two-barrier structure as the national result
+conservative envelope, the same two-barrier structure as the national result
 above, one level down. And round 11 never activates, because its
 regional design noise is lower. The correction is therefore not unreachable in
 principle, and not reachable across countries: it lives at the small-area scale,
 which is where Theorem~\ref{thm:impossible}'s remark said it would.
 
 \paragraph{How coarse can the calibration unit be?} One constraint is sharp and,
-as far as we know, unremarked: the conformal level is \emph{infeasible} whenever
+as far as we know, unremarked: the conformal level is infeasible whenever
 $K<\alpha^{-1}-1$, because the required order statistic exceeds the sample and
 the band is $[0,1]$ at any width---a too-coarse unit is unusable, not merely
 inefficient, and the cross-national default clears the floor comfortably
 ($K=30$--$34$ against nine). Refining is not free either: with units of a
 controlled target size built by grouping whole PSUs, the band's half-width falls
-\emph{monotonically} as units coarsen, from $0.190$ at forty respondents per unit
+monotonically as units coarsen, from $0.190$ at forty respondents per unit
 to $0.065$ at three hundred and fifty (\texttt{e52}). Both are statements about
 the \emph{calibration} unit; an estimand's unit is fixed by the question, and
 choosing among substantive areal partitions is the modifiable areal unit problem

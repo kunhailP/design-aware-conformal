@@ -7,7 +7,7 @@ record (rounds 1--11, 2002--2024), asking at each rung how many countries surviv
 The comparative literature has grown skeptical of a continent-wide trust decline
 \citep{norris2017western,voeten2017people,wuttke2022europeans,valgardsson2025crisis};
 we add a formal instrument that says so and the wrong-unit diagnosis of
-\emph{why} the over-reading arises. The dominant trend estimates
+why the over-reading arises. The dominant trend estimates
 \citep{valgardsson2025crisis} rest on latent-trait models whose intervals carry no
 design-based uncertainty layer \citep{taihusolt2024} and whose data end where our
 window begins.
@@ -16,7 +16,7 @@ window begins.
 their unit. A \emph{pairwise} claim asks whether some pair of waves shows a
 distributional shift; \emph{any-pair} aggregates these within a country;
 \emph{net} asks whether the first-to-last span declined; \emph{persistent
-country-wide} asks whether the whole distribution declined \emph{simultaneously}
+country-wide} asks whether the whole distribution declined simultaneously
 across the trajectory; \emph{Bonferroni} further controls the number of countries
 examined. Each rung is strictly stronger than the last, and conflating them is
 exactly the over-detection this paper is about.
@@ -27,9 +27,9 @@ contrasts, so all are certified on one coverage event.
 
 \begin{proposition}[Claim-family transfer]\label{prop:transfer}
 Let $\widehat B$ be a simultaneous $1-\alpha$ band for a country's contrast
-surface $\theta=\{\theta_{a,b}(t)\}$ over every ordered pair of observed rounds,
-and let $\{A_j\}$ be \emph{any} family of claims, each a set of surfaces. Define
-the certified subfamily $J=\{j:\widehat B\subseteq A_j\}$. Then
+surface $\theta=\{\theta_{a, b}(t)\}$ over every ordered pair of observed rounds,
+and let $\{A_j\}$ be any family of claims, each a set of surfaces. Define
+the certified subfamily $J=\{j: \widehat B\subseteq A_j\}$. Then
 $\Pr\big(\theta\in A_j\ \text{for every}\ j\in J\big)\ge1-\alpha$, with no
 dependence on $|J|$: on $\{\theta\in\widehat B\}$, set inclusion delivers every
 certified claim at once.
@@ -39,7 +39,7 @@ The proof is the line just given, and the argument is standard: reading every
 deterministic consequence off one simultaneous region is the post-hoc logic of
 \citet{scheffe1953method}, closed testing \citep{marcus1976closed}, and the
 selection-free bounds of \citet{goeman2011multiple,katsevich2020simultaneous}.
-The contribution is its deployment---trend claims in this
+The contribution is its deployment: trend claims in this
 literature are made rung by rung, and reading them off a single studentized
 sup-$t$ band over the whole contrast family removes the corrections a per-rung construction needs: no Bonferroni across a country's pairs, no separate
 budget for certified recoveries, and no endpoint-selection cost. The price is a wider
@@ -49,7 +49,7 @@ critical value, and we report what it costs.
 is a design-based simultaneous (sup-$t$) band on wave-pair CDF differences from
 the stratified-PSU bootstrap \citep{rao1988resampling,wolter2007introduction}, an
 asymptotic guarantee in which exchangeability plays no role; the conformal
-\emph{transport} band calibrates cross-country prediction and the regime
+transport band calibrates cross-country prediction and the regime
 diagnostics. Headline counts are certification counts, and the theory sections'
 finite-sample language does not transfer to them.
 
@@ -58,18 +58,18 @@ finite-sample language does not transfer to them.
 design-aware band drops this to $12$; net first-to-last decline holds in $6$
 (Austria, Belgium, Estonia, the United Kingdom, Greece, the Netherlands); and the
 \emph{persistent, design-aware simultaneous} band over the preregistered low-trust
-core---the strongest rung---certifies \textbf{one}, Greece, which also survives
+core (the strongest rung) certifies one, Greece, which also survives
 Bonferroni across countries. One disclosure is essential. \emph{Greece fielded
 only rounds 10 and 11 here}, so its trajectory is a single pair and the top rungs
 coincide for it (as for Czechia and Israel, which do not certify). Among the $27$
-two-pair countries \emph{none} certifies persistence, while the United Kingdom,
+two-pair countries none certifies persistence, while the United Kingdom,
 Belgium, and the Netherlands pass the \emph{plug-in} persistent rung and are
-demoted by the design-aware layer alone. The honest co-headline: \textbf{net
-decline in six of thirty; persistent decline in one, on a single pair}. The severity analysis
+demoted by the design-aware layer alone. Both numbers are the headline: net decline in six of thirty,
+persistent decline in one, and that one on a single pair. The severity analysis
 (Section~\ref{sec:simulation}) explains why: the persistent rung has $80\%$ power
 only against crisis-scale declines, so its non-certifications are weak evidence of
 absence. For \texttt{stfdem} the pattern repeats ($23$ marginal, $14$ any-pair,
-$8$ net, one persistent---Greece, again one pair, failing Bonferroni there).
+$8$ net, one persistent: Greece, again one pair, failing Bonferroni there).
 The literature reads Greece as a crisis-era legitimacy collapse
 \citep{armingeon2014democracy,torcal2014decline}, but those accounts concern
 2009--2015 while the certified pair is 2020/21$\to$2023/24.
@@ -77,42 +77,42 @@ The literature reads Greece as a crisis-era legitimacy collapse
 \paragraph{The long window: the secular question, asked properly.} Extending every
 trajectory to its full record (rounds 1--11; median six pairs, up to ten; rounds
 1--8 weights-only) reframes the twenty-year narrative in both directions
-(\texttt{e36}). \emph{Zero} of the thirty-three countries with three or more usable rounds
+(\texttt{e36}). Zero of the thirty-three countries with three or more usable rounds
 certify persistent distribution-wide decline over their full record, plug-in
 included.
 The null is not a bare one: reversing the inequality certifies
 \emph{recoveries}, and across the $1{,}173$ ordered contrasts of the trust series
 certified movement is directionally balanced ($193$ declining against $212$
 rising). Inside the same band, and therefore at the same $\alpha$ for that country,
-\emph{twenty-three} of thirty-three countries certify at least one decline
-\emph{and} at least one recovery, on each outcome separately and twenty on both
+twenty-three of thirty-three countries certify at least one decline
+and at least one recovery, on each outcome separately and twenty on both
 (\texttt{e50}); the two directions share one critical value by construction, so
-no within-country correction is needed. The count \emph{across} countries is a
+no within-country correction is needed. The count across countries is a
 conjunction of thirty-three separate coverage events and carries no familywise
 control, as do all the country counts in this section unless the Bonferroni rung
 is named. Whatever European trust did over two decades, it was not a monotone
-slide---though we stop short of calling it episodic, which would additionally
+slide, though we stop short of calling it episodic, which would additionally
 require same-signed runs and returns toward baseline.
 
 Under Proposition~\ref{prop:transfer}---one band, every ordered contrast and
 both directions at $\alpha=0.10$ jointly (\texttt{e50})---net erosion over the
-whole span certifies in \emph{eight} countries (Cyprus, Spain, the United
+whole span certifies in eight countries (Cyprus, Spain, the United
 Kingdom, Greece, Hungary, Israel, Italy, Ukraine; Table~\ref{tab:magnitudes}).
 Against the per-rung construction the joint statement costs France at the span
 rung ($9\to8$) and six countries at the any-pair rung ($28\to22$); the two runs
 define adjacency differently, and the persistent zero holds under both
 (Supplementary Material). The under-detection face of the wrong unit shows in the ledger of contrasts:
 Hungary certifies its $22$-year span while only $9$ of its $55$ ordered
-contrasts certify, and the United Kingdom $11$ of $55$---erosion that a reading
+contrasts certify, and the United Kingdom $11$ of $55$, erosion that a reading
 built from adjacent waves alone would mostly miss. Because every endpoint choice
 is certified at once, the band also delivers the \emph{share of a country's
 ordered contrasts that certify a decline}: a lower bound, comparable within a
 country but not across (the shared critical value grows with record length,
 correlation $0.96$; the denominator grows quadratically), so we do not rank on
-it. Within a country it is informative---Spain certifies over $32$ of its $55$
+it. Within a country it is informative: Spain certifies over $32$ of its $55$
 contrasts and Slovenia over $21$ of $55$, neither entering the eight because
 their span contrast happens not to certify, which is the endpoint sensitivity
-the joint band exposes. Ukraine's certified span decline of \emph{at least} $25$
+the joint band exposes. Ukraine's certified span decline of at least $25$
 points runs from the post-Orange-Revolution wave of 2005 to a wartime sample: a
 certified statement about those two waves.
 
@@ -150,13 +150,13 @@ coincide by construction and one path is drawn.}\label{fig:hierarchy}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
 by the marginal plug-in but inconclusive under the design-aware band}, never
-``false positives,'' a term we reserve for simulation with known truth.
+``false positives, '' a term we reserve for simulation with known truth.
 
 \paragraph{Two confounds this window cannot exclude.} Round-10 fieldwork
 coincided with the pandemic's rally-round-the-flag movements, so ``persistent
 decline through this window'' is a claim made against a rally; and nine countries
 switched to self-completion at round 10, confounding wave-pair shifts with mode
-effects---a bias no design bootstrap absorbs. A mode audit built from the data's
+effects, a bias no design bootstrap absorbs. A mode audit built from the data's
 own mode variable bounds it: the Greek pair is mode-constant and net counts are
 unchanged when the switchers' confounded pairs are excluded, only their any-pair
 claims being affected. A preregistered age-group analysis likewise finds the
@@ -169,13 +169,13 @@ reanalysis of the ``democratic deconsolidation'' thesis
 \citep{foa2016democratic,foa2017signs} on the WVS/EVS trends (1981--2022,
 $59$--$77$ countries with $\ge2$ waves), recoding the five-item battery so that
 deconsolidation is a persistent decline over each scale's preregistered core.
-The verdict is calibration, not denial---but the surviving phenomenon is not the
+The verdict is calibration, not denial, but the surviving phenomenon is not the
 one the thesis was about. A \emph{marginal wave-pair reading of the same
-data}---a criterion we construct to instantiate the bottom rung, since Foa and
-Mounk's own empirics are cohort comparisons---flags $36$--$64$ countries per
+data}, a criterion we construct to instantiate the bottom rung, since Foa and
+Mounk's own empirics are cohort comparisons, flags $36$--$64$ countries per
 item against $6$--$17$ (8--24\%) at the persistent rung. That $2.6$--$6.5\times$
 ratio compounds two changes, and we separate them: holding the inference layer
-fixed, the \emph{rung} alone accounts for $1.7$--$4.8\times$ (plug-in) or
+fixed, the rung alone accounts for $1.7$--$4.8\times$ (plug-in) or
 $1.9$--$4.8\times$ (design-aware), and propagating design uncertainty at fixed
 rung accounts for the remainder. The unit is the larger effect, but not the whole
 of the headline number. Three caveats. The WVS ships no PSU/stratum identifiers,
@@ -192,10 +192,10 @@ half-supported (Supplementary Material).
 \paragraph{The certified core: where the surviving deconsolidation lives.}
 Aggregating per-item certifications yields a positive characterization
 (Figure~\ref{fig:core}; \\texttt{e30}): of $38$ countries certified on $\ge1$ item, $13$
-form a \emph{certified core} on $\ge2$, headed by Albania on four. The core is
+form a certified core on $\ge2$, headed by Albania on four. The core is
 post-communist and Arab-Spring states with fragile Latin American and African
-cases alongside---not the mature democracies the thesis
-\citep{foa2016democratic,foa2017signs} concerned---formalizing with per-country
+cases alongside, not the mature democracies the thesis
+\citep{foa2016democratic,foa2017signs} concerned, formalizing with per-country
 error control the decline-from-euphoric-baselines pattern the post-communist
 literature described qualitatively
 \citep{mishler1997trajectories,inglehart2003honeymoon}. Three qualifications
@@ -205,12 +205,12 @@ rather than deconsolidation in the consolidated-democracy sense. The West enters
 the core exactly twice (Finland and Switzerland, on the strongman/army pair,
 which we flag as a probable administration artifact), with single-item entries
 elsewhere: no consolidated Western democracy certifies on support for a
-democratic system---consistent with \citet{wuttke2022europeans}, though not that
+democratic system, consistent with \citet{wuttke2022europeans}, though not that
 the West is absent. And the geography is partly window-contingent: recertifying
 on fieldwork ending by 2017 (\texttt{e46}) keeps eight of the thirteen but drops
 all three Arab-Spring cases, so the post-communist component is window-stable and
 the Arab-Spring component rests on WVS wave~7. Certified attitudes do not
-forecast institutions---core membership predicts subsequent V-Dem
+forecast institutions: core membership predicts subsequent V-Dem
 electoral-democracy decline no better than the marginal flag ($n=13$ versus
 $54$; Fisher $p=0.89$), too small a comparison to establish the decoupling
 recent panel work anyway expects
