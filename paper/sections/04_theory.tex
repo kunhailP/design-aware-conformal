@@ -1,98 +1,115 @@
 \section{Theory}\label{sec:theory}
 
-We state validity for the oracle, the estimated-law procedure, and the deployed
-selector, then efficiency. Proofs are in Appendix~\ref{app:proofs}; each theorem has
-a machine-checked contract test.
+Two results below are the ones we deploy: Theorem~\ref{thm:exact}, which makes
+the base band exact at every $K$, and Theorem~\ref{thm:safe}, which carries that
+guarantee to the selector under any selection rule.
+Theorems~\ref{thm:oracle} and~\ref{thm:estimated} are the scaffolding, pricing
+the two things the deployed band does not get for free: the latent rather than
+the estimated trajectory, and an estimated rather than known design-noise law.
+Proofs are in Appendix~\ref{app:proofs}; each theorem is paired with a
+machine-checked contract test.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
-\emph{(a)} The clustered band is finite-sample valid for the survey-estimate target:
+(a)~The clustered band is finite-sample valid for the survey-estimate target,
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
-\emph{(b)} For the latent target the same band satisfies, for every $u>0$,
+(b)~For the latent target the same band satisfies, for every $u>0$,
 $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
-\Pr(\widetilde R\in(\widehat q-u, \widehat q\, ])$: a noise-tail term plus a local
-anti-concentration term, vanishing with the design-noise scale ($\rho^{2/3}$
-under variance-only tails, $\rho$ up to logarithms under sub-Gaussian noise).
-Symmetric design noise alone does not make the band conservative here---a
-bimodal counterexample is in the Supplementary Material, which is why we report
-the observed $\rho$.
-\emph{(c)} The deconvolution band with the true target scale is valid for the latent
-target---finite-sample exact under the scale-family assumption (A1)---with
+\Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$.
+(c)~The deconvolution band with the true target scale is valid for the latent
+target, and finite-sample exact under the scale-family assumption (A1), with
 width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
 \end{theorem}
 
+The gap in~(b) is a noise-tail term plus a local anti-concentration term, and it
+vanishes with the design-noise scale, at rate $\rho^{2/3}$ under variance-only
+tails and $\rho$ up to logarithms under sub-Gaussian noise. It does not vanish
+by symmetry: a bimodal counterexample in the Supplementary Material leaves the
+plug-in band with no conservative guarantee for the latent target. That is why
+we estimate and report $\rho$ rather than assume it away.
+
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
-Let the base band use the unstudentized cluster score $R_c=\max_t|E_c(t)|$ (no
-data-dependent modulation), with a center satisfying the symmetric-construction
-condition (Appendix~\ref{app:proofs} states the four admissible cases). If the countries are exchangeable,
-then for every $K$ the band $\widehat B=\text{center}\pm\widehat q$, with
-$\widehat q$ the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$,
-satisfies
+Let the base band use the unstudentized cluster score $R_c=\max_t|E_c(t)|$, with
+a center satisfying the symmetric-construction condition
+(Appendix~\ref{app:proofs} states the four admissible cases). If the countries
+are exchangeable, then for every $K$ the band
+$\widehat B=\text{center}\pm\widehat q$, with $\widehat q$ the
+$\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$, satisfies
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
-distribution-free, exact for the survey-estimate trajectory (T1); the latent
-trajectory (T2) adds the explicit gap of Theorem~\ref{thm:oracle}(b), bounded
-through the reported $\rho$. Two asymmetries are excluded by construction---in-sample modulation and
-grand-mean centers containing their own unit, at a width cost of $\le5\%$ on
-the near-homoskedastic real curves.
+distribution-free.
 \end{theorem}
+
+The guarantee is exact for the survey-estimate trajectory T1; the latent
+trajectory T2 adds the gap of Theorem~\ref{thm:oracle}(b), bounded through the
+reported $\rho$. Exactness at every $K$ is bought by excluding two asymmetries a
+more adaptive band would introduce, in-sample modulation and grand-mean centers
+containing their own unit, at a cost of at most $5\%$ of width on the
+near-homoskedastic real curves.
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
 Assume a common scale family indexed by the design variance (A1),
 anti-concentration of the sup-score law near its upper quantile (A2), and
 bounded curves with an unbiased size-$B$ design bootstrap (A3); the appendix
-states all three precisely.
-Then \emph{(i)} with oracle scales the deconvolution band is finite-sample
-exact for the latent target at every $K$, and \emph{(ii)} with estimated
-scales it satisfies
-$\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K, B}$ with
-$\varepsilon_{K, B}=O\big(\sqrt{\log(KT)/\min(K, B)}\, \big)$, by a sandwich and
-concentration argument. The finite-$K$-safe scale
-$\widehat s_T^2$ (Section~\ref{sec:method}) subtracts a lower confidence bound on the
-design variance, making the scale-error term one-sided (wide, not narrow) outside an
-$\alpha_2$-probability event. Some shape restriction is not removable---the bimodal counterexample of
-Theorem~\ref{thm:oracle}(b) defeats any latent-target band without one, and (A1)
-is one sufficient choice.
+states all three precisely. Then (i)~with oracle scales the deconvolution band
+is finite-sample exact for the latent target at every $K$, and (ii)~with
+estimated scales it satisfies
+$\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
+$\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
 \end{theorem}
 
-\begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
-\label{thm:safe}
-Deploy Algorithm~\ref{alg:safe} with unstudentized PCB and conservative branches
-(scores $\max_t|E_c(t)|$ and $\max_t(|E_c(t)|+z\widehat v_c(t))$, both at level
-$\alpha_{\text{anchor}}$) and the deconvolution branch at its own budget
-$\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}}, \alpha_{\text{dec}})=(\alpha,0)$
-when the reliability gate is infeasible at the observed $K$
-(Proposition~\ref{prop:unreach}: $K<94$, which covers every certification sample
-analyzed in this paper, including the WVS $\ge2$-wave sets at $K=59$--$77$) and
-otherwise $\alpha_{\text{dec}}=\min\{\max(0.1\alpha, \,3/(K{+}1)), \, \alpha/2\}$ with
-$\alpha_{\text{anchor}}=\alpha-\alpha_{\text{dec}}$, a frozen function of $K$ alone.
-Then, finite-sample and with \emph{no conditions on the selection rule},
+The remainder comes from a sandwich and concentration argument, and its
+direction is fixed by construction: the finite-$K$-safe scale $\widehat s_T^2$
+of Section~\ref{sec:method} subtracts a lower confidence bound on the design
+variance, so outside an $\alpha_2$-probability event the scale error widens the
+band rather than narrowing it. Some shape restriction is not removable, since
+the counterexample above defeats any latent-target band without one; (A1) is one
+sufficient choice.
+
+\paragraph{The deployed pipeline.} The miss budget is a frozen function of $K$
+alone,
 \[
-\Pr\big(\Ftilde_{\text{new}, r}(t)\in\widehat B\big)\ge1-\alpha\ \ (K<94),
+(\alpha_{\text{anchor}},\,\alpha_{\text{dec}})=
+\begin{cases}
+(\alpha,\ 0), & K<94,\\[3pt]
+\big(\alpha-\alpha_{\text{dec}},\ \ \min\{\max(0.1\alpha,\,3/(K{+}1)),\,\alpha/2\}\big),
+& K\ge94,
+\end{cases}
+\]
+the first case being the regime in which the reliability gate cannot open at all
+(Proposition~\ref{prop:unreach}), and the case that covers every certification
+sample here, including the WVS $\ge2$-wave sets at $K=59$--$77$.
+
+\begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
+Deploy Algorithm~\ref{alg:safe} with the unstudentized PCB and conservative
+branches, scores $\max_t|E_c(t)|$ and $\max_t(|E_c(t)|+z\widehat v_c(t))$, at
+level $\alpha_{\text{anchor}}$, and the deconvolution branch at
+$\alpha_{\text{dec}}$. Then, finite-sample and with no condition on the
+selection rule,
+\[
+\Pr\big(\Ftilde_{\text{new},r}(t)\in\widehat B\big)\ge1-\alpha\ \ (K<94),
 \qquad
-\Pr\big(F_{\text{new}, r}(t)\in\widehat B\big)\ge1-\alpha-\varepsilon_{K, B}\ \
+\Pr\big(F_{\text{new},r}(t)\in\widehat B\big)\ge1-\alpha-\varepsilon_{K,B}\ \
 (K\ge94).
 \]
-The clauses name different targets because they rest on different assumptions:
-exchangeability alone gives the estimated trajectory T1 exactly (the latent T2
-adding Theorem~\ref{thm:oracle}(b)'s gap), while (A1)--(A3), inherited
-from Theorem~\ref{thm:estimated} through its remainder $\varepsilon_{K, B}$, which
-is attached to the deconvolution branch only, additionally deliver the latent
-target directly, by an anchor-domination lemma (Appendix~\ref{app:proofs}).
 \end{theorem}
 
-The proof uses no conditional-on-selection step: a nested-band lemma (the
-conservative score dominates the PCB score pointwise, and selection between
-nested bands anchored at an exact band is validity-free, an instance of
-nested-conformal machinery \citep{gupta2022nested,yang2024selection}, our
-contribution being to engineer the branches so it applies) plus a union bound
-charging the non-nested branch its own budget where its gate can open. Two scope
-notes: at $K\ge94$ the reported level
-$1-\alpha-\widehat\delta_{\text{UCB}}(D)$ is a frozen calibrated bound, not a
+The clauses name different targets because they rest on different assumptions.
+Exchangeability alone delivers T1 exactly, with T2 adding
+Theorem~\ref{thm:oracle}(b)'s gap; (A1)--(A3) deliver the latent target directly,
+by an anchor-domination lemma, and the remainder $\varepsilon_{K,B}$ they carry
+is charged to the deconvolution branch alone.
+
+The proof uses no conditional-on-selection step. A nested-band lemma does the
+work: the conservative score dominates the PCB score pointwise, and selection
+between nested bands anchored at an exact band is validity-free. That is nested-conformal machinery
+\citep{gupta2022nested,yang2024selection}; our contribution is to engineer the
+branches so that it applies. A union bound then charges the one non-nested
+branch its own budget. Two scope notes. At $K\ge94$ the reported level is a frozen calibrated bound, not a
 theorem; and leave-one-out centers carry a residual $O(1/K^2)$ asymmetry bounded
 only heuristically, so a strict guarantee wants a split-fold center.
 
 \paragraph{Efficiency.} The low-$\rho$ deconvolution/PCB width ratio is
-$1-\tfrac12\rho^2+O(\rho^4)$ (proved); conservative $\supseteq$ PCB holds
+$1-\tfrac12\rho^2+O(\rho^4)$, proved; conservative $\supseteq$ PCB holds
 pointwise; and selection cannot inflate miscoverage
 (Theorem~\ref{thm:safe}). The remaining width results, one of them open, are in
 Appendix~\ref{app:proofs}.

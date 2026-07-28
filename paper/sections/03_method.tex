@@ -39,11 +39,9 @@ conservative envelope when design noise is real but information insufficient. Ev
 gate is a function of the calibration set only, so the selector is
 target-blind, and by Theorem~\ref{thm:safe}'s nested-band argument, validity
 survives even adversarial selection between the anchor branches. The deconvolution
-branch, which is not nested, is charged its own miss budget
-$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)), \alpha/2\}$ (the anchors run at
-$\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate can
-open at all. At the $K$ of every certification sample in this paper the anchors keep
-the full $\alpha$ and the deployed guarantee is exact. All constants are
+branch, which is not nested, is charged its own miss budget, and only in the
+$K\ge94$ regime where its gate can open at all
+(Section~\ref{sec:theory} states the rule). All constants are
 frozen before validation (Appendix~\ref{app:spec}); when
 deconvolution is used the reported level is the observable
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a frozen \emph{calibrated} bound
