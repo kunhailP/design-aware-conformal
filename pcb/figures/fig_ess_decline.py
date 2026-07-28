@@ -94,22 +94,29 @@ def fig_reclass(pair):
     plt.close(fig)
 
 
-def _funnel(ax, levels, title, legend=False, ylabel=False):
+def _funnel(ax, levels, title, ymax, legend=False, ylabel=False, single=False):
+    """A descending line per inference layer. Bars invited the reader to compare
+    heights across rungs that are not on a common scale of evidence; the rungs
+    are ordered by logical strength, so the natural encoding is a path, and the
+    collapse the section is about becomes the shape of the line."""
     _ax(ax)
-    x = np.arange(len(levels)); w = 0.38
+    x = np.arange(len(levels))
     plug = [l[1] for l in levels]; da = [l[2] for l in levels]
-    b1 = ax.bar(x - w / 2, plug, w, color=YELLOW, edgecolor="#fcfcfb",
-                linewidth=1.5, label="plug-in (no survey uncertainty)")
-    b2 = ax.bar(x + w / 2, da, w, color=BLUE, edgecolor="#fcfcfb",
-                linewidth=1.5, label="design-aware")
-    for bars in (b1, b2):
-        for b in bars:
-            ax.text(b.get_x() + b.get_width() / 2, b.get_height() + 0.25,
-                    str(int(b.get_height())), ha="center", fontsize=9.5,
-                    color=TEXT, fontweight="bold")
+    series = [(da, BLUE, "design-aware", "o", 1.0)] if single else \
+             [(plug, YELLOW, "plug-in (no survey uncertainty)", "s", 0.9),
+              (da, BLUE, "design-aware", "o", 1.0)]
+    for vals, col, lab, mk, a in series:
+        ax.plot(x, vals, "-", color=col, lw=2.0, alpha=a, zorder=2)
+        ax.plot(x, vals, mk, color=col, ms=8, mec="#fcfcfb", mew=1.4,
+                label=lab, zorder=3)
+        for xi, v in zip(x, vals):
+            ax.annotate(str(int(v)), (xi, v), textcoords="offset points",
+                        xytext=(0, 11), ha="center", fontsize=10, color=col,
+                        fontweight="bold")
     ax.set_xticks(x); ax.set_xticklabels([l[0] for l in levels], fontsize=8.5,
                                          color=TEXT)
-    ax.set_ylim(0, max(plug) + 3.0)
+    ax.set_xlim(-0.35, len(levels) - 0.65)
+    ax.set_ylim(-1.2, ymax)
     ax.set_title(title, fontsize=9.5, color=TEXT, loc="left")
     if ylabel:
         ax.set_ylabel("countries with certified\ntrust decline", fontsize=9,
@@ -119,9 +126,10 @@ def _funnel(ax, levels, title, legend=False, ylabel=False):
 
 
 def _levels(p):
+    """The rungs of Section 7's hierarchy, in order of logical strength. The
+    'repeated (>=2 pairs)' cell is deliberately absent: it is not a rung of that
+    hierarchy, and interleaving it made the sequence non-monotone."""
     return [("any-pair\n(marginal)", int(p.any_plugin.sum()), int(p.any_da.sum())),
-            ("repeated\n(≥2 pairs)", int((p.pair_plugin >= 2).sum()),
-             int((p.pair_da >= 2).sum())),
             ("net decline\n(first→last)", int(p.net_plugin.sum()),
              int(p.net_da.sum())),
             ("persistent\n(country-wide)", int(p.persist_plugin.sum()),
@@ -133,28 +141,30 @@ def fig_hierarchy(cty):
     record (e36) — one persistent country in the short window, none over the
     long one."""
     p = cty[cty.outcome == "trstprl"]
-    panels = [("Rounds 9–11 (2018–24), K=30", _levels(p))]
+    panels = [("Rounds 9–11 (2018–24), K=30", _levels(p), False)]
     try:
         jc = pd.read_csv("results/ess_joint_claims.csv")
         q = jc[jc.outcome == "trstprl"]
+        # over the full record the two inference layers coincide by
+        # construction, so plotting both would double the ink for one series
         panels.append((f"Full record, one joint band (K={len(q)})",
                        [("any-pair\n(marginal)", int(q.any_pair.sum()),
                          int(q.any_pair.sum())),
                         ("net decline\n(first→last)", int(q.net.sum()),
                          int(q.net.sum())),
                         ("persistent\n(country-wide)", int(q.persistent.sum()),
-                         int(q.persistent.sum()))]))
+                         int(q.persistent.sum()))], True))
     except FileNotFoundError:
         pass
-    fig, axes = plt.subplots(1, len(panels),
-                             figsize=(4.9 * len(panels) + 1.0, 3.9),
+    ymax = max(v for _, lv, _ in panels for l in lv for v in l[1:]) + 4.0
+    fig, axes = plt.subplots(1, len(panels), sharey=True,
+                             figsize=(4.6 * len(panels) + 0.8, 3.7),
                              facecolor="#fcfcfb")
     axes = np.atleast_1d(axes)
-    for i, (ax, (title, levels)) in enumerate(zip(axes, panels)):
-        _funnel(ax, levels, title, legend=(i == 0), ylabel=(i == 0))
-    fig.suptitle("Certified trust declines collapse up the guarantee hierarchy",
-                 fontsize=10.5, color=TEXT, x=0.01, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    for i, (ax, (title, levels, single)) in enumerate(zip(axes, panels)):
+        _funnel(ax, levels, title, ymax, legend=(i == 0), ylabel=(i == 0),
+                single=single)
+    fig.tight_layout()
     os.makedirs("figures", exist_ok=True)
     fig.savefig("figures/guarantee_hierarchy.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/guarantee_hierarchy.pdf", bbox_inches="tight")
     plt.close(fig)

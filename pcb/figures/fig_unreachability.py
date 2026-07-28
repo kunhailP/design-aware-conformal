@@ -30,7 +30,8 @@ import pandas as pd
 TEXT, MUTED, GRID, SURF = "#1a1a19", "#6b6a63", "#e5e4dd", "#fcfcfb"
 RED, BLUE, GREEN, GOLD = "#D55E00", "#0072B2", "#56B4E9", "#E69F00"
 RHO0, TAU_D = 0.47, (0.02 - 0.0061) / 0.0943      # gate-A cutoff, gate-B D-threshold
-KSTAR = 1 + 2 / TAU_D**2                           # min K for gate B (≈94)
+KSTAR = 1 + 2 / TAU_D**2                           # min K for gate B (93.06…)
+KCEIL = int(np.ceil(KSTAR))                        # …so the integer floor is 94
 
 ORDER = ["youth_18_24", "youth_18_29", "young_25_34", "mid_35_49",
          "older_50_64", "oldest_65p", "full_18plus"]
@@ -71,30 +72,37 @@ def main():
     axA.set_ylabel("estimated SD-ratio  ρ̂", fontsize=9.5, color=TEXT)
     axA.set_xlabel("ESS age-band subpopulation", fontsize=9.5, color=TEXT)
     axA.legend(fontsize=8, frameon=False, labelcolor=TEXT, loc="upper right")
-    axA.set_title("Gate A: ρ̂ saturates far below ρ₀\n(design noise never dominates "
-                  "the transport signal)", fontsize=9.5, color=TEXT, loc="left")
+    axA.set_title("Gate A: ρ̂ saturates far below ρ₀", fontsize=9.5,
+                  color=TEXT, loc="left")
 
     # -- Panel B: gate B, reliability floor ---------------------------------
     Kgrid = np.arange(4, 400)
     floor = np.sqrt(2 / (Kgrid - 1))
     # feasible region: K >= KSTAR AND D <= TAU_D
-    axB.axhspan(0, TAU_D, xmin=(np.log(KSTAR) - np.log(4)) / (np.log(399) - np.log(4)),
+    axB.axhspan(0, TAU_D, xmin=(np.log(KCEIL) - np.log(4)) / (np.log(399) - np.log(4)),
                 xmax=1.0, color=GREEN, alpha=0.10)
     axB.plot(Kgrid, floor, "-", color=TEXT, lw=1.6,
              label="floor  D ≥ √(2/(K−1))")
     axB.scatter(d.K, d.D, s=26, color=GOLD, edgecolor=TEXT, lw=0.4, zorder=3,
-                label="ESS cells (all subpopulations)")
+                label="ESS subpopulation cells")
+    # the mirror-image survey: WVS clears the K barrier but fails gate A
+    try:
+        w = pd.read_csv("results/wvs_gate_probe.csv")
+        axB.scatter(w.K, w.D, s=34, color=BLUE, marker="s", edgecolor=TEXT,
+                    lw=0.4, zorder=4, label="WVS item sets (gate A fails)")
+    except FileNotFoundError:
+        w = None
     axB.axhline(TAU_D, color=RED, lw=1.4, ls="--")
     axB.text(4.3, TAU_D - 0.028, f"gate-B threshold  τ$_D$={TAU_D:.3f}",
              fontsize=8, color=RED)
-    axB.axvline(KSTAR, color=GREEN, lw=1.3, ls=":")
-    axB.text(KSTAR * 1.03, 0.62, f"K* = {KSTAR:.0f}\n(min K for gate B)",
+    axB.axvline(KCEIL, color=GREEN, lw=1.3, ls=":")
+    axB.text(KCEIL * 1.04, 0.60, f"K ≥ {KCEIL}\nfor gate B",
              fontsize=8, color="#0e7a52")
     axB.annotate("ESS: K ≤ 33", xy=(33, np.sqrt(2 / 32)), xytext=(46, 0.44),
                  fontsize=8.5, color=TEXT,
                  arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.0))
     axB.set_xscale("log")
-    ticks = [4, 10, 33, 94, 300]
+    ticks = [4, 10, 33, KCEIL, 300]
     axB.xaxis.set_minor_locator(NullLocator())
     axB.xaxis.set_major_locator(FixedLocator(ticks))
     axB.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{int(v)}"))
@@ -103,13 +111,13 @@ def main():
     axB.set_xlabel("number of exchangeable populations  K", fontsize=9.5, color=TEXT)
     axB.set_ylabel("finite-K reliability  D", fontsize=9.5, color=TEXT)
     axB.legend(fontsize=8, frameon=False, labelcolor=TEXT, loc="upper right")
-    axB.set_title("Gate B: reliability floor needs K ≥ 94\n(the feasible region is "
-                  "empty at survey scale)", fontsize=9.5, color=TEXT, loc="left")
+    axB.set_title(f"Gate B: reliability floor needs K ≥ {KCEIL}", fontsize=9.5,
+                  color=TEXT, loc="left")
 
     fig.tight_layout()
     os.makedirs("figures", exist_ok=True); fig.savefig("figures/unreachability.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/unreachability.pdf", bbox_inches="tight")
     plt.close(fig)
-    print(f"τ_D={TAU_D:.4f}  K*={KSTAR:.1f}  "
+    print(f"τ_D={TAU_D:.4f}  K*={KSTAR:.2f} -> ceil {KCEIL}  "
           f"max ρ̂={d.rho_hat.max():.3f}  max ρ̂_LCB={d.rho_lcb.max():.3f}  "
           f"min D={d.D.min():.3f} at K={int(d.loc[d.D.idxmin(),'K'])}")
     print("wrote figures/unreachability.png")

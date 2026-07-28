@@ -7,15 +7,22 @@ coverage, and the safe selector meets its guarantees on data it has never seen.
 
 On a ground-truth simulation ($K=30$ countries, $T=6$ thresholds, errors
 correlated across rounds and thresholds) we ask each band for \emph{trajectory}
-coverage---the whole curve-path at once. All three bands are unstudentized and
-finite-sample, so only the score's unit varies. Against a nominal $90\%$, the
-per-round band---marginally valid at the round level---covers the whole
-trajectory $81.7\%$ at $L=2$ and $49.8\%$ at $L=8$, the per-point marginal band
-$38.2\%$ falling to $3.5\%$, while the country-trajectory band holds
-$90.0$--$90.9\%$ at every $L$, because the trajectory is a single exchangeable
-unit. This is the coverage face of the paper's thesis: the same mechanism drives
-the certification-count collapse of Section~\ref{sec:political}. Pre-registered,
-reported as produced (\texttt{e28}; full grid in the Supplementary Material).
+coverage, the whole curve-path at once (Figure~\ref{fig:wrongunit}). All three
+bands are unstudentized and finite-sample, so only the score's unit varies. A
+band that is marginally valid at the round level covers the trajectory $81.7\%$
+of the time at $L=2$ and $49.8\%$ at $L=8$; per threshold the figures are
+$38.2\%$ and $3.5\%$. Only the country-trajectory band holds its nominal $90\%$
+at every length, because the trajectory is a single exchangeable unit. This is
+the coverage face of the paper's thesis, and the same mechanism drives the
+certification-count collapse of Section~\ref{sec:political}. Pre-registered,
+reported as produced (\texttt{e28}).
+
+\begin{figure}[t]\centering
+\includegraphics[width=.72\textwidth]{wrong_unit_coverage.pdf}
+\caption{Coverage of a whole country trajectory, by the unit the score is
+attached to ($4{,}000$ replicates, nominal $90\%$). The gap widens with the
+length of the trajectory being claimed about.}\label{fig:wrongunit}
+\end{figure}
 
 \paragraph{Severity: what each rung can detect.} At ESS-like design noise (\texttt{e32}),
 $80\%$ power at the \emph{net} rung needs a per-pair decline of $0.02$--$0.03$
