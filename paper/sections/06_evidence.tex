@@ -61,7 +61,26 @@ $15$--$17\%$ narrower than the conservative envelope at the reported level
 $0.881$, clearing the efficiency gate by $0.14$--$0.22$ against its $0.10$
 threshold, and reproduced across twelve independent bootstrap streams.
 
-Two scope conditions travel with it. Reaching $K\gtrsim230$ requires pooling
+\paragraph{Is the region an exchangeable unit?} The regions nest in twenty-seven
+countries, nine each, and between-country differences carry $32$--$49\%$ of the
+variance in a region's sup-departure: the objection this paper would itself
+raise is that the effective unit is the country and $K$ is really $27$. Holding
+out whole countries answers it (\texttt{e55}). Calibrating on the other
+twenty-six countries' regions, the plug-in anchor covers $0.893$--$0.903$
+against its $0.900$ target in all twelve cells, and---the informative
+contrast---differs by at most $0.015$ from leave-one-\emph{region}-out
+calibration, which keeps the held-out region's country-mates. Deleting nine
+country-mates from the calibration set costs nothing, so within-country
+dependence does not deflate the quantile. In the activating cells the selected
+band covers $0.94$--$0.98$ against its nominal $0.88$---scored on the observed
+departure, hence a lower bound for a branch targeting the latent one. Coverage
+\emph{conditional} on the country does not transfer: the median held-out country
+is fully covered but the tenth percentile is $0.75$, the worst three (Bulgaria,
+Greece, Hungary, $0.53$--$0.63$) being those with the largest regional
+heterogeneity. The guarantee is marginal over regions, as conformal guarantees
+are, and we do not read it per country.
+
+Two further scope conditions travel with it. Reaching $K\gtrsim230$ requires pooling
 regions coded at different NUTS levels; restricted to the fourteen countries
 sharing one level the need gate still opens in nine of twenty-one unit-rounds,
 but $K\le140$ keeps the reliability gate shut and the selector falls back to the

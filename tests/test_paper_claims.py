@@ -355,6 +355,47 @@ def test_small_area_activation():
     _present("nine of twenty-one unit-rounds", "$K\\le140$")
 
 
+def test_small_area_unit_is_exchangeable():
+    """The clustering objection to E54, and the scope condition it leaves behind.
+
+    The informative statistic is NOT the aggregate leave-one-country-out level
+    (the held-out sets union to the whole pool, so that is partly self-
+    fulfilling) but the LORO-minus-LOCO gap: deleting a region's country-mates
+    from the calibration set is what within-country dependence would show up in.
+    """
+    S = _csv("small_area_exchangeability.csv")
+    assert len(S) == 24 and set(S.scheme) == {"LOCO", "LORO"}
+    lo = S[S.scheme == "LOCO"]
+    assert len(lo) == 12
+    assert round(float(lo.cov_pcb_anchor.min()), 3) == 0.893
+    assert round(float(lo.cov_pcb_anchor.max()), 3) == 0.903
+    p = S.pivot_table(index=["min_n", "essround"], columns="scheme",
+                      values="cov_pcb_anchor")
+    gap = (p["LORO"] - p["LOCO"]).abs().max()
+    assert gap <= 0.0153, gap
+    assert round(float(S.between_country_var_share.min()), 2) == 0.32
+    assert round(float(S.between_country_var_share.max()), 2) == 0.49
+    # the activating cells must not buy width with coverage
+    act = S[S.branch == "deconvolution"]
+    assert len(act) == 8 and float(act.cov_selected.min()) >= 0.93
+    # E55 refits at K-1 (LORO) or K-|country| (LOCO), so the guaranteed level
+    # sits a hair below E54's 0.881; the text rounds it to 0.88 for that reason
+    assert 0.880 <= float(act.nominal.min()) and float(act.nominal.max()) <= 0.883
+
+    C = _csv("small_area_loco_by_country.csv")
+    assert round(float(C.cov_pcb_anchor.quantile(0.10)), 2) == 0.75
+    assert float(C.cov_pcb_anchor.median()) == 1.0
+    worst = C.groupby("cntry").cov_pcb_anchor.mean().nsmallest(3)
+    assert set(worst.index) == {"BG", "GR", "HU"}, list(worst.index)
+    assert round(float(worst.min()), 2) == 0.53
+    assert round(float(worst.max()), 2) == 0.63
+
+    _present("$32$--$49\\%$", "$0.893$--$0.903$", "at most $0.015$",
+             "tenth percentile is $0.75$", "$0.53$--$0.63$")
+    # the marginal/conditional distinction must be stated, not implied
+    assert "marginal over regions" in _norm(TEXT)
+
+
 # ------------------------------------------------------------ no stale text --
 def test_no_stale_pre_joint_counts():
     """The joint construction changed the span count; nothing may still say nine."""
