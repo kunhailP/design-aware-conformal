@@ -9,7 +9,7 @@ description = "Design-aware population conformal bands (DAPCB): finite-sample si
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
-authors = [{ name = "The Authors" }]
+authors = [{ name = "Kunwoo Park", email = "pkw31386094@gmail.com" }]
 keywords = ["conformal prediction", "survey inference", "small-area estimation",
             "simultaneous bands", "political methodology"]
 classifiers = [

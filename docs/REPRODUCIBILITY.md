@@ -43,6 +43,8 @@ python -m pcb.experiments.e36_ess_long_window       # long window 2002–2024 (�
 python -m pcb.experiments.e26_wvs_deconsolidation   # WVS/EVS Foa–Mounk (§7; ~1–2 h)
 python -m pcb.experiments.e34_wvs_country_flags     # per-country rung flags
 python -m pcb.experiments.e50_joint_claim_family    # the joint band (paper Table 2)
+python -m pcb.experiments.e54_small_area_transport  # small-area activation (§6; ~1–2 h)
+python -m pcb.experiments.e55_small_area_exchangeability  # its LOCO/LORO audit (~30 min)
 # robustness analyses (all require the microdata)
 python -m pcb.experiments.e38_rescaled_bootstrap    # Rao-Wu-Yue rescaling
 python -m pcb.experiments.e39_wvs_deff_sensitivity  # WVS deff x1.5/x2
@@ -96,6 +98,19 @@ same failure mode more than once — a number or a scope word in the text
 drifting from what the experiment produced — so the ledger exists to make that
 class of error impossible to ship. A claim in the paper but not in the ledger is
 a claim no one is checking.
+
+## Two things this package deliberately does not ship
+
+`results/holdout_safe_selector.csv` is the 63 MB per-replicate output of the
+development holdout; the per-cell summaries it reduces to
+(`holdout_safe_selector_cells*.csv`) are shipped and are what the paper and the
+ledger read. Re-running `e22_holdout_validation` regenerates the full file.
+
+The R port's vignette is built with `rmarkdown`, which is a *suggested*
+dependency. `R CMD check rpkg/dapcb --no-build-vignettes` (with
+`_R_CHECK_FORCE_SUGGESTS_=false` if `knitr`/`rmarkdown` are absent) exercises the
+golden cross-language tests without it, and that is the check that matters for
+replication: it verifies the R and Python implementations agree to 1e-10.
 
 ## Superseded and withdrawn experiments
 

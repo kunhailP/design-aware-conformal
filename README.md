@@ -1,11 +1,11 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 89 passing](https://img.shields.io/badge/tests-89%20passing-green)
+![Tests: 91 passing](https://img.shields.io/badge/tests-91%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Conformal
-Bands for Repeated Cross-National Surveys"* (under review, anonymized).
+Bands for Repeated Cross-National Surveys"* (Kunwoo Park, Kookmin University; under review).
 
 ## What this is
 
@@ -38,7 +38,7 @@ This package provides:
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 89 tests (contracts + claim ledger)
+python -m pytest tests/ -q          # 91 tests (contracts + claim ledger)
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
 
@@ -51,10 +51,11 @@ fit.band, fit.selected_branch, fit.coverage_level, fit.fallback_reason
 ```
 
 or R (`rpkg/dapcb`, a pure-R port validated against the Python reference by
-golden tests to 1e-10; `R CMD check` clean):
+golden tests to 1e-10; `R CMD check` passes with no ERROR — building the
+vignette additionally needs `rmarkdown`):
 
 ```r
-install.packages("rpkg/dapcb_1.0.0.tar.gz", repos = NULL, type = "source")
+install.packages("rpkg/dapcb", repos = NULL, type = "source")
 library(dapcb)
 fit <- dapcb(E, V, center, alpha = 0.10)
 print(fit)   # branch, coverage level, diagnostics
@@ -84,10 +85,10 @@ pcb/
   inference/      clustered/population conformal, design_aware, safe selector
   data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)
   simulation/ theory/     generators and theory checks
-  experiments/    e6–e53 (simulation arc, ESS/LAPOP/WVS, robustness analyses;
+  experiments/    e6–e55 (simulation arc, ESS/LAPOP/WVS, robustness analyses;
                   e43–e49, e51 are superseded or withdrawn — see the supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            89 tests: theorem<->code contracts plus a claim ledger pinning
+tests/            91 tests: theorem<->code contracts plus a claim ledger pinning
                   every headline number in the paper to the CSV that licenses it
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF

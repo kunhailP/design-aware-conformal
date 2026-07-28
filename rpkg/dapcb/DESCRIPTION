@@ -2,9 +2,11 @@ Package: dapcb
 Type: Package
 Title: Design-Aware Population Conformal Bands
 Version: 1.0.0
-Authors@R: person("The", "Authors", role = c("aut", "cre"),
-    email = "anonymized@review.invalid",
-    comment = "Anonymized while the companion paper is under review")
+Authors@R: person("Kunwoo", "Park", role = c("aut", "cre"),
+    email = "pkw31386094@gmail.com",
+    comment = c(ORCID = "0009-0007-9067-8964"))
+Author: Kunwoo Park [aut, cre] (<https://orcid.org/0009-0007-9067-8964>)
+Maintainer: Kunwoo Park <pkw31386094@gmail.com>
 Description: Finite-sample simultaneous conformal bands for whole trajectories
     of population-level curves (e.g. a country's attitude CDF across survey
     waves), with the population as the exchangeable unit. Implements the

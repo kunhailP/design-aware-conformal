@@ -1,14 +1,16 @@
 cff-version: 1.2.0
 message: >-
   If you use this software or replication package, please cite the paper below.
-  Author identity is withheld while the manuscript is under anonymized review;
-  this file will be updated with full author metadata upon publication.
 title: >-
   The Wrong Unit of Uncertainty: Simultaneous Conformal Bands for Repeated
   Cross-National Surveys (replication package)
 type: software
 authors:
-  - name: "The Authors (anonymized for peer review)"
+  - family-names: Park
+    given-names: Kunwoo
+    email: pkw31386094@gmail.com
+    orcid: "https://orcid.org/0009-0007-9067-8964"
+    affiliation: "Department of Politics, Kookmin University"
 version: 1.0.0
 date-released: "2026-07-27"
 license: MIT
@@ -24,6 +26,10 @@ preferred-citation:
     The Wrong Unit of Uncertainty: Simultaneous Conformal Bands for Repeated
     Cross-National Surveys
   authors:
-    - name: "The Authors (anonymized for peer review)"
+    - family-names: Park
+    given-names: Kunwoo
+    email: pkw31386094@gmail.com
+    orcid: "https://orcid.org/0009-0007-9067-8964"
+    affiliation: "Department of Politics, Kookmin University"
   year: 2026
   journal: "Under review"

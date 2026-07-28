@@ -31,6 +31,9 @@ tier2:
 	$(PY) -m pcb.experiments.e13_ess_audit
 	$(PY) -m pcb.experiments.e36_ess_long_window
 	$(PY) -m pcb.experiments.e26_wvs_deconsolidation
+	$(PY) -m pcb.experiments.e50_joint_claim_family
+	$(PY) -m pcb.experiments.e54_small_area_transport
+	$(PY) -m pcb.experiments.e55_small_area_exchangeability
 
 figures:
 	@for f in pcb/figures/fig_*.py; do \
