@@ -887,6 +887,81 @@ strictly costly, and the only binding constraint is the feasibility floor of the
 main text. We report the refuted version because the confound (an estimand that
 shifts silently along a sweep) is easy to reproduce and hard to see.
 
+\paragraph{Two definitions of adjacency, and the persistent zero under both.}
+The main text reports that the joint band costs France at the span
+rung ($9\to8$) and six countries at the any-pair rung ($28\to22$) relative to the
+per-rung construction, and that the two are not otherwise comparable. The reason
+is a definition, not a disagreement. The per-rung run (\texttt{e36}) treats a
+pair as adjacent when the two ESS rounds are \emph{consecutive rounds of the
+survey}, so a country that skipped round~7 has no admissible pair spanning it.
+The joint band (\texttt{e50}) treats a pair as adjacent when the two rounds are
+\emph{consecutively observed for that country}, which for a country with gaps is
+a coarser step and therefore a weaker requirement at the persistent rung: it asks
+for simultaneous decline across every observed step, not across every two-year
+step. The weaker definition is the one that could manufacture a persistent
+certification, and it does not: the count is zero under both, for both outcomes,
+plug-in and design-aware. The any-pair difference runs the other way, because the
+joint band spends one critical value on the whole contrast surface rather than a
+fresh one per pair, so a country whose single certified pair was marginal under
+the per-rung run loses it here. That is the price named in the main text, and
+the main text's contrast counts are computed under the joint
+definition throughout.
+
+\paragraph{The small-area activation, in full (\texttt{e54}, \texttt{e55}).}
+The one place in this paper where the design-aware branch fires on real data is
+the ESS regional estimand, and because it is the paper's only positive
+activation we give the run in full rather than by summary.
+
+\emph{Estimand and design variance.} For region $g$ of country $c$ the object is
+the departure $D_g=F_g-F_{\text{nation}(c)}$, fixed once and applied to every
+unit. A single stratified-PSU bootstrap of the \emph{whole country} recomputes
+$F_g$ and $F_{\text{nation}}$ on each of $B=400$ replicates, so $\widehat v_g$ is
+the design SD of the difference and the induced covariance between a region and
+its own national curve is handled without modelling. The missing-value sentinel
+(\texttt{99999}) is excluded, as are the three countries whose \texttt{region}
+code equals the country code; a country must contribute at least two usable
+regions, since one region cannot express a departure. The bootstrap fallback that
+would fire if a stratum lost a region entirely fires in $0$ of $5{,}500$
+replicate-draws.
+
+\emph{What activates.} Across 23 unit-rounds the need gate opens in
+8 and the frozen selector routes to deconvolution in 4, all at
+$K=228$--$287$ with minimum unit sizes of forty and sixty respondents
+in rounds~9 and~10. Round~11 never activates: its regional design noise is lower
+and gate~A does not open at any size. Restricted to the fourteen countries whose
+region codes sit at a common NUTS level, gate~A still opens in nine of
+twenty-one unit-rounds but $K\le140$ keeps gate~B shut, so reaching the
+activating scale requires pooling levels---a scope condition, stated here and in
+the main text rather than buried.
+
+\emph{Is the region the exchangeable unit?} The regions nest in twenty-seven
+countries, nine apiece, and between-country differences carry
+32--49\% of the variance in a region's sup-departure. If the
+country were the exchangeable unit the effective $K$ would be about $27$, below
+this paper's own $K\ge94$ floor, and the activation would be an instance of the
+wrong-unit error this paper diagnoses. \texttt{e55} settles it by
+holding out whole countries. Two schemes are compared on the same cells:
+leave-one-\emph{region}-out, which keeps the held-out region's country-mates in
+the calibration set, and leave-one-\emph{country}-out, which removes them all.
+The aggregate LOCO level is not by itself decisive---the held-out sets union to
+the whole pool, so it is partly self-fulfilling---and the informative statistic
+is the gap between the schemes, which is what within-country dependence would
+inflate. It is at most $0.015$ across all 12 cells; the plug-in
+anchor's realized coverage is $0.893$--$0.903$ against its $0.900$
+target. Deleting nine country-mates from the calibration set costs nothing, so
+the region is the unit and the effective $K$ is not $27$.
+
+\emph{What does not transfer.} Coverage \emph{conditional} on the held-out
+country is far from nominal: the median country is covered on all its regions,
+the tenth percentile is $0.75$, and the three worst are Bulgaria, Greece and
+Hungary at $0.53$--$0.63$---which are, in that order, among the countries
+with the largest regional heterogeneity. This is the ordinary marginal-versus-
+conditional distinction of conformal inference and we do not read the band per
+country. In the activating cells the selected band covers
+$0.93$--$0.98$ against a nominal $0.88$; that check scores the
+\emph{observed} departure, while the deconvolution branch targets the latent one,
+so it is a lower bound on that branch's coverage rather than a measurement of it.
+
 \paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
 drafts are now part of the package.
 \emph{(a) Rao--Wu--Yue rescaled bootstrap} (\texttt{e38}; \texttt{*\_rescaled.csv}):
