@@ -396,6 +396,32 @@ def test_small_area_unit_is_exchangeable():
     assert "marginal over regions" in _norm(TEXT)
 
 
+def test_persistent_null_is_qualified_where_it_is_stated():
+    """The abstract's most quotable sentence is its least supported one.
+
+    "none certifies a persistent slide" is a statement about certification, not
+    about Europe -- and it is read as the second unless the rung's severity
+    travels with it. E42 puts 80% power at the persistent rung near a 0.08
+    per-pair decline with realized size 0.001, so non-certification there is
+    weak evidence of absence. Wherever the null is stated, the qualifier must be
+    within reach of it.
+    """
+    d = _csv("real_severity.csv")
+    p = d[d.design == "power"].set_index("delta")
+    assert float(p.loc[0.00, "persist_rate"]) <= 0.01          # size, nominal 0.10
+    assert float(p.loc[0.03, "persist_rate"]) < 0.10           # secular scale: no power
+    assert float(p.loc[0.08, "persist_rate"]) >= 0.80          # crisis scale: powered
+    assert float(p.loc[0.03, "net_rate"]) >= 0.70              # the net rung is the powered one
+
+    flat = _norm(TEXT)
+    assert "none certifies a persistent slide" in flat
+    i = flat.index("none certifies a persistent slide")
+    assert "crisis-scale" in flat[i:i + 160], (
+        "the abstract states the persistent null without the severity qualifier")
+    # and the body must say plainly what a non-certification is worth
+    _present("weak evidence of absence")
+
+
 # ------------------------------------------------------------ no stale text --
 def test_no_stale_pre_joint_counts():
     """The joint construction changed the span count; nothing may still say nine."""
