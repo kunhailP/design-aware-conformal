@@ -13,32 +13,27 @@ $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
 \Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$: a noise-tail term plus a local
 anti-concentration term, vanishing with the design-noise scale ($\rho^{2/3}$
 under variance-only tails, $\rho$ up to logarithms under sub-Gaussian noise).
-Symmetric design noise alone does \emph{not} make the band conservative for the
-latent target---a bimodal counterexample is in the Supplementary
-Material---which is why we report the observed $\rho$.
+Symmetric design noise alone does \emph{not} make the band conservative here---a
+bimodal counterexample is in the Supplementary Material---which is why we report
+the observed $\rho$.
 \emph{(c)} The deconvolution band with the true target scale is valid for the latent
-target---finite-sample \emph{exact} under the scale-family assumption (A1) of
-Theorem~\ref{thm:estimated}---with width a factor $\sqrt{1-\rho^2}+o(1)$ of the
-clustered band.
+target---finite-sample \emph{exact} under the scale-family assumption (A1)---with
+width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
 \end{theorem}
 
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
 Let the base band use the \emph{unstudentized} cluster score $R_c=\max_t|E_c(t)|$ (no
 data-dependent modulation), with a center satisfying the symmetric-construction
-condition: fixed, split-fold, per-unit from that unit's own data (the deployed
-own-previous-round centers), or a symmetric function of all $K{+}1$ curves
-(Appendix~\ref{app:proofs} states the four cases). If the countries are exchangeable,
+condition (Appendix~\ref{app:proofs} states the four admissible cases). If the countries are exchangeable,
 then for \emph{every} $K$ the band $\widehat B=\text{center}\pm\widehat q$, with
 $\widehat q$ the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$,
 satisfies
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
 distribution-free---exact for the \emph{survey-estimate} trajectory (T1); the latent
 trajectory (T2) adds the explicit gap of Theorem~\ref{thm:oracle}(b), bounded
-through the reported $\rho$. Two asymmetries are excluded by construction---in-sample modulation (an
-$O(g/K)$ self-inclusion deficit) and grand-mean centers containing their own
-unit (an anti-conservative $O(1/K)$ bias, removed by leave-one-out
-centers)---and on the near-homoskedastic real curves the width cost of dropping
-the modulation is $\le5\%$.
+through the reported $\rho$. Two asymmetries are excluded by construction---in-sample modulation and
+grand-mean centers containing their own unit---at a width cost of $\le5\%$ on
+the near-homoskedastic real curves.
 \end{theorem}
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
@@ -50,15 +45,13 @@ Then \emph{(i)} with oracle scales the deconvolution band is finite-sample
 \emph{exact} for the latent target at every $K$, and \emph{(ii)} with estimated
 scales it satisfies
 $\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
-$\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$, proved by a sandwich and
-concentration argument with constants depending only on the constants of
-(A1)--(A3). The finite-$K$-safe scale
+$\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$, by a sandwich and
+concentration argument. The finite-$K$-safe scale
 $\widehat s_T^2$ (Section~\ref{sec:method}) subtracts a lower confidence bound on the
 design variance, making the scale-error term one-sided (wide, not narrow) outside an
 $\alpha_2$-probability event. Some shape restriction is not removable---the bimodal counterexample of
 Theorem~\ref{thm:oracle}(b) defeats any latent-target band without one---and (A1)
-is one sufficient choice, strong enough to make the distributional matching
-exact.
+is one sufficient choice.
 \end{theorem}
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity---the deployed pipeline]
@@ -81,7 +74,7 @@ Then, finite-sample and with \emph{no conditions on the selection rule},
 \]
 The clauses name different targets because they rest on different assumptions:
 exchangeability alone gives the estimated trajectory T1 exactly (the latent T2
-adding Theorem~\ref{thm:oracle}(b)'s gap), while (A1)--(A3)---already inherited
+adding Theorem~\ref{thm:oracle}(b)'s gap), while (A1)--(A3)---inherited
 from Theorem~\ref{thm:estimated} through its remainder $\varepsilon_{K,B}$, which
 is attached to the deconvolution branch only---additionally deliver the latent
 target directly, by an anchor-domination lemma (Appendix~\ref{app:proofs}).
@@ -95,13 +88,11 @@ contribution being to engineer the branches so it applies) plus a union bound
 charging the non-nested branch its own budget where its gate can open. Two scope
 notes: at $K\ge94$ the \emph{reported} level
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$ is a frozen calibrated bound, not a
-theorem; and the unsurveyed-target mode with leave-one-out centers carries a
-residual $O(1/K^2)$ asymmetry bounded only heuristically, so a strict guarantee
-there wants a split-fold center.
+theorem; and leave-one-out centers carry a residual $O(1/K^2)$ asymmetry bounded
+only heuristically, so a strict guarantee wants a split-fold center.
 
-\paragraph{Efficiency.} \emph{(AW-1, proved)} the low-$\rho$ deconvolution/PCB
-width ratio is $1-\tfrac12\rho^2+O(\rho^4)$; \emph{(AW-2)} conservative
-$\supseteq$ PCB holds pointwise, its Bonferroni domination resting on an unproved
-expansion; \emph{(AW-3, proved)} selection cannot inflate miscoverage
-(Theorem~\ref{thm:safe}). AW-4 (open) and the fitted $O(g/K)$ modulation deficit
-are in Appendix~\ref{app:proofs}.
+\paragraph{Efficiency.} The low-$\rho$ deconvolution/PCB width ratio is
+$1-\tfrac12\rho^2+O(\rho^4)$ (proved); conservative $\supseteq$ PCB holds
+pointwise; and selection cannot inflate miscoverage
+(Theorem~\ref{thm:safe}). The remaining width results, one of them open, are in
+Appendix~\ref{app:proofs}.

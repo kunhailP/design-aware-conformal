@@ -44,10 +44,10 @@ $\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ (the anchors ru
 $\alpha-\alpha_{\text{dec}}$), and only in the $K\ge94$ regime where its gate can
 open at all; at the $K$ of every certification sample in this paper the anchors keep
 the full $\alpha$ and the deployed guarantee is exact. All constants are
-frozen before validation (Section~\ref{sec:theory}, Appendix~\ref{app:spec}); when
+frozen before validation (Appendix~\ref{app:spec}); when
 deconvolution is used the reported level is the observable
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a frozen \emph{calibrated} bound
-validated in Section~\ref{sec:simulation} (the theorem-level guarantee is
+(the theorem-level guarantee is
 Theorem~\ref{thm:estimated}'s $\varepsilon_{K,B}$).
 
 \begin{algorithm}[t]
@@ -71,7 +71,6 @@ deconvolution\;}
 \end{algorithm}
 
 \paragraph{Deployment.} The method ships as one call,
-\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, in an installable Python package
-(\texttt{pcb}), returning the band, selected branch, diagnostics, coverage level,
-and fallback reason---the user sees why the band was built and reads off its
-finite-$K$ guarantee.
+\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning the band, selected
+branch, diagnostics, coverage level, and fallback reason---so the user sees why
+the band was built and reads off its finite-$K$ guarantee.

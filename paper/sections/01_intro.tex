@@ -6,8 +6,7 @@ is a cumulative distribution function over a response scale, and repeated
 cross-national surveys---the European Social Survey
 \citep[ESS;][]{kaminska2017survey}, the World Values Survey, the AmericasBarometer
 \citep{lapop2023pulse}---let us track how that distribution moves across waves and
-\emph{transport} it: predict one country's trajectory from the others, or flag
-departures from a common pattern. Conformal methods are a natural tool, promising
+\emph{transport} it. Conformal methods are a natural tool, promising
 finite-sample, distribution-free coverage.
 
 \paragraph{Two wrong units.} A claim and its calibration can each be attached to the
@@ -22,10 +21,8 @@ multiplicity-honest core needs no survey design and applies to any repeated
 distributional claim.
 
 The second, subtler wrong unit is the calibration: the objects conformal transport
-calibrates on---other countries' attitude distributions---are themselves
-\emph{estimated} from complex probability samples. Standard practice plugs these
-estimates in as truth, blind to each ``country'' being a noisy estimate of a
-latent population function.
+calibrates on are themselves \emph{estimated} from complex probability samples,
+and standard practice plugs them in as truth.
 
 The two errors are distinct. Writing $F_{c,r}(t)$ for country $c$'s latent CDF at
 threshold $t$ in wave $r$ and $\Ftilde_{c,r}(t)$ for its complex-survey estimate,
@@ -54,24 +51,18 @@ target-blind gates are an efficiency device, not a validity assumption
 (Theorem~\ref{thm:safe}). We validate the frozen procedure in three disclosed
 layers, ending with a sealed run on six unseen DGP families.
 \emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
-instrument changes the substantive picture. One division of labour belongs here rather than on a later page: the counts come
-from within-country design-based bootstrap bands, in which exchangeability plays
-no role, while the conformal apparatus supplies the transport band, the regime
-diagnostics, and the scope boundary that forbids a design-aware correction at
-this scale. The theory licenses the reduction; the reduction certifies the
-counts. For European trust the hierarchy
+instrument changes the substantive picture. For European trust the hierarchy
 certifies net decline in six of thirty (2018--2024), not the twenty flagged
 marginally; over the full 2002--2024 record \emph{no} country certifies
 persistence, twenty-three of thirty-three certify both declines and recoveries,
-and eight certify span erosion, several of them with few certified adjacent
-contrasts---erosion an adjacent-wave reading would miss. All of these are read off one band at one level, by a
+and eight certify span erosion---all read off one band at one level, by a
 claim-family transfer argument that removes the multiplicity and
-endpoint-selection corrections a per-rung construction would need. Globally, a wave-pair reading of
+endpoint-selection corrections a per-rung construction needs. Globally, a wave-pair reading of
 the Foa--Mounk ``deconsolidation'' battery on the WVS/EVS (1981--2022) over-counts
-the persistent phenomenon by $2.6$--$6.5\times$; aggregating per-item
-certifications turns the correction into a discovery---the thirteen-country
+the persistent phenomenon by $2.6$--$6.5\times$, and aggregating per-item
+certifications turns the correction into a discovery: the thirteen-country
 \emph{certified core} concentrates in post-communist and Arab-Spring-aftermath
-states, with no consolidated Western democracy certifying on more than one item.
+states.
 \emph{Fourth, the scope condition that justifies this deployment, and where it
 ends.} Without the design-noise law the latent transport-error distribution is
 non-identified (Theorem~\ref{thm:impossible}); with it, the correction is still
@@ -80,14 +71,10 @@ ratio stays severalfold below the level at which deconvolution helps while the
 reliability diagnostic obeys the algorithmic floor $D\ge\sqrt{2/(K-1)}$,
 requiring $K\ge94$ exchangeable populations. The two largest surveys fail in
 \emph{opposite} ways: the WVS clears the size barrier ($K\approx100$) with
-negligible weights-only noise, the ESS has genuine clustered noise but $K\le33$.
-The reader should not expect the deconvolution to activate across countries---and
-should expect it to activate one unit down. On the small-area estimand of the
-same survey, a region's departure from its national distribution with
-$K\approx230$--$290$ regions, the frozen selector does activate it, narrowing the
-band by $15$--$17\%$ at the reported level (Section~\ref{sec:evidence}). One constraint on the \emph{calibration} unit is sharp and, as far as we know,
-unremarked: below $K=\alpha^{-1}-1$ the conformal level cannot be met at any
-width, so a too-coarse unit is infeasible rather than inefficient
+negligible design noise, the ESS has genuine clustered noise but $K\le33$. One
+unit down, on a region's departure from its national distribution with
+$K\approx230$--$290$ regions, the frozen selector does activate it, and holding
+out whole countries confirms the region is the exchangeable unit
 (Section~\ref{sec:evidence}).
 
 The remainder sets up the problem and the impossibility result

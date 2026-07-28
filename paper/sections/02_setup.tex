@@ -19,9 +19,9 @@ R_c \;=\; \max_{r,t}\frac{|F_{c,r}(t)-\mu_r(t)|}{\sigma(t)},
 \widetilde{R}_c \;=\; R_c + \xi_c,
 \]
 where $\widetilde{R}_c$ is the same quantity computed from the observed $\Ftilde$
-and $\xi_c$ is the induced design contamination. (Because $R$ is a supremum, $\xi_c$ is not exactly mean-zero or independent of
-$R_c$: the additive centred score model is a working approximation, exact at the
-curve scale under (A1), whose failure direction is conservative for the plug-in
+and $\xi_c$ is the induced design contamination. (Because $R$ is a supremum the
+additive centred score model is a working approximation, exact at the curve
+scale under (A1), whose failure direction is conservative for the plug-in
 band.) The governing scalar is the
 design-to-\emph{total} SD ratio
 \[
@@ -35,12 +35,12 @@ reported $\rho$ values use the bounded definition.)
 \paragraph{Target and validity.} We want a simultaneous band covering a
 \emph{new} country's \emph{latent} trajectory,
 $\Pr\big(F_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\ge1-\alpha$.
-Two facts frame everything. Ordinary clustered conformal on the observed scores is
+Ordinary clustered conformal on the observed scores is
 exact for the \emph{survey-estimate} target $\Ftilde_{\text{new}}$, needing only
 exchangeability; its coverage of the \emph{latent} target differs by an explicit
 gap that vanishes with the design-noise scale (Theorem~\ref{thm:oracle}(b);
 symmetry of the design law alone is \emph{not} enough for conservativeness).
-Meanwhile its width is inflated by design noise by a factor growing with $\rho$,
+Its width is inflated by design noise by a factor growing with $\rho$,
 and correcting that requires removing the design contribution---a deconvolution.
 
 \paragraph{Country exchangeability, stated honestly.} The transport band's
@@ -51,12 +51,10 @@ idealization, tempered three ways: the headline certifications of
 Section~\ref{sec:political} do not use it (they are within-country design-bootstrap
 statements); under approximate exchangeability the \citet{barber2023conformal}
 bound controls the coverage gap by an unobserved total-variation distance, treated
-as qualitative; a leave-one-region-out audit finds near-nominal held-out coverage
+as qualitative; and a leave-one-region-out audit finds near-nominal held-out coverage
 except for the post-communist East ($6/9$ and $5/9$ at nominal $0.90$)---a
 quantified scope condition on transport \emph{into} that bloc (Supplementary
-Material); and the
-Bonferroni rung protects against screening multiplicity---a distinct safeguard
-that does not repair non-exchangeability.
+Material).
 
 \paragraph{The impossibility.} The central obstruction is that the deconvolution is
 not identified from the contaminated scores alone.
@@ -67,15 +65,14 @@ Let the observed score be $\widetilde R = R + \xi$ with $R\perp\xi$. (i)~The law
 $R$ is not identified from the law of $\widetilde R$ without restrictions on the law
 of $\xi$: there exist distinct pairs $(\mathcal L_R,\mathcal L_\xi)\ne
 (\mathcal L_R',\mathcal L_\xi')$ with $\mathcal L_R * \mathcal L_\xi = \mathcal L_{R'}
-* \mathcal L_{\xi'}$. (ii)~Consequently, among non-randomized bands that are
-measurable functions of the observed scores only, any band whose radius lies
-almost surely below the $(\lceil(1-\alpha)(K{+}1)\rceil{-}1)$-th order statistic
-of $\{|\widetilde R_c|\}$ has latent coverage at most
-$(\lceil(1-\alpha)(K{+}1)\rceil-1)/(K{+}1)<1-\alpha$ on the member $\xi\equiv0$
-of the class, which it cannot distinguish from the contaminated one. The only
-room below the plug-in radius is the conformal discreteness slack, which
-randomized smoothing exhausts; \emph{uniform} improvement beyond it requires
-shrinking the class of admissible noise laws.
+* \mathcal L_{\xi'}$. (ii)~Consequently, among non-randomized bands measurable in
+the observed scores alone, any band narrower than the
+$(\lceil(1-\alpha)(K{+}1)\rceil{-}1)$-th order statistic of $\{|\widetilde R_c|\}$
+undercovers the latent target on the member $\xi\equiv0$ of the class, which it
+cannot distinguish from the contaminated one. The only room below the plug-in
+radius is the conformal discreteness slack, which randomized smoothing exhausts;
+\emph{uniform} improvement beyond it requires shrinking the class of admissible
+noise laws.
 \end{theorem}
 
 The reading is constructive (proof in Appendix~\ref{app:proofs}): a band both honest
