@@ -1,8 +1,8 @@
-# Convenience targets. See docs/REPRODUCIBILITY.md for the full protocol.
+# Convenience targets. Entry point for replication: REPLICATION.md
 
 PY ?= python
 
-.PHONY: install test tier1 tier2 figures paper clean
+.PHONY: install test verify tier1 tier2 figures paper deposit clean
 
 install:
 	pip install -r requirements.txt
@@ -10,6 +10,12 @@ install:
 
 test:
 	$(PY) -m pytest tests/ -q
+
+# Full verification pass for a replication analyst: contract tests + claim
+# ledger, then the fast no-microdata analyses that read committed results.
+verify: test
+	$(PY) -m pcb.experiments.e57_feasibility_frontier
+	$(PY) -m pcb.experiments.e58_center_exactness
 
 # Tier 1 — no microdata: simulation / theory / benchmarks (fast subset;
 # e22/e33 grids take hours and are excluded here — run them directly).
@@ -34,6 +40,11 @@ tier2:
 	$(PY) -m pcb.experiments.e50_joint_claim_family
 	$(PY) -m pcb.experiments.e54_small_area_transport
 	$(PY) -m pcb.experiments.e55_small_area_exchangeability
+	$(PY) -m pcb.experiments.e56_prevalence
+
+# Curated, deterministic replication archive (see REPLICATION.md §5).
+deposit:
+	$(PY) scripts/build_deposit.py
 
 figures:
 	@for f in pcb/figures/fig_*.py; do \

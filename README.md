@@ -1,7 +1,7 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 93 passing](https://img.shields.io/badge/tests-93%20passing-green)
+![Tests: 101 passing](https://img.shields.io/badge/tests-101%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Inference
@@ -32,6 +32,7 @@ This package provides:
 |---|---|
 | Marginal readings flag 20/30 ESS countries; the hierarchy certifies net decline in 6, persistence in 1 (Greece) | `e13`, §7 |
 | Over the full 2002–2024 record, read off one joint band: persistence in **0/33**, span erosion in **8**, and 23/33 certifying both a decline and a recovery at one α | `e50`, §7 |
+| Closed testing across countries: with 90% simultaneous confidence **at least 6 of 33** truly declined over their span, on each outcome — the across-country count itself now carries a guarantee | `e56`, §7 |
 | WVS: a trajectory-persistence criterion cuts the wave-pair certified set 2.6–6.5× (rung alone: 1.9–4.8×); the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
 | Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 1, §2/§6 |
 | Robustness: RWY-rescaled bootstrap, WVS and joint-band design-effect sweeps, mode audit from the data's own mode variable, LORO exchangeability, null-imposed severity injection, window-matched Claassen — plus two **withdrawn** results with published diagnoses | `e38`–`e53`, Supplement |
@@ -40,7 +41,7 @@ This package provides:
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 93 tests (contracts + claim ledger)
+python -m pytest tests/ -q          # contracts + claim ledger
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
 
@@ -49,7 +50,7 @@ Using the method on your own data — Python:
 ```python
 from pcb import dapcb
 fit = dapcb(cal_errors, v_cal, center, alpha=0.10)
-fit.band, fit.selected_branch, fit.coverage_level, fit.fallback_reason
+fit.band, fit.selected_branch, fit.coverage_level, fit.target, fit.fallback_reason
 ```
 
 or R (`rpkg/dapcb`, a pure-R port validated against the Python reference by
@@ -65,15 +66,19 @@ print(fit)   # branch, coverage level, diagnostics
 
 ## Reproduce
 
-Two tiers — see **[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)** for the
-full protocol and what was verified bit-identical:
+**Start at [REPLICATION.md](REPLICATION.md)** — the replication analyst's
+entry point: environment, run order, runtimes, and the claim→artifact→test map
+([docs/REPLICATION_MAP.md](docs/REPLICATION_MAP.md)). `make deposit` builds
+the curated, deterministic submission archive. Two tiers
+(details in [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)):
 
 - **Tier 1 (no microdata)**: all simulation/theory/benchmark experiments and the
   V-Dem/Claassen public-data analyses run out of the box.
 - **Tier 2 (licensed microdata)**: the ESS/WVS/LAPOP reanalyses. Exact files,
   registration links, placement paths, and sha256 checksums are in
-  **[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md)**. The ESS certification and
-  the full WVS hierarchy reproduce the committed CSVs **bit-identically**.
+  **[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md)**. The ESS certification, the
+  WVS hierarchy, and the joint claim family reproduce the committed CSVs
+  **bit-identically** (verified in two independent environments).
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.
 Common targets: `make test`, `make tier1`, `make figures`, `make paper`.
@@ -87,10 +92,10 @@ pcb/
   inference/      clustered/population conformal, design_aware, safe selector
   data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)
   simulation/ theory/     generators and theory checks
-  experiments/    e6–e55 (simulation arc, ESS/LAPOP/WVS, robustness analyses;
-                  e43–e49, e51 are superseded or withdrawn — see the supplement)
+  experiments/    e6–e58 (simulation arc, ESS/LAPOP/WVS, robustness, frontier,
+                  prevalence; e43–e49, e51 superseded/withdrawn — see supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            93 tests: theorem<->code contracts plus a claim ledger pinning
+tests/            101 tests: theorem<->code contracts plus a claim ledger pinning
                   every headline number in the paper to the CSV that licenses it
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF

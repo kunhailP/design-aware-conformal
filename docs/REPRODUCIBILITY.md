@@ -1,5 +1,10 @@
 # Reproducibility and compute
 
+> **Entry point: [`REPLICATION.md`](../REPLICATION.md)** (run order, runtimes,
+> verified bit-identical reproductions) and
+> [`REPLICATION_MAP.md`](REPLICATION_MAP.md) (claim → artifact → ledger test).
+> This file keeps the per-experiment detail.
+
 Two tiers. Everything is deterministic under the committed seeds
 (`pcb.util.det_seed`); Python 3.11, pins in `requirements.txt`.
 
@@ -7,7 +12,7 @@ Two tiers. Everything is deterministic under the committed seeds
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 93 tests (contracts + claim ledger)
+python -m pytest tests/ -q          # contracts + claim ledger (see REPLICATION.md for the current count)
 # out of the box (each writes results/*.csv; ~seconds to ~minutes unless noted):
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1
 python -m pcb.experiments.e32_severity              # severity/power

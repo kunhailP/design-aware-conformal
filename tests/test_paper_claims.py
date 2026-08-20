@@ -501,3 +501,17 @@ def test_cross_country_prevalence():
         named = set(g.nsmallest(6, "p_net").cntry)
         assert named <= certified, (oc, named - certified)
     _present("at least six", "closed testing across the thirty-three")
+
+
+def test_wrong_unit_collapse_figure_one():
+    """Fig. 1 / Sec. 5: the paper's opening exhibit. At L=8 threshold-level
+    coverage is 3.5%, round-level 49.8%, and only the country-trajectory
+    score holds nominal 90% at every length."""
+    d = _csv("wrong_unit_coverage.csv").set_index(["L", "method"])
+    assert round(float(d.loc[(8, "marginal"), "traj_cov_pct"]), 1) == 3.5
+    assert round(float(d.loc[(8, "per_round"), "traj_cov_pct"]), 1) == 49.8
+    assert round(float(d.loc[(2, "per_round"), "traj_cov_pct"]), 1) == 81.7
+    traj = d.xs("trajectory", level="method")
+    assert (traj.traj_cov_pct >= 90 - 2 * traj.cov_se * 1).all() or \
+        (traj.traj_cov_pct >= 88.9).all()
+    _present("$49.8\\%$", "$3.5\\%$")

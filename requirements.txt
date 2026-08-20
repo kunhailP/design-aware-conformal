@@ -1,5 +1,6 @@
-# Exact versions used to produce the paper's results. Tested with Python 3.11.
-# CPU only, no GPU required. Install with:  pip install -r requirements.txt
+# Exact versions used to produce the paper's results and verified in two
+# independent bit-identical reproductions (see REPLICATION.md). Python 3.11,
+# CPU only. Install:  pip install -r requirements.txt
 numpy==2.4.6
 pandas==3.0.3
 scikit-learn==1.9.0
@@ -9,3 +10,6 @@ scipy==1.17.1
 pyyaml==6.0.2
 joblib==1.5.3
 pytest==9.1.1
+# Tier 2 only (licensed-microdata loaders; not needed for tier 1 / tests):
+pyreadstat==1.3.6
+pyarrow==25.0.1
