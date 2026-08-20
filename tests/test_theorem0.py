@@ -1,9 +1,13 @@
-"""Theorem 0 (necessity/impossibility) — numerical contract test.
+"""Theorem 1 (non-identification/impossibility) — numerical contract test.
 
-Verifies the two claims of the impossibility result (docs/THEORY_MAIN.md):
-(a) non-identification — two laws with the SAME observed score law ℒ(R̃) but
-    DIFFERENT latent (1−α) quantiles;
-(b) impossibility — under ξ≡0 the latent target is exchangeable with the
+The theorem is stated at the CURVE level (Ẽ = E + S with S ⊥ E, supplement
+§S1.1); this test instantiates its T=1 coordinate construction, which the
+proof notes already suffices (the general-T statement follows by product
+laws). Signed Gaussian draws are the proof's own example — no sup-score
+additive structure is used anywhere:
+(a) non-identification — two admissible pairs with the SAME observed law
+    ℒ(E+S) but DIFFERENT latent (1−α) quantiles;
+(b) impossibility — under S≡0 the latent target is exchangeable with the
     calibration scores, so any radius below the conformal order statistic
     undercovers (the conformal converse).
 """

@@ -133,7 +133,11 @@ def _row(D, V, n, min_n, rnd, label):
     K = D.shape[0]
     E = D - (D.sum(0)[None, :] - D) / (K - 1)      # LOO transport deviations
     s = _modulation(E)
-    fit = dapcb(E, V, np.zeros(E.shape[1]), alpha=ALPHA)
+    # tighten=False: D_g is a signed departure curve, not a CDF, so the
+    # isotonic/[0,1] tightening does not apply (same convention as e55; the
+    # branch choice and every recorded diagnostic are computed before
+    # tightening, so committed results are unchanged).
+    fit = dapcb(E, V, np.zeros(E.shape[1]), alpha=ALPHA, tighten=False)
     sT = deconv_target_scale(E, V)
     rl = float(rho_lcb(E, V)); Dg = float(deconv_reliability(E, V))
     return dict(pool=label, min_n=min_n, essround=rnd, K=K,

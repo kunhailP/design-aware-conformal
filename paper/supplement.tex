@@ -71,43 +71,75 @@ political claim concerns.
 
 \subsection{Theorem~1 (non-identification and necessity of design information)}
 
-\emph{Statement.} Let the observed score be $\widetilde R=R+\xi$ with $R\perp\xi$ and
-$\xi$ mean-zero. (i)~The law of $R$---hence its $(1-\alpha)$ quantile---is not identified
-from the law of $\widetilde R$ without restrictions on the law of $\xi$. (ii)~Among
-\emph{non-randomized} bands measurable with respect to the observed scores only, no
-band whose radius is almost surely smaller than the plug-in radius---the
-$(1-\alpha)$ conformal order statistic of $|\widetilde R|$---by more than the conformal
-discreteness slack $\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)$ is valid for
-the latent target on the subclass of design laws containing $\xi\equiv0$. (The
-statement excludes uniform improvement; a band narrower on some realizations and
-wider on others is not excluded, which is why we phrase the main-text reading as
-``no observed-score band can beat the plug-in \emph{uniformly} by more than the
-slack.'' A randomized band can shave exactly that slack and no more; and by
-Remark~\ref{rem:bimodal} no observed-score band---including the plug-in---is
-latent-valid over \emph{all} admissible laws, so validity must be read relative to
-the stated subclass.)
+\emph{Statement (curve level).} The result is stated for the curve-level model
+$\widetilde E_c=E_c+S_c$ of the main text's decomposition (1): the latent
+deviation curves $E_1,\dots,E_K,E_{\text{new}}\in\mathbb R^T$ are exchangeable
+with law $\mathcal L_E$; the design-noise curves $S_c$ are i.i.d.\ with law
+$\mathcal S$, independent of the latent curves (the two-level survey
+structure: given the drawn population, the sampling mechanism is independent
+of which curve was drawn); and $\mathcal S$ is known only to lie in an
+admissible class $\mathfrak S$ that (a)~contains $\delta_0$ (negligible design
+noise) and (b)~is closed under one further convolution by some nondegenerate
+symmetric law $\mathcal N$, with $\mathcal L_E$ likewise expressible with and
+without the factor $\mathcal N$. No additive or independence structure is
+assumed on the sup-scores, and $\mathcal S$ may be arbitrarily heteroskedastic
+across thresholds (e.g.\ the $F(t)(1-F(t))$ sampling variance). Let
+$\widehat q_{\text{plug}}$ be the $\lceil(1-\alpha)(K{+}1)\rceil$-th order
+statistic of $\{\lVert\widetilde E_c\rVert_\infty\}$, the plug-in radius of
+Theorem~3 built on the observed curves.
+(i)~$\mathcal L_E$ is not identified from
+$\mathcal L_{\widetilde E}=\mathcal L_E*\mathcal S$ over $\mathfrak S$.
+(ii)~No band $\mu\pm\widehat\rho$, with $\widehat\rho$ a non-randomized
+measurable functional of the observed curves alone that is valid for the
+latent target under \emph{every} $\mathcal S\in\mathfrak S$, satisfies
+$\widehat\rho\le\widehat q_{\text{plug}}$ almost surely with
+$\widehat\rho<\widehat q_{\text{plug}}$ on a positive-probability event. (The
+statement excludes uniform improvement; a band narrower on some realizations
+and wider on others is not excluded, which is why we phrase the main-text
+reading as ``no observed-curve band can beat the plug-in \emph{uniformly}.''
+A randomized band can shave exactly the conformal discreteness slack
+$\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)$ and no more; and by
+Remark~\ref{rem:bimodal} no observed-curve band---including the plug-in---is
+latent-valid over \emph{all} admissible laws, so validity must be read relative
+to the stated subclass.)
 
 \begin{proof}
-(i)~Convolution is not invertible without knowing the noise law. Take
-$\mathcal L(\widetilde R)=N(0,\sigma^2)$. Then $(R\sim N(0,\sigma^2),\ \xi\equiv0)$ and,
-for any $0<\tau^2<\sigma^2$, $(R\sim N(0,\sigma^2-\tau^2),\ \xi\sim N(0,\tau^2))$ both have
-$\xi\perp R$, $\xi$ mean-zero, and induce the same $\mathcal L(\widetilde R)$; their latent
-$(1-\alpha)$ quantiles $z_{1-\alpha}\sigma$ and $z_{1-\alpha}\sqrt{\sigma^2-\tau^2}$
-differ. The same construction applies to any $\mathcal L(\widetilde R)$ that is a
-nontrivial convolution. (ii)~Under the member $\xi\equiv0$ the latent target equals
-$\widetilde R_{K+1}$, which is exchangeable with $\{\widetilde R_c\}_{c\le K}$; the
-conformal rank identity gives $\Pr(\widetilde R_{K+1}\le\widehat q)=
-\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$ at $\widehat q$ the corresponding order statistic,
-so any non-randomized radius below the $\lceil(1-\alpha)(K{+}1)\rceil{-}1$-th order
-statistic of $\{|\widetilde R_c|\}$ has latent coverage
-$\le(\lceil(1-\alpha)(K{+}1)\rceil-1)/(K{+}1)<1-\alpha$ on this member. A band whose
-radius sits almost surely below the plug-in by more than the slack therefore
-undercovers the latent target on the $\xi\equiv0$ law it cannot distinguish from the
-contaminated one; the only room below the plug-in is the discreteness slack, which
-randomized smoothing exhausts. Thus
-strict efficiency beyond that slack is attainable only by shrinking the class of
-admissible laws---i.e.\ by supplying the law of $\xi$ (equivalently the $v_c$), which
-is exactly the design-bootstrap information.
+(i)~Convolution in $\mathbb R^T$ is not injective on the admissible class.
+With $\mathcal N$ as in condition~(b), pick $\mathcal S_0\in\mathfrak S$ with
+$\mathcal S_0*\mathcal N\in\mathfrak S$ and put
+$\mathcal L_E'=\mathcal L_E*\mathcal N$, $\mathcal S=\mathcal S_0*\mathcal N$,
+$\mathcal S'=\mathcal S_0$. Both pairs are admissible, distinct
+($\mathcal N$ nondegenerate), and
+$\mathcal L_E*\mathcal S=\mathcal L_E*\mathcal S_0*\mathcal N
+=\mathcal L_E'*\mathcal S'$: the same observed law, with the spread split
+differently between latent signal and design noise. (A single coordinate
+$T{=}1$ already suffices, e.g.\ Gaussian
+$N(0,\sigma^2-\tau^2)*N(0,\tau^2)=N(0,\sigma^2)$ for any $0<\tau^2<\sigma^2$;
+the general-$T$ statement follows by product laws.)
+
+(ii)~A radius $\widehat\rho=\widehat\rho(\{\widetilde E_c\})$ has the same
+joint law with the observed data in any two configurations sharing the
+observed law---in particular the two of part~(i), whose latent laws differ by
+the dispersing factor $\mathcal N$. Validity for every admissible
+$\mathcal S$ therefore forces the radius to cover the most-dispersed
+admissible latent law compatible with the observed data, attained at
+$\mathcal S=\delta_0$, where all observed spread is latent. Concretely, take
+$\mathcal S=\delta_0\in\mathfrak S$. Then $\widetilde E_c=E_c$ for every $c$,
+and the target satisfies $F_{\text{new}}\in\mu\pm\widehat\rho\iff
+\lVert E_{\text{new}}\rVert_\infty\le\widehat\rho$, with
+$\lVert E_{\text{new}}\rVert_\infty$ exchangeable with the $K$ observed
+sup-scores. The conformal rank identity gives
+$\Pr\big(\lVert E_{\text{new}}\rVert_\infty\le\widehat q_{\text{plug}}\big)=
+\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$, so a non-randomized radius sitting
+almost surely at or below $\widehat q_{\text{plug}}$ and strictly below on a
+positive-probability event drops the latent coverage strictly below that
+level, and below $1-\alpha$ once the deficit exceeds the discreteness slack;
+by exchangeability of the ranks the slack is the only room, and randomized
+smoothing exhausts it. Strict efficiency beyond the slack is therefore
+attainable only by shrinking $\mathfrak S$---i.e.\ by supplying information on
+the law of $S$ (equivalently the $v_c$), which is exactly the design-bootstrap
+information the deconvolution branch estimates (Theorem~4$'$), and whose
+finite-$K$ reliability is what Proposition~1 bounds.
 \end{proof}
 
 \subsection{Theorem~2 (oracle validity)}
@@ -232,7 +264,16 @@ variance larger by $O(1/K^2)$ to the calibration deviations; we \emph{conjecture
 resulting perturbation is conservative-direction for sup-scores (larger convolution
 noise typically enlarging upper order statistics), but by Remark~\ref{rem:bimodal}
 convolution does not monotonically enlarge quantiles in general, so we state this as
-a heuristic with an $O(1/K^2)$ magnitude, not a bound. The asymmetry vanishes
+a heuristic with an $O(1/K^2)$ magnitude, not a bound. The heuristic is
+measured directly in the replication package (\texttt{e58}): across four
+families (Gaussian, $t_3$, skewed, dependent-round) and $K\in\{6,\dots,60\}$,
+$28$ cells at $20{,}000$ replications each, leave-one-out coverage never falls
+below the exact-construction floor by more than twice the Monte Carlo standard
+error, while the grand-mean construction this remark excludes shows its
+$O(1/K)$ deficit (worst $-0.064$), and a split-fold center --- strictly exact
+--- returns an infinite radius whenever halving drops the calibration fold
+below $\lceil1/\alpha\rceil$ units, i.e.\ throughout the cross-national range
+$K\le15$ at $\alpha=0.10$. The asymmetry vanishes
 entirely under constructions (i)--(iv), which the headline ESS certification
 satisfies through its own-previous-round centers (case~iii).
 \end{remark}
@@ -1261,7 +1302,7 @@ correct conformal calibration under label noise, the latter by deconvolving a
 \emph{known} noise model. Our central theoretical result is that this identification
 premise generally fails for survey design noise: recovering the latent transport-error
 law is a deconvolution problem \citep{fan1991optimal} that is non-identified without a
-design-noise law, so no observed-score band can beat the conservative plug-in by more
+design-noise law, so no band built on the observed curves can beat the conservative plug-in by more
 than the discreteness slack while remaining valid. And even when a noise model
 \emph{is} supplied, the deconvolution's reliability is itself bounded at a finite
 number of calibration units by an algorithmic floor---a finite-$K$ obstruction

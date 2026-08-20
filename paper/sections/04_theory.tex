@@ -105,8 +105,17 @@ between nested bands anchored at an exact band is validity-free. That is nested-
 \citep{gupta2022nested,yang2024selection}; our contribution is to engineer the
 branches so that it applies. A union bound then charges the one non-nested
 branch its own budget. Two scope notes. At $K\ge94$ the reported level is a frozen calibrated bound, not a
-theorem; and leave-one-out centers carry a residual $O(1/K^2)$ asymmetry bounded
-only heuristically, so a strict guarantee wants a split-fold center.
+theorem. And the unsurveyed-target deployment uses a leave-one-out center, which
+is not among Theorem~\ref{thm:exact}'s symmetric constructions: its residual
+asymmetry is $O(1/K^2)$ with the dispersion ordering pointing in the
+conservative direction --- per coordinate the calibration deviations exceed
+the target's by exactly $1/(K(K{-}1))$ under iid draws, a heuristic for
+sup-scores rather than a bound (Supplementary Material) --- and a $28$-cell
+simulation across four families finds no cell below the exact-construction
+floor beyond Monte Carlo error (\texttt{e58}). The strictly exact alternative,
+a split-fold center, is infeasible at survey scale: halving the calibration
+set below $\lceil1/\alpha\rceil$ units makes the conformal radius infinite,
+exactly at the $K$ this paper works at.
 
 \paragraph{Efficiency.} The low-$\rho$ deconvolution/PCB width ratio is
 $1-\tfrac12\rho^2+O(\rho^4)$, proved; conservative $\supseteq$ PCB holds

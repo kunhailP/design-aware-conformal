@@ -341,12 +341,20 @@ def test_small_area_activation():
     assert len(fired) == 4, len(fired)
     assert set(fired.min_n) == {40, 60} and set(fired.essround) == {9, 10}
     assert int(fired.K.min()) == 228 and int(fired.K.max()) == 287
-    assert 0.14 <= float(fired.gain_lcb.min()) and float(fired.gain_lcb.max()) <= 0.22
+    # the band-vs-envelope claim uses the POINT width gain, which is the
+    # certified LCB plus the frozen GAIN_MARGIN (0.05); width_ratio is the
+    # deconvolved-target-scale ratio mean(sT)/mean(s), a different quantity
+    # (the two were conflated in a pre-submission draft)
+    point_gain = fired.gain_lcb + 0.05
+    assert round(float(point_gain.min()), 3) == 0.205
+    assert round(float(point_gain.max()), 3) == 0.266
+    assert 0.155 <= float(fired.gain_lcb.min()) and float(fired.gain_lcb.max()) <= 0.22
     assert round(float(1 - fired.width_ratio.max()), 2) == 0.15
     assert round(float(1 - fired.width_ratio.min()), 2) == 0.17
     assert round(float(fired.coverage.min()), 3) == 0.881
     assert int(a.gate_A.sum()) == 8 and len(a) == 23
-    _present("$15$--$17\\%$ narrower", "eight of twenty-three")
+    _present("$20.5$--$26.6\\%$ narrower", "eight of twenty-three")
+    _present("$15$--$17\\%$ below its plug-in", "certified $16$--$22\\%$")
     # the common-level sensitivity must be reported, not buried
     c = d[d.pool == "common NUTS level"]
     assert (c.branch == "deconvolution").sum() == 0
@@ -440,3 +448,19 @@ def test_no_unverified_robustness_superlatives():
         assert b not in _norm(TEXT), (
             f"'{b}' overstates E44, which recomputes counts only; magnitudes "
             "shrink under deff inflation")
+
+
+def test_center_exactness_seam():
+    """S1.3 rem:center + §4 scope note: the LOO-center seam, measured (e58).
+    The paper claims (a) no cell below the exact-construction floor beyond
+    2×MC-SE across 28 cells, (b) the grand-mean deficit reaches -0.064, and
+    (c) split-fold is infinite-radius throughout K≤15 at alpha=0.10."""
+    d = _csv("center_exactness.csv")
+    assert len(d) == 28, len(d)
+    gap = d.cov_loo - d.vovk_floor
+    assert (gap >= -2 * d.mc_se).all(), gap.min()
+    assert round(float((d.cov_grand - d.vovk_floor).min()), 3) == -0.064
+    small = d[d.K <= 15]
+    assert np.isinf(small.w_split).all(), "split-fold must be infinite at K<=15"
+    assert (d[d.K >= 20].w_split_over_loo > 1).all()
+    _present("below the exact-construction floor", "makes the conformal radius infinite")

@@ -14,8 +14,10 @@ distribution-free coverage.
 wrong object. The \emph{claim} ``democratic trust is declining'' is typically built
 from a single wave-pair mean contrast, then narrated as a country-level trend. Our
 instrument is a finite-sample simultaneous band over a country's whole trajectory,
-with the country as the exchangeable unit, and an ordered hierarchy of claims:
-pairwise $\to$ any-pair $\to$ net $\to$ persistent $\to$ Bonferroni. The top
+with the country as the exchangeable unit, and a graded family of claims ---
+pairwise, any-pair, net, persistent, with a Bonferroni layer across countries
+--- partially ordered, persistent at the top
+(Section~\ref{sec:political}). The top
 rung is strictly stronger than the net-trend claim the literature
 typically intends, so we treat the two as co-headlines. This
 multiplicity-honest core needs no survey design and applies to any repeated
@@ -44,8 +46,9 @@ calibration unit (the omitted design-error layer of~\eqref{eq:decomp}), and give
 a finite-sample simultaneous band over a country's whole trajectory with a
 multiplicity-honest guarantee hierarchy that corrects the first.
 \emph{Second, a provably-valid deployed procedure.} The band we recommend is a
-clustered ``population'' conformal band, finite-sample exact at any $K$
-(Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
+clustered ``population'' conformal band, finite-sample exact at any $K$ under
+its symmetric centers and conservative to $O(1/K^2)$ in the unsurveyed-target
+deployment (Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
 how it selects. Its two anchor branches are \emph{nested}, and selection among
 nested bands anchored at an exact one is validity-free; the four
 target-blind gates are therefore an efficiency device, not a validity assumption

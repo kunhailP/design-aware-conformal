@@ -12,14 +12,24 @@ why the over-reading arises. The dominant trend estimates
 design-based uncertainty layer \citep{taihusolt2024} and whose data end where our
 window begins.
 
-\paragraph{A hierarchy of claims, and one band beneath it.} The claims differ in
-their unit. A \emph{pairwise} claim asks whether some pair of waves shows a
-distributional shift; \emph{any-pair} aggregates these within a country;
-\emph{net} asks whether the first-to-last span declined; \emph{persistent
+\paragraph{A family of claims, and one band beneath it.} The claims differ in
+their unit. A \emph{pairwise} claim asks whether a given adjacent pair of waves
+shows a distributional shift; \emph{any-pair} asks whether some adjacent pair
+does; \emph{net} asks whether the first-to-last span declined; \emph{persistent
 country-wide} asks whether the whole distribution declined simultaneously
 across the trajectory; \emph{Bonferroni} further controls the number of countries
-examined. Each rung is strictly stronger than the last, and conflating them is the
-over-detection this paper is about.
+examined. The rungs form a partial order, not a chain. Persistent implies both
+net (adjacent declines telescope to the endpoint span) and any-pair; but net
+and any-pair are incomparable in general --- a dip that recovers certifies an
+adjacent pair with no net decline, and a slow accumulation can certify a long
+span while no single adjacent pair moves enough to clear the critical value;
+both patterns occur in the data below. The remaining steps differ in kind, not
+strength: from a marginal pairwise reading to the any-pair rung the \emph{claim}
+gets no stronger --- the \emph{guarantee} does, simultaneous control replacing
+per-pair marginal testing --- and Bonferroni strengthens along a different
+axis, the number of countries examined. None of this needs a chain: every claim
+is read off the one band (Proposition~\ref{prop:transfer}). Reading one rung as
+another is the over-detection this paper is about.
 
 The rungs are not separate tests: each of them, every sub-span, and the reverse
 direction is a function of one object, the country's surface of wave-pair
@@ -191,7 +201,7 @@ half-supported (Supplementary Material).
 
 \paragraph{The certified core: where the surviving deconsolidation lives.}
 Aggregating per-item certifications yields a positive characterization
-(Figure~\ref{fig:core}; \\texttt{e30}): of $38$ countries certified on $\ge1$ item, $13$
+(Figure~\ref{fig:core}; \texttt{e30}): of $38$ countries certified on $\ge1$ item, $13$
 form a certified core on $\ge2$, headed by Albania on four. The core is
 post-communist and Arab-Spring states with fragile Latin American and African
 cases alongside, not the mature democracies the thesis

@@ -124,10 +124,19 @@ def certify_claim_family(curves: np.ndarray, boots: np.ndarray,
         upper = rises = episodic = None
 
     adjacent = [(i, i + 1) for i in range(L - 1)]
+    persistent = bool(adjacent) and all(p in declines for p in adjacent)
     return dict(
         c=c, lower=lower, upper=upper, declines=declines, rises=rises,
-        net=(0, L - 1) in declines,
-        persistent=bool(adjacent) and all(p in declines for p in adjacent),
+        # The rungs form a PARTIAL order. Persistent implies net by telescoping
+        # (every surface whose adjacent contrasts all decline has an endpoint
+        # decline), so a persistent certification certifies net even when the
+        # endpoint edge alone does not clear the critical value (claim-family
+        # transfer, set inclusion over valid surfaces). Net and any-pair are
+        # incomparable in general: a dip that recovers certifies an adjacent
+        # pair with no net decline, and a slow accumulation can certify a long
+        # span while no single adjacent pair clears.
+        net=(0, L - 1) in declines or persistent,
+        persistent=persistent,
         any_pair=any(p in declines for p in adjacent),
         episodic=episodic,
         n_spans=len(spans),

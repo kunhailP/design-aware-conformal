@@ -132,3 +132,22 @@ def test_one_sided_branch_returns_no_uncalibrated_reverse_claims():
     assert one["episodic"] is None
     two = certify_claim_family(obs, boots, ALPHA, CORE, two_sided=True)
     assert two["rises"] is not None and two["c"] >= one["c"] - 1e-12
+
+
+def test_rung_partial_order():
+    """The rungs form a partial order: persistent implies both net (telescoping
+    inheritance) and any-pair, by construction, on every draw. Net and any-pair
+    are NOT asserted comparable -- the manuscript states they are incomparable
+    in general, and the committed ESS results contain any-pair-without-net
+    countries and certified long spans with no certified adjacent pair."""
+    rng = np.random.default_rng(11)
+    for trial in range(200):
+        L = int(rng.integers(2, 7))
+        drift = rng.normal(0, 0.03)
+        truth = np.tile(np.linspace(0.1, 0.8, T), (L, 1))
+        truth += drift * np.arange(L)[:, None]
+        obs, boots = _panel(rng, L, 400, np.clip(truth, 0, 1))
+        r = certify_claim_family(obs, boots, ALPHA, CORE)
+        if r["persistent"]:
+            assert r["net"], "persistent must certify net (telescoping)"
+            assert r["any_pair"], "persistent must certify any-pair"

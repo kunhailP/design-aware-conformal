@@ -22,7 +22,8 @@ where $\widetilde{R}_c$ is the same quantity computed from the observed $\Ftilde
 and $\xi_c$ is the induced design contamination. (Because $R$ is a supremum the
 additive centred score model is a working approximation, exact at the curve
 scale under (A1), whose failure direction is conservative for the plug-in
-band.) The governing scalar is the
+band; the impossibility below is stated at the curve scale and does not use
+it.) The governing scalar is the
 design-to-total SD ratio
 \[
 \rho \;=\; \frac{\text{SD}(\xi)}{\text{SD}(\widetilde R)}
@@ -57,22 +58,28 @@ quantified scope condition on transport \emph{into} that bloc (Supplementary
 Material).
 
 \paragraph{The impossibility.} The central obstruction is that the deconvolution is
-not identified from the contaminated scores alone.
+not identified from the contaminated curves alone. The result is stated at the
+curve level of~\eqref{eq:decomp}, where the additive model \emph{is} the survey
+sampling structure; no additive or independence structure on the sup-scores is
+assumed, and the design noise may be arbitrarily heteroskedastic across
+thresholds.
 
 \begin{theorem}[Non-identification and necessity of design information]
 \label{thm:impossible}
-Let the observed score be $\widetilde R = R + \xi$ with $R\perp\xi$. (i)~The law of
-$R$ is not identified from the law of $\widetilde R$ without restrictions on the law
-of $\xi$: there exist distinct pairs $(\mathcal L_R, \mathcal L_\xi)\ne
-(\mathcal L_R', \mathcal L_\xi')$ with $\mathcal L_R * \mathcal L_\xi = \mathcal L_{R'}
-* \mathcal L_{\xi'}$. (ii)~Consequently, among non-randomized bands measurable in
-the observed scores alone, any band narrower than the
-$(\lceil(1-\alpha)(K{+}1)\rceil{-}1)$-th order statistic of $\{|\widetilde R_c|\}$
-undercovers the latent target on the member $\xi\equiv0$ of the class, which it
-cannot distinguish from the contaminated one. The only room below the plug-in
-radius is the conformal discreteness slack, which randomized smoothing exhausts;
-uniform improvement beyond it requires shrinking the class of admissible
-noise laws.
+Let the observed deviation curves be $\widetilde E_c = E_c + S_c$ as
+in~\eqref{eq:decomp}, the latent curves exchangeable with law $\mathcal L_E$,
+the design-noise curves independent of them with law $\mathcal S$ in an
+admissible class that contains $S\equiv0$ and is closed under one further
+nondegenerate symmetric convolution. (i)~$\mathcal L_E$ is not identified from
+the observed law $\mathcal L_E*\mathcal S$: distinct admissible pairs induce
+the same observed law while splitting spread differently between latent signal
+and noise. (ii)~Any band whose radius is measurable in the observed curves
+alone and is valid for the latent target over the whole admissible class
+cannot uniformly improve on the plug-in conformal band: on the member
+$S\equiv0$, which it cannot distinguish from the contaminated configurations,
+the plug-in radius is already the tightest valid one up to the conformal
+discreteness slack, which randomized smoothing exhausts. Uniform improvement
+beyond the slack requires shrinking the class of admissible noise laws.
 \end{theorem}
 
 The reading is constructive (proof in Appendix~\ref{app:proofs}): a band that is both valid
