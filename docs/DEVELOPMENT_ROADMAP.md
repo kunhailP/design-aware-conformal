@@ -105,7 +105,17 @@ Candidate results (assembly + one new lemma):
 - Contract test: frontier formula vs simulated width-improvement sign on the
   existing grid.
 
-## Workstream C — prevalence inference (최우선)
+## Workstream C — prevalence inference (최우선) — MACHINERY SHIPPED 2026-08-20
+
+Status: `pcb/inference/prevalence.py` (alpha-inversion p-values mirroring
+`certify_claim_family` + Goeman–Solari/Simes true-discovery lower bound) with
+4 contract tests (`tests/test_prevalence.py`: inversion↔certification
+consistency, Simes shortcut on known vectors, planted-truth validity ≤ α,
+power) and `e56_prevalence` (synthetic K=33/8-planted demo recovers d=8;
+ESS mode auto-runs when microdata is placed and writes
+`results/ess_prevalence.csv`). Remaining: run the ESS mode on the licensed
+data, then add the prevalence sentence to §7 and the abstract (do NOT add the
+claim to the paper before the real d exists). Original design notes below.
 
 - **e56: simultaneous lower confidence bound on true discoveries.** Per country,
   invert certification over α: p_c = smallest α at which the net-decline span
