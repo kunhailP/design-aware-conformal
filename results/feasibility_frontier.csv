@@ -1,92 +1,92 @@
-dataset,cell,K,rho_lcb,activated,regime
-WVS full-coverage items,imp_dem,95,0.0819450226074059,False,unnecessary
-WVS full-coverage items,rej_leader,104,0.0482902739580621,False,unnecessary
-WVS full-coverage items,rej_army,104,0.0447719506561982,False,unnecessary
-WVS full-coverage items,sup_demsys,105,0.0941449860256962,False,unnecessary
-WVS full-coverage items,confid_parl,105,0.0439429109971878,False,unnecessary
-ESS national-unit scan,youth_18_24/trstprl/80,28,0.1068625130736182,False,unnecessary
-ESS national-unit scan,youth_18_24/stfdem/80,28,0.1193127385496811,False,unnecessary
-ESS national-unit scan,youth_18_24/trstprl/120,24,0.105120880443506,False,unnecessary
-ESS national-unit scan,youth_18_24/stfdem/120,23,0.1154949899144367,False,unnecessary
-ESS national-unit scan,youth_18_24/trstprl/200,4,0.1456557276599033,False,unnecessary
-ESS national-unit scan,youth_18_24/stfdem/200,4,0.123511198117898,False,unnecessary
-ESS national-unit scan,youth_18_29/trstprl/80,33,0.1103186602052787,False,unnecessary
-ESS national-unit scan,youth_18_29/stfdem/80,33,0.1196979625773876,False,unnecessary
-ESS national-unit scan,youth_18_29/trstprl/120,31,0.1011431266313112,False,unnecessary
-ESS national-unit scan,youth_18_29/stfdem/120,31,0.1119853681299185,False,unnecessary
-ESS national-unit scan,youth_18_29/trstprl/200,26,0.0913271709962922,False,unnecessary
-ESS national-unit scan,youth_18_29/stfdem/200,24,0.1011832041243054,False,unnecessary
-ESS national-unit scan,young_25_34/trstprl/80,33,0.1078900159833272,False,unnecessary
-ESS national-unit scan,young_25_34/stfdem/80,33,0.121905631988217,False,unnecessary
-ESS national-unit scan,young_25_34/trstprl/120,32,0.1150527588838469,False,unnecessary
-ESS national-unit scan,young_25_34/stfdem/120,32,0.123076054348198,False,unnecessary
-ESS national-unit scan,young_25_34/trstprl/200,26,0.0936727441787479,False,unnecessary
-ESS national-unit scan,young_25_34/stfdem/200,24,0.1077631158494296,False,unnecessary
-ESS national-unit scan,mid_35_49/trstprl/80,33,0.0934399131533197,False,unnecessary
-ESS national-unit scan,mid_35_49/stfdem/80,33,0.0979854224477243,False,unnecessary
-ESS national-unit scan,mid_35_49/trstprl/120,33,0.0929622618028681,False,unnecessary
-ESS national-unit scan,mid_35_49/stfdem/120,33,0.098567593096089,False,unnecessary
-ESS national-unit scan,mid_35_49/trstprl/200,33,0.0940254796264222,False,unnecessary
-ESS national-unit scan,mid_35_49/stfdem/200,33,0.0985875460164676,False,unnecessary
-ESS national-unit scan,older_50_64/trstprl/80,33,0.1029943280021654,False,unnecessary
-ESS national-unit scan,older_50_64/stfdem/80,33,0.1022088875600945,False,unnecessary
-ESS national-unit scan,older_50_64/trstprl/120,33,0.1028724105127087,False,unnecessary
-ESS national-unit scan,older_50_64/stfdem/120,33,0.1019304599502314,False,unnecessary
-ESS national-unit scan,older_50_64/trstprl/200,32,0.0984185279552737,False,unnecessary
-ESS national-unit scan,older_50_64/stfdem/200,32,0.0970082184720882,False,unnecessary
-ESS national-unit scan,oldest_65p/trstprl/80,33,0.1048313304764399,False,unnecessary
-ESS national-unit scan,oldest_65p/stfdem/80,33,0.1006176054532496,False,unnecessary
-ESS national-unit scan,oldest_65p/trstprl/120,33,0.1058233712750955,False,unnecessary
-ESS national-unit scan,oldest_65p/stfdem/120,33,0.1010742595567937,False,unnecessary
-ESS national-unit scan,oldest_65p/trstprl/200,32,0.1009687962805783,False,unnecessary
-ESS national-unit scan,oldest_65p/stfdem/200,32,0.0937726652893469,False,unnecessary
-ESS national-unit scan,full_18plus/trstprl/80,33,0.0571241746053154,False,unnecessary
-ESS national-unit scan,full_18plus/stfdem/80,33,0.0596035926674536,False,unnecessary
-ESS national-unit scan,full_18plus/trstprl/120,33,0.0577578671599863,False,unnecessary
-ESS national-unit scan,full_18plus/stfdem/120,33,0.060164051360074,False,unnecessary
-ESS national-unit scan,full_18plus/trstprl/200,33,0.0573838814180717,False,unnecessary
-ESS national-unit scan,full_18plus/stfdem/200,33,0.0596699663173009,False,unnecessary
-ESS small-area (e54),min_n400/r9,15,0.3006,False,unnecessary
-ESS small-area (e54),min_n400/r10,19,0.2776,False,unnecessary
-ESS small-area (e54),min_n300/r9,23,0.3736,False,unnecessary
-"ESS small-area, common NUTS level",min_n300/r9,13,0.5629,False,unlearnable
-ESS small-area (e54),min_n300/r10,38,0.3133,False,unnecessary
-"ESS small-area, common NUTS level",min_n300/r10,20,0.2863,False,unnecessary
-ESS small-area (e54),min_n300/r11,24,0.2629,False,unnecessary
-"ESS small-area, common NUTS level",min_n300/r11,14,0.2204,False,unnecessary
-ESS small-area (e54),min_n200/r9,80,0.4621,False,unnecessary
-"ESS small-area, common NUTS level",min_n200/r9,40,0.427,False,unnecessary
-ESS small-area (e54),min_n200/r10,75,0.4149,False,unnecessary
-"ESS small-area, common NUTS level",min_n200/r10,33,0.3695,False,unnecessary
-ESS small-area (e54),min_n200/r11,60,0.3436,False,unnecessary
-"ESS small-area, common NUTS level",min_n200/r11,32,0.2855,False,unnecessary
-ESS small-area (e54),min_n150/r9,114,0.4909,False,feasible
-"ESS small-area, common NUTS level",min_n150/r9,53,0.4277,False,unnecessary
-ESS small-area (e54),min_n150/r10,113,0.4462,False,unnecessary
-"ESS small-area, common NUTS level",min_n150/r10,52,0.3904,False,unnecessary
-ESS small-area (e54),min_n150/r11,106,0.3962,False,unnecessary
-"ESS small-area, common NUTS level",min_n150/r11,52,0.3196,False,unnecessary
-ESS small-area (e54),min_n100/r9,171,0.4655,False,unnecessary
-"ESS small-area, common NUTS level",min_n100/r9,74,0.492,False,unlearnable
-ESS small-area (e54),min_n100/r10,186,0.4844,False,feasible
-"ESS small-area, common NUTS level",min_n100/r10,78,0.4364,False,unnecessary
-ESS small-area (e54),min_n100/r11,162,0.4239,False,unnecessary
-"ESS small-area, common NUTS level",min_n100/r11,83,0.4179,False,unnecessary
-ESS small-area (e54),min_n80/r9,196,0.4877,False,feasible
-"ESS small-area, common NUTS level",min_n80/r9,82,0.5077,False,unlearnable
-ESS small-area (e54),min_n80/r10,211,0.5021,False,feasible
-"ESS small-area, common NUTS level",min_n80/r10,90,0.4774,False,unlearnable
-ESS small-area (e54),min_n80/r11,196,0.4401,False,unnecessary
-"ESS small-area, common NUTS level",min_n80/r11,102,0.4653,False,unnecessary
-ESS small-area (e54),min_n60/r9,228,0.4965,True,feasible
-"ESS small-area, common NUTS level",min_n60/r9,94,0.4976,False,feasible
-ESS small-area (e54),min_n60/r10,248,0.5213,True,feasible
-"ESS small-area, common NUTS level",min_n60/r10,105,0.521,False,feasible
-ESS small-area (e54),min_n60/r11,233,0.45,False,unnecessary
-"ESS small-area, common NUTS level",min_n60/r11,116,0.4483,False,unnecessary
-ESS small-area (e54),min_n40/r9,273,0.4922,True,feasible
-"ESS small-area, common NUTS level",min_n40/r9,109,0.4797,False,feasible
-ESS small-area (e54),min_n40/r10,287,0.5131,True,feasible
-"ESS small-area, common NUTS level",min_n40/r10,119,0.5125,False,feasible
-ESS small-area (e54),min_n40/r11,285,0.4629,False,unnecessary
-"ESS small-area, common NUTS level",min_n40/r11,140,0.4883,False,feasible
+dataset,cell,K,rho_lcb,rho_hat,activated,regime
+WVS full-coverage items,imp_dem,95,0.0819450226074059,0.0971955988020066,False,unnecessary
+WVS full-coverage items,rej_leader,104,0.0482902739580621,0.0567055539218177,False,unnecessary
+WVS full-coverage items,rej_army,104,0.0447719506561982,0.0523521934687642,False,unnecessary
+WVS full-coverage items,sup_demsys,105,0.0941449860256962,0.1243151597185168,False,unnecessary
+WVS full-coverage items,confid_parl,105,0.0439429109971878,0.0517738664397114,False,unnecessary
+ESS national-unit scan,youth_18_24/trstprl/80,28,0.1068625130736182,0.1546448493620235,False,unnecessary
+ESS national-unit scan,youth_18_24/stfdem/80,28,0.1193127385496811,0.1819487489368983,False,unnecessary
+ESS national-unit scan,youth_18_24/trstprl/120,24,0.105120880443506,0.1551912526567529,False,unnecessary
+ESS national-unit scan,youth_18_24/stfdem/120,23,0.1154949899144367,0.1781757863704046,False,unnecessary
+ESS national-unit scan,youth_18_24/trstprl/200,4,0.1456557276599033,0.2878455107047265,False,unnecessary
+ESS national-unit scan,youth_18_24/stfdem/200,4,0.123511198117898,0.2527810509900456,False,unnecessary
+ESS national-unit scan,youth_18_29/trstprl/80,33,0.1103186602052787,0.1521046312114179,False,unnecessary
+ESS national-unit scan,youth_18_29/stfdem/80,33,0.1196979625773876,0.1729710629274495,False,unnecessary
+ESS national-unit scan,youth_18_29/trstprl/120,31,0.1011431266313112,0.1395040522773159,False,unnecessary
+ESS national-unit scan,youth_18_29/stfdem/120,31,0.1119853681299185,0.1632243335367277,False,unnecessary
+ESS national-unit scan,youth_18_29/trstprl/200,26,0.0913271709962922,0.1285749180198298,False,unnecessary
+ESS national-unit scan,youth_18_29/stfdem/200,24,0.1011832041243054,0.1524062594083255,False,unnecessary
+ESS national-unit scan,young_25_34/trstprl/80,33,0.1078900159833272,0.1477592050983114,False,unnecessary
+ESS national-unit scan,young_25_34/stfdem/80,33,0.121905631988217,0.1729865319521623,False,unnecessary
+ESS national-unit scan,young_25_34/trstprl/120,32,0.1150527588838469,0.155220589360161,False,unnecessary
+ESS national-unit scan,young_25_34/stfdem/120,32,0.123076054348198,0.1715031289633139,False,unnecessary
+ESS national-unit scan,young_25_34/trstprl/200,26,0.0936727441787479,0.1306257827770713,False,unnecessary
+ESS national-unit scan,young_25_34/stfdem/200,24,0.1077631158494296,0.1596260754304572,False,unnecessary
+ESS national-unit scan,mid_35_49/trstprl/80,33,0.0934399131533197,0.1256616610680251,False,unnecessary
+ESS national-unit scan,mid_35_49/stfdem/80,33,0.0979854224477243,0.1338063967594687,False,unnecessary
+ESS national-unit scan,mid_35_49/trstprl/120,33,0.0929622618028681,0.1253553596041864,False,unnecessary
+ESS national-unit scan,mid_35_49/stfdem/120,33,0.098567593096089,0.1350661112023647,False,unnecessary
+ESS national-unit scan,mid_35_49/trstprl/200,33,0.0940254796264222,0.1263499266516586,False,unnecessary
+ESS national-unit scan,mid_35_49/stfdem/200,33,0.0985875460164676,0.1349306459442311,False,unnecessary
+ESS national-unit scan,older_50_64/trstprl/80,33,0.1029943280021654,0.1401526576058126,False,unnecessary
+ESS national-unit scan,older_50_64/stfdem/80,33,0.1022088875600945,0.1449996240506111,False,unnecessary
+ESS national-unit scan,older_50_64/trstprl/120,33,0.1028724105127087,0.1406813771322484,False,unnecessary
+ESS national-unit scan,older_50_64/stfdem/120,33,0.1019304599502314,0.1449081506000483,False,unnecessary
+ESS national-unit scan,older_50_64/trstprl/200,32,0.0984185279552737,0.1321564691917101,False,unnecessary
+ESS national-unit scan,older_50_64/stfdem/200,32,0.0970082184720882,0.1385360511760379,False,unnecessary
+ESS national-unit scan,oldest_65p/trstprl/80,33,0.1048313304764399,0.142930799492977,False,unnecessary
+ESS national-unit scan,oldest_65p/stfdem/80,33,0.1006176054532496,0.1483740326847464,False,unnecessary
+ESS national-unit scan,oldest_65p/trstprl/120,33,0.1058233712750955,0.1438705447160911,False,unnecessary
+ESS national-unit scan,oldest_65p/stfdem/120,33,0.1010742595567937,0.1500826397451188,False,unnecessary
+ESS national-unit scan,oldest_65p/trstprl/200,32,0.1009687962805783,0.1353269663990879,False,unnecessary
+ESS national-unit scan,oldest_65p/stfdem/200,32,0.0937726652893469,0.1409728987657006,False,unnecessary
+ESS national-unit scan,full_18plus/trstprl/80,33,0.0571241746053154,0.0774187954655901,False,unnecessary
+ESS national-unit scan,full_18plus/stfdem/80,33,0.0596035926674536,0.0850494806898842,False,unnecessary
+ESS national-unit scan,full_18plus/trstprl/120,33,0.0577578671599863,0.078249071697326,False,unnecessary
+ESS national-unit scan,full_18plus/stfdem/120,33,0.060164051360074,0.0856814685540432,False,unnecessary
+ESS national-unit scan,full_18plus/trstprl/200,33,0.0573838814180717,0.0778058059863659,False,unnecessary
+ESS national-unit scan,full_18plus/stfdem/200,33,0.0596699663173009,0.0859163494981937,False,unnecessary
+ESS small-area (e54),min_n400/r9,15,0.3006,0.4398,False,unnecessary
+ESS small-area (e54),min_n400/r10,19,0.2776,0.474,False,unnecessary
+ESS small-area (e54),min_n300/r9,23,0.3736,0.5116,False,unnecessary
+"ESS small-area, common NUTS level",min_n300/r9,13,0.5629,0.8276,False,unlearnable
+ESS small-area (e54),min_n300/r10,38,0.3133,0.4303,False,unnecessary
+"ESS small-area, common NUTS level",min_n300/r10,20,0.2863,0.438,False,unnecessary
+ESS small-area (e54),min_n300/r11,24,0.2629,0.3668,False,unnecessary
+"ESS small-area, common NUTS level",min_n300/r11,14,0.2204,0.3303,False,unnecessary
+ESS small-area (e54),min_n200/r9,80,0.4621,0.5549,False,unnecessary
+"ESS small-area, common NUTS level",min_n200/r9,40,0.427,0.5517,False,unnecessary
+ESS small-area (e54),min_n200/r10,75,0.4149,0.5253,False,unnecessary
+"ESS small-area, common NUTS level",min_n200/r10,33,0.3695,0.5122,False,unnecessary
+ESS small-area (e54),min_n200/r11,60,0.3436,0.426,False,unnecessary
+"ESS small-area, common NUTS level",min_n200/r11,32,0.2855,0.3759,False,unnecessary
+ESS small-area (e54),min_n150/r9,114,0.4909,0.5874,False,feasible
+"ESS small-area, common NUTS level",min_n150/r9,53,0.4277,0.5351,False,unnecessary
+ESS small-area (e54),min_n150/r10,113,0.4462,0.5564,False,unnecessary
+"ESS small-area, common NUTS level",min_n150/r10,52,0.3904,0.5806,False,unnecessary
+ESS small-area (e54),min_n150/r11,106,0.3962,0.4742,False,unnecessary
+"ESS small-area, common NUTS level",min_n150/r11,52,0.3196,0.4149,False,unnecessary
+ESS small-area (e54),min_n100/r9,171,0.4655,0.5407,False,unnecessary
+"ESS small-area, common NUTS level",min_n100/r9,74,0.492,0.6035,False,unlearnable
+ESS small-area (e54),min_n100/r10,186,0.4844,0.5606,False,feasible
+"ESS small-area, common NUTS level",min_n100/r10,78,0.4364,0.5732,False,unnecessary
+ESS small-area (e54),min_n100/r11,162,0.4239,0.4881,False,unnecessary
+"ESS small-area, common NUTS level",min_n100/r11,83,0.4179,0.5116,False,unnecessary
+ESS small-area (e54),min_n80/r9,196,0.4877,0.5652,False,feasible
+"ESS small-area, common NUTS level",min_n80/r9,82,0.5077,0.6184,False,unlearnable
+ESS small-area (e54),min_n80/r10,211,0.5021,0.5782,False,feasible
+"ESS small-area, common NUTS level",min_n80/r10,90,0.4774,0.6193,False,unlearnable
+ESS small-area (e54),min_n80/r11,196,0.4401,0.5007,False,unnecessary
+"ESS small-area, common NUTS level",min_n80/r11,102,0.4653,0.5586,False,unnecessary
+ESS small-area (e54),min_n60/r9,228,0.4965,0.5669,True,feasible
+"ESS small-area, common NUTS level",min_n60/r9,94,0.4976,0.6106,False,feasible
+ESS small-area (e54),min_n60/r10,248,0.5213,0.593,True,feasible
+"ESS small-area, common NUTS level",min_n60/r10,105,0.521,0.6524,False,feasible
+ESS small-area (e54),min_n60/r11,233,0.45,0.5071,False,unnecessary
+"ESS small-area, common NUTS level",min_n60/r11,116,0.4483,0.5309,False,unnecessary
+ESS small-area (e54),min_n40/r9,273,0.4922,0.5595,True,feasible
+"ESS small-area, common NUTS level",min_n40/r9,109,0.4797,0.5825,False,feasible
+ESS small-area (e54),min_n40/r10,287,0.5131,0.5915,True,feasible
+"ESS small-area, common NUTS level",min_n40/r10,119,0.5125,0.6728,False,feasible
+ESS small-area (e54),min_n40/r11,285,0.4629,0.5159,False,unnecessary
+"ESS small-area, common NUTS level",min_n40/r11,140,0.4883,0.5679,False,feasible

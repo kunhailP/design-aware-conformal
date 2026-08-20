@@ -114,12 +114,14 @@ Spain & 1--11 & \phantom{0}0.6 & 32/55 & 0.58 \\
 \end{table}
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{guarantee_hierarchy.pdf}
-\caption{Certified decline counts by claim and uncertainty layer
-($\alpha=0.10$; trust in parliament), plug-in (open) to design-aware
-(filled). Claims are not connected to one another: the family is a partial
-order (persistent implies net and any-pair; net and any-pair are
-incomparable). B reads the full record off one joint band, where the layers
-coincide by construction.}\label{fig:hierarchy}
+\caption{The claim family on real data ($\alpha=0.10$; trust in parliament,
+rounds 9--11). \emph{A}, the partial order with certified counts,
+design-aware (plug-in in parentheses); no edge joins net and any-pair.
+\emph{B}, the thirty countries by the set of claims each certifies.
+\emph{C}, the reclassification mechanism: decline signal against design
+noise for every plug-in-certified adjacent pair, with signal-to-noise
+isolines --- the pairs the design-aware band reclassifies are the low-SNR
+ones.}\label{fig:hierarchy}
 \end{figure}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
@@ -193,10 +195,13 @@ response-distribution trajectory itself: certification is descriptive error cont
 forecast. Item-level caveats are in the Supplementary Material.
 
 \begin{figure}[t]\centering
-\includegraphics[width=.92\textwidth]{certified_core.pdf}
-\caption{The thirteen-country certified core: persistent distribution-wide
-decline certified on $\ge2$ of five items (WVS/EVS 1981--2022; $K=59$--$77$
-per item; filled = certified). Regions: PC post-communist, MENA Arab-Spring
-aftermath, LAC Latin America, SSA Sub-Saharan Africa, West consolidated West.
-The full thirty-eight-country matrix is in the Supplementary Material.}\label{fig:core}
+\includegraphics[width=\textwidth]{certified_core.pdf}
+\caption{Deconsolidation, certified (WVS/EVS 1981--2022; $K=59$--$77$ per
+item). \emph{A}, per battery item, country counts from the marginal
+wave-pair reading through the persistent plug-in claim to the persistent
+design-aware claim. \emph{B}, countries shaded by number of certified items;
+the thirteen-country core is outlined. \emph{C}, the core by evidence
+strength: circle area is the certified minimum decline (the persistent
+band's simultaneous lower bound), in CDF points. The full
+thirty-eight-country matrix is in the Supplementary Material.}\label{fig:core}
 \end{figure}

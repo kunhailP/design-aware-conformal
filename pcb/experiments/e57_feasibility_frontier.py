@@ -43,6 +43,7 @@ def main():
     for r in w.itertuples():
         rows.append(dict(dataset="WVS full-coverage items", cell=r.item,
                          K=int(r.K), rho_lcb=float(r.rho_lcb),
+                         rho_hat=float(r.rho_hat),
                          activated=False))
 
     e = pd.read_csv("results/ess_subgroup_rho_scan.csv")
@@ -50,6 +51,7 @@ def main():
         rows.append(dict(dataset="ESS national-unit scan",
                          cell=f"{r.subgroup}/{r.outcome}/{r.min_n}",
                          K=int(r.K), rho_lcb=float(r.rho_lcb),
+                         rho_hat=float(r.rho_hat),
                          activated=bool(r.branch == "deconvolution")))
 
     s = pd.read_csv("results/small_area_transport.csv")
@@ -59,6 +61,7 @@ def main():
         rows.append(dict(dataset=name,
                          cell=f"min_n{r.min_n}/r{r.essround}",
                          K=int(r.K), rho_lcb=float(r.rho_lcb),
+                         rho_hat=float(r.rho_hat),
                          activated=bool(r.branch == "deconvolution")))
 
     d = pd.DataFrame(rows)

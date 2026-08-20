@@ -526,3 +526,19 @@ def test_wrong_unit_collapse_figure_one():
     assert (traj.traj_cov_pct >= 90 - 2 * traj.cov_se * 1).all() or \
         (traj.traj_cov_pct >= 88.9).all()
     _present("$49.8\\%$", "$3.5\\%$")
+
+
+def test_figure_layers():
+    """The composite figures' derived layers stay tied to their experiments:
+    the landscape's trajectory unit holds nominal coverage everywhere (e60),
+    and the magnitude layer certifies exactly the e26/e30 persistent cells
+    with positive lower bounds (e59)."""
+    land = _csv("wrong_unit_landscape.csv")
+    t = land[land.method == "trajectory"]
+    assert float(t.traj_cov_pct.min()) >= 90 - 2.1   # MC slack at 2,000 reps
+    m = _csv("wvs_core_magnitudes.csv")
+    core = _csv("certified_core.csv")
+    cert = m[m.certified]
+    assert (cert.magnitude_lb > 0).all()
+    assert len(cert) == int(core.n_items.sum()), (len(cert),
+                                                  int(core.n_items.sum()))

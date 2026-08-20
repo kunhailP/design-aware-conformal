@@ -27,6 +27,7 @@ tier1:
 	$(PY) -m pcb.experiments.e19_selector_sweep
 	$(PY) -m pcb.experiments.e30_certified_core
 	$(PY) -m pcb.experiments.e31_positive_regime
+	$(PY) -m pcb.experiments.e60_wrong_unit_landscape
 
 # Tier 2 — requires licensed microdata placed per docs/DATA_SOURCES.md.
 tier2:
@@ -41,6 +42,7 @@ tier2:
 	$(PY) -m pcb.experiments.e54_small_area_transport
 	$(PY) -m pcb.experiments.e55_small_area_exchangeability
 	$(PY) -m pcb.experiments.e56_prevalence
+	$(PY) -m pcb.experiments.e59_wvs_magnitudes
 
 # Curated, deterministic replication archive (see REPLICATION.md §5).
 deposit:

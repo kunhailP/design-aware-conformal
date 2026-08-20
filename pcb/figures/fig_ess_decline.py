@@ -184,10 +184,8 @@ def fig_hierarchy(cty):
 
 def main():
     pair = pd.read_csv("results/ess_design_aware_decline.csv")
-    cty = pd.read_csv("results/ess_country_certification.csv")
     fig_counts(pair)
     fig_reclass(pair)
-    fig_hierarchy(cty)
     print("wrote figures/plug_in_vs_design_aware_certification.png, "
           "figures/country_reclassification_map.png, "
           "figures/guarantee_hierarchy.png")
