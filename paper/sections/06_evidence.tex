@@ -41,12 +41,14 @@ need gate decisively. The survey large enough to estimate the deconvolution has
 almost no design noise to remove; the survey with real clustered noise has far
 too few countries.
 
-Nor is the floor an artifact of our thresholds. Any unbiased estimator of a
-variance from $K$ exchangeable populations has relative standard error at least
-$\sqrt{2/(K-1)}$ at the Gaussian member (Lehmann--Scheff\'e; Supplementary
-Material), so \emph{any} procedure demanding relative reliability $\tau$ of its
-noise scale needs $K\ge1+2/\tau^2$: the frozen $\tau_D$ is one instantiation,
-$94$ its intercept, $\sqrt{2/(K-1)}$ the law. With the proved width gain
+Nor is the floor an artifact of our thresholds. Any \emph{unbiased} estimator
+of a variance from $K$ exchangeable populations has relative standard error at
+least $\sqrt{2/(K-1)}$ at the Gaussian member (Lehmann--Scheff\'e;
+Supplementary Material), so any correction relying on an unbiased
+noise-variance estimate at relative reliability $\tau$ --- the class the
+deployed diagnostic lives in --- needs $K\ge1+2/\tau^2$: the frozen $\tau_D$
+is one instantiation, $94$ its intercept, $\sqrt{2/(K-1)}$ the law for this
+estimator class. With the proved width gain
 $1-\sqrt{1-\rho^2}$, the $(K,\rho)$ plane splits into three regimes ---
 correction \emph{unnecessary}, \emph{unlearnable}, \emph{feasible} --- and this
 paper's datasets occupy the three corners (Supplementary Material Figure;

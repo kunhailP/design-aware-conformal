@@ -80,11 +80,11 @@ architecture the revision exists to fix.
 
 ## Workstream B — feasibility frontier theorem (최우선) — SHIPPED 2026-08-20
 
-Status: supplement gains the **universal reliability floor lemma**
+Status: supplement gains the **unbiased-estimation reliability floor lemma**
 (Lehmann–Scheffé at the Gaussian member: any unbiased variance estimator from
 K exchangeable populations has relative SE ≥ √(2/(K−1)), so ANY procedure
 demanding reliability τ needs K ≥ 1+2/τ² — 94 is the frozen intercept, the
-law is universal) plus a three-regime frontier remark and Figure S
+law governs the unbiased class; minimax-with-bias version noted as open) plus a three-regime frontier remark and Figure S
 (feasibility_frontier.pdf). §6 carries a compact paragraph. e57 assembles the
 (K, ρ) placement from committed CSVs — all three regimes are occupied by real
 cells (WVS: unnecessary; ESS national scan: left of the floor; small-area

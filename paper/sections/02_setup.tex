@@ -1,7 +1,10 @@
 \section{Setup and the two targets}\label{sec:setup}
 
-The object we deploy is the exact simultaneous band of Theorem~\ref{thm:exact}; the
-impossibility below (Theorem~\ref{thm:impossible}) is a scope boundary delimiting when a
+The theoretical anchor is the exact simultaneous band of
+Theorem~\ref{thm:exact}; the unsurveyed-target implementation uses
+leave-one-out centering, whose residual asymmetry is characterized in
+Section~\ref{sec:theory}. The impossibility below
+(Theorem~\ref{thm:impossible}) is a scope boundary delimiting when a
 design-aware correction to that band is even available.
 
 \paragraph{Objects.} We observe $K$ source countries, indexed $c=1, \dots, K$, treated
@@ -56,7 +59,8 @@ one row.
 Procedure & Target & Randomness & Assumptions & Guarantee \\
 \midrule
 Clustered PCB (anchor) & T1 $\Ftilde_{\text{new}}$ & country exch. & --- &
-  exact $\ge1{-}\alpha$, every $K$ (Thm~\ref{thm:exact}) \\
+  exact, every $K$, under symmetric centers (Thm~\ref{thm:exact});
+  LOO deployment audited (\texttt{e58}) \\
 \ \ same band, latent reading & T2 $F_{\text{new}}$ & + design noise &
   noise tail, anti-conc. & $1{-}\alpha{-}\mathrm{gap}$, gap${}\downarrow$ with
   $\rho$ (Thm~\ref{thm:oracle}b) \\

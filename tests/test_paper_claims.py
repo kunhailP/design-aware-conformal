@@ -482,14 +482,16 @@ def test_feasibility_frontier():
     tau = (0.02 - 0.0061) / 0.0943
     assert int(np.ceil(1 + 2 / tau ** 2)) == 94
     _present("its intercept, $\\sqrt{2/(K-1)}$ the law",
-             "Universal reliability floor")
+             "Unbiased-estimation reliability floor")
 
 
 def test_cross_country_prevalence():
     """S4 prevalence paragraph + Sec. 7: d = 6 on both outcomes at 90%, the
     p<=alpha sets reproduce the joint-band net sets exactly, and the named
     six are subsets of the certified sets."""
-    from pcb.inference.prevalence import true_discoveries
+    from pcb.inference.prevalence import (prevalence_lower_bound,
+                                          true_discoveries,
+                                          true_discoveries_subset)
     d = _csv("ess_prevalence.csv")
     j = _csv("ess_joint_claims.csv")
     for oc in ("trstprl", "stfdem"):
@@ -500,6 +502,14 @@ def test_cross_country_prevalence():
         assert set(g.cntry[g.p_net <= 0.10]) == certified, oc
         named = set(g.nsmallest(6, "p_net").cntry)
         assert named <= certified, (oc, named - certified)
+        # naming is licensed only by the CLOSURE-CORRECT subset bound: the
+        # six smallest-p countries must re-certify at d(S)=6 within the full
+        # 33-country closed testing (not as their own family)
+        assert true_discoveries_subset(
+            sorted(g.p_net)[:6], g.p_net.tolist(), 0.10) == 6, oc
+        out = prevalence_lower_bound(dict(zip(g.cntry, g.p_net)), 0.10)
+        assert out["d"] == 6 and out["named_covers_d"], oc
+        assert set(out["countries_named"]) == named, oc
     _present("at least six", "closed testing across the thirty-three")
 
 

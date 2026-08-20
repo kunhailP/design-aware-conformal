@@ -90,31 +90,80 @@ def claim_family_pvalues(curves: np.ndarray, boots: np.ndarray,
                 p_any_adjacent=min(p_dec[s] for s in adjacent))
 
 
-def true_discoveries(pvals, alpha: float = 0.10) -> int:
-    """Goeman-Solari 1-alpha lower confidence bound on the number of true
-    claims among all of `pvals`, via closed testing with Simes local tests.
-
-    Requires the p-values to be valid and independent across units (or PRDS),
-    which the per-country design bootstraps satisfy. Simultaneous over every
-    subset: quoting d together with the names of the d smallest-p countries
-    costs nothing further.
-    """
+def _h(pvals, alpha: float) -> int:
+    """Size of the largest subset of the FULL family that its own Simes test
+    fails to reject: h(alpha) in Goeman et al.'s closed-testing shortcut.
+    Checking the k largest p-values suffices, because enlarging any p-value
+    keeps Simes non-rejecting."""
     p = np.sort(np.asarray(pvals, float))[::-1]          # descending
-    m = p.size
-    k_max = 0
-    for k in range(1, m + 1):
+    h = 0
+    for k in range(1, p.size + 1):
         q = np.sort(p[:k])                               # k largest, ascending
         if np.all(q > alpha * np.arange(1, k + 1) / k):  # Simes fails to reject
-            k_max = k
-    return int(m - k_max)
+            h = k
+    return h
+
+
+def true_discoveries(pvals, alpha: float = 0.10) -> int:
+    """Goeman-Solari 1-alpha lower confidence bound on the number of true
+    claims among ALL of `pvals`, via closed testing with Simes local tests
+    (d = m - h). Requires the p-values valid and independent across units (or
+    PRDS), which the per-country design bootstraps satisfy."""
+    return int(len(np.asarray(pvals, float)) - _h(pvals, alpha))
+
+
+def true_discoveries_subset(sub_pvals, full_pvals, alpha: float = 0.10) -> int:
+    """The same 1-alpha simultaneous bound, read on a SUBSET post hoc.
+
+    Closed testing makes the bound simultaneous over every subset, but the
+    subset bound must respect the closure over the FULL family: an
+    intersection hypothesis inside S is rejected only if every superset up to
+    the full family is locally rejected. With Simes local tests this reduces
+    to the shortcut (Goeman--Solari 2011; Goeman et al. 2019 / the `hommel`
+    formula): with h = h(alpha) computed once on the full family,
+
+        d(S) = max_{1<=u<=|S|} [ 1 - u + #{ p in S : p <= u*alpha/h } ],
+
+    and d(S) = |S| when h = 0. Running `true_discoveries` on the subset alone
+    would treat S as its own family, ignore the closure, and can be
+    anti-conservative (e.g. full p = (.04, .06, .5) at alpha = .1 gives
+    d(all) = 1; the naive subset bound on (.04, .06) would claim 2, the
+    closure-correct bound is 1)."""
+    sub = np.sort(np.asarray(sub_pvals, float))
+    h = _h(full_pvals, alpha)
+    if h == 0:
+        return int(sub.size)
+    best = 0
+    for u in range(1, sub.size + 1):
+        best = max(best, 1 - u + int(np.sum(sub <= u * alpha / h)))
+    return int(max(best, 0))
 
 
 def prevalence_lower_bound(pvalue_per_country: dict, alpha: float = 0.10) -> dict:
     """Convenience wrapper: {country: p} -> the prevalence statement.
 
-    Returns {'d': lower bound, 'alpha': alpha, 'countries_named':
-    the d smallest-p countries (nameable at no extra cost, by simultaneity)}.
+    Two distinct objects, both simultaneously valid at level alpha because
+    closed testing licenses reading the bound on EVERY subset post hoc
+    (Goeman & Solari 2011, Thm/Cor on simultaneity over subsets):
+
+      d                 lower bound on true discoveries among ALL units;
+      countries_named   the largest k such that the k smallest-p units S_k
+                        satisfy d(S_k) = k -- i.e. a set whose members are
+                        ALL true discoveries at the same simultaneous level.
+
+    The global d alone does not license naming the d smallest-p units (the
+    bound says "at least d among all", not "these d"); the named set is
+    therefore RE-CERTIFIED on its closure-correct subset bound
+    (`true_discoveries_subset`) before being returned. `named_covers_d`
+    reports whether len(countries_named) == d.
     """
     items = sorted(pvalue_per_country.items(), key=lambda kv: kv[1])
-    d = true_discoveries([p for _, p in items], alpha)
-    return dict(d=d, alpha=alpha, countries_named=[c for c, _ in items[:d]])
+    pvals = [p for _, p in items]
+    d = true_discoveries(pvals, alpha)
+    k_named = 0
+    for k in range(1, len(items) + 1):
+        if true_discoveries_subset(pvals[:k], pvals, alpha) == k:
+            k_named = k
+    return dict(d=d, alpha=alpha,
+                countries_named=[c for c, _ in items[:k_named]],
+                named_covers_d=(k_named >= d))

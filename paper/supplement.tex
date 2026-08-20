@@ -635,20 +635,20 @@ the \emph{cross-national} application: many-unit settings (subnational areas, sc
 clinics) routinely have $K\ge94$, where the reliability gate can open.
 \end{remark}
 
-\paragraph{The floor is universal, not the selector's.} Proposition~1(b) is an
+\paragraph{The floor is not the selector's.} Proposition~1(b) is an
 algorithmic identity of the \emph{frozen} procedure. The natural objection is
 that $94$ is an artifact of our thresholds; the following lemma removes the
-procedure from the statement.
+procedure from the statement, for the class the deployed diagnostic lives in.
 
-\begin{lemma}[Universal reliability floor]\label{lem:floor}
+\begin{lemma}[Unbiased-estimation reliability floor]\label{lem:floor}
 At the Gaussian member of the observation model, let $\widehat V$ be any
-unbiased estimator of a variance $\sigma^2$ built from $K$ exchangeable
+\emph{unbiased} estimator of a variance $\sigma^2$ built from $K$ exchangeable
 population summaries with unknown mean. Then
 $\operatorname{Var}(\widehat V)\ge2\sigma^4/(K-1)$: the relative standard error
-of \emph{any} such estimator is at least $\sqrt{2/(K-1)}$. Consequently any
-correction procedure that requires its estimated noise scale to have relative
-reliability $\tau$ before acting is infeasible below $K=1+2/\tau^2$, whatever
-the estimator.
+of any such estimator is at least $\sqrt{2/(K-1)}$. Consequently any
+correction that relies on an unbiased noise-variance estimate with a
+relative-reliability requirement $\tau$ is infeasible below $K=1+2/\tau^2$,
+whatever the (unbiased) estimator.
 \end{lemma}
 
 \begin{proof}
@@ -662,13 +662,20 @@ holds by construction on every realization; the lemma adds that no alternative
 estimator escapes the same floor at the member where spread assignments are
 hardest to distinguish (the $S\equiv0$ neighbourhood of Theorem~1's
 construction). The frozen $\tau_D=0.147$ is one instantiation; $94$ is its
-intercept, $\sqrt{2/(K-1)}$ the law.
+intercept, $\sqrt{2/(K-1)}$ the law for this estimator class. Two scope
+notes. Biased, shrinkage, or prior-informed estimators are outside the
+lemma; a minimax version allowing bias (bounding
+$\inf_{\widehat V}\sup_{\sigma^2}\mathbb E[(\widehat V-\sigma^2)^2/\sigma^4]$)
+would be the fully universal statement and is left open. And the deployed
+diagnostic sits inside the class: the frozen SE formula is built on the
+unbiased $K$-cluster variance, so Proposition~1(b)'s floor holds on every
+realization by construction, not only at the Gaussian member.
 \end{proof}
 
 \begin{remark}[Three regimes and the feasibility frontier]\label{rem:frontier}
-Two universal quantities govern the design-aware correction: its maximal width
+Two structural quantities govern the design-aware correction: its maximal width
 gain $1-\sqrt{1-\rho^2}$ (AW-1 below, second-order in $\rho$) and the
-reliability floor $\sqrt{2/(K-1)}$ (Lemma~\ref{lem:floor}). Together they split
+unbiased-estimation reliability floor $\sqrt{2/(K-1)}$ (Lemma~\ref{lem:floor}). Together they split
 the $(K,\rho)$ plane into three regimes: \emph{unnecessary} ($\rho$ small ---
 there is nothing worth removing), \emph{unlearnable} ($\rho$ large but
 $K<1+2/\tau^2$ --- the need is real and no estimator is reliable enough to
@@ -1030,10 +1037,18 @@ Kingdom, Greece, Ukraine, Israel, Italy) and $d=6$ on \texttt{stfdem} (Cyprus,
 Spain, Israel, Ukraine, Hungary, the United Kingdom). Closed testing trims the
 certified sets' marginal members (Spain and Hungary on \texttt{trstprl}, France
 on \texttt{stfdem}), which is the honest gap between a per-country-$\alpha$
-count and a simultaneous one. Because the bound is simultaneous over every
-subset, naming the $d$ smallest-$p$ countries costs nothing further; the
-contract tests verify validity on planted truth
-(\texttt{tests/test\_prevalence.py}).
+count and a simultaneous one. Naming is licensed by simultaneity over
+subsets, read correctly: the global $d$ says ``at least six among all
+thirty-three,'' not ``these six,'' so the named set is re-certified on its own
+subset bound \emph{within the full closed testing} --- with $h$ the largest
+subset of all thirty-three surviving its own Simes test,
+$d(S)=\max_{1\le u\le|S|}\,[\,1-u+\#\{p_i\in S: p_i\le u\alpha/h\}\,]$
+\citep[the closure shortcut of][]{goeman2011multiple} --- and on both
+outcomes the six smallest-$p$ countries satisfy $d(S)=6$, so the named sets
+above are themselves simultaneous $90\%$ statements. (Running the subset as
+its own family would ignore the closure and can over-count; the contract
+tests pin the distinction and verify validity on planted truth,
+\texttt{tests/test\_prevalence.py}.)
 
 \paragraph{The small-area activation, in full (\texttt{e54}, \texttt{e55}).}
 The one place in this paper where the design-aware branch fires on real data is

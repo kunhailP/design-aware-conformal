@@ -95,3 +95,46 @@ def test_prevalence_bound_validity_and_power():
     mc = 3 * np.sqrt(ALPHA * (1 - ALPHA) / reps)
     assert viol / reps <= ALPHA + mc, f"anti-conservative: {viol/reps:.3f}"
     assert found / reps >= 0.5 * m1, f"no power: mean d = {found/reps:.2f}"
+
+
+def test_subset_bound_respects_closure():
+    """The named-set logic must use the closure-correct subset bound, not the
+    subset run as its own family. Hand-checked example: full p = (.04,.06,.5)
+    at alpha=.1 gives d(all)=1 (h=2: {.06,.5} survives its own Simes); the
+    naive subset bound on {.04,.06} would claim 2, but H_{.06} is not
+    closed-rejected (its superset {.06,.5} survives), so the correct subset
+    bound is 1."""
+    from pcb.inference.prevalence import (true_discoveries,
+                                          true_discoveries_subset)
+    full = [0.04, 0.06, 0.5]
+    assert true_discoveries(full, 0.10) == 1
+    naive = true_discoveries([0.04, 0.06], 0.10)
+    assert naive == 2                              # what the naive read gives
+    assert true_discoveries_subset([0.04, 0.06], full, 0.10) == 1
+    # consistency: subset bound on the full set equals the global bound
+    assert true_discoveries_subset(full, full, 0.10) == 1
+    # and when everything is tiny, the named prefix re-certifies at full size
+    from pcb.inference.prevalence import prevalence_lower_bound
+    out = prevalence_lower_bound({c: 0.001 for c in "abcdefgh"}, 0.10)
+    assert out["d"] == 8 and len(out["countries_named"]) == 8
+    assert out["named_covers_d"]
+
+
+def test_named_set_recertifies_under_planted_truth():
+    """End to end: the returned named set always satisfies d(S)=|S| under the
+    closure-correct subset bound, on draws with planted declines."""
+    from pcb.inference.prevalence import (prevalence_lower_bound,
+                                          true_discoveries_subset)
+    rng = np.random.default_rng(29)
+    base = np.tile(np.linspace(0.1, 0.8, T), (4, 1))
+    for _ in range(30):
+        pvals = {}
+        for c in range(8):
+            truth = base + (0.08 if c < 3 else 0.0) * np.arange(4)[:, None]
+            obs, boots = _panel(rng, 4, 1600, np.clip(truth, 0, 1), nboot=300)
+            pvals[c] = claim_family_pvalues(obs, boots, CORE)["p_net"]
+        out = prevalence_lower_bound(pvals, ALPHA)
+        named_p = sorted(pvals.values())[:len(out["countries_named"])]
+        if named_p:
+            assert true_discoveries_subset(
+                named_p, list(pvals.values()), ALPHA) == len(named_p)

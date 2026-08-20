@@ -1,8 +1,8 @@
 """E57 — the feasibility frontier, assembled from committed results.
 
-Two universal quantities govern the design-aware correction: the maximal width
+Two structural quantities govern the design-aware correction: the maximal width
 gain 1 - sqrt(1 - rho^2) (AW-1) and the reliability floor sqrt(2/(K-1))
-(supplement Lemma: universal floor -- any unbiased variance estimator from K
+(supplement Lemma: unbiased-estimation floor -- any unbiased variance estimator from K
 exchangeable populations, not just the frozen diagnostic). Their frozen
 instantiations rho_0 = 0.47 and K >= 1 + 2/tau_D^2 = 94 split the (K, rho)
 plane into three regimes: unnecessary / unlearnable / feasible.
