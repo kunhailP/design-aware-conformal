@@ -29,10 +29,10 @@ independent environments):
 ### Step 0 — contract tests (no data, ~20 s)
 
 ```bash
-python -m pytest tests/ -q          # 100 tests
+python -m pytest tests/ -q          # 104 tests
 ```
 
-70 theorem↔code contract tests plus the 30-check claim ledger. **If this
+70 theorem↔code contract tests plus the claim ledger. **If this
 passes, every headline number in the manuscript matches the committed CSVs**
 — the ledger is the authoritative map from paper claims to artifacts (each
 test names the CSV and the claim text it pins).
@@ -75,11 +75,17 @@ To verify bit-identity yourself: back up the committed CSV, rerun the
 experiment, and `diff` — all runs are deterministic under fixed seeds
 (`pcb.util.det_seed`).
 
-### Step 3 — figures and paper (~2 min)
+### Step 3 — figures and paper (~3 min)
 
 ```bash
 make figures && make paper
 ```
+
+Supplement figures are matplotlib (`pcb/figures/`); the four **main** figures
+are drawn by an R publication layer (`paper_figures/main_figures.R`, run via
+`make figures-r`) that reads only committed `results/*.csv` — R >= 4.1 with
+ggplot2, dplyr/tidyr/readr, cowplot, ggrepel, sf, scico. The committed PDFs
+under `paper/figures/` are the canonical versions either way.
 
 ## 3. Where each number lives
 
