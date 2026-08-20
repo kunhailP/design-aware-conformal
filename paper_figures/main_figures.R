@@ -8,9 +8,9 @@ suppressPackageStartupMessages({
   library(sf); library(jsonlite)
 })
 
-NAVY <- "#2B4C7E"; TEAL <- "#3A7D78"; RUST <- "#B45F47"
-AMBER <- "#C89B4B"; GRAYN <- "#777A7D"; GRID <- "#E5E5E5"
-SEQ5 <- c("#DDDBD3", "#B9C7CE", "#7FA3B5", "#41758F", NAVY)
+NAVY <- "#1F1F1F"; TEAL <- "#1F1F1F"; RUST <- "#8F3B2C"
+AMBER <- "#6E6E6A"; GRAYN <- "#7A7A76"; GRID <- "#E7E6E2"
+SEQ5 <- c("#F4F3EE", "#D9D8D3", "#B3B2AD", "#7C7B77", "#3B3A37")
 
 thm <- function(base = 8.5) theme_minimal(base_size = base) +
   theme(panel.grid.minor = element_blank(),
@@ -64,8 +64,8 @@ fig1 <- function() {
                  color = "white", size = .35) +
     annotate("text", x = c(2.9, 4.6, 7.2), y = c(.84, .74, .60),
              label = c("30%", "15%", "5%"), color = "white", size = 2.6) +
-    scale_fill_scico(palette = "batlow", limits = c(0, 90),
-                     name = "coverage %") +
+    scale_fill_gradient(low = "grey20", high = "grey97",
+                        limits = c(0, 90), name = "coverage %") +
     scale_x_continuous(breaks = c(2, 4, 6, 8, 10), expand = c(0, 0)) +
     scale_y_continuous(breaks = c(0, .3, .6, .9), expand = c(0, 0)) +
     labs(x = "trajectory length L", y = "round-to-round dependence",
@@ -119,20 +119,18 @@ fig2 <- function() {
                        `ESS small-area (e54)` = "ESS small-area",
                        `ESS small-area, common NUTS level` =
                          "small-area, one NUTS level"))
-  surf <- expand.grid(K = exp(seq(log(8), log(420), length.out = 60)),
-                      rho = seq(0, .62, length.out = 120)) |>
-    mutate(G = 1 - sqrt(1 - rho^2))
   glines <- tibble(g = c(.02, .05, .10, .20)) |>
     mutate(rho = sqrt(1 - (1 - g)^2),
            lab = paste0("cut ", 100 * g, "%"))
   A <- ggplot() +
-    geom_raster(data = surf, aes(K, rho, fill = G), alpha = .30) +
-    scale_fill_scico(palette = "batlow", guide = "none", begin = .15,
-                     end = .70) +
-    geom_hline(data = glines, aes(yintercept = rho), color = "white",
+    annotate("rect", xmin = 8, xmax = 420, ymin = 0, ymax = RHO0,
+             fill = "grey95") +
+    annotate("rect", xmin = KST, xmax = 420, ymin = RHO0, ymax = .62,
+             fill = "grey95") +
+    geom_hline(data = glines, aes(yintercept = rho), color = "grey80",
                size = .3) +
     geom_text(data = glines, aes(x = 400, y = rho + .012, label = lab),
-              color = "grey25", size = 2.5, hjust = 1) +
+              color = "grey45", size = 2.5, hjust = 1) +
     geom_hline(yintercept = RHO0, color = NAVY, linetype = "dashed",
                size = .5) +
     geom_vline(xintercept = KST, color = NAVY, linetype = "dashed",
@@ -149,22 +147,23 @@ fig2 <- function() {
     annotate("text", x = 10, y = .095, label = "unnecessary", fontface = 3,
              color = "grey20", size = 3.0, hjust = 0) +
     geom_linerange(data = d, aes(x = K, ymin = rho_lcb, ymax = rho_hat,
-                                 color = ds), size = .35, alpha = .6) +
+                                 group = ds), color = "grey62", size = .3) +
     geom_point(data = filter(d, !activated),
                aes(K, rho_lcb, color = ds, shape = ds), size = 1.5,
                stroke = .6, fill = "white") +
     geom_point(data = filter(d, activated), aes(K, rho_lcb), shape = 21,
                size = 3.4, color = NAVY, fill = NA, stroke = .7) +
     geom_point(data = filter(d, activated), aes(K, rho_lcb, shape = ds),
-               size = 1.7, color = TEAL) +
+               size = 1.7, color = "#1F1F1F", fill = "#1F1F1F") +
+    guides(shape = guide_legend(override.aes = list(fill = "white"))) +
     scale_shape_manual(values = c(`WVS items` = 22, `ESS national` = 21,
                                   `ESS small-area` = 24,
                                   `small-area, one NUTS level` = 23),
                        name = NULL) +
-    scale_color_manual(values = c(`WVS items` = AMBER,
-                                  `ESS national` = RUST,
-                                  `ESS small-area` = TEAL,
-                                  `small-area, one NUTS level` = TEAL),
+    scale_color_manual(values = c(`WVS items` = "#1F1F1F",
+                                  `ESS national` = "#1F1F1F",
+                                  `ESS small-area` = "#1F1F1F",
+                                  `small-area, one NUTS level` = "#1F1F1F"),
                        name = NULL) +
     scale_x_log10(limits = c(8, 420), expand = c(0, 0)) +
     scale_y_continuous(limits = c(0, .62), expand = c(0, 0)) +
@@ -172,7 +171,7 @@ fig2 <- function() {
          y = expression(hat(rho) ~ "(whisker: LCB to estimate)"),
          title = "A.  The feasibility frontier") +
     thm() +
-    theme(legend.position = c(.52, .015), legend.justification = c(.5, 0),
+    theme(legend.position = c(.985, .015), legend.justification = c(1, 0),
           legend.key.size = unit(.32, "cm"),
           legend.background = element_blank())
   sa <- read_csv("results/small_area_transport.csv",
@@ -192,7 +191,7 @@ fig2 <- function() {
     scale_x_continuous(limits = c(.62, 1.08),
                        breaks = c(.7, .8, .9, 1.0)) +
     labs(x = "width vs conservative", y = NULL,
-         title = "B.  What activation buys") +
+         title = "B.  Activation payoff") +
     thm() + theme(panel.grid.major.y = element_blank())
   fig <- plot_grid(A, B, nrow = 1, rel_widths = c(2.62, 1.05))
   ggsave("paper/figures/feasibility_frontier.pdf", fig, width = 5.5,
