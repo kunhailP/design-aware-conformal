@@ -42,22 +42,22 @@ Repeated Cross-National Surveys}
 Uncertainty should attach to the unit of the claim; repeated cross-national
 surveys attach it to the wrong unit twice: a wave-pair contrast is read as a
 persistent, distribution-wide trend, and the estimated distributions it
-calibrates on are treated as truth. For the claim unit, a deployable
+calibrates on are treated as truth. For the claim unit, an
 instrument: a finite-sample simultaneous band over a country's
 response-distribution \emph{trajectory}, the country as exchangeable
 unit, a graded claim family on one band---valid at any $K$ for the
 estimated trajectory, bounded for the latent one, inside a selector
 whose nested fallbacks preserve validity under any rule. For the
 calibration unit, a boundary: the correction is non-identified
-without the design-noise law and unreachable across countries with it, yet at
-the small-area unit of the same survey it cuts the fallback band by a
+without the design-noise law, unreachable across countries with it, yet at
+the same survey's small-area unit it cuts the fallback band by a
 certified $16$--$22\%$. In the ESS a marginal twenty of
 thirty countries falls to net decline in six.
 Over 2002--2024 none certifies a persistent slide, a rung only crisis-scale
 change clears; twenty-three of thirty-three certify both falls and rises,
 span erosion certifies in eight, and closed testing across countries
 certifies at least six true decliners. On the World Values
-Survey the same rung shift cuts the certified set $1.9$--$4.8\times$; the
+Survey the rung shift cuts the certified set $1.9$--$4.8\times$; the
 survivors are post-communist and Arab-Spring states.
 \end{abstract}
 
@@ -91,23 +91,34 @@ This research received no specific grant from any funding agency, commercial or
 not-for-profit sector.
 
 \section*{Acknowledgments}
-% NOTE (author to complete before submission): final AI-use disclosure per the
-% journal's policy — tool name, version, dates, access interface, and scope of
-% assistance — to be written by the author here.
+% NOTE (author to complete before submission): PA/CUP generative-AI policy
+% splits the disclosure by use. (1) AI assistance to CODE and DATA ANALYSIS
+% belongs in the methods/analysis description (add a sentence in Section 3's
+% Deployment paragraph or in the Data Availability Statement), with tool name,
+% version, dates of use, access interface, and a full description of how it
+% was used. (2) TEXT generation/revision and proof-argument revision belong
+% HERE, with the same details. Figures produced by AI-assisted code need only
+% the code-use disclosure. Replace the placeholder sentence below.
 The author used AI assistance in preparing parts of the analysis code and in
 revising proof arguments; a full disclosure follows the journal's generative-AI
 policy. All AI-assisted output was reviewed and verified by the author, who takes
 full responsibility for the content of this article.
 
 \section*{Data Availability Statement}
-Simulation, theory, and benchmark results are deterministic under fixed seeds with no
-external data, and each theorem is paired with a machine-checked contract test. The ESS,
-World Values Survey, and AmericasBarometer/LAPOP microdata are licensed to their
-providers and cannot be redistributed; all code that runs on them is public, the
-replication package documents the exact variables, waves, and retrieval steps,
-and the package will be deposited in the Political Analysis Dataverse upon
-conditional acceptance. The editor has been notified of the restricted access at
-submission.
+Replication code for this article is available at
+\url{https://github.com/kunhailP/design-aware-conformal}; the package will be
+deposited in the Political Analysis Dataverse with a version tag upon
+conditional acceptance. Simulation, theory, and benchmark results are
+deterministic under fixed seeds with no external data, and each theorem is
+paired with a machine-checked contract test. The survey microdata
+\citep{essdata2024,wvsdata2024,lapopdata2023} are licensed to their providers
+and cannot be redistributed; all code that runs on them is public, and the
+replication package documents the exact file editions, variables, retrieval
+steps, and sha256 checksums, alongside the public V-Dem and Claassen inputs
+\citep{vdemdata2025,claassendata2020}. Three headline analyses have been
+verified to reproduce the committed result tables bit-identically from the raw
+licensed files in two independent environments. The editor has been notified
+of the restricted access at submission.
 
 \section*{Competing Interests}
 The author declares none.

@@ -36,7 +36,7 @@ def use():
     plt.rcParams.update({
         "figure.facecolor": BG, "axes.facecolor": BG, "savefig.facecolor": BG,
         "font.family": "sans-serif",
-        "font.sans-serif": ["DejaVu Sans", "Helvetica", "Arial"],
+        "font.sans-serif": ["Arial", "Verdana", "DejaVu Sans", "Helvetica"],
         "font.size": 8, "axes.titlesize": 8.5, "axes.labelsize": 8,
         "xtick.labelsize": 7.5, "ytick.labelsize": 7.5, "legend.fontsize": 7.5,
         "axes.edgecolor": MUTED, "axes.labelcolor": TEXT,
