@@ -137,9 +137,14 @@ isotonic_tighten <- function(lo, hi) {
 #' band for a new population's curve out. Deconvolution is used only when four
 #' target-blind gates certify it is reliable at this K; otherwise the method
 #' reduces to the exact clustered band (low design noise) or a conservative
-#' envelope. The deployed guarantee is exact 1 - alpha for the estimated
-#' trajectory whenever the deconvolution branch is unreachable (K < 94 at the
-#' frozen constants), and 1 - alpha - delta_ucb(D) when it is live.
+#' envelope. The deployed guarantee is exact 1 - alpha for the SURVEY-ESTIMATE
+#' trajectory (T1) whenever the deconvolution branch is unreachable (K < 94 at
+#' the frozen constants); coverage of the latent trajectory then differs by the
+#' Theorem-2(b) design-noise gap, bounded through \code{rho_hat}. When the
+#' branch is live (K >= 94) the reported 1 - alpha - delta_ucb(D) is a frozen
+#' CALIBRATED bound on latent (T2) coverage, fit on the development grid and
+#' validated on sealed runs -- not a theorem constant. The \code{target}
+#' element of the result names which trajectory the level refers to.
 #'
 #' @param cal_errors K x T matrix: transport-error curves E_c(t) of the K
 #'   source populations over a fixed T-threshold grid.
@@ -151,7 +156,8 @@ isotonic_tighten <- function(lo, hi) {
 #' @return An object of class \code{dapcb}: a list with elements \code{lo},
 #'   \code{hi}, \code{selected_branch}, \code{rho_hat}, \code{rho_lcb},
 #'   \code{reliability}, \code{delta_ucb}, \code{gain_lcb},
-#'   \code{coverage_level}, \code{fallback_reason}, \code{overlap_warning}.
+#'   \code{coverage_level}, \code{target}, \code{fallback_reason},
+#'   \code{overlap_warning}.
 #' @examples
 #' K <- 30; T_ <- 8
 #' E <- matrix(rnorm(K * T_, 0, 0.05), K, T_)
@@ -211,6 +217,7 @@ dapcb <- function(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE) {
     }
   }
   cov <- 1 - alpha - (if (feasible) d_ucb else 0)
+  target <- if (feasible) "latent (T2, calibrated bound)" else "survey-estimate (T1)"
 
   lo <- center - radius; hi <- center + radius
   if (tighten) {
@@ -224,14 +231,15 @@ dapcb <- function(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE) {
     lo = lo, hi = hi, selected_branch = branch,
     rho_hat = sqrt(mean(V^2)) / mean(s), rho_lcb = rl, reliability = D,
     delta_ucb = d_ucb, gain_lcb = gain_lcb, coverage_level = cov,
-    fallback_reason = reason, overlap_warning = warn), class = "dapcb")
+    target = target, fallback_reason = reason, overlap_warning = warn),
+    class = "dapcb")
 }
 
 #' @export
 print.dapcb <- function(x, ...) {
   cat(sprintf(
-    "dapcb: branch=%s, coverage>=%.3f, mean width=%.3f\n  rho_hat=%.3f (LCB %.3f), D=%.3f, delta_UCB=%.3f%s\n",
-    x$selected_branch, x$coverage_level, mean(x$hi - x$lo),
+    "dapcb: branch=%s, coverage>=%.3f [%s], mean width=%.3f\n  rho_hat=%.3f (LCB %.3f), D=%.3f, delta_UCB=%.3f%s\n",
+    x$selected_branch, x$coverage_level, x$target, mean(x$hi - x$lo),
     x$rho_hat, x$rho_lcb, x$reliability, x$delta_ucb,
     if (!is.nan(x$gain_lcb)) sprintf(", gain_LCB=%.3f", x$gain_lcb) else ""))
   if (nzchar(x$fallback_reason)) cat("  fallback:", x$fallback_reason, "\n")

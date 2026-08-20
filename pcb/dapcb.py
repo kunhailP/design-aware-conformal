@@ -3,10 +3,18 @@
 One entry point, `dapcb(...)`, wraps the *nominal-safe* adaptive selector
 (SAFE_SELECTOR_SPEC.md): it takes the transport-error curves of source
 populations, each with a design-noise estimate from a complex-survey bootstrap,
-and returns a simultaneous band for a new population's latent curve — activating
+and returns a simultaneous band for a new population's curve — activating
 deconvolution ONLY when four target-blind gates pass, and otherwise reducing to
 clustered PCB (low design noise) or a conservative fallback (design noise real but
 information insufficient).
+
+Two targets, stated on the result (`fit.target`). The anchor branches (PCB,
+conservative) carry a finite-sample guarantee for the SURVEY-ESTIMATE
+trajectory T1 — the new population's estimated curve; their coverage of the
+LATENT curve T2 differs by the design-noise gap of Theorem 2(b), which is
+bounded through the reported `rho_hat`, not guaranteed away. Only the
+deconvolution branch targets T2 directly, and only in the regime where its
+reliability gate can open (K ≥ 94).
 
 Gates (all frozen on the development grid before any confirmatory validation):
   A need        ρ̂_LCB > ρ₀ = 0.47                 design noise materially large
@@ -16,16 +24,19 @@ Gates (all frozen on the development grid before any confirmatory validation):
   D stability   min_t (s_plug² − mean_c v²) > (0.05·max s_plug)²
 Deconvolution ⟺ A∧B∧C∧D; else ρ̂_LCB≤ρ₀ → PCB, else → conservative.
 
-Guarantee (Theorem 5′, marginal over the whole procedure): the band covers the
-target curve with probability ≥ `coverage_level`, finite-sample. The validity
+Guarantee (Theorem 5′, marginal over the whole procedure). The validity
 argument uses NO conditional-on-selection step: PCB and conservative are
 unstudentized and nested, so choosing between them is validity-free (Lemma NB);
 the non-nested deconvolution branch is charged a frozen α-budget (BUDGET_DEC)
 via a union bound, and only in the regime where its gate can open at all
 (K ≥ 94, a deterministic consequence of the reliability floor). At
-cross-national-survey K the guarantee is therefore exact 1−α with no remainder;
-when the deconvolution budget is live, `coverage_level = 1 − α − δ̂_UCB(D)`
-reports its estimated-law remainder through the observable diagnostic.
+cross-national-survey K (< 94) the band covers the SURVEY-ESTIMATE trajectory
+T1 with probability ≥ 1−α, finite-sample exact by the order-statistic theorem.
+When the deconvolution budget is live (K ≥ 94) the reported
+`coverage_level = 1 − α − δ̂_UCB(D)` is a FROZEN CALIBRATED BOUND on latent
+(T2) coverage: δ̂_UCB(D) = 0.0061 + 0.0943·D was fit and frozen on the
+development grid and validated on sealed runs — it is an empirical bound
+reported through the observable diagnostic D, not a theorem constant.
 
 Quickstart
 ----------
@@ -71,15 +82,20 @@ class DapcbResult:
     reliability: float              # diagnostic D (lower = safer)
     delta_ucb: float                # gate-B finite-K remainder bound
     gain_lcb: float                 # gate-C width-gain lower bound (nan if not evaluated)
-    coverage_level: float           # guaranteed lower bound on coverage
+    coverage_level: float           # lower bound on coverage of `target`:
+                                    # exact order-statistic theorem at K<94 (T1);
+                                    # frozen calibrated bound 1−α−δ̂_UCB at K≥94 (T2)
     fallback_reason: str            # '' if deconvolution was used
     overlap_warning: bool           # band hit the [0,1] boundary (uninformative there)
+    target: str = "survey-estimate (T1)"   # which trajectory the level refers to;
+                                    # 'latent (T2, calibrated bound)' when the
+                                    # deconvolution budget is live (K≥94)
 
     def __repr__(self):
         lo, hi = self.band
         w = float(np.mean(hi - lo))
         r = (f"DapcbResult(branch={self.selected_branch!r}, "
-             f"coverage≥{self.coverage_level:.3f}, mean_width={w:.3f}, "
+             f"coverage≥{self.coverage_level:.3f} [{self.target}], mean_width={w:.3f}, "
              f"ρ̂={self.rho_hat:.3f} (LCB {self.rho_lcb:.3f}), D={self.reliability:.3f}, "
              f"δ̂_UCB={self.delta_ucb:.3f}")
         if not np.isnan(self.gain_lcb):
@@ -232,10 +248,12 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
                       else "width gain insufficient (Ĝain_LCB ≤ g_min)"
                       ) + " → conservative fallback"
     # Marginal guarantee of the WHOLE procedure (not per realized branch):
-    # exact 1−α when the deconvolution branch is unreachable; 1−α−δ̂ once the
-    # α-budget exposes the estimated-law branch (its Theorem-4 remainder,
-    # reported via the observable δ̂_UCB diagnostic).
+    # K<94 → exact 1−α for the survey-estimate trajectory T1 (order-statistic
+    # theorem; latent coverage differs by the Theorem-2(b) gap, bounded via ρ̂);
+    # K≥94 → 1−α−δ̂_UCB for the latent trajectory T2, a frozen CALIBRATED bound
+    # (development-grid fit, sealed validation), not a theorem constant.
     cov = 1 - alpha - (d_ucb if feasible else 0.0)
+    target = "latent (T2, calibrated bound)" if feasible else "survey-estimate (T1)"
 
     lo, hi = center - radius, center + radius
     if tighten:
@@ -245,4 +263,4 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
     warn = bool(np.any(lo <= 0) and np.any(hi >= 1))
     return DapcbResult((lo, hi), branch, float(np.sqrt((V**2).mean()) / s.mean()),
                        float(rl), float(D), float(d_ucb), float(gain_lcb),
-                       float(cov), reason, warn)
+                       float(cov), reason, warn, target)
