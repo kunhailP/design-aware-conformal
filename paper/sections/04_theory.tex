@@ -6,7 +6,7 @@ Theorem~\ref{thm:safe} carries the guarantee through the selector, under any
 selection rule; Theorems~\ref{thm:oracle} and~\ref{thm:estimated} price what
 the deployed band does not get for free --- the latent rather than estimated
 trajectory, an estimated rather than known noise law. Proofs are in
-Appendix~\ref{app:proofs}; each theorem is paired with a machine-checked
+the Supplementary Material, Section~S1; each theorem is paired with a machine-checked
 contract test.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
@@ -30,7 +30,7 @@ and report $\rho$ rather than assume it away.
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
 Let the base band use the unstudentized cluster score $R_c=\max_t|E_c(t)|$, with
 a center satisfying the symmetric-construction condition
-(Appendix~\ref{app:proofs} states the four admissible cases). If the countries
+(the Supplementary Material states the four admissible cases). If the countries
 are exchangeable, then for every $K$ the band
 $\widehat B=\text{center}\pm\widehat q$, with $\widehat q$ the
 $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$, satisfies
@@ -72,7 +72,7 @@ $\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ is reserved
 for it (derivation in the Supplementary Material).
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
-Deploy Algorithm~\ref{alg:safe} with the unstudentized PCB and conservative
+Deploy Algorithm~\ref{alg:safe} with the unstudentized clustered and conservative
 branches, scores $\max_t|E_c(t)|$ and $\max_t(|E_c(t)|+z\widehat v_c(t))$, at
 level $\alpha_{\text{anchor}}$, and the deconvolution branch at
 $\alpha_{\text{dec}}$. Then, finite-sample and with no condition on the
@@ -92,7 +92,7 @@ by an anchor-domination lemma, and the remainder $\varepsilon_{K,B}$ they carry
 is charged to the deconvolution branch alone.
 
 The proof uses no conditional-on-selection step. A nested-band lemma does the
-work: the conservative score dominates the PCB score pointwise, and selection
+work: the conservative score dominates the clustered band's score pointwise, and selection
 between nested bands anchored at an exact band is validity-free. That is nested-conformal machinery
 \citep{gupta2022nested,yang2024selection}; our contribution is to engineer the
 branches so that it applies. A union bound then charges the one non-nested
@@ -102,12 +102,12 @@ Theorem~\ref{thm:exact}'s symmetric constructions: its residual asymmetry is
 $O(1/K^2)$, dispersion-ordered in the conservative direction (a heuristic for
 sup-scores, not a bound; Supplementary Material), and a $28$-cell simulation
 across four families finds no cell below the exact-construction floor beyond
-Monte Carlo error (\texttt{e58}). The strictly exact alternative is infeasible
+Monte Carlo error. The strictly exact alternative is infeasible
 at survey scale: halving the calibration set below $\lceil1/\alpha\rceil$ units
 makes the conformal radius infinite, exactly at the $K$ this paper works at.
 
-\paragraph{Efficiency.} The low-$\rho$ deconvolution/PCB width ratio is
-$1-\tfrac12\rho^2+O(\rho^4)$, proved; conservative $\supseteq$ PCB holds
+\paragraph{Efficiency.} The low-$\rho$ deconvolution-to-clustered width ratio is
+$1-\tfrac12\rho^2+O(\rho^4)$, proved; the conservative band contains the clustered one
 pointwise; and selection cannot inflate miscoverage
 (Theorem~\ref{thm:safe}). The remaining width results, one of them open, are in
-Appendix~\ref{app:proofs}.
+the Supplementary Material.

@@ -4,23 +4,25 @@ Comparative politics increasingly treats a national public as a
 \emph{distribution} rather than a mean. Trust in parliament in a country and year
 is a cumulative distribution function over a response scale. Repeated
 cross-national surveys---the European Social Survey
-\citep[ESS;][]{kaminska2017survey}, the World Values Survey, the AmericasBarometer
-\citep{lapop2023pulse}, let us track how that distribution moves across waves and
-\emph{transport} it: predict one country's trajectory from the others.
-Conformal methods are a natural tool, promising finite-sample,
-distribution-free coverage.
+\citep[ESS;][]{kaminska2017survey}, the World Values Survey (WVS), the
+AmericasBarometer \citep{lapop2021pulse}---generate claims about how those
+distributions evolve across waves. A second use follows: \emph{transporting}
+the trajectories, predicting one country's from the others', for which
+conformal methods are a natural tool, promising finite-sample,
+distribution-free coverage \citep{vovk2005algorithmic,lei2018distribution}.
 
 \paragraph{Two wrong units.} Uncertainty should be attached to the same unit as
-the substantive claim; claims from repeated surveys violate this twice. The
-\emph{claim} ``democratic trust is declining'' is typically built
-from a single wave-pair mean contrast, then narrated as a country-level trend
---- our instrument instead covers the whole trajectory at once, with a
-partially ordered family of claims read off one band, whose top rung is
+the substantive claim; claims from repeated surveys violate this twice. A
+common inferential move builds the \emph{claim} --- ``democratic trust is
+declining'' --- from a single wave-pair contrast and narrates it as a
+country-level trend \citep{foa2016democratic,foa2017signs,valgardsson2025crisis}.
+Our procedure instead covers the whole trajectory at once, with a partially
+ordered family of claims read off one band, whose top --- persistence --- is
 strictly stronger than the net trend the literature typically intends
-(Section~\ref{sec:political}). The second, subtler wrong unit is the
-calibration: the objects conformal transport
-calibrates on are themselves \emph{estimated} from complex probability samples,
-and standard practice plugs them in as truth.
+(Section~\ref{sec:claims}). The second, subtler wrong unit is the
+calibration: the objects conformal transport calibrates on are themselves
+\emph{estimated} from complex probability samples, and existing constructions
+plug them in as if exact \citep{dunn2023distribution,lee2023distribution}.
 
 The two errors are distinct. Writing $F_{c, r}(t)$ for country $c$'s latent CDF at
 threshold $t$ in wave $r$ and $\Ftilde_{c, r}(t)$ for its complex-survey estimate,
@@ -35,12 +37,12 @@ error is non-negligible the band is too wide, yet any correction subtracting the
 survey noise can make it too narrow, being itself estimated from few countries.
 
 \paragraph{Contributions.} We make four.
-\emph{First, the claim-unit problem, and an instrument for it.} We separate the
+\emph{First, the claim-unit problem, and a procedure for it.} We separate the
 claim unit (a wave-pair contrast standing in for a distribution-wide
 trajectory) from the calibration unit (the omitted design-error layer
 of~\eqref{eq:decomp}), and give a finite-sample simultaneous band over a
 country's whole trajectory whose partially ordered claim family is read off one
-coverage event. The two layers get two instruments: within-country
+coverage event. The two layers get two procedures: within-country
 \emph{certification} is a design-based simultaneous sup-$t$ band over the
 wave-pair contrast surface, while conformal transport calibrates cross-country
 prediction --- the theory's finite-sample language attaches to the transport
@@ -54,9 +56,8 @@ calibration is not a nuisance to correct away; it is an inferential boundary.
 \emph{Third, the feasibility boundary of the correction, and a procedure that
 respects it.} Even with the design-noise information supplied, the reliability
 diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$, so the deployed
-correction requires $K\ge94$ exchangeable populations; the two largest surveys
-fail in opposite ways --- the WVS clears the size barrier ($K\approx100$) with
-negligible design noise, the ESS has genuine clustered noise but $K\le33$. The
+correction requires $K\ge94$ exchangeable populations, and the two largest
+surveys fail in opposite ways (Section~\ref{sec:evidence}). The
 deployed selector is the theory's consequence: its anchor band is exact at any
 $K$ under its symmetric centers (conservative to $O(1/K^2)$ as deployed,
 Theorem~\ref{thm:exact}), its anchor branches are nested so selection among
@@ -64,18 +65,18 @@ them is validity-free, and the non-nested deconvolution branch is charged
 a frozen budget only where its gate can open (Theorem~\ref{thm:safe}). One
 unit down, on a region's departure from its national distribution
 ($K\approx230$--$290$), the same frozen selector does activate, and holding
-out whole countries confirms the region is the exchangeable unit
+out whole countries supports the region as the calibration unit
 (Section~\ref{sec:evidence}). (The clustered band is machinery shared
 with a companion paper on a non-survey domain, \citealp{park2026poverty}; new
 here is what the survey layer forces --- the impossibility, the floor, the safe
 selector, and the claim-family deployment.)
-\emph{Fourth, two named reanalyses where the instrument changes the substantive
+\emph{Fourth, two named reanalyses where the procedures change the substantive
 picture} (Section~\ref{sec:political}). For European trust the family
 certifies net decline in six of thirty (2018--2024), not the twenty flagged
 marginally. Over the full 2002--2024 record no country certifies
 persistence, twenty-three of thirty-three certify both declines and recoveries,
-and eight certify span erosion, all read off one band at one level with no
-multiplicity or endpoint-selection corrections. Globally,
+and eight certify span erosion, all read off one band at one level, with no
+further correction within a country across wave pairs or endpoint choices. Globally,
 applying a trajectory-persistence criterion to the Foa--Mounk
 ``deconsolidation'' battery on the WVS/EVS (1981--2022) cuts the wave-pair
 certified set by $2.6$--$6.5\times$. Aggregating per-item
@@ -83,6 +84,6 @@ certifications then turns the correction into a discovery: the thirteen-country
 \emph{certified core} concentrates in post-communist and Arab-Spring-aftermath
 states.
 
-Sections~\ref{sec:setup}--\ref{sec:discussion} proceed in that order: setup and
-impossibility, method, theory, validation, the real-data regime, the
-reanalyses, related work, scope.
+Sections~\ref{sec:setup}--\ref{sec:discussion} proceed in that order: setup
+and impossibility, the two procedures, theory, validation, the real-data
+regime, the reanalyses, scope.

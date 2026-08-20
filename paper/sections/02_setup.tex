@@ -19,8 +19,8 @@ invariance comes free: every claim below depends on responses only through
 threshold events, so nothing changes under monotone recoding of the ordinal
 scale. We do not see $F_{c, r}$; we see a complex-survey estimate
 $\Ftilde_{c, r}(t)=F_{c, r}(t)+S_{c, r}(t)$, where $S_{c, r}$ is design (sampling) error
-with a design variance $v_{c, r}(t)^2$ that a stratified-PSU / replicate-weight
-bootstrap can estimate. Define the transport score of a country as its worst-case
+with a design variance $v_{c, r}(t)^2$ that a stratified
+primary-sampling-unit (PSU) / replicate-weight bootstrap can estimate. Define the transport score of a country as its worst-case
 standardized deviation from the transport center,
 \[
 R_c \;=\; \max_{r, t}\frac{|F_{c, r}(t)-\mu_r(t)|}{\sigma(t)},
@@ -54,29 +54,30 @@ one row.
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{@{}lllll@{}}
+\begin{tabular}{@{}p{0.26\textwidth}p{0.21\textwidth}p{0.22\textwidth}p{0.24\textwidth}@{}}
 \toprule
-Procedure & Target & Randomness & Assumptions & Guarantee \\
+Procedure & Target & Key assumption & Guarantee \\
 \midrule
-Clustered PCB (anchor) & T1 $\Ftilde_{\text{new}}$ & country exch. & --- &
-  exact, every $K$, under symmetric centers (Thm~\ref{thm:exact});
-  LOO deployment audited (\texttt{e58}) \\
-\ \ same band, latent reading & T2 $F_{\text{new}}$ & + design noise &
-  noise tail, anti-conc. & $1{-}\alpha{-}\mathrm{gap}$, gap${}\downarrow$ with
-  $\rho$ (Thm~\ref{thm:oracle}b) \\
-Conservative envelope & T1 & country exch. & nested $\supseteq$ PCB &
-  inherits the anchor (Thm~\ref{thm:safe}) \\
-Deconvolution branch & T2 & + design bootstrap & (A1)--(A3), $K\ge94$ &
-  $1{-}\alpha{-}\varepsilon_{K,B}$; frozen calibrated bound
-  (Thm~\ref{thm:estimated}) \\
-Certification sup-$t$ (\S\ref{sec:political}) & contrast surface $D_{a,b}(t)$ &
-  survey design & bootstrap regularity & asymptotic simultaneous $1{-}\alpha$ \\
+Clustered conformal band (anchor) & survey-estimated trajectory &
+  country exchangeability & finite-sample, every $K$, under symmetric centers
+  (Thm~\ref{thm:exact}) \\
+\addlinespace[2pt]
+Same band, latent reading & latent trajectory & + design-noise tail and
+  anti-concentration & $1{-}\alpha{-}\mathrm{gap}$, gap shrinking with $\rho$
+  (Thm~\ref{thm:oracle}b) \\
+\addlinespace[2pt]
+Design-aware correction & latent trajectory & design law (A1)--(A3),
+  $K\ge94$ & $1{-}\alpha{-}\varepsilon_{K,B}$; deployed level a frozen
+  calibrated bound (Thm~\ref{thm:estimated}) \\
+\addlinespace[2pt]
+Certification band (\S\ref{sec:claims}) & within-country contrast surface &
+  survey-design bootstrap & asymptotic simultaneous $1{-}\alpha$ \\
 \bottomrule
 \end{tabular}
-\caption{Which procedure guarantees what. T1 is the survey-estimate trajectory,
-T2 the latent one; the certification instrument of
-Section~\ref{sec:political} is design-based and within-country, and the
-theory's finite-sample language does not transfer to it.}\label{tab:targets}
+\caption{Which procedure guarantees what. The conservative envelope (omitted)
+shares the anchor's row, containing it by construction; the certification
+band is design-based and within-country, and the theory's finite-sample
+language does not transfer to it.}\label{tab:targets}
 \end{table}
 
 \paragraph{What country exchangeability assumes.} The transport band's
@@ -113,15 +114,29 @@ one up to the conformal discreteness slack, which randomized smoothing
 exhausts. Uniform improvement requires shrinking the class of noise laws.
 \end{theorem}
 
-The reading is constructive (proof in Appendix~\ref{app:proofs}): a band that is both valid
+The reading is constructive (proof in the Supplementary Material, Section~S1): a band that is both valid
 and narrower than the plug-in must supply the design-noise law---replicate
 weights or a design bootstrap, exactly what Section~\ref{sec:method} uses.
 
 \begin{remark}[Beyond surveys]\label{rem:general}
 Nothing here is survey-specific: the result holds whenever conformal calibration
-uses estimated objects: MRP small-area outputs, learned or imputed features,
+uses estimated objects: model-based small-area outputs, learned or imputed features,
 meta-analytic effects. Design/measurement information is the identifying
 ingredient, and its reliability at finite $K$ is itself bounded
 (Proposition~\ref{prop:unreach}); confirmed outside surveys on a small-area
 calibration (Supplementary Material).
 \end{remark}
+
+\paragraph{Relation to existing work.} Conformal prediction has met complex
+surveys for unit-level prediction \citep{wieczorek2023design}, and
+cluster-as-unit constructions transport guarantees to an unseen cluster while
+treating its data as cleanly sampled
+\citep{dunn2023distribution,lee2023distribution}; our calibration objects are
+instead estimated under complex designs
+\citep{binder1983variances,lumley2010complex}. Noise-aware conformal methods
+correct under a \emph{known} noise model
+\citep{einbinder2024label,sesia2025adaptive,singer2025conformal};
+Theorem~\ref{thm:impossible} says that premise fails for design noise --- a
+deconvolution problem \citep{fan1991optimal} --- and
+Proposition~\ref{prop:unreach} that even a supplied law faces a finite-$K$
+floor.

@@ -28,10 +28,9 @@
 \DeclareMathOperator{\SE}{SE}
 
 \title{The Wrong Unit of Uncertainty:\\
-Simultaneous Inference for\\
-Repeated Cross-National Surveys}
+Simultaneous Inference for Repeated Cross-National Surveys}
 \author{Kunwoo Park\\
-\small Department of Politics, Kookmin University, Seoul, Republic of Korea\\
+\small Department of Political Science and International Relations, Kookmin University, Seoul, Republic of Korea\\
 \small \texttt{pkw31386094@gmail.com} \quad ORCID: 0009-0007-9067-8964}
 \date{}
 
@@ -39,26 +38,25 @@ Repeated Cross-National Surveys}
 \maketitle
 
 \begin{abstract}
-Uncertainty should attach to the unit of the claim; repeated cross-national
-surveys attach it to the wrong unit twice: a wave-pair contrast is read as a
-persistent, distribution-wide trend, and the estimated distributions it
-calibrates on are treated as truth. For the claim unit, an
-instrument: a finite-sample simultaneous band over a country's
-response-distribution \emph{trajectory}, the country as exchangeable
-unit, a graded claim family on one band---valid at any $K$ for the
-estimated trajectory, bounded for the latent one, inside a selector
-whose nested fallbacks preserve validity under any rule. For the
-calibration unit, a boundary: the correction is non-identified
-without the design-noise law, unreachable across countries with it, yet at
-the same survey's small-area unit it cuts the fallback band by a
-certified $16$--$22\%$. In the ESS a marginal twenty of
-thirty countries falls to net decline in six.
-Over 2002--2024 none certifies a persistent slide, a rung only crisis-scale
-change clears; twenty-three of thirty-three certify both falls and rises,
-span erosion certifies in eight, and closed testing across countries
-certifies at least six true decliners. On the World Values
-Survey the rung shift cuts the certified set $1.9$--$4.8\times$; the
-survivors are post-communist and Arab-Spring states.
+Repeated cross-national surveys are used to make claims about whole
+trajectories of national response distributions, while uncertainty is computed
+for single wave contrasts; and when country trajectories calibrate
+cross-country prediction, the calibration objects are themselves estimates
+from complex samples. We develop simultaneous inference that attaches
+uncertainty to both units. Within a country, one design-based band certifies a
+partially ordered family of trajectory claims --- from a single wave pair to
+persistent, distribution-wide decline --- with no further correction. Across
+countries, a clustered conformal band gives finite-sample coverage for
+survey-estimated trajectories; we prove that correcting toward the latent
+trajectory is unidentified without design-noise information, and characterize
+when the correction is unnecessary, unlearnable, or feasible --- infeasible at
+cross-national scale, active at the small-area unit of the same survey. In the
+European Social Survey, a marginal reading flags twenty of thirty countries;
+six certify net decline over 2018--2024. Over 2002--2024 none certifies a
+persistent slide, a claim only crisis-scale change clears, while closed
+testing certifies at least six true span decliners among thirty-three.
+The same discipline cuts the certified WVS/EVS deconsolidation set
+severalfold, toward post-communist and Arab-Spring states.
 \end{abstract}
 
 \input{sections/01_intro}
@@ -68,21 +66,10 @@ survivors are post-communist and Arab-Spring states.
 \input{sections/05_simulation}
 \input{sections/06_evidence}
 \input{sections/07_political}
-\input{sections/09_related}
 \input{sections/08_discussion}
 
 % Flush any floats still pending (Figure 4 was landing after the references).
 \clearpage
-
-\appendix
-\section{Proofs and efficiency results}\label{app:proofs}
-Full statements and proofs of all theorems, the efficiency results, and the
-modulation self-inclusion deficit are in Section~S1 of the supplementary material;
-each theorem is paired with a machine-checked contract test.
-
-\section{Frozen selector specification}\label{app:spec}
-The frozen constants, their development-grid derivation, and the validation
-protocols are in the replication package.
 
 % PA specifies the order of the closing sections: Funding, Acknowledgements,
 % Data Availability Statement, Competing Interests, figure legends, References.

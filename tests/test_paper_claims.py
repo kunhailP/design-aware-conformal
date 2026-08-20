@@ -164,7 +164,7 @@ def test_erosion_share_is_not_ranked_across_countries():
     si = t[t.cntry == "SI"].iloc[0]
     assert (int(es.n_declining), int(es.n_spans)) == (32, 55)
     assert (int(si.n_declining), int(si.n_spans)) == (21, 55)
-    _present("we do not rank on it", "correlation $0.96$")
+    _present("we do not rank on it", "increases strongly with record length")
     for bad in ["cyprus $0.62$", "eight democracies with no certified erosion"]:
         assert bad not in _norm(TEXT), f"cross-country ranking survives: {bad}"
 
@@ -353,8 +353,9 @@ def test_small_area_activation():
     assert round(float(1 - fired.width_ratio.min()), 2) == 0.17
     assert round(float(fired.coverage.min()), 3) == 0.881
     assert int(a.gate_A.sum()) == 8 and len(a) == 23
-    _present("$20.5$--$26.6\\%$ narrower", "eight of twenty-three")
-    _present("$15$--$17\\%$ below its plug-in", "certified $16$--$22\\%$")
+    _present("$21$--$27\\%$ narrower", "eight of twenty-three")
+    _present("$15$--$17\\%$ below its plug-in",
+             "width-gain lower bounds of $0.16$--$0.22$")
     # the common-level sensitivity must be reported, not buried
     c = d[d.pool == "common NUTS level"]
     assert (c.branch == "deconvolution").sum() == 0
@@ -398,7 +399,7 @@ def test_small_area_unit_is_exchangeable():
     assert round(float(worst.min()), 2) == 0.53
     assert round(float(worst.max()), 2) == 0.63
 
-    _present("$32$--$49\\%$", "$0.893$--$0.903$", "at most $0.015$",
+    _present("$32$--$49\\%$", "$0.89$--$0.90$", "at most $0.015$",
              "tenth percentile is $0.75$", "$0.53$--$0.63$")
     # the marginal/conditional distinction must be stated, not implied
     assert "marginal over regions" in _norm(TEXT)

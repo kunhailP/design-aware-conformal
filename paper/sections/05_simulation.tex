@@ -15,7 +15,7 @@ $38.2\%$ and $3.5\%$. Only the country-trajectory band holds its nominal $90\%$
 at every length, because the trajectory is a single exchangeable unit. This is
 the coverage face of the paper's thesis, and the same mechanism drives the
 certification-count collapse of Section~\ref{sec:political}. Pre-registered,
-reported as produced (\texttt{e28}).
+reported as produced.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{wrong_unit_coverage.pdf}
@@ -24,27 +24,24 @@ attached to ($4{,}000$ replicates, nominal $90\%$). The gap widens with the
 length of the trajectory being claimed about.}\label{fig:wrongunit}
 \end{figure}
 
-\paragraph{Severity: what each rung can detect.} At ESS-like design noise (\texttt{e32}),
-$80\%$ power at the \emph{net} rung needs a per-pair decline of $0.02$--$0.03$
-CDF points (realistic secular erosion); the \emph{persistent} rung needs
+\paragraph{Severity: what each claim can detect.} At ESS-like design noise,
+$80\%$ power at the \emph{net} claim needs a per-pair decline of $0.02$--$0.03$
+CDF points (realistic secular erosion); the \emph{persistent} claim needs
 $0.06$--$0.08$, crisis-scale, and its power \emph{falls} as the trajectory
 lengthens. Injecting known declines into the real ESS pairs, each estimate
 drawn from that country's own stratified-PSU bootstrap, puts the thresholds at
 $\approx0.033$ (net) and $\approx0.075$ (persistent), with realized size
 $0.001$--$0.007$ against a nominal $0.10$: the rule is markedly conservative,
-and non-certification is weak evidence of absence at every rung
-(\texttt{e42}). The powered instrument for secular decline is the net rung,
+and non-certification is weak evidence of absence at every claim. The powered claim for secular decline is the net span,
 co-headlined in Section~\ref{sec:political}.
 
-\paragraph{Validation, in three disclosed layers.} The frozen procedure passed
-three validation layers, each disclosed in full in the Supplementary Material:
-a first sealed holdout demoted to \emph{development} after an audit found its
-scorer evaluating a band other than the deployed one; a corrected-scorer rerun
-of the same grid ($450/450$ cells floor-compatible, worst $0.882$); and,
-because both layers had touched the final design, one further sealed run on six
-unseen DGP families, script hash recorded before first execution and reported
-as produced including a disclosed generator bug: $120/120$ floor-compatible,
-worst $0.878$, zero activations below $K=94$ (\texttt{e33}).
+\paragraph{Validation.} The frozen procedure was then evaluated on a sealed
+set of six unseen data-generating families, with the script hash recorded
+before first execution: all $120$ cells were compatible with the target
+coverage (worst $0.878$), with zero activations below $K=94$, as the floor
+requires. The complete three-layer validation history --- including a first
+holdout demoted to development after a scorer audit, and a disclosed generator
+bug --- is reported in the Supplementary Material.
 
 \paragraph{A design-preserving stress test, and what it does not show.}
 Subsampling the real AmericasBarometer, the deployed selector never fires, and
