@@ -464,3 +464,22 @@ def test_center_exactness_seam():
     assert np.isinf(small.w_split).all(), "split-fold must be infinite at K<=15"
     assert (d[d.K >= 20].w_split_over_loo > 1).all()
     _present("below the exact-construction floor", "makes the conformal radius infinite")
+
+
+def test_feasibility_frontier():
+    """S1 Lemma (universal floor) + the frontier remark + Sec. 6 paragraph:
+    three regimes, all occupied by real-data cells, and the frozen selector
+    fired only in the feasible one. The 94 is the frozen intercept of the
+    universal law sqrt(2/(K-1))."""
+    d = _csv("feasibility_frontier.csv")
+    assert (d.loc[d.activated, "regime"] == "feasible").all()
+    w = d[d.dataset == "WVS full-coverage items"]
+    assert (w.regime == "unnecessary").all() and float(w.rho_lcb.max()) <= 0.10
+    ess = d[d.dataset == "ESS national-unit scan"]
+    assert int(ess.K.max()) <= 33 and float(ess.rho_lcb.max()) <= 0.15
+    sa = d[d.dataset.str.startswith("ESS small-area")]
+    assert {"unnecessary", "unlearnable", "feasible"} <= set(sa.regime)
+    tau = (0.02 - 0.0061) / 0.0943
+    assert int(np.ceil(1 + 2 / tau ** 2)) == 94
+    _present("its intercept, $\\sqrt{2/(K-1)}$ the law",
+             "Universal reliability floor")

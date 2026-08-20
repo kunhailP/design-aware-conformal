@@ -78,7 +78,21 @@ architecture the revision exists to fix.
   Candidate route: coupling the K−1 and K pools plus a dispersive-ordering
   argument on the max; park unless a referee asks.
 
-## Workstream B — feasibility frontier theorem (최우선)
+## Workstream B — feasibility frontier theorem (최우선) — SHIPPED 2026-08-20
+
+Status: supplement gains the **universal reliability floor lemma**
+(Lehmann–Scheffé at the Gaussian member: any unbiased variance estimator from
+K exchangeable populations has relative SE ≥ √(2/(K−1)), so ANY procedure
+demanding reliability τ needs K ≥ 1+2/τ² — 94 is the frozen intercept, the
+law is universal) plus a three-regime frontier remark and Figure S
+(feasibility_frontier.pdf). §6 carries a compact paragraph. e57 assembles the
+(K, ρ) placement from committed CSVs — all three regimes are occupied by real
+cells (WVS: unnecessary; ESS national scan: left of the floor; small-area
+common-NUTS: 4 unlearnable cells; e54 all-countries: 8 feasible, the 4 fired
+cells all feasible) and the ledger pins it (`test_feasibility_frontier`).
+Remaining upside (post-submission): upgrade the remark to a net-benefit
+frontier theorem with explicit constants (½ρ² vs c·√(2/(K−1))). Original
+design notes below.
 
 Candidate results (assembly + one new lemma):
 
