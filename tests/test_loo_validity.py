@@ -60,6 +60,47 @@ def test_inflation_factor():
     assert loo_exact_inflation(2) == 2.0
 
 
+def test_loo_centered_deconvolution_coverage():
+    """Theorem 4' extension (supplement, prop:loodec): run the (A1)
+    scale-family DGP THROUGH the deployed leave-one-out centering -- the
+    scores are then dependent, summing to zero identically, so the i.i.d.
+    theorem does not apply verbatim -- and check the always-deconvolve band
+    still covers the latent target at the deconvolution level up to the
+    theorem's remainder, with the centering cost itself small (gamma_K)."""
+    from pcb.inference.conformal_band import loo_deviations
+    from pcb.inference.design_aware import (_finite_quantile,
+                                            deconv_target_scale)
+
+    rng = np.random.default_rng(3)
+    K, T, a_dec, reps = 250, 6, 0.05, 1500
+    s_R = 0.05
+    hit_loo = hit_ind = 0
+    for _ in range(reps):
+        v = rng.uniform(0.03, 0.08, K + 1)[:, None] * np.ones((1, T))
+        W = rng.standard_normal((K + 1, T))
+        Y = np.sqrt(s_R**2 + v**2) * W
+        mu = 0.3 + 0.05 * np.arange(T)      # common center, removed by LOO
+        D = mu[None] + Y[:K]
+        E = loo_deviations(D)
+        assert np.allclose(E.sum(0), 0, atol=1e-9)   # the dependence, verified
+        V = v[:K]
+        # deployed LOO-centered construction
+        sT = deconv_target_scale(E, V)
+        q = _finite_quantile(
+            np.max(np.abs(E) / np.sqrt(sT[None]**2 + V**2), 1), a_dec)
+        err = s_R * W[K] - Y[:K].mean(0)    # latent target vs transport center
+        hit_loo += np.max(np.abs(err) / sT) <= q
+        # independent (A1-verbatim) construction, same draw, for the gamma_K pin
+        sTi = deconv_target_scale(Y[:K], V)
+        qi = _finite_quantile(
+            np.max(np.abs(Y[:K]) / np.sqrt(sTi[None]**2 + V**2), 1), a_dec)
+        hit_ind += np.max(np.abs(s_R * W[K]) / sTi) <= qi
+    cov_loo, cov_ind = hit_loo / reps, hit_ind / reps
+    se = np.sqrt(a_dec * (1 - a_dec) / reps)
+    assert cov_loo >= 1 - a_dec - 3 * se - 0.01, cov_loo
+    assert abs(cov_loo - cov_ind) <= 0.02 + 3 * se, (cov_loo, cov_ind)
+
+
 def test_dapcb_ships_the_inflation_by_default():
     """The deployed API returns the K/(K-1)-inflated anchor radius (the band
     prop:loo(i) certifies), while the gates/diagnostics stay on the frozen

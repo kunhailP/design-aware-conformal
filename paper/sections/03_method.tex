@@ -127,6 +127,10 @@ $r_{\text{dec}}$ at level $\alpha_{\text{dec}}$\;
 \textbf{and} $\widehat{\text{Gain}}-\Delta_g>g_{\min}$}{branch $\leftarrow$
 deconvolution\;}
 \Else{branch $\leftarrow$ conservative\;}
+\If{\upshape branch $\neq$ deconvolution \textbf{and} the center is
+leave-one-out (the unsurveyed-target default)}{
+$r_{\text{branch}}\leftarrow\frac{K}{K-1}\,r_{\text{branch}}$
+\tcp*{exactness for the deployed center (Section~\ref{sec:theory})}}
 \Return $\widehat F_{\text{new}}\pm r_{\text{branch}}$, branch, and diagnostics\;
 \end{algorithm}
 

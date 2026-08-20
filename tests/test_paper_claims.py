@@ -470,6 +470,19 @@ def test_center_exactness_seam():
     _present("below the exact-construction floor", "makes the conformal radius infinite")
 
 
+def test_deconvolution_loo_extension_stated():
+    """The Theorem-4' <-> deployment seam: the manuscript STATES that the
+    deployed calibration errors are LOO-centered hence dependent (they sum to
+    zero identically), and prices the centering inside epsilon_{K,B}
+    (supplement, Proposition: LOO-centered deconvolution) instead of assuming
+    the i.i.d. construction it does not deploy. Coverage of the construction
+    itself is pinned by test_loo_validity.py::
+    test_loo_centered_deconvolution_coverage."""
+    _present("they sum to zero identically",
+             "LOO-centered deconvolution",
+             "absorbed into $\\varepsilon_{K,B}$")
+
+
 def test_feasibility_frontier():
     """S1 Lemma (universal floor) + the frontier remark + Sec. 6 paragraph:
     three regimes, all occupied by real-data cells, and the frozen selector

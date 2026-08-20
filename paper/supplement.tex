@@ -490,6 +490,77 @@ $z=\Phi^{-1}(1-\alpha_2/T)$ to the shipped scale guard, whose $z$ is a free
 parameter) is the configuration under which the uniform statement is nontrivial.
 \end{proof}
 
+\paragraph{Extension: the leave-one-out-centered deployment.} Theorem~4$'$
+is stated for the independent calibration curves of (A1). The deployed
+high-$K$ pipeline feeds it something else: writing $Y_c$ for the observed
+departure curves, the calibration objects are the leave-one-out-centered
+errors $\widetilde E^{\text{loo}}_c=Y_c-\bar Y_{-c}$, and the target is
+scored against the transport center $\bar Y$. These are dependent by
+construction --- they sum to zero identically --- so (A1)'s i.i.d.\ structure
+cannot hold for them and clause~(i)'s exactness does not transfer verbatim.
+For the \emph{anchor} branches this same dependence is handled exactly, by
+Proposition~\ref{prop:loo}'s $K/(K{-}1)$ inflation; for the deconvolution
+branch, whose guarantee already carries an estimation remainder, the honest
+resolution is to price the centering inside that remainder.
+
+\begin{proposition}[LOO-centered deconvolution]\label{prop:loodec}
+Assume (A1)--(A3) for the raw curves,
+$Y_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$, normalized to
+$\mathbb E\,W(t)=0$ (a common location shift is removed by the centering, so
+this is a normalization, not a restriction), and let the deployed
+studentizer be bounded below by $\omega_0>0$ (guaranteed by the shipped
+scale floor). Build the band exactly as in Theorem~4$'$(ii) but from
+$\widetilde E^{\text{loo}}_c$, the latent target scored against $\bar Y$.
+Then
+\[
+\Pr\big(F_{\text{new}}\in\widehat B\big)\;\ge\;
+1-\alpha_{\text{dec}}-\varepsilon_{K,B}-\gamma_K,
+\qquad
+\gamma_K=\frac{4LC_3}{\omega_0}\sqrt{\frac{\log\big((K{+}1)T\big)}{K}}
++O(K^{-1/2}),
+\]
+with $C_3$ an absolute constant from the boundedness clause of (A3). Since
+$\gamma_K$ has the same order as $\varepsilon_{K,B}$'s $K$-term, we absorb
+it into $\varepsilon_{K,B}$ (enlarged constants) wherever the remainder is
+quoted, including Theorem~5$'$'s $K\ge94$ clause.
+\end{proposition}
+
+\begin{proof}
+Let $S_c$ be the studentized scores of Theorem~4$'$(ii)'s independent
+construction and $\widetilde S_c$ those of the LOO-centered one; both share
+the estimated studentizer $\omega_c=\sqrt{\widehat s_T^2+\widehat v_c^2}$
+($\widehat s_T$ for the target). Because $\max_t|\cdot|/\omega(t)$ obeys
+the triangle inequality,
+$|\widetilde S_c-S_c|\le\max_t|\bar Y_{-c}(t)|/\omega_c(t)\le\zeta/\omega_0$
+for every $c\le K$, and the target's score moves by at most
+$\max_t|\bar Y(t)|/\omega_0\le\zeta/\omega_0$, where
+$\zeta=\max\big(\max_c\max_t|\bar Y_{-c}(t)|,\,\max_t|\bar Y(t)|\big)$.
+Each $\bar Y_{-c}(t)$ and $\bar Y(t)$ is an average of at least $K-1$
+independent, mean-zero, uniformly bounded terms ((A3)), so Hoeffding's
+inequality with a union bound over the $(K{+}1)T$ cells gives
+$\zeta\le C_3\sqrt{\log((K{+}1)T)/K}=:\gamma$ outside an event of
+probability $O(K^{-1/2})$. A uniform score perturbation moves order
+statistics by no more than itself, so
+$\widehat q^{\,\text{loo}}\ge\widehat q-\gamma/\omega_0$, and a miss of the
+LOO band implies the independent construction's target score exceeds
+$\widehat q-2\gamma/\omega_0$. The proof of Theorem~4$'$(ii) applies
+verbatim to that event, with the additive window
+$(\widehat q-2\gamma/\omega_0,\,\widehat q\,]$ priced by (A2)'s density
+bound exactly as the multiplicative scale window was: probability at most
+$2L\cdot2\gamma/\omega_0$ up to the $M_{(m)}$-concentration terms already
+inside $r_K$. Finally, $\widehat s_T$ computed from the centered rather
+than the raw curves differs by a relative $O(1/K)$ (mean removal changes
+the empirical second moment by exactly the squared mean), absorbed into
+$\delta_{K,B}$'s constants.
+\end{proof}
+
+Contract test: \texttt{tests/test\_loo\_validity.py::%
+test\_loo\_centered\_deconvolution\_coverage} runs the (A1) scale-family DGP
+\emph{through the leave-one-out centering} --- the construction the pipeline
+actually deploys, $\sum_c\widetilde E^{\text{loo}}_c=0$ verified in-test ---
+and checks the always-deconvolve band's latent-target coverage at
+activation-regime $K$.
+
 \begin{remark}[What (A1) rules out, and why that is the right boundary]
 (A1) is a distributional-matching condition: the observed and latent scores must sit
 in a common scale family indexed by the design variance. Remark~\ref{rem:bimodal}'s
@@ -566,7 +637,9 @@ reachable, then \emph{under} (A1)--(A3),
 1-\alpha-\varepsilon_{K,B},
 \]
 now for the \emph{latent} target directly, where $\varepsilon_{K,B}$ is the
-estimated-law remainder of Theorem~4$'$ attached to the deconvolution branch
+estimated-law remainder of Theorem~4$'$ --- enlarged to absorb the
+leave-one-out-centering term $\gamma_K$ of Proposition~\ref{prop:loodec},
+which has the same order --- attached to the deconvolution branch
 only and reported at deployment through the observable diagnostic
 $\widehat\delta_{\text{UCB}}(D)$. The two clauses therefore state different
 targets, because they rest on different assumptions: exchangeability alone

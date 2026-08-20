@@ -89,7 +89,14 @@ The clauses name different targets because they rest on different assumptions.
 Exchangeability alone delivers T1 exactly, with T2 adding
 Theorem~\ref{thm:oracle}(b)'s gap; (A1)--(A3) deliver the latent target directly,
 by an anchor-domination lemma, and the remainder $\varepsilon_{K,B}$ they carry
-is charged to the deconvolution branch alone.
+is charged to the deconvolution branch alone. That remainder also prices the
+deployed centering: the calibration errors the pipeline feeds are
+leave-one-out centered, hence dependent --- they sum to zero identically, so
+(A1)'s independent curves cannot be them --- and the Supplementary Material
+extends Theorem~4$'$ to this construction, the centering adding a same-order
+$O(\sqrt{\log(KT)/K})$ term absorbed into $\varepsilon_{K,B}$. The anchor
+branches handle the same dependence \emph{exactly}, by the $K/(K{-}1)$
+inflation above.
 
 The proof uses no conditional-on-selection step. A nested-band lemma does the
 work: the conservative score dominates the clustered band's score pointwise, and selection

@@ -90,6 +90,18 @@ architecture the revision exists to fix.
   convention; the δ_K=O(1/K) rate moved to a remark under the corrected
   CONDITIONAL anti-concentration assumption (the marginal-density version
   was insufficient: the window endpoints are calibration-measurable).
+- A2 round 3 (same day, external review round 3): the LAST seam — Theorem 4'
+  assumed i.i.d. (A1) calibration curves while the deployed high-K path
+  feeds LOO-centered errors (sum ≡ 0, necessarily dependent). CLOSED by
+  Proposition (LOO-centered deconvolution, prop:loodec): the centering is a
+  uniformly small additive score perturbation, priced through (A2)/(A3) as
+  γ_K = O(√(log(KT)/K)) and absorbed into ε_{K,B} (same order). Anchors
+  handle the same dependence EXACTLY (prop:loo inflation) — architecture
+  now: exact anchors / priced deconvolution, both for the construction as
+  deployed. Algorithm 1 carries the inflation step explicitly. Contract
+  tests run the A1 DGP THROUGH the LOO centering
+  (test_loo_centered_deconvolution_coverage) and pin the manuscript
+  statement (test_deconvolution_loo_extension_stated).
 
 ## Workstream B — feasibility frontier theorem (최우선) — SHIPPED 2026-08-20
 

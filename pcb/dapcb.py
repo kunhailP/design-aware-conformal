@@ -123,7 +123,10 @@ def _quantiles(E, sT, V, alpha_anchor, alpha_dec):
     data-dependent choice between them validity-free (Lemma NB in the paper:
     selecting the wider of two nested bands, by any rule, cannot reduce the
     coverage of the narrower band's guarantee). The deconvolution branch keeps
-    its studentized construction and is calibrated at its own budget alpha_dec.
+    its studentized construction and is calibrated at its own budget alpha_dec;
+    its theorem-level remainder epsilon_{K,B} prices both the estimated scales
+    and the LOO centering of the deployed calibration errors (supplement,
+    Proposition: LOO-centered deconvolution).
     """
     q_pcb = _finite_quantile(np.max(np.abs(E), 1), alpha_anchor)
     q_dec = _finite_quantile(np.max(np.abs(E) / np.sqrt(sT[None]**2 + V**2), 1),

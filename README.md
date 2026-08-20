@@ -1,7 +1,7 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 108 passing](https://img.shields.io/badge/tests-108%20passing-green)
+![Tests: 110 passing](https://img.shields.io/badge/tests-110%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Inference
@@ -95,7 +95,7 @@ pcb/
   experiments/    e6–e58 (simulation arc, ESS/LAPOP/WVS, robustness, frontier,
                   prevalence; e43–e49, e51 superseded/withdrawn — see supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            108 tests: theorem<->code contracts plus a claim ledger pinning
+tests/            110 tests: theorem<->code contracts plus a claim ledger pinning
                   every headline number in the paper to the CSV that licenses it
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF
