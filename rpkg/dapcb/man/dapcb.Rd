@@ -3,7 +3,8 @@
 \alias{print.dapcb}
 \title{Design-aware population conformal band (nominal-safe adaptive selector)}
 \usage{
-dapcb(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE)
+dapcb(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE,
+      loo_center = TRUE)
 \method{print}{dapcb}(x, ...)
 }
 \arguments{
@@ -14,6 +15,13 @@ replicate-weight bootstrap; zeros for a census source.}
 \item{center}{Length-T predicted curve for the new population.}
 \item{alpha}{Miscoverage level (default 0.10).}
 \item{tighten}{Apply the coverage-preserving isotonic tightening (default TRUE).}
+\item{loo_center}{TRUE (default) declares the deployed leave-one-out
+centering: the returned anchor radii (PCB, conservative) carry the K/(K-1)
+inflation of the LOO-validity proposition, restoring exact finite-sample
+validity for the construction as shipped; gates are evaluated on the
+uninflated radii (the frozen rule). Set FALSE only for a symmetric center
+(fixed, own-unit, split-fold), which is exact uninflated. The deconvolution
+branch is never inflated.}
 \item{x}{A \code{dapcb} object.}
 \item{...}{Ignored.}
 }

@@ -10,7 +10,7 @@ authors:
     given-names: Kunwoo
     email: pkw31386094@gmail.com
     orcid: "https://orcid.org/0009-0007-9067-8964"
-    affiliation: "Department of Politics, Kookmin University"
+    affiliation: "Department of Political Science and International Relations, Kookmin University"
 version: 1.0.0
 date-released: "2026-07-27"
 license: MIT
@@ -30,6 +30,6 @@ preferred-citation:
     given-names: Kunwoo
     email: pkw31386094@gmail.com
     orcid: "https://orcid.org/0009-0007-9067-8964"
-    affiliation: "Department of Politics, Kookmin University"
+    affiliation: "Department of Political Science and International Relations, Kookmin University"
   year: 2026
   journal: "Under review"

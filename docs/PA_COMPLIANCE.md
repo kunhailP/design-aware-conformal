@@ -26,7 +26,7 @@ fetched 2026-08-20). Status: ✅ compliant / 🔶 author action / ⬜ at-accepta
 | Title page: title, author, affiliation, corresponding contact, ORCID; no acknowledgments on it | ✅ | `titlepage.tex`; ORCID 0009-0007-9067-8964 |
 | Single-anonymized (do NOT anonymize) | ✅ | full author block in `main.tex` and title page |
 | Supplementary Material as separate PDF, not counted, published as-is | ✅ | `supplement.pdf`, S-numbered |
-| Generative-AI policy: code/data-analysis use disclosed in methods; text/proof revision in Acknowledgments; figure-generating code → code disclosure only; tool, version, dates, access, scope | 🔶 | **Author writes both halves.** The Acknowledgments stub now carries a NOTE spelling out the required split and content; placeholder sentence must be replaced before submission. |
+| Generative-AI policy: code/data-analysis use disclosed in methods; text/proof revision in Acknowledgments; figure-generating code → code disclosure only; tool, version, dates, access, scope | ✅ | Both halves written 2026-08-20: text/proof assistance in Acknowledgments, code/data-analysis assistance in the Data Availability Statement (tool: Claude, Anthropic; access: Claude Code CLI; dates: July–August 2026; scope stated). **Author: review the wording at read-through.** |
 | AI not an author | ✅ | single human author |
 
 ## Submission package
@@ -35,12 +35,13 @@ fetched 2026-08-20). Status: ✅ compliant / 🔶 author action / ⬜ at-accepta
 |---|---|---|
 | Restricted-data notification to the editor at submission | ✅ | cover letter section, mirrors PA research-transparency policy |
 | Replication materials at conditional acceptance (Dataverse; Code Ocean recommended for heavy dependencies) | ⬜ | `make deposit` builds the deterministic archive (`REPLICATION.md` §5); cover letter proposes a Code Ocean capsule |
-| Reproducibility verifiable by the PA team | ✅ | 101 tests incl. 32-check claim ledger; e13/e26/e50 verified bit-identical from raw files in two environments |
+| Reproducibility verifiable by the PA team | ✅ | 110 tests incl. the claim ledger; e13/e26/e50 verified bit-identical from raw files in two environments |
 
 ## Remaining author actions (the full pre-submission list)
 
 1. Official word count on the final PDF (title page note).
-2. AI disclosure, both halves (Acknowledgments note explains the split).
+2. AI disclosure: both halves are WRITTEN (Acknowledgments + Data
+   Availability Statement) — review the wording, adjust if desired.
 3. ESS per-round edition DOIs + WVS v4.1 DOI into the two dataset bib entries.
 4. Cover letter: masthead check, delete the draft note.
 5. Read-through of the full PDF (voice pass); confirm the title change.

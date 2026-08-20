@@ -1,5 +1,15 @@
 # Handoff — where this manuscript stands and what remains
 
+> **2026-08-20 status note (supersedes the item lists below where they
+> conflict).** This document is historical; the live state is
+> DEVELOPMENT_ROADMAP.md + PA_COMPLIANCE.md. Since 2026-07-27: everything
+> merged to `main`; 110 tests; the LOO-validity proposition and the
+> LOO-centered deconvolution proposition close the theorem↔deployment seams
+> (K/(K−1) inflation is the shipped default); prevalence d=6 landed on real
+> data; the AI disclosure below (item 3) is now WRITTEN in main.tex (both
+> halves) — author reviews wording at read-through. Remaining author items
+> are the four listed in PA_COMPLIANCE.md.
+
 Last updated: 2026-07-27. Branch: `repair/theorem-code-validation` (not yet merged
 to `main`, by design — merge once the remaining author items below are done).
 
