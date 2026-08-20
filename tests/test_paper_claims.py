@@ -483,3 +483,21 @@ def test_feasibility_frontier():
     assert int(np.ceil(1 + 2 / tau ** 2)) == 94
     _present("its intercept, $\\sqrt{2/(K-1)}$ the law",
              "Universal reliability floor")
+
+
+def test_cross_country_prevalence():
+    """S4 prevalence paragraph + Sec. 7: d = 6 on both outcomes at 90%, the
+    p<=alpha sets reproduce the joint-band net sets exactly, and the named
+    six are subsets of the certified sets."""
+    from pcb.inference.prevalence import true_discoveries
+    d = _csv("ess_prevalence.csv")
+    j = _csv("ess_joint_claims.csv")
+    for oc in ("trstprl", "stfdem"):
+        g = d[d.outcome == oc]
+        assert len(g) == 33, (oc, len(g))
+        assert true_discoveries(g.p_net.values, 0.10) == 6, oc
+        certified = set(j[(j.outcome == oc) & j.net].cntry)
+        assert set(g.cntry[g.p_net <= 0.10]) == certified, oc
+        named = set(g.nsmallest(6, "p_net").cntry)
+        assert named <= certified, (oc, named - certified)
+    _present("at least six", "closed testing across the thirty-three")

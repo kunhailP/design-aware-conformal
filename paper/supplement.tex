@@ -1010,6 +1010,31 @@ the per-rung run loses it here. That is the price named in the main text, and
 the main text's contrast counts are computed under the joint
 definition throughout.
 
+\paragraph{Cross-country prevalence: the closed-testing bound
+(\texttt{e56}).} The main text's simultaneous statement --- at least six of the
+thirty-three truly declined over their span, on each outcome --- is built in
+two steps, both riding on machinery already in use. First, each country's joint
+band is inverted over its level: the span certifies at $\alpha$ iff the
+$(1-\alpha)$ quantile of the country's bootstrap sup statistic falls below
+$c^*=\min_t \widehat D(t)/\mathrm{sd}(t)$, so the smallest certifying $\alpha$
+is the bootstrap tail probability at $c^*$ (finite-$B$ corrected); under a
+false claim the certifying event sits inside the band's own miss event, so the
+$p$-value inherits the design bootstrap's control. On both outcomes the set
+$\{p\le0.10\}$ reproduces the joint-band net set exactly (eight countries on
+\texttt{trstprl}, seven on \texttt{stfdem}), a check the ledger pins. Second,
+closed testing over the thirty-three with Simes local tests
+\citep{goeman2011multiple} --- valid here because the country bootstraps are
+independent --- gives a $90\%$ simultaneous lower confidence bound on the
+number of true discoveries: $d=6$ on \texttt{trstprl} (Cyprus, the United
+Kingdom, Greece, Ukraine, Israel, Italy) and $d=6$ on \texttt{stfdem} (Cyprus,
+Spain, Israel, Ukraine, Hungary, the United Kingdom). Closed testing trims the
+certified sets' marginal members (Spain and Hungary on \texttt{trstprl}, France
+on \texttt{stfdem}), which is the honest gap between a per-country-$\alpha$
+count and a simultaneous one. Because the bound is simultaneous over every
+subset, naming the $d$ smallest-$p$ countries costs nothing further; the
+contract tests verify validity on planted truth
+(\texttt{tests/test\_prevalence.py}).
+
 \paragraph{The small-area activation, in full (\texttt{e54}, \texttt{e55}).}
 The one place in this paper where the design-aware branch fires on real data is
 the ESS regional estimand, and because it is the paper's only positive

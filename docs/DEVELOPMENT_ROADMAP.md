@@ -119,7 +119,16 @@ Candidate results (assembly + one new lemma):
 - Contract test: frontier formula vs simulated width-improvement sign on the
   existing grid.
 
-## Workstream C — prevalence inference (최우선) — MACHINERY SHIPPED 2026-08-20
+## Workstream C — prevalence inference (최우선) — REAL d LANDED 2026-08-20
+
+**e56 ESS mode ran on the licensed microdata: d = 6 on both outcomes.** With
+90% simultaneous confidence at least six of the thirty-three truly declined
+over their span — trstprl: CY, GB, GR, UA, IL, IT; stfdem: CY, ES, IL, UA, HU,
+GB. The {p ≤ α} sets reproduce the joint-band net sets exactly on both
+outcomes (inversion identity holds on real data). §7 + abstract + supplement
+carry the statement; ledger pin `test_cross_country_prevalence`. Data-pass
+verification the same day: e13, e26, e50 all reproduce their committed CSVs
+BIT-IDENTICALLY from the sha256-verified licensed files.
 
 Status: `pcb/inference/prevalence.py` (alpha-inversion p-values mirroring
 `certify_claim_family` + Goeman–Solari/Simes true-discovery lower bound) with
