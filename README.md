@@ -1,11 +1,12 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 91 passing](https://img.shields.io/badge/tests-91%20passing-green)
+![Tests: 93 passing](https://img.shields.io/badge/tests-93%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Conformal
-Bands for Repeated Cross-National Surveys"* (Kunwoo Park, Kookmin University; under review).
+Bands for Repeated Cross-National Surveys"* (Kunwoo Park, Kookmin University;
+in preparation for submission to *Political Analysis*).
 
 ## What this is
 
@@ -15,8 +16,9 @@ trajectory, and an estimated distribution stands in for the latent one it sample
 This package provides:
 
 - a **finite-sample simultaneous band** over a country's whole attitude
-  trajectory, with the country as the exchangeable unit and an ordered claim
-  hierarchy (pairwise → any-pair → net → persistent → Bonferroni);
+  trajectory, with the country as the exchangeable unit and a partially ordered
+  claim family (pairwise, any-pair, net, persistent — persistent at the top —
+  plus a Bonferroni layer across countries);
 - a **non-identification theorem and survey-scale unreachability boundary** for
   the design-aware (deconvolution) correction, with a provably selection-free
   deployed selector;
@@ -38,7 +40,7 @@ This package provides:
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 91 tests (contracts + claim ledger)
+python -m pytest tests/ -q          # 93 tests (contracts + claim ledger)
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1, ~seconds
 ```
 
@@ -88,7 +90,7 @@ pcb/
   experiments/    e6–e55 (simulation arc, ESS/LAPOP/WVS, robustness analyses;
                   e43–e49, e51 are superseded or withdrawn — see the supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            91 tests: theorem<->code contracts plus a claim ledger pinning
+tests/            93 tests: theorem<->code contracts plus a claim ledger pinning
                   every headline number in the paper to the CSV that licenses it
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF

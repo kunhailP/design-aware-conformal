@@ -7,7 +7,7 @@ Two tiers. Everything is deterministic under the committed seeds
 
 ```bash
 pip install -r requirements.txt && pip install -e .
-python -m pytest tests/ -q          # 89 tests (contracts + claim ledger)
+python -m pytest tests/ -q          # 93 tests (contracts + claim ledger)
 # out of the box (each writes results/*.csv; ~seconds to ~minutes unless noted):
 python -m pcb.experiments.e28_wrong_unit_coverage   # Table 1
 python -m pcb.experiments.e32_severity              # severity/power
