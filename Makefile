@@ -48,15 +48,11 @@ tier2:
 deposit:
 	$(PY) scripts/build_deposit.py
 
-figures: figures-r
+figures:
 	@for f in pcb/figures/fig_*.py; do \
 	  m=$$(basename $$f .py); echo "-> $$m"; \
 	  $(PY) -m pcb.figures.$$m || exit 1; \
 	done
-
-# Main Figures 1-4: R publication layer (reads results/*.csv only).
-figures-r:
-	Rscript paper_figures/main_figures.R
 
 paper:
 	cd paper && pdflatex -interaction=nonstopmode main.tex >/dev/null && \

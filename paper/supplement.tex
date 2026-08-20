@@ -680,8 +680,7 @@ there is nothing worth removing), \emph{unlearnable} ($\rho$ large but
 $K<1+2/\tau^2$ --- the need is real and no estimator is reliable enough to
 certify the subtraction), and \emph{feasible} ($\rho$ and $K$ both large). The
 deployed gates A and B are the frozen instantiations of the two quantities.
-Figure~2 of the main text (\texttt{e57}) places this paper's datasets
-(per-gate diagnostics in Figure~S\ref{fig:gates}): the WVS
+Figure~S\ref{fig:frontier} (\texttt{e57}) places this paper's datasets: the WVS
 full-coverage sets sit deep in the unnecessary regime ($K=95$--$105$,
 $\rhohat_{\mathrm{LCB}}\le0.10$); every ESS national-unit cell sits left of the
 floor ($K\le33$, $\rhohat_{\mathrm{LCB}}\le0.15$); and the small-area estimand
@@ -695,13 +694,13 @@ cannot.
 \end{remark}
 
 \begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{unreachability.pdf}
-\caption{Per-gate diagnostics behind the main text's feasibility frontier
-(Figure~2). Left, gate A: $\rhohat$ against $\rho_0$ by ESS age band (each
-point the maximum over that band's min-$n$ sweep, $42$ cells). Right, gate B:
-reliability $D$ against its floor $\sqrt{2/(K-1)}$ --- the ESS sits on the
-floor at $K\le33$, and only the WVS item sets reach $K\ge94$, where gate A
-fails instead (\texttt{e24}, \texttt{e26}).}\label{fig:gates}
+\includegraphics[width=.82\textwidth]{feasibility_frontier.pdf}
+\caption{The feasibility frontier in the $(K,\rho)$ plane. Shaded regions:
+correction unnecessary ($\rhohat_{\mathrm{LCB}}\le\rho_0$), unlearnable
+($K<1+2/\tau_D^2=94$), feasible (both boundaries crossed). Points are real
+data cells: WVS full-coverage items, ESS national-unit scan, and the ESS
+small-area estimand, filled where the frozen selector activated
+(\texttt{e57}).}\label{fig:frontier}
 \end{figure}
 
 \subsection{Efficiency results AW-1--AW-3 and the open oracle inequality (AW-4)}

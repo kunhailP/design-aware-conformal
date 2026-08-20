@@ -113,15 +113,12 @@ Spain & 1--11 & \phantom{0}0.6 & 32/55 & 0.58 \\
 \end{tabular}
 \end{table}
 \begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{guarantee_hierarchy.pdf}
-\caption{The claim family on real data ($\alpha=0.10$; trust in parliament,
-rounds 9--11). \emph{A}, the partial order with certified counts,
-design-aware (plug-in in parentheses); no edge joins net and any-pair.
-\emph{B}, the thirty countries by the set of claims each certifies.
-\emph{C}, the reclassification mechanism: decline signal against design
-noise for every plug-in-certified adjacent pair, with signal-to-noise
-isolines --- the pairs the design-aware band reclassifies are the low-SNR
-ones.}\label{fig:hierarchy}
+\includegraphics[width=.8\textwidth]{guarantee_hierarchy.pdf}
+\caption{Certified declines collapse rung by rung ($\alpha=0.10$). Left,
+rounds 9--11 ($K=30$), with one path per inference layer; the headline sequence
+$20\to12\to6\to1$ reads down the plug-in marker and then along the design-aware
+path. Right, the full record off one joint band ($K=33$), where the two layers
+coincide by construction and one path is drawn.}\label{fig:hierarchy}
 \end{figure}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
@@ -141,19 +138,18 @@ than stability (Supplementary Material).
 
 \paragraph{A second, global target: Foa--Mounk deconsolidation.} We preregistered a
 reanalysis of the ``democratic deconsolidation'' thesis
-\citep{foa2016democratic,foa2017signs} on the joint WVS/European Values Study
-(EVS) trend file (1981--2022,
+\citep{foa2016democratic,foa2017signs} on the WVS/EVS trends (1981--2022,
 $59$--$77$ countries with $\ge2$ waves), recoding the five-item battery so that
 deconsolidation is a persistent decline over each scale's preregistered core.
 The verdict is calibration, not denial, but the surviving phenomenon is not the
 one the thesis was about. A \emph{marginal wave-pair reading of the same
-data}, a criterion we construct to instantiate the wave-pair claim, since Foa and
+data}, a criterion we construct to instantiate the bottom rung, since Foa and
 Mounk's own empirics are cohort comparisons, flags $36$--$64$ countries per
-item against $6$--$17$ (8--24\%) at the persistent claim. That $2.6$--$6.5\times$
+item against $6$--$17$ (8--24\%) at the persistent rung. That $2.6$--$6.5\times$
 ratio compounds two changes, and we separate them: holding the inference layer
-fixed, the claim shift alone accounts for $1.7$--$4.8\times$ (plug-in) or
-$1.9$--$4.8\times$ (design-aware), and propagating design uncertainty at a
-fixed claim accounts for the remainder. The unit is the larger effect, but not the whole
+fixed, the rung alone accounts for $1.7$--$4.8\times$ (plug-in) or
+$1.9$--$4.8\times$ (design-aware), and propagating design uncertainty at fixed
+rung accounts for the remainder. The unit is the larger effect, but not the whole
 of the headline number. Three caveats. The WVS ships no PSU/stratum identifiers,
 so the weights-only bootstrap understates design variance, which can only
 \emph{inflate} counts: at variance $\times1.5$ and $\times2.0$ the certified core
@@ -167,7 +163,7 @@ half-supported (Supplementary Material).
 
 \paragraph{The certified core: where the surviving deconsolidation lives.}
 Aggregating per-item certifications yields a positive characterization
-(Figure~\ref{fig:core}): of $38$ countries certified on $\ge1$ item, $13$
+(Figure~\ref{fig:core}; \texttt{e30}): of $38$ countries certified on $\ge1$ item, $13$
 form a certified core on $\ge2$, headed by Albania on four. The core is
 post-communist and Arab-Spring states with fragile Latin American and African
 cases alongside, not the mature democracies the thesis
@@ -183,7 +179,7 @@ which we flag as a probable administration artifact), with single-item entries
 elsewhere: no consolidated Western democracy certifies on support for a
 democratic system, consistent with \citet{wuttke2022europeans}, though not that
 the West is absent. And the geography is partly window-contingent: recertifying
-on fieldwork ending by 2017 keeps eight of the thirteen but drops
+on fieldwork ending by 2017 (\texttt{e46}) keeps eight of the thirteen but drops
 all three Arab-Spring cases, so the post-communist component is window-stable and
 the Arab-Spring component rests on WVS wave~7. Certified attitudes do not
 forecast institutions: core membership predicts subsequent V-Dem
@@ -195,13 +191,8 @@ response-distribution trajectory itself: certification is descriptive error cont
 forecast. Item-level caveats are in the Supplementary Material.
 
 \begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{certified_core.pdf}
-\caption{Deconsolidation, certified (WVS/EVS 1981--2022; $K=59$--$77$ per
-item). \emph{A}, per battery item, country counts from the marginal
-wave-pair reading through the persistent plug-in claim to the persistent
-design-aware claim. \emph{B}, countries shaded by number of certified items;
-the thirteen-country core is outlined. \emph{C}, the core by evidence
-strength: circle area is the certified minimum decline (the persistent
-band's simultaneous lower bound), in CDF points. The full
-thirty-eight-country matrix is in the Supplementary Material.}\label{fig:core}
+\includegraphics[width=.9\textwidth]{certified_core.pdf}
+\caption{Co-certification across the five battery items (WVS/EVS 1981--2022;
+$K=59$--$77$ per item). Countries above the dashed line form the $\ge2$-item
+certified core.}\label{fig:core}
 \end{figure}

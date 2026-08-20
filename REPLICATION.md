@@ -81,11 +81,6 @@ experiment, and `diff` — all runs are deterministic under fixed seeds
 make figures && make paper
 ```
 
-Supplement figures are matplotlib (`pcb/figures/`); the four **main** figures
-are drawn by an R publication layer (`paper_figures/main_figures.R`, run via
-`make figures-r`) that reads only committed `results/*.csv` — R >= 4.1 with
-ggplot2, dplyr/tidyr/readr, cowplot, ggrepel, sf, scico. The committed PDFs
-under `paper/figures/` are the canonical versions either way.
 
 ## 3. Where each number lives
 
