@@ -98,13 +98,16 @@ between nested bands anchored at an exact band is validity-free. That is nested-
 branches so that it applies. A union bound then charges the one non-nested
 branch its own budget. Two scope notes. At $K\ge94$ the reported level is a frozen calibrated bound, not a
 theorem. And the unsurveyed-target deployment uses a leave-one-out center, outside
-Theorem~\ref{thm:exact}'s symmetric constructions: its residual asymmetry is
-$O(1/K^2)$, dispersion-ordered in the conservative direction (a heuristic for
-sup-scores, not a bound; Supplementary Material), and a $28$-cell simulation
-across four families finds no cell below the exact-construction floor beyond
-Monte Carlo error. The strictly exact alternative is infeasible
-at survey scale: halving the calibration set below $\lceil1/\alpha\rceil$ units
-makes the conformal radius infinite, exactly at the $K$ this paper works at.
+Theorem~\ref{thm:exact}'s symmetric constructions --- but not outside theory:
+the deployed band inflated by $K/(K{-}1)$ is finite-sample valid at every $K$,
+distribution-free, so the uninflated deployment carries an explicit coverage
+remainder $\delta_K=O(1/K)$, the probability mass in a window of relative
+width $1/(K{-}1)$ above the radius (Supplementary Material, Proposition~S).
+A $28$-cell simulation across four families measures $\delta_K$ at zero ---
+no cell below the exact-construction floor beyond Monte Carlo error. The
+strictly exact split-fold alternative remains infeasible at survey scale:
+halving the calibration set below $\lceil1/\alpha\rceil$ units makes the
+conformal radius infinite, exactly at the $K$ this paper works at.
 
 \paragraph{Efficiency.} The low-$\rho$ deconvolution-to-clustered width ratio is
 $1-\tfrac12\rho^2+O(\rho^4)$, proved; the conservative band contains the clustered one

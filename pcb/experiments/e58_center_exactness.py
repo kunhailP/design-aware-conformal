@@ -4,10 +4,10 @@ Theorem 3 states exactness for centers satisfying the symmetric-construction
 condition (fixed / own-unit / split-fold / validation-mode grand mean). The
 DEPLOYED unsurveyed-target construction instead uses the leave-one-out center
 (`loo_deviations`): each calibration score excludes its own unit, the target's
-center is the mean of all K. The docstring argument says the residual
-asymmetry is O(1/K^2) in the CONSERVATIVE direction (the calibration pool has
-K-1 units, so its deviations are, if anything, more dispersed than the
-target's); the manuscript currently calls this "bounded only heuristically."
+center is the mean of all K. The supplement's LOO-validity
+proposition now covers this construction: inflated by K/(K-1) it is exactly
+valid at every K, and the uninflated deficit delta_K is O(1/K); this
+experiment measures both.
 
 This experiment measures the seam directly, at the K where an O(1/K^2) term
 could bite. For each family and K, over many replications:
@@ -73,8 +73,8 @@ def _finite_q(scores: np.ndarray, alpha: float) -> float:
 
 
 def _cell(fam: str, K: int) -> dict:
-    cov = dict(loo=0, split=0, oracle=0, grand=0)
-    wid = dict(loo=0.0, split=0.0, oracle=0.0, grand=0.0)
+    cov = dict(loo=0, loo_inf=0, split=0, oracle=0, grand=0)
+    wid = dict(loo=0.0, loo_inf=0.0, split=0.0, oracle=0.0, grand=0.0)
     nA = K // 2                                  # split: fold A -> center
     for rep in range(REPS):
         rng = np.random.default_rng(det_seed("e58", fam, K, rep))
@@ -86,6 +86,10 @@ def _cell(fam: str, K: int) -> dict:
         E_loo = cal - (tot[None] - cal) / (K - 1)
         q = _finite_q(np.max(np.abs(E_loo), 1), ALPHA)
         cov["loo"] += int(np.max(np.abs(tgt - tot / K)) <= q); wid["loo"] += q
+        # K/(K-1)-inflated deployment: exact-valid by the LOO proposition
+        qi = q * K / (K - 1)
+        cov["loo_inf"] += int(np.max(np.abs(tgt - tot / K)) <= qi)
+        wid["loo_inf"] += qi
 
         # SPLIT: center from fold A, scores from fold B, target same center
         muA = cal[:nA].mean(0)
@@ -128,6 +132,9 @@ def main():
     print(f"\nLOO coverage minus Vovk floor: min {fl.min():+.4f} "
           f"(MC-SE {d.mc_se.iloc[0]:.4f}); "
           f"cells below floor - 2*SE: {(fl < -2 * d.mc_se).sum()} of {len(d)}")
+    fi = d.cov_loo_inf - d.vovk_floor
+    print(f"inflated LOO (theorem-exact): min gap {fi.min():+.4f}; "
+          f"cells below floor - 2*SE: {(fi < -2 * d.mc_se).sum()} of {len(d)}")
     print(f"grand-mean (excluded case)  : min gap "
           f"{(d.cov_grand - d.vovk_floor).min():+.4f} "
           f"(the self-inclusion deficit Theorem 3 exists to avoid)")

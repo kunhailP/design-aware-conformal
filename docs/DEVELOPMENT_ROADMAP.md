@@ -72,11 +72,16 @@ architecture the revision exists to fix.
   infeasibility; §8 "valid at any K"; supplement rem:center cites e58 with the
   honest "heuristic, not a bound" framing kept. Ledger pin:
   `test_center_exactness_seam`.
-- A2 remains OPEN as an upgrade, not a gate: a formal one-sided dominance lemma
-  for sup-scores would convert the measured heuristic into a theorem (the
-  supplement's rem:bimodal explains why naive convolution monotonicity fails).
-  Candidate route: coupling the K−1 and K pools plus a dispersive-ordering
-  argument on the max; park unless a referee asks.
+- A2 CLOSED 2026-08-20: **Proposition (LOO validity)** proved in the
+  supplement. Key identities: the fully symmetric K+1-unit LOO residuals are
+  exchangeable, the target scores of the symmetric and deployed constructions
+  COINCIDE exactly, and each symmetric calibration score ≤ deployed score +
+  R*/K. Hence the deployed band inflated by K/(K−1) is finite-sample valid at
+  every K, distribution-free, and the uninflated deployment carries an
+  explicit δ_K = O(1/K) remainder. e58 extended (cov_loo_inf): inflated min
+  gap +0.0000, 0/28 below floor. Code: `loo_exact_inflation`; contract tests
+  `test_loo_validity.py` pin the identities and the floor. The manuscript no
+  longer says "heuristic, not a bound" anywhere.
 
 ## Workstream B — feasibility frontier theorem (최우선) — SHIPPED 2026-08-20
 

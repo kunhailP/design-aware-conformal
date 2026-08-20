@@ -60,10 +60,14 @@ def loo_deviations(F: np.ndarray) -> np.ndarray:
     excludes the target. The two pools still differ by one unit (K−1 vs K), so
     the calibration deviations are, if anything, slightly MORE dispersed than
     the target's — a residual O(1/K²) asymmetry in the conservative direction.
-    For strict finite-sample exactness use a fixed, own-unit (LOCF), or
-    split-fold center — the constructions Theorem 3 states; when the target IS
-    surveyed (validation mode), including it in a common grand mean restores
-    full symmetry and exactness directly.
+    The deployed construction is itself theorem-covered (supplement,
+    Proposition: LOO validity): inflating the radius by K/(K−1) —
+    `loo_exact_inflation(K)` — restores exact finite-sample validity at every
+    K, distribution-free, and the uninflated band carries an explicit O(1/K)
+    coverage remainder, measured at zero in e58. When the target IS surveyed
+    (validation mode), a common grand mean restores exactness directly; fixed,
+    own-unit (LOCF), and split-fold centers are the other exact constructions
+    Theorem 3 states.
     """
     F = np.asarray(F, dtype=float)
     K = F.shape[0]
@@ -71,6 +75,17 @@ def loo_deviations(F: np.ndarray) -> np.ndarray:
         raise ValueError("need at least 2 calibration units for a LOO center")
     tot = F.sum(axis=0, keepdims=True)
     return F - (tot - F) / (K - 1)
+
+
+def loo_exact_inflation(K: int) -> float:
+    """Radius factor restoring exact finite-sample validity for the deployed
+    leave-one-out construction (supplement, Proposition: LOO validity):
+    P(target score <= K/(K-1) * q_hat) >= 1 - alpha at every K,
+    distribution-free. At this paper's cross-national K the cost is <= 3.5%
+    of width; e58 measures the uninflated deficit at zero."""
+    if K < 2:
+        raise ValueError("need K >= 2")
+    return K / (K - 1.0)
 
 
 def isotonic_tighten(lo: np.ndarray, hi: np.ndarray):

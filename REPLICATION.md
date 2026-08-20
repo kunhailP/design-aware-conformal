@@ -29,7 +29,7 @@ independent environments):
 ### Step 0 — contract tests (no data, ~20 s)
 
 ```bash
-python -m pytest tests/ -q          # 104 tests
+python -m pytest tests/ -q          # 107 tests
 ```
 
 70 theorem↔code contract tests plus the claim ledger. **If this

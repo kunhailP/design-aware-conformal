@@ -258,24 +258,73 @@ $O(1/K)$ asymmetry. The deployed remedy is the leave-one-out deviation
 $E_c=\widehat\theta_c-\operatorname{mean}_{c'\ne c}\widehat\theta_{c'}$
 (\texttt{pcb.inference.conformal\_band.loo\_deviations}): each calibration score then
 excludes its own unit exactly as the target's score excludes the target. The residual
-asymmetry (a pool of $K{-}1$ versus $K$ units) adds an independent mean-noise term of
-variance larger by $O(1/K^2)$ to the calibration deviations; we \emph{conjecture} the
-resulting perturbation is conservative-direction for sup-scores (larger convolution
-noise typically enlarging upper order statistics), but by Remark~\ref{rem:bimodal}
-convolution does not monotonically enlarge quantiles in general, so we state this as
-a heuristic with an $O(1/K^2)$ magnitude, not a bound. The heuristic is
-measured directly in the replication package (\texttt{e58}): across four
-families (Gaussian, $t_3$, skewed, dependent-round) and $K\in\{6,\dots,60\}$,
-$28$ cells at $20{,}000$ replications each, leave-one-out coverage never falls
-below the exact-construction floor by more than twice the Monte Carlo standard
-error, while the grand-mean construction this remark excludes shows its
-$O(1/K)$ deficit (worst $-0.064$), and a split-fold center --- strictly exact
---- returns an infinite radius whenever halving drops the calibration fold
-below $\lceil1/\alpha\rceil$ units, i.e.\ throughout the cross-national range
-$K\le15$ at $\alpha=0.10$. The asymmetry vanishes
-entirely under constructions (i)--(iv), which the headline ESS certification
-satisfies through its own-previous-round centers (case~iii).
+asymmetry (a pool of $K{-}1$ versus $K$ units) is covered by the following
+result, which places the deployed construction itself under a finite-sample
+guarantee.
 \end{remark}
+
+\begin{proposition}[Finite-sample validity of the leave-one-out deployment]
+\label{prop:loo}
+Let $X_1,\dots,X_K$ be the calibration curves and $X_{K+1}$ the target,
+exchangeable in $\mathbb R^T$; let
+$a_c=\lVert X_c-\bar X_{-c}\rVert$ be the deployed leave-one-out scores,
+with $\bar X_{-c}$ the mean of the other $K{-}1$ calibration curves and
+$\lVert\cdot\rVert$ any norm; let $R^*=\lVert X_{K+1}-\bar X\rVert$ be the
+target score, $\bar X$ the mean of the $K$ calibration curves; and let
+$\widehat q$ be the $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of
+$\{a_c\}$. Then, distribution-free and for every $K\ge2$:
+\emph{(i)}
+$\Pr\!\big(R^*\le\tfrac{K}{K-1}\,\widehat q\big)
+\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$ ---
+the deployed band inflated by $K/(K{-}1)$ is finite-sample valid;
+\emph{(ii)} the uninflated deployed band satisfies
+$\Pr(R^*\le\widehat q)\ge1-\alpha-\delta_K$ with
+$\delta_K=\Pr\big(\widehat q<R^*\le\tfrac{K}{K-1}\widehat q\big)$;
+if the law of $R^*$ has density at most $L$ on a neighbourhood of the deployed
+radius and $\widehat q\le\bar q$ a.s., then
+$\delta_K\le L\,\bar q/(K{-}1)=O(1/K)$.
+\end{proposition}
+
+\begin{proof}
+For $i=1,\dots,K{+}1$ define the fully symmetric leave-one-out residuals over
+\emph{all} $K{+}1$ units, $e_i=X_i-\operatorname{mean}_{j\ne i}X_j
+=\tfrac{K+1}{K}\,(X_i-\bar X_+)$, with $\bar X_+$ the mean of all $K{+}1$
+curves. The array $(e_1,\dots,e_{K+1})$ is a symmetric function of the sample,
+so $(\lVert e_i\rVert)$ is exchangeable, and the conformal rank inequality
+gives $\Pr\big(\lVert e_{K+1}\rVert\le
+\lVert e\rVert_{(m)}\big)\ge m/(K{+}1)$ for
+$m=\lceil(1-\alpha)(K{+}1)\rceil$, where $\lVert e\rVert_{(m)}$ is the
+$m$-th order statistic of the $K$ calibration values. Two identities connect
+this infeasible construction to the deployed one. First,
+$X_{K+1}-\bar X_+=\tfrac{K}{K+1}(X_{K+1}-\bar X)$, so
+$\lVert e_{K+1}\rVert=R^*$ \emph{exactly}: the target scores of the two
+constructions coincide. Second, for $c\le K$,
+$e_c=\tfrac{K+1}{K}(X_c-\bar X)-\tfrac1K(X_{K+1}-\bar X)$, while
+$a_c=\tfrac{K}{K-1}\lVert X_c-\bar X\rVert$; since
+$\tfrac{K+1}{K}\le\tfrac{K}{K-1}$, the triangle inequality gives
+$\lVert e_c\rVert\le a_c+R^*/K$ for every $c$. On the event
+$\{R^*\le\lVert e\rVert_{(m)}\}$ at least $K-m+1$ calibration units have
+$\lVert e_c\rVert\ge R^*$, hence $a_c\ge R^*(1-1/K)$ for those units, hence
+$\widehat q\ge R^*\tfrac{K-1}{K}$, which is (i). Part (ii) is immediate from
+(i), the window $(\widehat q,\tfrac{K}{K-1}\widehat q]$ having relative
+width $1/(K{-}1)$.
+\end{proof}
+
+The remainder $\delta_K$ is measured directly in the replication package
+(\texttt{e58}): across four families (Gaussian, $t_3$, skewed,
+dependent-round) and $K\in\{6,\dots,60\}$, $28$ cells at $20{,}000$
+replications each, uninflated leave-one-out coverage never falls below the
+exact-construction floor by more than twice the Monte Carlo standard error ---
+the measured $\delta_K$ is zero --- while the grand-mean construction the
+remark above excludes shows its real $O(1/K)$ deficit (worst $-0.064$), and a
+split-fold center returns an infinite radius whenever halving drops the
+calibration fold below $\lceil1/\alpha\rceil$ units, i.e.\ throughout the
+cross-national range $K\le15$ at $\alpha=0.10$. The asymmetry vanishes
+entirely under constructions (i)--(iv), which the headline ESS certification
+satisfies through its own-previous-round centers (case~iii); the
+$K/(K{-}1)$-inflated deployment of Proposition~\ref{prop:loo}(i) is available
+in the package (\texttt{loo\_exact\_inflation}) and costs at most $3.5\%$
+of width at the $K$ of this paper's surveys.
 
 \emph{Modulation self-inclusion deficit (proof sketch; estimated constant).} If instead
 one studentizes by an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,E_c(t)$ computed

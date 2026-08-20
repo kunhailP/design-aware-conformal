@@ -460,6 +460,9 @@ def test_center_exactness_seam():
     assert len(d) == 28, len(d)
     gap = d.cov_loo - d.vovk_floor
     assert (gap >= -2 * d.mc_se).all(), gap.min()
+    if "cov_loo_inf" in d.columns:   # the K/(K-1)-inflated deployment is
+        gi = d.cov_loo_inf - d.vovk_floor      # theorem-exact (Prop. LOO)
+        assert (gi >= -2 * d.mc_se).all(), gi.min()
     assert round(float((d.cov_grand - d.vovk_floor).min()), 3) == -0.064
     small = d[d.K <= 15]
     assert np.isinf(small.w_split).all(), "split-fold must be infinite at K<=15"

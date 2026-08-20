@@ -11,8 +11,9 @@ the trajectories, predicting one country's from the others', for which
 conformal methods are a natural tool, promising finite-sample,
 distribution-free coverage \citep{vovk2005algorithmic,lei2018distribution}.
 
-\paragraph{Two wrong units.} Uncertainty should be attached to the same unit as
-the substantive claim; claims from repeated surveys violate this twice. A
+\paragraph{Two wrong units.} One principle organizes this paper: \emph{the
+stochastic unit of a guarantee must coincide with the unit of the scientific
+claim it certifies}. Claims from repeated surveys violate it twice. A
 common inferential move builds the \emph{claim} --- ``democratic trust is
 declining'' --- from a single wave-pair contrast and narrates it as a
 country-level trend \citep{foa2016democratic,foa2017signs,valgardsson2025crisis}.
@@ -59,8 +60,11 @@ diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$, so the deployed
 correction requires $K\ge94$ exchangeable populations, and the two largest
 surveys fail in opposite ways (Section~\ref{sec:evidence}). The
 deployed selector is the theory's consequence: its anchor band is exact at any
-$K$ under its symmetric centers (conservative to $O(1/K^2)$ as deployed,
-Theorem~\ref{thm:exact}), its anchor branches are nested so selection among
+$K$ under its symmetric centers and its leave-one-out deployment carries its
+own finite-sample guarantee --- exactly valid after an explicit $K/(K{-}1)$
+radius inflation, with an $O(1/K)$ remainder uninflated
+(Theorem~\ref{thm:exact}; Supplementary Material) --- its anchor branches are
+nested so selection among
 them is validity-free, and the non-nested deconvolution branch is charged
 a frozen budget only where its gate can open (Theorem~\ref{thm:safe}). One
 unit down, on a region's departure from its national distribution
