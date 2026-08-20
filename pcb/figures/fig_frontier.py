@@ -1,78 +1,64 @@
-"""The feasibility frontier in the (K, rho) plane (E57).
+"""Figure 2 (APSR grammar) — the feasibility frontier, observations first.
 
-Writes figures/feasibility_frontier.pdf
-       figures/feasibility_frontier.png
-
-Three regimes from two universal quantities: the maximal width gain
-1 - sqrt(1 - rho^2) (AW-1) and the reliability floor sqrt(2/(K-1))
-(Lemma: universal floor). Boundaries drawn at the frozen instantiations
-rho_0 = 0.47 and K = 1 + 2/tau_D^2 = 94; points are real-data cells from the
-committed results (WVS gate probe, ESS national-unit scan, ESS small-area
-transport), filled where the frozen selector activated.
-
-Run:  python -m pcb.figures.fig_frontier   (after e57_feasibility_frontier)
+The real-data cells and their estimation uncertainty are the protagonists;
+the frozen boundaries are thin dashed rules pushed behind the data, regime
+words are three small italic labels, and there are no fills or colors.
+figures/feasibility_frontier.{pdf,png}.
+Run:  python -m pcb.figures.fig_frontier   (after e57)
 """
 import matplotlib
 matplotlib.use("Agg")
-from pcb.figures.style import use as _style_use
-_style_use()
+from pcb.figures.style import apsr, apsr_box, INK, GR1, GR2
+apsr()
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-TEXT, MUTED, GRID, SURF = "#1a1a19", "#6b6a63", "#e5e4dd", "#fcfcfb"
-RED, BLUE, GREEN = "#D55E00", "#0072B2", "#0e7a52"
 RHO0 = 0.47
 TAU_D = (0.02 - 0.0061) / 0.0943
-KSTAR = int(np.ceil(1 + 2 / TAU_D ** 2))          # 94
+KSTAR = int(np.ceil(1 + 2 / TAU_D ** 2))
+MARKS = {"WVS full-coverage items": ("s", "WVS items"),
+         "ESS national-unit scan": ("o", "ESS national"),
+         "ESS small-area (e54)": ("^", "ESS small-area"),
+         "ESS small-area, common NUTS level": ("D",
+                                               "Small-area, one NUTS level")}
 
 
 def main():
     d = pd.read_csv("results/feasibility_frontier.csv")
-    fig, ax = plt.subplots(figsize=(7.6, 4.4), facecolor=SURF)
-    ax.set_facecolor(SURF)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
-    for s in ("left", "bottom"):
-        ax.spines[s].set_color(MUTED)
-    ax.tick_params(colors=MUTED, labelsize=10)
+    fig, ax = plt.subplots(figsize=(5.2, 3.6))
+    apsr_box(ax, ygrid=False)
     ax.set_xscale("log")
-    ax.set_xlim(8, 420); ax.set_ylim(0, 0.62)
-
-    # regimes
-    ax.axhspan(0, RHO0, color="#efeee8", zorder=0)
-    ax.axvspan(8, KSTAR, ymin=RHO0 / 0.62, ymax=1, color="#f6e3d3", zorder=0)
-    ax.axvspan(KSTAR, 420, ymin=RHO0 / 0.62, ymax=1, color="#e2efe6", zorder=0)
-    ax.axhline(RHO0, color=RED, lw=1.1, ls="--")
-    ax.axvline(KSTAR, color=GREEN, lw=1.1, ls="--")
-    ax.text(9, RHO0 - 0.045, f"unnecessary: ρ̂$_{{LCB}}$ ≤ ρ₀ = {RHO0}",
-            fontsize=10, color=MUTED)
-    ax.text(9, 0.56, "unlearnable:\nK < 1 + 2/τ²", fontsize=10, color=RED)
-    ax.text(KSTAR * 1.1, 0.56, f"feasible: K ≥ {KSTAR}", fontsize=10,
-            color=GREEN)
-
-    marks = {"WVS full-coverage items": (BLUE, "o"),
-             "ESS national-unit scan": (RED, "s"),
-             "ESS small-area (e54)": (GREEN, "^"),
-             "ESS small-area, common NUTS level": ("#8a7a1e", "D")}
-    for name, (col, mk) in marks.items():
+    ax.set_xlim(8, 420)
+    ax.set_ylim(0, 0.62)
+    # boundaries: thin, behind the data
+    ax.axhline(RHO0, color=GR2, lw=0.7, ls="--", zorder=1)
+    ax.axvline(KSTAR, color=GR2, lw=0.7, ls="--", zorder=1)
+    ax.text(8.7, RHO0 + 0.014, r"$\rho_0$", fontsize=8, color=GR1)
+    ax.text(KSTAR * 0.93, 0.598, r"$K=94$", fontsize=8, color=GR1, va="top", ha="right")
+    for t, xy, va in [("Unnecessary", (150, 0.02), "baseline"),
+                      ("Unlearnable", (9, 0.585), "top"),
+                      ("Feasible", (160, 0.585), "top")]:
+        ax.text(*xy, t, fontsize=7.5, style="italic", color=GR2, va=va)
+    for name, (mk, lab) in MARKS.items():
         g = d[d.dataset == name]
-        fired = g[g.activated]
-        idle = g[~g.activated]
-        ax.scatter(idle.K, idle.rho_lcb, s=34, facecolors="none",
-                   edgecolors=col, marker=mk, label=name, lw=1.2)
-        if len(fired):
-            ax.scatter(fired.K, fired.rho_lcb, s=44, facecolors=col,
-                       edgecolors=col, marker=mk,
-                       label=name + " — selector fired")
-    ax.set_xlabel("number of exchangeable populations  K (log scale)",
-                  fontsize=10.5, color=TEXT)
-    ax.set_ylabel("design-to-total ratio  ρ̂$_{LCB}$", fontsize=10.5,
-                  color=TEXT)
-    ax.legend(fontsize=9, frameon=False, labelcolor=TEXT, loc="center right")
+        ax.vlines(g.K, g.rho_lcb, g.rho_hat, color=GR2, lw=0.6, zorder=2)
+        idle, act = g[~g.activated], g[g.activated]
+        ax.scatter(idle.K, idle.rho_lcb, s=20, facecolors="white",
+                   edgecolors=INK, marker=mk, lw=0.8, label=lab, zorder=3)
+        if len(act):
+            ax.scatter(act.K, act.rho_lcb, s=27, facecolors=INK,
+                       edgecolors=INK, marker=mk, zorder=4,
+                       label="Selector activated")
+    ax.set_xlabel("Exchangeable populations, K (log scale)", fontsize=9)
+    ax.set_ylabel(r"Design-to-total ratio, $\hat\rho$"
+                  "  (bar: LCB to estimate)", fontsize=9)
+    ax.legend(fontsize=7.5, frameon=False, loc="lower left",
+              handletextpad=0.15, labelspacing=0.3, borderaxespad=0.3)
     fig.tight_layout()
-    fig.savefig("figures/feasibility_frontier.pdf")
-    fig.savefig("figures/feasibility_frontier.png", dpi=200)
+    fig.savefig("figures/feasibility_frontier.pdf", bbox_inches="tight")
+    fig.savefig("figures/feasibility_frontier.png", dpi=300,
+                bbox_inches="tight")
     print("wrote figures/feasibility_frontier.pdf")
 
 

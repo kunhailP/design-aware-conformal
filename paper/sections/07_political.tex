@@ -20,7 +20,7 @@ With the claim family and its one-band certification defined in
 Section~\ref{sec:claims}, the reanalysis reads results off it.
 
 \paragraph{The counts collapse across claims.} For \texttt{trstprl} over rounds
-9--11 (Figure~\ref{fig:hierarchy}), a marginal pairwise reading flags $20$ of $30$
+9--11, a marginal pairwise reading flags $20$ of $30$
 countries; an any-pair
 design-aware band drops this to $12$; net first-to-last decline holds in $6$
 (Austria, Belgium, Estonia, the United Kingdom, Greece, the Netherlands); and the
@@ -61,7 +61,8 @@ and returns toward baseline).
 Under Proposition~\ref{prop:transfer}---one band, every ordered contrast and
 both directions at $\alpha=0.10$ jointly---net erosion over the
 whole span certifies in eight countries (Cyprus, Spain, the United
-Kingdom, Greece, Hungary, Israel, Italy, Ukraine; Table~\ref{tab:magnitudes}).
+Kingdom, Greece, Hungary, Israel, Italy, Ukraine;
+Figure~\ref{fig:bounds}, Table~\ref{tab:magnitudes}).
 Against the per-claim construction the joint statement costs France at the span
 claim ($9\to8$) and six countries at the any-pair claim ($28\to22$); the two runs
 define adjacency differently, and the persistent zero holds under both
@@ -113,12 +114,15 @@ Spain & 1--11 & \phantom{0}0.6 & 32/55 & 0.58 \\
 \end{tabular}
 \end{table}
 \begin{figure}[t]\centering
-\includegraphics[width=.8\textwidth]{guarantee_hierarchy.pdf}
-\caption{Certified declines collapse rung by rung ($\alpha=0.10$). Left,
-rounds 9--11 ($K=30$), with one path per inference layer; the headline sequence
-$20\to12\to6\to1$ reads down the plug-in marker and then along the design-aware
-path. Right, the full record off one joint band ($K=33$), where the two layers
-coincide by construction and one path is drawn.}\label{fig:hierarchy}
+\includegraphics[width=.8\textwidth]{ess_net_bounds.pdf}
+\caption{The certified object itself: each country's simultaneous lower
+bound on the net (first-to-last) decline in parliamentary trust, 2002--2024,
+read off that country's joint band over every ordered contrast at
+$\alpha=0.10$. Filled markers: the eight countries whose bound exceeds zero
+(certified); asterisks: the six countries named by the closed-testing
+prevalence bound (at least six true decliners at $90\%$ simultaneous
+confidence). Negative bounds say how far a country sits from certifying, not
+that it improved.}\label{fig:bounds}
 \end{figure}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
@@ -191,8 +195,11 @@ response-distribution trajectory itself: certification is descriptive error cont
 forecast. Item-level caveats are in the Supplementary Material.
 
 \begin{figure}[t]\centering
-\includegraphics[width=.9\textwidth]{certified_core.pdf}
-\caption{Co-certification across the five battery items (WVS/EVS 1981--2022;
-$K=59$--$77$ per item). Countries above the dashed line form the $\ge2$-item
-certified core.}\label{fig:core}
+\includegraphics[width=.95\textwidth]{certified_core.pdf}
+\caption{The thirteen-country certified core, by evidence strength (WVS/EVS
+1981--2022; $K=59$--$77$ per item). Circle area is the certified minimum
+per-pair decline --- the persistent band's simultaneous lower bound, in CDF
+points; small open circles mark items that do not certify. The full matrix
+of all thirty-eight countries certifying at least one item is in the
+Supplementary Material.}\label{fig:core}
 \end{figure}

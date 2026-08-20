@@ -66,3 +66,32 @@ def save(fig, name, formats=("pdf", "png")):
         fig.savefig(f"figures/{name}.{ext}", dpi=300 if ext == "png" else None,
                     bbox_inches="tight", pad_inches=0.02)
     plt.close(fig)
+
+
+# ---- APSR/AJPS grammar (final main-figure system) --------------------------
+# Ink + two grays; identity by linetype+marker, never color; full box frame;
+# dotted y-grid; direct labels; (a)/(b) panel tags; Arial 8-9.5pt at print size.
+INK, GR1, GR2, GR3 = "#000000", "#4d4d4d", "#8c8c8c", "#c8c8c8"
+
+
+def apsr():
+    import matplotlib.pyplot as plt
+    plt.rcParams.update({
+        "font.family": "sans-serif",
+        "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
+        "font.size": 9, "axes.linewidth": 0.8,
+        "xtick.direction": "out", "ytick.direction": "out",
+        "figure.facecolor": "white", "savefig.facecolor": "white",
+        "pdf.fonttype": 42, "ps.fonttype": 42,
+    })
+
+
+def apsr_box(ax, ygrid=True, xgrid=False):
+    for s in ax.spines.values():
+        s.set_color(INK); s.set_linewidth(0.8); s.set_visible(True)
+    ax.tick_params(colors=INK, labelsize=8, width=0.8, length=3)
+    if ygrid:
+        ax.grid(axis="y", color=GR3, lw=0.5, ls=(0, (1, 2)))
+    if xgrid:
+        ax.grid(axis="x", color=GR3, lw=0.5, ls=(0, (1, 2)))
+    ax.set_axisbelow(True)

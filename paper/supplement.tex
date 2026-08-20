@@ -680,7 +680,8 @@ there is nothing worth removing), \emph{unlearnable} ($\rho$ large but
 $K<1+2/\tau^2$ --- the need is real and no estimator is reliable enough to
 certify the subtraction), and \emph{feasible} ($\rho$ and $K$ both large). The
 deployed gates A and B are the frozen instantiations of the two quantities.
-Figure~S\ref{fig:frontier} (\texttt{e57}) places this paper's datasets: the WVS
+the main text's Figure~2 places this paper's datasets (per-gate
+diagnostics in Figure~S\ref{fig:gates}): the WVS
 full-coverage sets sit deep in the unnecessary regime ($K=95$--$105$,
 $\rhohat_{\mathrm{LCB}}\le0.10$); every ESS national-unit cell sits left of the
 floor ($K\le33$, $\rhohat_{\mathrm{LCB}}\le0.15$); and the small-area estimand
@@ -694,13 +695,13 @@ cannot.
 \end{remark}
 
 \begin{figure}[t]\centering
-\includegraphics[width=.82\textwidth]{feasibility_frontier.pdf}
-\caption{The feasibility frontier in the $(K,\rho)$ plane. Shaded regions:
-correction unnecessary ($\rhohat_{\mathrm{LCB}}\le\rho_0$), unlearnable
-($K<1+2/\tau_D^2=94$), feasible (both boundaries crossed). Points are real
-data cells: WVS full-coverage items, ESS national-unit scan, and the ESS
-small-area estimand, filled where the frozen selector activated
-(\texttt{e57}).}\label{fig:frontier}
+\includegraphics[width=\textwidth]{unreachability.pdf}
+\caption{Per-gate diagnostics behind the main text's feasibility frontier.
+Left, gate A: $\rhohat$ against $\rho_0$ by ESS age band (each point the
+maximum over that band's min-$n$ sweep, $42$ cells). Right, gate B:
+reliability $D$ against its floor $\sqrt{2/(K-1)}$ --- the ESS sits on the
+floor at $K\le33$, and only the WVS item sets reach $K\ge94$, where gate A
+fails instead.}\label{fig:gates}
 \end{figure}
 
 \subsection{Efficiency results AW-1--AW-3 and the open oracle inequality (AW-4)}
@@ -1055,6 +1056,14 @@ tests pin the distinction and verify validity on planted truth,
 decline on at least one battery item (WVS/EVS 1981--2022), colored by region;
 countries above the dashed line form the $\ge2$-item certified core shown in
 the main text's Figure~4 (\texttt{e30}).}\label{fig:corefull}
+\end{figure}
+
+\begin{figure}[t]\centering
+\includegraphics[width=.8\textwidth]{certified_core_full.pdf}
+\caption{All thirty-eight countries certifying persistent distribution-wide
+decline on at least one battery item (WVS/EVS 1981--2022), colored by region;
+countries above the dashed line form the $\ge2$-item certified core shown,
+magnitude-aware, in the main text's Figure~4.}\label{fig:corefull}
 \end{figure}
 
 \paragraph{The small-area activation, in full (\texttt{e54}, \texttt{e55}).}

@@ -31,7 +31,7 @@ $K\ge94$ at the frozen $\tau_D=0.147$. (the Supplementary Material separates the
 deterministic statement from its kurtosis-dependent interpretation.)
 \end{proposition}
 
-The two requirements pull apart on real surveys (Figure~\ref{fig:unreach}). On
+The two requirements pull apart on real surveys (Figure~\ref{fig:frontier}). On
 the ESS the noisiest subpopulations raise $\rhohat$ only to $0.29$ while $K\le33$
 leaves $D\ge0.25$: neither gate opens ($42$ cells, zero activations). The
 WVS is the mirror image: its full item-coverage sets ($K=95$--$105$) make the
@@ -51,7 +51,7 @@ is one instantiation, $94$ its intercept, $\sqrt{2/(K-1)}$ the law for this
 estimator class. With the proved width gain
 $1-\sqrt{1-\rho^2}$, the $(K,\rho)$ plane splits into three regimes ---
 correction \emph{unnecessary}, \emph{unlearnable}, \emph{feasible} --- and this
-paper's datasets occupy the three corners (Supplementary Material Figure).
+paper's datasets occupy the three corners (Figure~\ref{fig:frontier}).
 
 \paragraph{Where the correction does live: small areas, on this same survey.}
 The barrier is about the unit, and the ESS itself contains a finer one. Take the
@@ -117,10 +117,11 @@ choosing among substantive areal partitions is the modifiable areal unit problem
 \citep{openshaw1984modifiable,robinson1950ecological}, to which we add nothing.
 
 \begin{figure}[t]\centering
-\includegraphics[width=\textwidth]{unreachability.pdf}
-\caption{The two barriers at the national unit, and why no survey clears both.
-Left, $\rhohat$ against $\rho_0$ by ESS age band (each point the maximum over
-that band's min-$n$ sweep, $42$ cells). Right, reliability $D$ against its floor
-$\sqrt{2/(K-1)}$: the ESS sits on the floor at $K\le33$, and only the WVS item
-sets reach $K\ge94$, where gate A fails instead.}\label{fig:unreach}
+\includegraphics[width=.92\textwidth]{feasibility_frontier.pdf}
+\caption{The feasibility frontier in the $(K,\hat\rho)$ plane. Each marker
+is a real-data cell, placed at its lower confidence bound with a bar to the
+point estimate; filled markers are the four cells where the frozen selector
+activated. Dashed rules are the frozen boundaries (the need cutoff $\rho_0$
+and the reliability floor $K=1+2/\tau_D^2=94$); per-gate diagnostics are in
+the Supplementary Material.}\label{fig:frontier}
 \end{figure}
