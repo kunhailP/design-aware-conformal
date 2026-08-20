@@ -64,7 +64,7 @@ min_n,essround,cntry,n_regions,K_train,branch,cov_selected,cov_pcb_anchor
 100,11,FI,3,159,PCB,1.0,1.0
 100,11,FR,5,157,PCB,1.0,1.0
 100,11,GB,9,153,PCB,1.0,1.0
-100,11,GR,8,154,PCB,0.5,0.375
+100,11,GR,8,154,PCB,0.625,0.375
 100,11,HR,5,157,PCB,1.0,1.0
 100,11,HU,8,154,PCB,0.875,0.875
 100,11,IE,8,154,PCB,1.0,1.0

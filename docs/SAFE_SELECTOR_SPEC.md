@@ -112,3 +112,35 @@ are UNCHANGED; what changed:
 Real-data consequences: none (all real cross-national data ride the PCB branch
 at full α; widths unchanged). Simulation consequences: e22/e31 rerun under the
 revised architecture; see HOLDOUT_VALIDATION_RESULTS.md addendum.
+
+---
+
+## Addendum (2026-08-20): deployed anchor radius carries the K/(K−1) LOO inflation
+
+The supplement's LOO-validity proposition (prop:loo) shows the deployed
+leave-one-out construction is finite-sample valid at every K once the anchor
+radius is inflated by K/(K−1) — distribution-free, any norm. As of this date
+that inflation is the released DEFAULT (`dapcb(..., loo_center=True)`,
+factor `pcb.inference.conformal_band.loo_exact_inflation`):
+
+1. **The frozen decision rule is untouched.** All four gates, the α-split,
+   and `gain_lcb` are evaluated on the UNINFLATED radii — bit-identical to the
+   rule validated on the sealed runs (verified: `results/small_area_transport.csv`
+   and `results/subnational_regions.csv` reproduce unchanged).
+2. **Only the returned anchor radius widens** (PCB and conservative by the
+   same factor, so nesting B_PCB ⊆ B_con is preserved; the deconvolution
+   branch is never inflated — its guarantee is the frozen calibrated
+   1−α−δ̂_UCB bound, validated end-to-end on the same LOO pipeline).
+3. **Sealed validation results are inherited a fortiori**: the inflation is a
+   monotone widening, so every frozen coverage record remains a valid lower
+   bound for the shipped band. e55 was rerun: only `cov_selected` in the
+   anchor-branch cells moves (upward, ≤ +0.006); every paper-quoted number
+   is unchanged.
+4. Symmetric-center constructions (fixed / own-unit / split-fold — e22, e31,
+   e33 and the ESS certification path) are exact UNINFLATED by Theorem 3 and
+   pass `loo_center=False`; their sealed records are bit-identical.
+
+Cost at ESS K=30: 30/29 ≈ 3.45% of width. Contract test:
+`tests/test_loo_validity.py::test_dapcb_ships_the_inflation_by_default`.
+The R port mirrors the default; golden expectations regenerated
+(`scripts/gen_golden_expected.py`), R↔Python agreement at 1e-10 re-verified.

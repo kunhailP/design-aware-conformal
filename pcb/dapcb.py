@@ -31,7 +31,11 @@ the non-nested deconvolution branch is charged a frozen α-budget (BUDGET_DEC)
 via a union bound, and only in the regime where its gate can open at all
 (K ≥ 94, a deterministic consequence of the reliability floor). At
 cross-national-survey K (< 94) the band covers the SURVEY-ESTIMATE trajectory
-T1 with probability ≥ 1−α, finite-sample exact by the order-statistic theorem.
+T1 with probability ≥ 1−α, finite-sample, by the order-statistic theorem: in
+the deployed leave-one-out centering (`loo_center=True`, the default) the
+returned anchor radius carries the K/(K−1) inflation of the LOO-validity
+proposition, so the guarantee holds for the construction as shipped, not just
+for its symmetric idealization.
 When the deconvolution budget is live (K ≥ 94) the reported
 `coverage_level = 1 − α − δ̂_UCB(D)` is a FROZEN CALIBRATED BOUND on latent
 (T2) coverage: δ̂_UCB(D) = 0.0061 + 0.0943·D was fit and frozen on the
@@ -51,7 +55,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from .inference.conformal_band import _modulation, isotonic_tighten
+from .inference.conformal_band import (_modulation, isotonic_tighten,
+                                       loo_exact_inflation)
 from .inference.design_aware import (_finite_quantile, deconv_reliability,
                                      deconv_target_scale, rho_lcb)
 
@@ -171,7 +176,7 @@ def _gain_lcb(r_dec, r_con):
 
 
 def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
-          tighten: bool = True) -> DapcbResult:
+          tighten: bool = True, loo_center: bool = True) -> DapcbResult:
     """Nominal-safe adaptive design-aware population conformal band.
 
     Parameters
@@ -186,6 +191,22 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
         Predicted curve for the new, unsurveyed target population.
     alpha : float
         Miscoverage level.
+    loo_center : bool
+        True (default) declares the deployed construction: `cal_errors` were
+        produced by leave-one-out centering around the pooled mean
+        (`loo_deviations`) and `center` predicts an UNSURVEYED target. The
+        returned anchor radii (PCB, conservative) then carry the K/(K-1)
+        inflation of the LOO-validity proposition (supplement), which restores
+        exact finite-sample validity for this construction at every K; the
+        gates and diagnostics are evaluated on the uninflated radii, so the
+        frozen decision rule is bit-identical to the one validated on the
+        sealed runs and the inflation is a pure monotone widening (nesting
+        B_PCB <= B_con is preserved). Set False only when the center is
+        symmetric in Theorem 3's sense (fixed, own-unit, or split-fold), where
+        the uninflated radius is already exact. The deconvolution branch is
+        never inflated: its guarantee is the frozen calibrated bound
+        1 - alpha - delta_ucb(D), validated end-to-end on the same
+        LOO-centered pipeline.
 
     Returns
     -------
@@ -254,6 +275,13 @@ def dapcb(cal_errors, v_cal, center, alpha: float = 0.10,
     # (development-grid fit, sealed validation), not a theorem constant.
     cov = 1 - alpha - (d_ucb if feasible else 0.0)
     target = "latent (T2, calibrated bound)" if feasible else "survey-estimate (T1)"
+
+    # Deployed LOO centering: inflate the ANCHOR radius by K/(K-1) so the
+    # LOO-validity proposition applies exactly (gates above already decided on
+    # the uninflated radii — the frozen rule — so this is a monotone widening
+    # that cannot lose a guarantee; at ESS K=30 it costs 3.4% width).
+    if loo_center and branch != "deconvolution" and K >= 2:
+        radius = radius * loo_exact_inflation(K)
 
     lo, hi = center - radius, center + radius
     if tighten:

@@ -58,3 +58,29 @@ def test_inflated_loo_band_meets_the_floor():
 def test_inflation_factor():
     assert abs(loo_exact_inflation(30) - 30 / 29) < 1e-12
     assert loo_exact_inflation(2) == 2.0
+
+
+def test_dapcb_ships_the_inflation_by_default():
+    """The deployed API returns the K/(K-1)-inflated anchor radius (the band
+    prop:loo(i) certifies), while the gates/diagnostics stay on the frozen
+    uninflated rule; loo_center=False recovers the symmetric-construction
+    radius exactly."""
+    from pcb import dapcb
+    from pcb.inference.conformal_band import loo_deviations
+
+    rng = np.random.default_rng(2)
+    K, T = 30, 6
+    F = rng.normal(0, 0.03, (K, T))
+    E = loo_deviations(F)
+    V = np.abs(rng.normal(0.002, 0.0004, (K, T)))
+    center = np.full(T, 0.5)
+    fit = dapcb(E, V, center, alpha=ALPHA, tighten=False)
+    ref = dapcb(E, V, center, alpha=ALPHA, tighten=False, loo_center=False)
+    r = np.asarray(fit.band[1]) - center
+    r0 = np.asarray(ref.band[1]) - center
+    assert fit.selected_branch == ref.selected_branch      # frozen rule intact
+    assert np.allclose(r, r0 * loo_exact_inflation(K), atol=1e-12)
+    # diagnostics identical: the inflation touches the returned radius only
+    assert fit.gain_lcb == ref.gain_lcb or (np.isnan(fit.gain_lcb)
+                                            and np.isnan(ref.gain_lcb))
+    assert fit.coverage_level == ref.coverage_level

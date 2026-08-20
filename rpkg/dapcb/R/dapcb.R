@@ -139,7 +139,9 @@ isotonic_tighten <- function(lo, hi) {
 #' reduces to the exact clustered band (low design noise) or a conservative
 #' envelope. The deployed guarantee is exact 1 - alpha for the SURVEY-ESTIMATE
 #' trajectory (T1) whenever the deconvolution branch is unreachable (K < 94 at
-#' the frozen constants); coverage of the latent trajectory then differs by the
+#' the frozen constants) -- in the default leave-one-out centering this holds
+#' for the construction as shipped, via the K/(K-1) anchor-radius inflation of
+#' the LOO-validity proposition (see \code{loo_center}); coverage of the latent trajectory then differs by the
 #' Theorem-2(b) design-noise gap, bounded through \code{rho_hat}. When the
 #' branch is live (K >= 94) the reported 1 - alpha - delta_ucb(D) is a frozen
 #' CALIBRATED bound on latent (T2) coverage, fit on the development grid and
@@ -153,6 +155,16 @@ isotonic_tighten <- function(lo, hi) {
 #' @param center length-T vector: predicted curve for the new population.
 #' @param alpha miscoverage level (default 0.10).
 #' @param tighten apply the coverage-preserving isotonic tightening (default TRUE).
+#' @param loo_center TRUE (default) declares the deployed construction:
+#'   \code{cal_errors} were produced by leave-one-out centering around the
+#'   pooled mean and \code{center} predicts an unsurveyed target. The returned
+#'   anchor radii (PCB, conservative) then carry the K/(K-1) inflation of the
+#'   LOO-validity proposition, restoring exact finite-sample validity for the
+#'   construction as shipped; gates are evaluated on the uninflated radii
+#'   (the frozen rule, unchanged). Set FALSE only for a symmetric center
+#'   (fixed, own-unit, split-fold), which is exact uninflated. The
+#'   deconvolution branch is never inflated (its guarantee is the frozen
+#'   calibrated bound).
 #' @return An object of class \code{dapcb}: a list with elements \code{lo},
 #'   \code{hi}, \code{selected_branch}, \code{rho_hat}, \code{rho_lcb},
 #'   \code{reliability}, \code{delta_ucb}, \code{gain_lcb},
@@ -166,7 +178,8 @@ isotonic_tighten <- function(lo, hi) {
 #' fit <- dapcb(E, V, center, alpha = 0.10)
 #' print(fit)
 #' @export
-dapcb <- function(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE) {
+dapcb <- function(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE,
+                  loo_center = TRUE) {
   E <- as.matrix(cal_errors); V <- as.matrix(v_cal)
   center <- as.numeric(center)
   if (!all(dim(V) == dim(E))) stop("cal_errors and v_cal must be (K, T) with equal shape")
@@ -218,6 +231,11 @@ dapcb <- function(cal_errors, v_cal, center, alpha = 0.10, tighten = TRUE) {
   }
   cov <- 1 - alpha - (if (feasible) d_ucb else 0)
   target <- if (feasible) "latent (T2, calibrated bound)" else "survey-estimate (T1)"
+
+  # deployed LOO centering: anchor radius inflated by K/(K-1) (LOO-validity
+  # proposition); gates above decided on the uninflated radii (frozen rule)
+  if (loo_center && branch != "deconvolution" && K >= 2)
+    radius <- radius * K / (K - 1)
 
   lo <- center - radius; hi <- center + radius
   if (tighten) {

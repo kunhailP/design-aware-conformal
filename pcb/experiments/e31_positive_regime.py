@@ -60,7 +60,9 @@ def main(out="results/positive_regime.csv"):
                 rng = np.random.default_rng(det_seed(MASTER, "pos", K, noise, rep))
                 E, V, Rt = _draw(K, noise, rng)
                 center = np.full(T, 0.5)
-                fit = dapcb(E, V, center, alpha=ALPHA, tighten=False)
+                # fixed-center symmetric construction: exact uninflated
+                fit = dapcb(E, V, center, alpha=ALPHA, tighten=False,
+                            loo_center=False)
                 lo, hi = fit.band
                 r_half = (hi - lo) / 2.0            # constant clip-free radii here
                 cov = int(np.all(np.abs(Rt) <= r_half + 1e-12))

@@ -82,6 +82,14 @@ architecture the revision exists to fix.
   gap +0.0000, 0/28 below floor. Code: `loo_exact_inflation`; contract tests
   `test_loo_validity.py` pin the identities and the floor. The manuscript no
   longer says "heuristic, not a bound" anywhere.
+- A2 follow-through (same day, external review round 2): the K/(K−1)
+  inflation is now the DEPLOYED DEFAULT (`dapcb(..., loo_center=True)`), with
+  gates frozen on the uninflated radii — see the 2026-08-20 addendum in
+  SAFE_SELECTOR_SPEC.md. Theorem 5's K<94 exactness clause and the shipped
+  code now state the same band. Proposition statement gains the m>K ⇒ q̂=∞
+  convention; the δ_K=O(1/K) rate moved to a remark under the corrected
+  CONDITIONAL anti-concentration assumption (the marginal-density version
+  was insufficient: the window endpoints are calibration-measurable).
 
 ## Workstream B — feasibility frontier theorem (최우선) — SHIPPED 2026-08-20
 

@@ -81,8 +81,10 @@ def loo_exact_inflation(K: int) -> float:
     """Radius factor restoring exact finite-sample validity for the deployed
     leave-one-out construction (supplement, Proposition: LOO validity):
     P(target score <= K/(K-1) * q_hat) >= 1 - alpha at every K,
-    distribution-free. At this paper's cross-national K the cost is <= 3.5%
-    of width; e58 measures the uninflated deficit at zero."""
+    distribution-free. Applied BY DEFAULT to the returned anchor radius in
+    `pcb.dapcb.dapcb` (loo_center=True), so the deployed band is the band the
+    proposition certifies. At this paper's cross-national K the cost is
+    <= 3.5% of width; e58 measures the uninflated deficit at zero."""
     if K < 2:
         raise ValueError("need K >= 2")
     return K / (K - 1.0)

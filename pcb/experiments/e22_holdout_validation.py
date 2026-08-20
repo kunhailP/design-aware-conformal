@@ -106,7 +106,9 @@ def _one(fam, K, rho, rep, s_R, L, master):
     rng = np.random.default_rng(det_seed(master, fam, K, rho, rep))
     E, V, Et = _gen(fam, K, L, s_R, rho, rng)
     center = np.full(L, 0.5)
-    fit = dapcb(E, V, center, tighten=False)               # deployed frozen selector
+    # frozen selector; fixed-center construction (Theorem-3-symmetric), so the
+    # uninflated radius is already exact — no LOO inflation here
+    fit = dapcb(E, V, center, tighten=False, loo_center=False)
     # branch radii recomputed with dapcb's own U0/α-budget construction, and
     # coverage scored in score space (the synthetic truth is not a CDF, so the
     # deployed [0,1] clip would create artificial misses here)

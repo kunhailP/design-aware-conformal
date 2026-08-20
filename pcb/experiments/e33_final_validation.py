@@ -99,7 +99,9 @@ def main(out="results/final_validation.csv"):
                     E, V, Rt = _gen(fam, K, rho, rng)
                     L = E.shape[1]
                     center = np.full(L, 0.5)
-                    fit = dapcb(E, V, center, alpha=ALPHA, tighten=False)
+                    # fixed-center symmetric construction: exact uninflated
+                    fit = dapcb(E, V, center, alpha=ALPHA, tighten=False,
+                                loo_center=False)
                     lo, hi = fit.band
                     r_half = (hi - lo) / 2.0
                     rows.append(dict(family=fam, K=K, rho=rho,
