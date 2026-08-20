@@ -4,8 +4,8 @@
 ![Tests: 93 passing](https://img.shields.io/badge/tests-93%20passing-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
-Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Conformal
-Bands for Repeated Cross-National Surveys"* (Kunwoo Park, Kookmin University;
+Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Inference
+for Repeated Cross-National Surveys"* (Kunwoo Park, Kookmin University;
 in preparation for submission to *Political Analysis*).
 
 ## What this is
@@ -15,8 +15,8 @@ twice: a wave-pair mean contrast stands in for a persistent, distribution-wide
 trajectory, and an estimated distribution stands in for the latent one it samples.
 This package provides:
 
-- a **finite-sample simultaneous band** over a country's whole attitude
-  trajectory, with the country as the exchangeable unit and a partially ordered
+- a **finite-sample simultaneous band** over a country's whole
+  response-distribution trajectory, with the country as the exchangeable unit and a partially ordered
   claim family (pairwise, any-pair, net, persistent — persistent at the top —
   plus a Bonferroni layer across countries);
 - a **non-identification theorem and survey-scale unreachability boundary** for
@@ -32,7 +32,7 @@ This package provides:
 |---|---|
 | Marginal readings flag 20/30 ESS countries; the hierarchy certifies net decline in 6, persistence in 1 (Greece) | `e13`, §7 |
 | Over the full 2002–2024 record, read off one joint band: persistence in **0/33**, span erosion in **8**, and 23/33 certifying both a decline and a recovery at one α | `e50`, §7 |
-| WVS: marginal readings over-count persistent deconsolidation 2.6–6.5×; the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
+| WVS: a trajectory-persistence criterion cuts the wave-pair certified set 2.6–6.5× (rung alone: 1.9–4.8×); the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
 | Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 1, §2/§6 |
 | Robustness: RWY-rescaled bootstrap, WVS and joint-band design-effect sweeps, mode audit from the data's own mode variable, LORO exchangeability, null-imposed severity injection, window-matched Claassen — plus two **withdrawn** results with published diagnoses | `e38`–`e53`, Supplement |
 

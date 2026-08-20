@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: >-
   If you use this software or replication package, please cite the paper below.
 title: >-
-  The Wrong Unit of Uncertainty: Simultaneous Conformal Bands for Repeated
+  The Wrong Unit of Uncertainty: Simultaneous Inference for Repeated
   Cross-National Surveys (replication package)
 type: software
 authors:
@@ -23,7 +23,7 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    The Wrong Unit of Uncertainty: Simultaneous Conformal Bands for Repeated
+    The Wrong Unit of Uncertainty: Simultaneous Inference for Repeated
     Cross-National Surveys
   authors:
     - family-names: Park

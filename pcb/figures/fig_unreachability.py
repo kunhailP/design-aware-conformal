@@ -46,13 +46,13 @@ def _ax(ax):
         ax.spines[s].set_visible(False)
     for s in ("left", "bottom"):
         ax.spines[s].set_color(MUTED)
-    ax.tick_params(colors=MUTED, labelsize=9)
+    ax.tick_params(colors=MUTED, labelsize=10)
     ax.grid(color=GRID, lw=0.6); ax.set_axisbelow(True)
 
 
 def main():
     d = pd.read_csv("results/ess_subgroup_rho_scan.csv")
-    fig, (axA, axB) = plt.subplots(1, 2, figsize=(11, 4.3), facecolor=SURF)
+    fig, (axA, axB) = plt.subplots(1, 2, figsize=(8.6, 3.8), facecolor=SURF)
     _ax(axA); _ax(axB)
 
     # -- Panel A: gate A, ρ saturation --------------------------------------
@@ -64,15 +64,15 @@ def main():
     axA.plot(xs, lc, "o", color=BLUE, ms=5, mfc="white", label="ρ̂ lower CB")
     axA.axhline(RHO0, color=RED, lw=1.4, ls="--")
     axA.text(0.05, RHO0 + 0.012, f"ρ₀ = {RHO0} (deconvolution needs ρ̂$_{{LCB}}$ above this)",
-             fontsize=8, color=RED)
+             fontsize=9, color=RED)
     axA.axhspan(RHO0, 1.0, color=RED, alpha=0.05)
     axA.set_xticks(xs); axA.set_xticklabels([NICE[s] for s in ORDER], rotation=30,
-                                            ha="right", fontsize=8.5)
+                                            ha="right", fontsize=9.5)
     axA.set_ylim(0, 0.62)
-    axA.set_ylabel("estimated SD-ratio  ρ̂", fontsize=9.5, color=TEXT)
-    axA.set_xlabel("ESS age-band subpopulation", fontsize=9.5, color=TEXT)
-    axA.legend(fontsize=8, frameon=False, labelcolor=TEXT, loc="upper right")
-    axA.set_title("Gate A: ρ̂ saturates far below ρ₀", fontsize=9.5,
+    axA.set_ylabel("estimated SD-ratio  ρ̂", fontsize=10.5, color=TEXT)
+    axA.set_xlabel("ESS age-band subpopulation", fontsize=10.5, color=TEXT)
+    axA.legend(fontsize=9, frameon=False, labelcolor=TEXT, loc="upper right")
+    axA.set_title("Gate A: ρ̂ saturates far below ρ₀", fontsize=10.5,
                   color=TEXT, loc="left")
 
     # -- Panel B: gate B, reliability floor ---------------------------------
@@ -94,12 +94,12 @@ def main():
         w = None
     axB.axhline(TAU_D, color=RED, lw=1.4, ls="--")
     axB.text(4.3, TAU_D - 0.028, f"gate-B threshold  τ$_D$={TAU_D:.3f}",
-             fontsize=8, color=RED)
+             fontsize=9, color=RED)
     axB.axvline(KCEIL, color=GREEN, lw=1.3, ls=":")
     axB.text(KCEIL * 1.04, 0.60, f"K ≥ {KCEIL}\nfor gate B",
-             fontsize=8, color="#0e7a52")
+             fontsize=9, color="#0e7a52")
     axB.annotate("ESS: K ≤ 33", xy=(33, np.sqrt(2 / 32)), xytext=(46, 0.44),
-                 fontsize=8.5, color=TEXT,
+                 fontsize=9.5, color=TEXT,
                  arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.0))
     axB.set_xscale("log")
     ticks = [4, 10, 33, KCEIL, 300]
@@ -108,10 +108,10 @@ def main():
     axB.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{int(v)}"))
     axB.set_xlim(4, 399)
     axB.set_ylim(0, 0.92)
-    axB.set_xlabel("number of exchangeable populations  K", fontsize=9.5, color=TEXT)
-    axB.set_ylabel("finite-K reliability  D", fontsize=9.5, color=TEXT)
-    axB.legend(fontsize=8, frameon=False, labelcolor=TEXT, loc="upper right")
-    axB.set_title(f"Gate B: reliability floor needs K ≥ {KCEIL}", fontsize=9.5,
+    axB.set_xlabel("number of exchangeable populations  K", fontsize=10.5, color=TEXT)
+    axB.set_ylabel("finite-K reliability  D", fontsize=10.5, color=TEXT)
+    axB.legend(fontsize=9, frameon=False, labelcolor=TEXT, loc="upper right")
+    axB.set_title(f"Gate B: reliability floor needs K ≥ {KCEIL}", fontsize=10.5,
                   color=TEXT, loc="left")
 
     fig.tight_layout()

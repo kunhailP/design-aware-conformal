@@ -10,20 +10,15 @@ cross-national surveys---the European Social Survey
 Conformal methods are a natural tool, promising finite-sample,
 distribution-free coverage.
 
-\paragraph{Two wrong units.} A claim and its calibration can each be attached to the
-wrong object. The \emph{claim} ``democratic trust is declining'' is typically built
-from a single wave-pair mean contrast, then narrated as a country-level trend. Our
-instrument is a finite-sample simultaneous band over a country's whole trajectory,
-with the country as the exchangeable unit, and a graded family of claims ---
-pairwise, any-pair, net, persistent, with a Bonferroni layer across countries
---- partially ordered, persistent at the top
-(Section~\ref{sec:political}). The top
-rung is strictly stronger than the net-trend claim the literature
-typically intends, so we treat the two as co-headlines. This
-multiplicity-honest core needs no survey design and applies to any repeated
-distributional claim.
-
-The second, subtler wrong unit is the calibration: the objects conformal transport
+\paragraph{Two wrong units.} Uncertainty should be attached to the same unit as
+the substantive claim; claims from repeated surveys violate this twice. The
+\emph{claim} ``democratic trust is declining'' is typically built
+from a single wave-pair mean contrast, then narrated as a country-level trend
+--- our instrument instead covers the whole trajectory at once, with a
+partially ordered family of claims read off one band, whose top rung is
+strictly stronger than the net trend the literature typically intends
+(Section~\ref{sec:political}). The second, subtler wrong unit is the
+calibration: the objects conformal transport
 calibrates on are themselves \emph{estimated} from complex probability samples,
 and standard practice plugs them in as truth.
 
@@ -40,52 +35,54 @@ error is non-negligible the band is too wide, yet any correction subtracting the
 survey noise can make it too narrow, being itself estimated from few countries.
 
 \paragraph{Contributions.} We make four.
-\emph{First, a diagnosis and a portable instrument.} We separate the claim unit
-(a wave-pair contrast standing in for a distribution-wide trajectory) from the
-calibration unit (the omitted design-error layer of~\eqref{eq:decomp}), and give
-a finite-sample simultaneous band over a country's whole trajectory with a
-multiplicity-honest guarantee hierarchy that corrects the first.
-\emph{Second, a provably-valid deployed procedure.} The band we recommend is a
-clustered ``population'' conformal band, finite-sample exact at any $K$ under
-its symmetric centers and conservative to $O(1/K^2)$ in the unsurveyed-target
-deployment (Theorem~\ref{thm:exact}), inside a selector whose validity does not depend on
-how it selects. Its two anchor branches are \emph{nested}, and selection among
-nested bands anchored at an exact one is validity-free; the four
-target-blind gates are therefore an efficiency device, not a validity assumption
-(Theorem~\ref{thm:safe}). We validate the frozen procedure in three disclosed
-layers, ending with a sealed run on six unseen DGP families.
-\emph{Third, two named reanalyses} (Section~\ref{sec:political}) where the
-instrument changes the substantive picture. For European trust the hierarchy
+\emph{First, the claim-unit problem, and an instrument for it.} We separate the
+claim unit (a wave-pair contrast standing in for a distribution-wide
+trajectory) from the calibration unit (the omitted design-error layer
+of~\eqref{eq:decomp}), and give a finite-sample simultaneous band over a
+country's whole trajectory whose partially ordered claim family is read off one
+coverage event. The two layers get two instruments: within-country
+\emph{certification} is a design-based simultaneous sup-$t$ band over the
+wave-pair contrast surface, while conformal transport calibrates cross-country
+prediction --- the theory's finite-sample language attaches to the transport
+band, not to the certification counts.
+\emph{Second, an impossibility theorem for estimated calibration objects.}
+Stated at the curve level of~\eqref{eq:decomp}: without information on the
+design-noise law the latent transport-error law is non-identified, and no band
+built on the observed curves can uniformly improve on the plug-in conformal
+band while remaining valid (Theorem~\ref{thm:impossible}). Estimated
+calibration is not a nuisance to correct away; it is an inferential boundary.
+\emph{Third, the feasibility boundary of the correction, and a procedure that
+respects it.} Even with the design-noise information supplied, the reliability
+diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$, so the deployed
+correction requires $K\ge94$ exchangeable populations; the two largest surveys
+fail in opposite ways --- the WVS clears the size barrier ($K\approx100$) with
+negligible design noise, the ESS has genuine clustered noise but $K\le33$. The
+deployed selector is the theory's consequence: its anchor band is exact at any
+$K$ under its symmetric centers (conservative to $O(1/K^2)$ as deployed,
+Theorem~\ref{thm:exact}), its anchor branches are nested so selection among
+them is validity-free, and the non-nested deconvolution branch is charged
+a frozen budget only where its gate can open (Theorem~\ref{thm:safe}). One
+unit down, on a region's departure from its national distribution
+($K\approx230$--$290$), the same frozen selector does activate, and holding
+out whole countries confirms the region is the exchangeable unit
+(Section~\ref{sec:evidence}). (The clustered band is machinery shared
+with a companion paper on a non-survey domain, \citealp{park2026poverty}; new
+here is what the survey layer forces --- the impossibility, the floor, the safe
+selector, and the claim-family deployment.)
+\emph{Fourth, two named reanalyses where the instrument changes the substantive
+picture} (Section~\ref{sec:political}). For European trust the family
 certifies net decline in six of thirty (2018--2024), not the twenty flagged
 marginally. Over the full 2002--2024 record no country certifies
 persistence, twenty-three of thirty-three certify both declines and recoveries,
-and eight certify span erosion, all read off one band at one level, by a
-claim-family transfer argument that removes the multiplicity and
-endpoint-selection corrections a per-rung construction needs. Globally, a wave-pair reading of
-the Foa--Mounk ``deconsolidation'' battery on the WVS/EVS (1981--2022) over-counts
-the persistent phenomenon by $2.6$--$6.5\times$. Aggregating per-item
+and eight certify span erosion, all read off one band at one level with no
+multiplicity or endpoint-selection corrections. Globally,
+applying a trajectory-persistence criterion to the Foa--Mounk
+``deconsolidation'' battery on the WVS/EVS (1981--2022) cuts the wave-pair
+certified set by $2.6$--$6.5\times$. Aggregating per-item
 certifications then turns the correction into a discovery: the thirteen-country
 \emph{certified core} concentrates in post-communist and Arab-Spring-aftermath
 states.
-\emph{Fourth, the scope condition that justifies this deployment, and where it
-ends.} Without the design-noise law the latent transport-error distribution is
-non-identified (Theorem~\ref{thm:impossible}). With it, the correction is still
-unreachable at cross-national scale: the measured design-to-total
-ratio stays severalfold below the level at which deconvolution helps, while the
-reliability diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$ that
-requires $K\ge94$ exchangeable populations. The two largest surveys fail in
-opposite ways: the WVS clears the size barrier ($K\approx100$) with
-negligible design noise, the ESS has genuine clustered noise but $K\le33$. One
-unit down, on a region's departure from its national distribution with
-$K\approx230$--$290$ regions, the frozen selector does activate it, and holding
-out whole countries confirms the region is the exchangeable unit
-(Section~\ref{sec:evidence}).
 
-The remainder sets up the problem and the impossibility result
-(Section~\ref{sec:setup}), builds the method and its theory
-(Sections~\ref{sec:method}--\ref{sec:theory}), validates it
-(Section~\ref{sec:simulation}), characterizes the real-data regime
-(Section~\ref{sec:evidence}), reanalyzes political trust
-(Section~\ref{sec:political}), situates the contribution
-(Section~\ref{sec:related}) and discusses scope
-(Section~\ref{sec:discussion}).
+Sections~\ref{sec:setup}--\ref{sec:discussion} proceed in that order: setup and
+impossibility, method, theory, validation, the real-data regime, the
+reanalyses, related work, scope.

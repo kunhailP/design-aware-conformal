@@ -12,8 +12,8 @@ Editors-in-Chief, *Political Analysis*
 
 Dear Editors,
 
-I am submitting **"The Wrong Unit of Uncertainty: Simultaneous Conformal Bands
-for Repeated Cross-National Surveys"** for consideration as a Research Article.
+I am submitting **"The Wrong Unit of Uncertainty: Simultaneous Inference for
+Repeated Cross-National Surveys"** for consideration as a Research Article.
 
 **What the paper does.** Claims about repeated cross-national surveys routinely
 attach uncertainty to the wrong unit, and to two different wrong units at once.
@@ -36,6 +36,18 @@ recoveries, and span erosion certifies in eight. On the World Values Survey the
 same shift of rung cuts the certified set several-fold, and what survives
 concentrates in post-communist and Arab-Spring states rather than in the
 consolidated democracies the deconsolidation thesis concerned.
+
+**Relation to a companion manuscript.** The clustered population-conformal band
+(the manuscript's Theorem 3) is base machinery shared with a companion paper of
+mine that applies it in a non-survey domain, cited in the manuscript as
+Park (2026); the manuscript says so where the band is introduced. Everything
+the survey layer forces is new to this paper and appears in no other
+manuscript: the curve-level non-identification theorem for estimated
+calibration objects (Theorem 1), the finite-$K$ reliability floor and
+survey-scale unreachability result (Proposition 1), the safe-adaptive selector
+and its validity theorem (Theorem 5), the partially ordered claim family read
+off one band, and both reanalyses. There is no textual overlap beyond the
+shared base construction, which both papers disclose.
 
 **Notification of restricted data access.** In line with the journal's
 replication guidelines, which ask that the editor be notified at the time of

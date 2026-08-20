@@ -1,13 +1,12 @@
 \section{Theory}\label{sec:theory}
 
-Two results below are the ones we deploy: Theorem~\ref{thm:exact}, which makes
-the base band exact at every $K$, and Theorem~\ref{thm:safe}, which carries that
-guarantee to the selector under any selection rule.
-Theorems~\ref{thm:oracle} and~\ref{thm:estimated} are the scaffolding, pricing
-the two things the deployed band does not get for free: the latent rather than
-the estimated trajectory, and an estimated rather than known design-noise law.
-Proofs are in Appendix~\ref{app:proofs}; each theorem is paired with a
-machine-checked contract test.
+We deploy Theorem~\ref{thm:exact} (the base band, exact at every $K$) and
+Theorem~\ref{thm:safe} (the same guarantee through the selector, under any
+selection rule); Theorems~\ref{thm:oracle} and~\ref{thm:estimated} price what
+the deployed band does not get for free --- the latent rather than estimated
+trajectory, an estimated rather than known noise law. Proofs are in
+Appendix~\ref{app:proofs}; each theorem is paired with a machine-checked
+contract test.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
@@ -21,12 +20,11 @@ target, and finite-sample exact under the scale-family assumption (A1), with
 width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
 \end{theorem}
 
-The gap in~(b) is a noise-tail term plus a local anti-concentration term, and it
-vanishes with the design-noise scale, at rate $\rho^{2/3}$ under variance-only
-tails and $\rho$ up to logarithms under sub-Gaussian noise. It does not vanish
-by symmetry: a bimodal counterexample in the Supplementary Material leaves the
-plug-in band with no conservative guarantee for the latent target. That is why
-we estimate and report $\rho$ rather than assume it away.
+The gap in~(b) is a noise-tail plus a local anti-concentration term, vanishing
+with the design-noise scale at rate $\rho^{2/3}$ under variance-only tails and
+$\rho$ up to logarithms under sub-Gaussian noise --- but not by symmetry (a
+bimodal counterexample in the Supplementary Material), which is why we estimate
+and report $\rho$ rather than assume it away.
 
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
 Let the base band use the unstudentized cluster score $R_c=\max_t|E_c(t)|$, with
@@ -57,27 +55,20 @@ $\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
 $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
 \end{theorem}
 
-The remainder comes from a sandwich and concentration argument, and its
-direction is fixed by construction: the finite-$K$-safe scale $\widehat s_T^2$
-of Section~\ref{sec:method} subtracts a lower confidence bound on the design
-variance, so outside an $\alpha_2$-probability event the scale error widens the
-band rather than narrowing it. Some shape restriction is not removable, since
-the counterexample above defeats any latent-target band without one; (A1) is one
-sufficient choice.
+The remainder's direction is fixed by construction: the finite-$K$-safe scale
+$\widehat s_T^2$ of Section~\ref{sec:method} subtracts a lower confidence bound
+on the design variance, so outside an $\alpha_2$-probability event the scale
+error widens the band. Some shape restriction is not removable (the
+counterexample above); (A1) is one sufficient choice.
 
 \paragraph{The deployed pipeline.} The miss budget is a frozen function of $K$
-alone,
-\[
-(\alpha_{\text{anchor}},\,\alpha_{\text{dec}})=
-\begin{cases}
-(\alpha,\ 0), & K<94,\\[3pt]
-\big(\alpha-\alpha_{\text{dec}},\ \ \min\{\max(0.1\alpha,\,3/(K{+}1)),\,\alpha/2\}\big),
-& K\ge94,
-\end{cases}
-\]
-the first case being the regime in which the reliability gate cannot open at all
-(Proposition~\ref{prop:unreach}), and the case that covers every certification
-sample here, including the WVS $\ge2$-wave sets at $K=59$--$77$.
+alone: below the reliability floor ($K<94$, the regime in which the gate cannot
+open at all, Proposition~\ref{prop:unreach}, and the one covering every
+certification sample here including the WVS $\ge2$-wave sets at $K=59$--$77$)
+the anchors keep the full $\alpha$ and the deconvolution budget is zero; at
+$K\ge94$ the budget
+$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ is reserved
+for it (derivation in the Supplementary Material).
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
 Deploy Algorithm~\ref{alg:safe} with the unstudentized PCB and conservative
@@ -105,17 +96,14 @@ between nested bands anchored at an exact band is validity-free. That is nested-
 \citep{gupta2022nested,yang2024selection}; our contribution is to engineer the
 branches so that it applies. A union bound then charges the one non-nested
 branch its own budget. Two scope notes. At $K\ge94$ the reported level is a frozen calibrated bound, not a
-theorem. And the unsurveyed-target deployment uses a leave-one-out center, which
-is not among Theorem~\ref{thm:exact}'s symmetric constructions: its residual
-asymmetry is $O(1/K^2)$ with the dispersion ordering pointing in the
-conservative direction --- per coordinate the calibration deviations exceed
-the target's by exactly $1/(K(K{-}1))$ under iid draws, a heuristic for
-sup-scores rather than a bound (Supplementary Material) --- and a $28$-cell
-simulation across four families finds no cell below the exact-construction
-floor beyond Monte Carlo error (\texttt{e58}). The strictly exact alternative,
-a split-fold center, is infeasible at survey scale: halving the calibration
-set below $\lceil1/\alpha\rceil$ units makes the conformal radius infinite,
-exactly at the $K$ this paper works at.
+theorem. And the unsurveyed-target deployment uses a leave-one-out center, outside
+Theorem~\ref{thm:exact}'s symmetric constructions: its residual asymmetry is
+$O(1/K^2)$, dispersion-ordered in the conservative direction (a heuristic for
+sup-scores, not a bound; Supplementary Material), and a $28$-cell simulation
+across four families finds no cell below the exact-construction floor beyond
+Monte Carlo error (\texttt{e58}). The strictly exact alternative is infeasible
+at survey scale: halving the calibration set below $\lceil1/\alpha\rceil$ units
+makes the conformal radius infinite, exactly at the $K$ this paper works at.
 
 \paragraph{Efficiency.} The low-$\rho$ deconvolution/PCB width ratio is
 $1-\tfrac12\rho^2+O(\rho^4)$, proved; conservative $\supseteq$ PCB holds
