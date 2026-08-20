@@ -94,79 +94,91 @@ def fig_reclass(pair):
     plt.close(fig)
 
 
-def _funnel(ax, levels, title, ymax, legend=False, ylabel=False, single=False):
-    """A descending line per inference layer. Bars invited the reader to compare
-    heights across rungs that are not on a common scale of evidence; the rungs
-    are ordered by logical strength, so the natural encoding is a path, and the
-    collapse the section is about becomes the shape of the line."""
-    _ax(ax)
-    x = np.arange(len(levels))
-    plug = [l[1] for l in levels]; da = [l[2] for l in levels]
-    series = [(da, BLUE, "design-aware", "o", 1.0)] if single else \
-             [(plug, YELLOW, "plug-in (no survey uncertainty)", "s", 0.9),
-              (da, BLUE, "design-aware", "o", 1.0)]
-    for vals, col, lab, mk, a in series:
-        ax.plot(x, vals, "-", color=col, lw=2.0, alpha=a, zorder=2)
-        ax.plot(x, vals, mk, color=col, ms=8, mec="#fcfcfb", mew=1.4,
-                label=lab, zorder=3)
-        for xi, v in zip(x, vals):
-            ax.annotate(str(int(v)), (xi, v), textcoords="offset points",
-                        xytext=(0, 11), ha="center", fontsize=10, color=col,
-                        fontweight="bold")
-    ax.set_xticks(x); ax.set_xticklabels([l[0] for l in levels], fontsize=8.5,
-                                         color=TEXT)
-    ax.set_xlim(-0.35, len(levels) - 0.65)
-    ax.set_ylim(-1.2, ymax)
-    ax.set_title(title, fontsize=9.5, color=TEXT, loc="left")
-    if ylabel:
-        ax.set_ylabel("countries with certified\ntrust decline", fontsize=9,
-                      color=TEXT)
+def _dumbbell(ax, levels, title, xmax, joint=False, legend=False):
+    """One row per claim; within a row, plug-in (open gray) and design-aware
+    (filled black) joined by a light connector. Rows are NOT joined: the claim
+    family is a partial order, not a chain, so a line across claims would
+    draw an ordering the mathematics does not assert. The connector's meaning
+    is the count shift when survey uncertainty enters."""
+    from pcb.figures.style import (BLACK, MID_GRAY, LIGHT_GRAY, GRID_GRAY,
+                                   DARK_GRAY)
+    ax.set_facecolor("white")
+    for sp in ("top", "right", "left"):
+        ax.spines[sp].set_visible(False)
+    ax.spines["bottom"].set_color(DARK_GRAY)
+    ax.tick_params(colors=DARK_GRAY, labelsize=8, length=0)
+    ax.grid(axis="x", color=GRID_GRAY, lw=0.45)
+    ax.set_axisbelow(True)
+    ys = np.arange(len(levels))[::-1]
+    for y, (lab, plug, da) in zip(ys, levels):
+        if not joint:
+            ax.plot([da, plug], [y, y], "-", color=LIGHT_GRAY, lw=1.6,
+                    zorder=1)
+            ax.plot([plug], [y], "o", ms=6, mfc="white", mec=MID_GRAY,
+                    mew=1.2, zorder=2)
+            ax.annotate(str(int(plug)), (plug, y), textcoords="offset points",
+                        xytext=(2, 7), fontsize=8, color=MID_GRAY,
+                        ha="center")
+        ax.plot([da], [y], "o", ms=6, mfc=BLACK, mec=BLACK, zorder=3)
+        ax.annotate(str(int(da)), (da, y), textcoords="offset points",
+                    xytext=(-2, 7), fontsize=8, color=BLACK,
+                    fontweight="bold", ha="center")
+    ax.set_yticks(ys)
+    ax.set_yticklabels([l[0] for l in levels], fontsize=8.5, color=BLACK)
+    ax.set_ylim(-0.6, len(levels) - 0.15)
+    ax.set_xlim(-0.8, xmax)
+    ax.set_title(title, fontsize=8.5, color=BLACK, loc="left")
     if legend:
-        ax.legend(fontsize=8, frameon=False, loc="upper right", labelcolor=TEXT)
+        from matplotlib.lines import Line2D
+        ax.legend(handles=[
+            Line2D([], [], marker="o", ls="", mfc=BLACK, mec=BLACK,
+                   label="design-aware"),
+            Line2D([], [], marker="o", ls="", mfc="white", mec=MID_GRAY,
+                   label="plug-in")],
+            fontsize=7.5, frameon=False, loc="upper left", labelcolor=BLACK,
+            handletextpad=0.2, borderaxespad=0.1)
 
 
 def _levels(p):
-    """The rungs of Section 7's hierarchy, in order of logical strength. The
-    'repeated (>=2 pairs)' cell is deliberately absent: it is not a rung of that
-    hierarchy, and interleaving it made the sequence non-monotone."""
-    return [("any-pair\n(marginal)", int(p.any_plugin.sum()), int(p.any_da.sum())),
-            ("net decline\n(first→last)", int(p.net_plugin.sum()),
-             int(p.net_da.sum())),
-            ("persistent\n(country-wide)", int(p.persist_plugin.sum()),
+    """The claims of Section 7, top of the partial order last."""
+    return [("any adjacent pair", int(p.any_plugin.sum()), int(p.any_da.sum())),
+            ("net first-to-last", int(p.net_plugin.sum()), int(p.net_da.sum())),
+            ("persistent", int(p.persist_plugin.sum()),
              int(p.persist_da.sum()))]
 
 
 def fig_hierarchy(cty):
-    """Guarantee-unit funnel (trstprl): rounds 9-11 beside the full 2002-24
-    record (e36) — one persistent country in the short window, none over the
-    long one."""
+    """Claim-family dumbbells (trstprl): rounds 9-11 beside the full record
+    read off one joint band; generated at manuscript print width."""
     p = cty[cty.outcome == "trstprl"]
-    panels = [("Rounds 9–11 (2018–24), K=30", _levels(p), False)]
+    panels = [("A.  Rounds 9\u201311 (2018\u201324), $K=30$", _levels(p), False)]
     try:
         jc = pd.read_csv("results/ess_joint_claims.csv")
         q = jc[jc.outcome == "trstprl"]
-        # over the full record the two inference layers coincide by
-        # construction, so plotting both would double the ink for one series
-        panels.append((f"Full record, one joint band (K={len(q)})",
-                       [("any-pair\n(marginal)", int(q.any_pair.sum()),
+        panels.append((f"B.  Full record, one joint band ($K={len(q)}$)",
+                       [("any adjacent pair", int(q.any_pair.sum()),
                          int(q.any_pair.sum())),
-                        ("net decline\n(first→last)", int(q.net.sum()),
-                         int(q.net.sum())),
-                        ("persistent\n(country-wide)", int(q.persistent.sum()),
+                        ("net first-to-last", int(q.net.sum()), int(q.net.sum())),
+                        ("persistent", int(q.persistent.sum()),
                          int(q.persistent.sum()))], True))
     except FileNotFoundError:
         pass
-    ymax = max(v for _, lv, _ in panels for l in lv for v in l[1:]) + 4.0
-    fig, axes = plt.subplots(1, len(panels), sharey=True,
-                             figsize=(4.6 * len(panels) + 0.8, 3.7),
-                             facecolor="#fcfcfb")
+    xmax = max(v for _, lv, _ in panels for l in lv for v in l[1:]) + 3.5
+    fig, axes = plt.subplots(1, len(panels), sharex=True,
+                             figsize=(5.5, 2.4), facecolor="white")
     axes = np.atleast_1d(axes)
-    for i, (ax, (title, levels, single)) in enumerate(zip(axes, panels)):
-        _funnel(ax, levels, title, ymax, legend=(i == 0), ylabel=(i == 0),
-                single=single)
+    for i, (ax, (title, levels, joint)) in enumerate(zip(axes, panels)):
+        _dumbbell(ax, levels, title, xmax, joint=joint,
+                  legend=(i == len(panels) - 1))
+        if i:
+            ax.set_yticklabels([])
+    axes[0].set_xlabel("countries certified", fontsize=8.5, color="#222222")
+    axes[-1].set_xlabel("countries certified", fontsize=8.5, color="#222222")
     fig.tight_layout()
     os.makedirs("figures", exist_ok=True)
-    fig.savefig("figures/guarantee_hierarchy.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/guarantee_hierarchy.pdf", bbox_inches="tight")
+    fig.savefig("figures/guarantee_hierarchy.png", dpi=300,
+                bbox_inches="tight")
+    fig.savefig("figures/guarantee_hierarchy.pdf", bbox_inches="tight")
     plt.close(fig)
 
 

@@ -60,7 +60,7 @@ transport band calibrates cross-country prediction and the regime
 diagnostics. Headline counts are certification counts, and the theory sections'
 finite-sample language does not transfer to them.
 
-\paragraph{The counts collapse up the hierarchy.} For \texttt{trstprl} over rounds
+\paragraph{The counts collapse across claims.} For \texttt{trstprl} over rounds
 9--11 (Figure~\ref{fig:hierarchy}), a marginal pairwise reading flags $20$ of $30$
 countries; an any-pair
 design-aware band drops this to $12$; net first-to-last decline holds in $6$
@@ -157,12 +157,13 @@ Spain & 1--11 & \phantom{0}0.6 & 32/55 & 0.58 \\
 \end{tabular}
 \end{table}
 \begin{figure}[t]\centering
-\includegraphics[width=.8\textwidth]{guarantee_hierarchy.pdf}
-\caption{Certified declines collapse rung by rung ($\alpha=0.10$). Left,
-rounds 9--11 ($K=30$), with one path per inference layer; the headline sequence
-$20\to12\to6\to1$ reads down the plug-in marker and then along the design-aware
-path. Right, the full record off one joint band ($K=33$), where the two layers
-coincide by construction and one path is drawn.}\label{fig:hierarchy}
+\includegraphics[width=\textwidth]{guarantee_hierarchy.pdf}
+\caption{Certified decline counts by claim and uncertainty layer
+($\alpha=0.10$; trust in parliament), plug-in (open) to design-aware
+(filled). Claims are not connected to one another: the family is a partial
+order (persistent implies net and any-pair; net and any-pair are
+incomparable). B reads the full record off one joint band, where the layers
+coincide by construction.}\label{fig:hierarchy}
 \end{figure}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
@@ -235,8 +236,10 @@ response-distribution trajectory itself: certification is descriptive error cont
 forecast. Item-level caveats are in the Supplementary Material.
 
 \begin{figure}[t]\centering
-\includegraphics[width=.9\textwidth]{certified_core.pdf}
-\caption{Co-certification across the five battery items (WVS/EVS 1981--2022;
-$K=59$--$77$ per item). Countries above the dashed line form the $\ge2$-item
-certified core.}\label{fig:core}
+\includegraphics[width=.92\textwidth]{certified_core.pdf}
+\caption{The thirteen-country certified core: persistent distribution-wide
+decline certified on $\ge2$ of five items (WVS/EVS 1981--2022; $K=59$--$77$
+per item; filled = certified). Regions: PC post-communist, MENA Arab-Spring
+aftermath, LAC Latin America, SSA Sub-Saharan Africa, West consolidated West.
+The full thirty-eight-country matrix is in the Supplementary Material.}\label{fig:core}
 \end{figure}

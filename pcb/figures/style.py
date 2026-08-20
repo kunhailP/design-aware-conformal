@@ -66,3 +66,17 @@ def save(fig, name, formats=("pdf", "png")):
         fig.savefig(f"figures/{name}.{ext}", dpi=300 if ext == "png" else None,
                     bbox_inches="tight", pad_inches=0.02)
     plt.close(fig)
+
+
+# ---- PA main-figure palette (visual hierarchy over series identity) --------
+# Grayscale carries the data; color is reserved for inferential meaning
+# (thresholds, feasible regions, activation). Okabe-Ito above remains for
+# supplement figures that genuinely need categorical color.
+BLACK = "#222222"
+DARK_GRAY = "#666666"
+MID_GRAY = "#999999"
+LIGHT_GRAY = "#BBBBBB"
+GRID_GRAY = "#E5E5E5"
+REGION_GRAY = "#F4F4F4"
+ACCENT_RED = "#B44A3C"      # methodological reference lines / thresholds
+ACCENT_BLUE = "#3F718B"     # the one special series (e.g. activation)
