@@ -507,9 +507,13 @@ resolution is to price the centering inside that remainder.
 Assume (A1)--(A3) for the raw curves,
 $Y_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$, normalized to
 $\mathbb E\,W(t)=0$ (a common location shift is removed by the centering, so
-this is a normalization, not a restriction), and let the deployed
-studentizer be bounded below by $\omega_0>0$ (guaranteed by the shipped
-scale floor). Build the band exactly as in Theorem~4$'$(ii) but from
+this is a normalization, not a restriction), and assume the studentizer is
+bounded below by a constant $\omega_0>0$. (We state this as an assumption,
+not an implementation fact: the shipped floor is \emph{relative} --- the
+scale is floored at $0.05\max_t\widehat s_{\text{plug}}(t)$ --- so
+$\omega_0>0$ holds whenever the population scale is nondegenerate,
+$\inf_K\max_t s_{\text{plug}}(t)\ge c>0$, which the scale family of (A1)
+with $s_R>0$ supplies.) Build the band exactly as in Theorem~4$'$(ii) but from
 $\widetilde E^{\text{loo}}_c$, the latent target scored against $\bar Y$.
 Then
 \[
@@ -526,12 +530,32 @@ quoted, including Theorem~5$'$'s $K\ge94$ clause.
 \end{proposition}
 
 \begin{proof}
-Let $S_c$ be the studentized scores of Theorem~4$'$(ii)'s independent
-construction and $\widetilde S_c$ those of the LOO-centered one; both share
-the estimated studentizer $\omega_c=\sqrt{\widehat s_T^2+\widehat v_c^2}$
-($\widehat s_T$ for the target). Because $\max_t|\cdot|/\omega(t)$ obeys
+The comparison with Theorem~4$'$(ii)'s independent construction factors into
+two perturbations, one to the studentizer and one to the numerator; we chain
+them.
+
+\emph{Studentizer.} Write $\omega^{\text{raw}}_c=\sqrt{\widehat
+s_T^{\text{raw}\,2}+\widehat v_c^2}$ for the studentizer computed from the
+raw curves (the object Theorem~4$'$(ii) already compares to its oracle) and
+$\omega^{\text{loo}}_c$ for the one computed from the centered curves ---
+the deployed object. The centering identity is exact:
+$\widetilde E^{\text{loo}}_c=\tfrac{K}{K-1}(Y_c-\bar Y)$, so the
+per-threshold calibration spread, which is taken about the calibration mean
+in both cases, satisfies $\widehat s^{\text{loo}}_{\text{plug}}(t)
+=\tfrac{K}{K-1}\,\widehat s^{\text{raw}}_{\text{plug}}(t)$ \emph{exactly},
+and the derived scale inherits a relative perturbation of at most
+$(\tfrac{K}{K-1})^2-1=O(1/K)$ through the guarded subtraction and the
+relative floor. This is a multiplicative studentizer perturbation of
+exactly the form of $\Delta_c$ in the proof of Theorem~4$'$(ii); it chains
+into $\delta^*$ there, enlarging $\delta_{K,B}$'s constants and nothing
+else.
+
+\emph{Numerator.} Now fix the studentizer at $\omega^{\text{loo}}_c$ and
+let $S_c$ (resp.\ $\widetilde S_c$) be the score of the raw (resp.\
+centered) numerator under it. Because $\max_t|\cdot|/\omega(t)$ obeys
 the triangle inequality,
-$|\widetilde S_c-S_c|\le\max_t|\bar Y_{-c}(t)|/\omega_c(t)\le\zeta/\omega_0$
+$|\widetilde S_c-S_c|\le\max_t|\bar Y_{-c}(t)|/\omega^{\text{loo}}_c(t)
+\le\zeta/\omega_0$
 for every $c\le K$, and the target's score moves by at most
 $\max_t|\bar Y(t)|/\omega_0\le\zeta/\omega_0$, where
 $\zeta=\max\big(\max_c\max_t|\bar Y_{-c}(t)|,\,\max_t|\bar Y(t)|\big)$.
@@ -548,10 +572,9 @@ verbatim to that event, with the additive window
 $(\widehat q-2\gamma/\omega_0,\,\widehat q\,]$ priced by (A2)'s density
 bound exactly as the multiplicative scale window was: probability at most
 $2L\cdot2\gamma/\omega_0$ up to the $M_{(m)}$-concentration terms already
-inside $r_K$. Finally, $\widehat s_T$ computed from the centered rather
-than the raw curves differs by a relative $O(1/K)$ (mean removal changes
-the empirical second moment by exactly the squared mean), absorbed into
-$\delta_{K,B}$'s constants.
+inside $r_K$. Chaining the two perturbations --- multiplicative
+studentizer into $\delta^*$, additive numerator into the window ---
+completes the proof.
 \end{proof}
 
 Contract test: \texttt{tests/test\_loo\_validity.py::%
@@ -559,7 +582,8 @@ test\_loo\_centered\_deconvolution\_coverage} runs the (A1) scale-family DGP
 \emph{through the leave-one-out centering} --- the construction the pipeline
 actually deploys, $\sum_c\widetilde E^{\text{loo}}_c=0$ verified in-test ---
 and checks the always-deconvolve band's latent-target coverage at
-activation-regime $K$.
+activation-regime $K$, under a bounded-symmetric $W$ matching (A3)'s
+boundedness clause literally and a Gaussian $W$ for robustness.
 
 \begin{remark}[What (A1) rules out, and why that is the right boundary]
 (A1) is a distributional-matching condition: the observed and latent scores must sit
