@@ -1308,7 +1308,17 @@ change-transport maximum from $0.212$ to $0.222$---both still severalfold below
 $\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
 Single-PSU strata, the one thing rescaling cannot repair, turn out to be
 negligible here: $1$ of $7{,}028$ strata in the core rounds, covering
-eleven respondents. The more consequential structural fact is different and we
+eleven respondents. The small-area activation is the one place the rescaling
+moves a decision (\texttt{e62}; \texttt{small\_area\_transport\_rescaled.csv}):
+the higher rescaled design variance opens the need gate more broadly ($8\to13$
+of $23$ unit-rounds) but pushes boundary cells past the frozen reliability and
+efficiency thresholds, so the deployed selector fires in $1$ cell rather than
+$4$ (min-$n=40$, round~9, $K=273$, certified gain $0.24$). The two-barrier
+structure and the feasibility reading are unchanged --- activation persists,
+national-scale abstention persists --- but the four-cell activation table of
+\texttt{e54} is specific to the shipped $m$-of-$m$ calibration, which is one
+reason the rescaling is reported as a sensitivity rather than promoted to the
+deployed default. The more consequential structural fact is different and we
 state it plainly: in $52$ of the $90$ core country-rounds the median PSU
 contains a single respondent---these are register samples of individuals, where
 \texttt{psu} carries no clustering to absorb. the main text's
