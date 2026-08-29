@@ -49,8 +49,8 @@ numbers carry an ``S'' prefix.
 \section{Proofs}\label{sup:proofs}
 
 This section gives full statements and proofs of the results of the main text, in the
-main-manuscript numbering. Each result is paired with a machine-checked contract test in
-the replication package that verifies its guarantee numerically. Where the source
+main-manuscript numbering. Each result is paired with an automated contract test in
+the replication package that checks its computational implications numerically. Where the source
 argument is a sketch or rests on an estimated constant, we say so.
 
 \paragraph{Common setup.} We observe $K$ exchangeable source countries $c=1,\dots,K$ plus
@@ -88,19 +88,24 @@ statistic of $\{\lVert\widetilde E_c\rVert_\infty\}$, the plug-in radius of
 Theorem~3 built on the observed curves.
 (i)~$\mathcal L_E$ is not identified from
 $\mathcal L_{\widetilde E}=\mathcal L_E*\mathcal S$ over $\mathfrak S$.
-(ii)~No band $\mu\pm\widehat\rho$, with $\widehat\rho$ a non-randomized
-measurable functional of the observed curves alone that is valid for the
-latent target under \emph{every} $\mathcal S\in\mathfrak S$, satisfies
-$\widehat\rho\le\widehat q_{\text{plug}}$ almost surely with
-$\widehat\rho<\widehat q_{\text{plug}}$ on a positive-probability event. (The
-statement excludes uniform improvement; a band narrower on some realizations
-and wider on others is not excluded, which is why we phrase the main-text
-reading as ``no observed-curve band can beat the plug-in \emph{uniformly}.''
-A randomized band can shave exactly the conformal discreteness slack
-$\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)$ and no more; and by
-Remark~\ref{rem:bimodal} no observed-curve band---including the plug-in---is
-latent-valid over \emph{all} admissible laws, so validity must be read relative
-to the stated subclass.)
+(ii)~Write $s_K:=\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)\ge0$ for the
+conformal discreteness slack. Let $\widehat\rho$ be a non-randomized
+measurable functional of the observed curves alone with
+$\widehat\rho\le\widehat q_{\text{plug}}$ almost surely, and suppose the band
+$\mu\pm\widehat\rho$ is valid at level $1-\alpha$ for the latent target under
+\emph{every} $\mathcal S\in\mathfrak S$. Then on the member
+$\mathcal S=\delta_0$ the coverage deficit relative to the plug-in is bounded
+by the slack,
+$\Pr\big(\widehat\rho<\lVert E_{\text{new}}\rVert_\infty\le
+\widehat q_{\text{plug}}\big)\le s_K$: no observed-curve band valid over the
+class improves on the plug-in uniformly by more than the discreteness slack.
+A randomized band can shave exactly $s_K$ and no more. (The statement bounds
+uniform improvement; a band narrower on some realizations and wider on others
+is not excluded, which is why we phrase the main-text reading as ``no
+observed-curve band can beat the plug-in \emph{uniformly}, up to the
+discreteness slack.'' By Remark~\ref{rem:bimodal} no observed-curve
+band---including the plug-in---is latent-valid over \emph{all} admissible
+laws, so validity must be read relative to the stated subclass.)
 
 \begin{proof}
 (i)~Convolution in $\mathbb R^T$ is not injective on the admissible class.
@@ -129,12 +134,17 @@ and the target satisfies $F_{\text{new}}\in\mu\pm\widehat\rho\iff
 $\lVert E_{\text{new}}\rVert_\infty$ exchangeable with the $K$ observed
 sup-scores. The conformal rank identity gives
 $\Pr\big(\lVert E_{\text{new}}\rVert_\infty\le\widehat q_{\text{plug}}\big)=
-\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$, so a non-randomized radius sitting
-almost surely at or below $\widehat q_{\text{plug}}$ and strictly below on a
-positive-probability event drops the latent coverage strictly below that
-level, and below $1-\alpha$ once the deficit exceeds the discreteness slack;
-by exchangeability of the ranks the slack is the only room, and randomized
-smoothing exhausts it. Strict efficiency beyond the slack is therefore
+\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)=(1-\alpha)+s_K$, so a non-randomized
+radius sitting almost surely at or below $\widehat q_{\text{plug}}$ has latent
+coverage
+$(1-\alpha)+s_K-
+\Pr\big(\widehat\rho<\lVert E_{\text{new}}\rVert_\infty\le
+\widehat q_{\text{plug}}\big)$; validity at $1-\alpha$ on this member
+therefore forces the deficit to be at most $s_K$, which is the claimed bound.
+The slack is attainable and no more: randomized smoothing of the conformal
+rank (randomizing between adjacent order statistics) achieves latent coverage
+exactly $1-\alpha$ on this member, and any band shaving more than $s_K$ of
+coverage drops below $1-\alpha$ there. Strict efficiency beyond the slack is therefore
 attainable only by shrinking $\mathfrak S$---i.e.\ by supplying information on
 the law of $S$ (equivalently the $v_c$), which is exactly the design-bootstrap
 information the deconvolution branch estimates (Theorem~4$'$), and whose
@@ -368,8 +378,9 @@ $\widehat q\cdot\widehat s=M_{(m)}$ --- the data-dependent scalar cancels
 identically. Self-inclusion deficits therefore arise \emph{only} from non-constant
 modulation profiles $\widehat s(t)$, whose \emph{shape} (not level) is what the
 unobserved target fails to share. This sharpens the note above: the $O(g/K)$ penalty
-is the price of profile estimation, and the deployed U0 band gives up only the
-profile adaptivity --- the level normalization was free all along.
+is the price of profile estimation, and the deployed U0 band (U0: the
+unstudentized clustered construction, the paper's anchor branch) gives up only
+the profile adaptivity --- the level normalization was free all along.
 \end{lemma}
 
 \subsection{Theorem~4$'$ (estimated-law validity, with explicit assumptions)}
@@ -425,7 +436,7 @@ with $\eta_{K,B},r_K=O(K^{-1/2})$ obtainable from the Bernstein bounds of (A3) a
 order-statistic concentration ($C_1,C_2$ depend on $(\kappa,z,L,q^*)$ through those
 inequalities; we do not display numerical values), so
 $\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
-$\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-safe guard makes the scale-error
+$\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-guarded guard makes the scale-error
 term one-sided: on the intersection of the guard's per-threshold coverage events
 (probability $\ge1-T\alpha_2$ by a union bound over the $T$ thresholds, or
 $\ge1-\alpha_2$ with a Bonferroni-adjusted guard level $\alpha_2/T$),
@@ -767,14 +778,14 @@ Gaussian formula for heavy-tailed scores ($\kappa>3$) and smaller for platykurti
 when the design noise $\overline{v^2}$ is an appreciable fraction of the between-population
 signal $s_R^2$. The frozen diagnostic computes
 $\widehat{\mathrm{SE}}(\widehat s_T^2)=\sqrt{2s_{\mathrm{plug}}^4/(K-1)+(\mathrm{SD}_K(v^2)
-/\sqrt K)^2}$ and, by construction of the finite-$K$-safe scale,
+/\sqrt K)^2}$ and, by construction of the finite-$K$-guarded scale,
 $\widehat s_T\le s_{\mathrm{plug}}$ for every $t$; hence
 \[
 D=\max_t\frac{\widehat{\mathrm{SE}}(\widehat s_T^2)}{\widehat s_T^2}
 \ \ge\ \frac{\sqrt{2s_{\mathrm{plug}}^4/(K-1)}}{s_{\mathrm{plug}}^2}
 \ =\ \sqrt{\tfrac{2}{K-1}}
 \]
-as an algebraic identity of the deployed statistic (machine-checked in
+as an algebraic identity of the deployed statistic (checked numerically in
 \texttt{test\_prop1\_floor.py}). Hence $D\le\tau_D$ forces $\sqrt{2/(K-1)}\le\tau_D$,
 i.e.\ $K\ge1+2/\tau_D^2$. With the frozen gate-B constants
 $\widehat\delta_{\mathrm{UCB}}(D)=a+bD$, $a=0.0061$, $b=0.0943$, $\delta_{\max}=0.02$, the
@@ -922,7 +933,7 @@ truth ($K\in\{30,60,120,240\}$, $\rho$ up to $1.8$), the selector transitions fr
 PCB to deconvolution at $\rho_0$ and to conservative at large $\rho$; but a naive
 deconvolution that omits gate~B \emph{undercovers} at small $K$---coverage falls to
 $0.75$ at $K=30$ in the transition zone---because the target scale is estimated from
-few countries (Figure~\ref{fig:selector}). Adding the finite-$K$-safe scale lifts
+few countries (Figure~\ref{fig:selector}). Adding the finite-$K$-guarded scale lifts
 this to $0.82$, and the reliability gate B lifts the deployed worst cell to
 $0.862$ while abstaining to conservative wherever the remainder cannot be bounded.
 These four transition cells at $0.862$--$0.878$ are the development evidence that
@@ -932,14 +943,14 @@ they are not reused below.
 \paragraph{The finite-$K$ mechanism, isolated.} A controlled Gaussian illustration
 (design SD $=$ transport SD, $\rho{=}0.9$; \texttt{fig\_theory\_illustration.py})
 makes the source of the undercoverage explicit and shows why the deployed rule is a
-selector rather than a deconvolver. Both the naive and the finite-$K$-safe
+selector rather than a deconvolver. Both the naive and the finite-$K$-guarded
 deconvolved score scales lie \emph{below} the oracle $s_R/s_{\text{plug}}$ at small
 $K$ (Figure~\ref{fig:shrinkage}): subtracting a design-noise variance estimated from
 few countries over-shrinks the scale, and the resulting band is too narrow. The safe
 guard shrinks less, and both converge to the oracle as $K\to\infty$. The coverage
 consequence is severe and grows with the trajectory length $L$ that the band must
 hold simultaneously (Figure~\ref{fig:coverage_LK}): naive deconvolution falls to
-$0.43$ at $K{=}25,\,L{=}16$, and the finite-$K$-safe scale improves it but does not by
+$0.43$ at $K{=}25,\,L{=}16$, and the finite-$K$-guarded scale improves it but does not by
 itself reach nominal at small $K$. The deployed adaptive selector detects that the
 remainder cannot be bounded and abstains to the conservative branch, remaining valid
 throughout at a width cost---the mechanism behind the $K{=}320$-only activation in
@@ -948,7 +959,7 @@ the confirmatory holdout in the main text.
 \begin{figure}[t]\centering
 \includegraphics[width=.62\textwidth]{theory_shrinkage.pdf}
 \caption{Score-scale shrinkage ratio $\hat s/s_{\text{plug}}$ vs $K$ (Gaussian
-illustration, $\rho{=}0.9$, $L{=}8$). Naive and finite-$K$-safe deconvolution both
+illustration, $\rho{=}0.9$, $L{=}8$). Naive and finite-$K$-guarded deconvolution both
 over-shrink below the oracle at small $K$---the source of the finite-$K$
 undercoverage---with the safe guard shrinking less; both converge as $K$
 grows.}\label{fig:shrinkage}
@@ -959,7 +970,7 @@ grows.}\label{fig:shrinkage}
 \caption{Latent-target coverage of the deconvolution branches vs $K$, faceted by
 trajectory length $L$ (Gaussian illustration, $\rho{=}0.9$; nominal $0.90$ dotted).
 Naive deconvolution undercovers severely at small $K$ and worse as $L$ grows; the
-finite-$K$-safe scale improves but does not itself reach nominal at small $K$. The
+finite-$K$-guarded scale improves but does not itself reach nominal at small $K$. The
 deployed adaptive selector abstains to conservative and stays valid
 throughout.}\label{fig:coverage_LK}
 \end{figure}
@@ -1246,7 +1257,8 @@ replicate-draws.
 \emph{What activates.} Across 23 unit-rounds the need gate opens in
 8 and the frozen selector routes to deconvolution in 4, all at
 $K=228$--$287$ with minimum unit sizes of forty and sixty respondents
-in rounds~9 and~10. Round~11 never activates: its regional design noise is lower
+in rounds~9 and~10; in the activating cells the deconvolved target scale
+itself sits $15$--$17\%$ below its plug-in value. Round~11 never activates: its regional design noise is lower
 and gate~A does not open at any size. Restricted to the fourteen countries whose
 region codes sit at a common NUTS level, gate~A still opens in nine of
 twenty-one unit-rounds but $K\le140$ keeps gate~B shut, so reaching the
@@ -1255,7 +1267,7 @@ the main text rather than buried.
 
 \emph{Is the region the exchangeable unit?} The regions nest in twenty-seven
 countries, nine apiece, and between-country differences carry
-32--49\% of the variance in a region's sup-departure. If the
+$32$--$49\%$ of the variance in a region's sup-departure. If the
 country were the exchangeable unit the effective $K$ would be about $27$, below
 this paper's own $K\ge94$ floor, and the activation would be an instance of the
 wrong-unit error this paper diagnoses. \texttt{e55} settles it by
@@ -1278,8 +1290,12 @@ with the largest regional heterogeneity. This is the ordinary marginal-versus-
 conditional distinction of conformal inference and we do not read the band per
 country. In the activating cells the selected band covers
 $0.93$--$0.98$ against a nominal $0.88$; that check scores the
-\emph{observed} departure, while the deconvolution branch targets the latent one,
-so it is a lower bound on that branch's coverage rather than a measurement of it.
+\emph{observed} departure, while the deconvolution branch targets the latent
+one. The latent coverage is not directly measurable, and reading the
+observed-departure check as conservative for it requires the symmetric-noise
+and scale-family structure of (A1). We therefore read the activation as
+establishing feasibility --- the frozen selector enters its correction regime
+at this unit --- rather than as a direct latent-target validation.
 
 \paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
 drafts are now part of the package.
@@ -1291,7 +1307,7 @@ subgroup-scan maximum $\rhohat$ from $0.288$ to $0.281$ and the LAPOP
 change-transport maximum from $0.212$ to $0.222$---both still severalfold below
 $\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
 Single-PSU strata, the one thing rescaling cannot repair, turn out to be
-negligible here: \emph{one} stratum of $7{,}028$ in the core rounds, covering
+negligible here: $1$ of $7{,}028$ strata in the core rounds, covering
 eleven respondents. The more consequential structural fact is different and we
 state it plainly: in $52$ of the $90$ core country-rounds the median PSU
 contains a single respondent---these are register samples of individuals, where

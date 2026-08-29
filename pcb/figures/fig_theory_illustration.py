@@ -157,7 +157,7 @@ def fig_shrinkage(shrink):
                 fontsize=8, color=COL["naive"], va="top",
                 arrowprops=dict(arrowstyle="->", color=COL["naive"], lw=1.0))
     ax.set_title("Both estimated scales over-shrink below the oracle at small $K$;\n"
-                 "the safe guard shrinks less, and both converge as $K$ grows",
+                 "the guarded scale shrinks less, and both converge as $K$ grows",
                  fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
     os.makedirs("figures", exist_ok=True); fig.savefig("figures/theory_shrinkage.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/theory_shrinkage.pdf", bbox_inches="tight")
@@ -176,7 +176,7 @@ def fig_coverage(cov):
             ax.text(KS[0], 1 - ALPHA + 0.008, "nominal 0.90", fontsize=7.6, color=MUTED)
         # draw order: naive underneath, safe deconvolution, deployed selector on top
         for key, lab, mk, z, lw in [("naive", "naive deconvolution", "o", 2, 1.8),
-                                    ("safe_dec", "finite-$K$-safe deconv.", "D", 3, 1.8),
+                                    ("safe_dec", "finite-$K$-guarded deconv.", "D", 3, 1.8),
                                     ("selector", "adaptive selector (ours)", "s", 4, 2.1)]:
             y = [cov[(L, K)][key] for K in KS]
             ax.plot(KS, y, "-", color=COL[key], lw=lw, marker=mk, ms=5.0,
@@ -189,7 +189,7 @@ def fig_coverage(cov):
             ax.legend(fontsize=8, frameon=False, labelcolor=TEXT, loc="lower left")
     ymin = min(cov[(L, K)]["naive"] for L in LS for K in KS)
     axes[0].set_ylim(min(0.80, ymin - 0.03), 1.012)
-    fig.suptitle("Both naive and finite-$K$-safe deconvolution undercover at small "
+    fig.suptitle("Both naive and finite-$K$-guarded deconvolution undercover at small "
                  "$K$ (worse as $L$ grows); the deployed selector abstains and stays "
                  "valid", fontsize=10.5, color=TEXT, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.96))

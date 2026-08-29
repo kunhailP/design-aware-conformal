@@ -1,32 +1,27 @@
 \section{Simultaneous inference for both units}\label{sec:method}
 
 The two wrong units get two procedures: within-country certification of a
-whole claim family (Section~\ref{sec:claims}), and cross-country conformal
-transport with a design-aware correction that activates only where it is
-provably reliable (Section~\ref{sec:transport}).
+whole claim family, and cross-country transport with a correction that
+activates only where it is provably reliable.
 
 \subsection{Within-country certification: one band, a family of claims}
 \label{sec:claims}
 
-The claims of interest differ in
-their unit. A \emph{pairwise} claim asks whether a given adjacent pair of waves
-shows a distributional shift; \emph{any-pair} asks whether some adjacent pair
-does; \emph{net} asks whether the first-to-last span declined; \emph{persistent
-country-wide} asks whether the whole distribution declined simultaneously
-across the trajectory; \emph{Bonferroni} further controls the number of countries
-examined. These claims form a partial order, not a chain. Persistent implies both
-net (adjacent declines telescope to the endpoint span) and any-pair; but net
-and any-pair are incomparable --- a dip that recovers certifies an
-adjacent pair with no net decline, and a slow accumulation can certify a long
-span while no single adjacent pair clears the critical value;
-both patterns occur in the ESS record (Section~\ref{sec:political}). The remaining steps differ in kind:
-from a marginal pairwise reading to any-pair the \emph{claim}
-gets no stronger, the \emph{guarantee} does; Bonferroni strengthens along a
-different axis, the number of countries. No chain is needed, because the claims
-are not separate tests: each claim, every sub-span, and the reverse direction is a
-function of one object, the country's surface of wave-pair contrasts, so all
-are certified on one coverage event. Reading one claim as
-another is the over-detection this paper is about.
+The claims of interest differ in their unit. A \emph{pairwise} claim asks
+whether a given adjacent pair of waves shows a distributional shift;
+\emph{any-pair} whether some adjacent pair does; \emph{net} whether the
+first-to-last span declined; \emph{persistent country-wide} whether the whole
+distribution declined simultaneously across the trajectory; \emph{Bonferroni}
+further controls the number of countries examined. These claims form a partial
+order, not a chain: persistent implies both net and any-pair, but net and
+any-pair are incomparable --- a dip that recovers certifies an adjacent pair
+with no net decline, and a slow accumulation can certify a long span while no
+single adjacent pair clears the critical value; both patterns occur in the ESS
+record (Section~\ref{sec:political}). The claims are not separate tests: each
+claim, every sub-span, and the reverse direction is a function of one object,
+the country's surface of wave-pair contrasts, so all are certified on one
+coverage event. Reading one claim as another is the over-detection this paper
+is about.
 
 \begin{proposition}[Claim-family transfer]\label{prop:transfer}
 Let $\widehat B$ be a simultaneous $1-\alpha$ band for a country's contrast
@@ -38,84 +33,76 @@ dependence on $|J|$: on $\{\theta\in\widehat B\}$, set inclusion delivers every
 certified claim at once.
 \end{proposition}
 
-The proof is the line just given, and the argument is standard: reading each
-deterministic consequence off one simultaneous region is the post-hoc logic of
-\citet{scheffe1953method}, closed testing \citep{marcus1976closed}, and the
-selection-free bounds of \citet{goeman2011multiple,katsevich2020simultaneous}.
-The contribution is its deployment: trend claims in this
-literature are made claim by claim, and reading them off a single studentized
-sup-$t$ band over the whole contrast family removes the corrections a per-claim construction needs: no Bonferroni across a country's pairs, no separate
-budget for certified recoveries, and no endpoint-selection cost. The price is a wider
-critical value, and we report what it costs. Unlike false-discovery-rate or
-Bonferroni corrections of marginal tests \citep{benjamini1995controlling}, the
-persistent object is covered directly by one functional band
+The proof is the line just given; reading each deterministic consequence off
+one simultaneous region is the post-hoc logic of \citet{scheffe1953method},
+closed testing \citep{marcus1976closed}, and the selection-free bounds of
+\citet{goeman2011multiple,katsevich2020simultaneous}. The contribution is its
+deployment: trend claims in this literature are made claim by claim, and one
+studentized sup-$t$ band over the whole contrast family removes the
+corrections a per-claim construction needs --- no Bonferroni across a
+country's pairs, no separate budget for certified recoveries, no
+endpoint-selection cost --- at the price of a wider critical value, which we
+report. The persistent object is covered directly by one functional band
 \citep{diquigiovanni2021conformal}, a distinction of estimand rather than
-error rate \citep{gelman2012why}.
-
-\paragraph{Which procedure certifies what.} Within-country \emph{certification}
-is a design-based simultaneous (sup-$t$) band on wave-pair CDF differences from
-the stratified-PSU bootstrap \citep{rao1988resampling,wolter2007introduction}, an
-asymptotic guarantee in which exchangeability plays no role; the conformal
-transport band calibrates cross-country prediction and the regime
-diagnostics. Headline counts are certification counts, and the theory sections'
-finite-sample language does not transfer to them.
+error rate \citep{gelman2012why,benjamini1995controlling}. The band itself is
+a design-based simultaneous sup-$t$ band on wave-pair CDF differences from the
+stratified-PSU bootstrap \citep{rao1988resampling,wolter2007introduction}: an
+asymptotic guarantee in which exchangeability plays no role, and to which the
+theory sections' finite-sample language does not transfer.
 
 \subsection{Cross-country transport and the safe adaptive band}
 \label{sec:transport}
 
-Theorem~\ref{thm:impossible} says the design bootstrap is the identifying input.
-The transport method turns that input into a band by choosing, target-blind, among
-three constructions and by never using the aggressive one unless it is provably
-reliable at the available number of countries.
+Theorem~\ref{thm:impossible} says the design bootstrap is the identifying
+input; the transport method turns it into a band by choosing, target-blind,
+among three constructions.
 
 \paragraph{Three branches.} For calibration error curves $\{\widetilde E_c\}_{c=1}^K$
 over threshold grid $t$, with per-country design SD $\widehat v_c(t)$ from the
 stratified-PSU bootstrap:
 \emph{(i) The clustered conformal band} takes the conformal quantile of the
-\emph{unstudentized} scores $\max_t|\widetilde E_c(t)|$ (the U0 construction):
-exact for the survey-estimate target at any $K$ under
-Theorem~\ref{thm:exact}'s symmetric centers, with the latent gap of
-Theorem~\ref{thm:oracle}(b). \emph{(ii) Deconvolution} studentizes by the
-finite-$K$-safe target scale
+\emph{unstudentized} scores $\max_t|\widetilde E_c(t)|$: exact for the
+survey-estimate target at any $K$ under Theorem~\ref{thm:exact}'s symmetric
+centers, with the latent gap of Theorem~\ref{thm:oracle}(b).
+\emph{(ii) Deconvolution} studentizes by the finite-$K$-guarded target scale
 $\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\, \overline{\widehat v^2}(t)-z\, \SE\, ]_+, \ \text{floor}\big)$,
 which subtracts a \emph{lower} confidence bound on the design variance so the
 correction cannot over-shrink; its width scales as $\sqrt{1-\rho^2}$ relative to
 the clustered band. \emph{(iii) Conservative} inflates each unstudentized score by the design SD,
 $\max_t(|\widetilde E_c(t)|+z\, \widehat v_c(t))$, a score that dominates the clustered
 band's score pointwise, so the conservative band \emph{contains} the clustered
-band by construction. This nesting is essential to the validity argument: selection between nested bands anchored at an exact
-band is validity-free, so the selector needs no conditional-coverage argument.
+band by construction.
 
 \paragraph{Safe selector (Algorithm~\ref{alg:safe}).} A naive selector asks
 \emph{can we deconvolve} and \emph{do we need to}; the safe selector adds the
-missing third question, \emph{can we do it safely at this $K$?} Let $\rhohat_{\text{LCB}}$ be
-a conservative lower confidence bound (LCB) on $\rho$, $D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$ a
-reliability diagnostic, and
-$\widehat\delta_{\text{UCB}}(D)$ a frozen upper confidence bound (UCB) on the finite-$K$ coverage
-remainder. Deconvolution is used \emph{iff all four gates pass}: (A)
-$\rhohat_{\text{LCB}}>\rho_0$ (design noise materially large); (B)
-$\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$ (remainder within budget); (C)
-$\widehat{\text{Gain}}-\Delta_g>g_{\min}$ (beats conservative by a margin); (D)
-stability. Otherwise the band is the clustered one when $\rhohat_{\text{LCB}}\le\rho_0$ and the
-conservative envelope when design noise is real but information insufficient. Every
-gate is a function of the calibration set only, so the selector is
-target-blind --- the selector adapts not to temporal shift \citep{gibbs2021adaptive} but to the certified magnitude of design noise --- and by Theorem~\ref{thm:safe}'s nested-band argument, validity
-survives even adversarial selection between the anchor branches. The deconvolution
-branch, which is not nested, is charged its own miss budget, and only in the
-$K\ge94$ regime where its gate can open at all
-(Section~\ref{sec:theory} states the rule). All constants are
-frozen before validation (Supplementary Material and replication package); when
+missing third question, \emph{can we do it safely at this $K$?} Deconvolution
+is used only when four gates pass, all computed from the calibration set
+alone: \emph{need} (A: $\rhohat_{\text{LCB}}>\rho_0$, a conservative lower
+confidence bound on $\rho$), \emph{reliability}
+(B: $\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$, a frozen upper confidence
+bound on the finite-$K$ coverage remainder through the diagnostic
+$D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$), \emph{efficiency}
+(C: a certified width gain $\widehat{\text{Gain}}$ over the conservative band
+clearing a margined threshold), and \emph{stability} (D); otherwise the band
+is an anchor, as Algorithm~\ref{alg:safe} routes. Every gate is target-blind, so by
+Theorem~\ref{thm:safe}'s nested-band argument validity survives even
+adversarial selection between the anchor branches; the non-nested
+deconvolution branch is charged its own miss budget, and only in the $K\ge94$
+regime where its gate can open at all (Section~\ref{sec:theory}). All
+constants are frozen before validation (Supplementary Material); when
 deconvolution is used the reported level is the observable
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a frozen \emph{calibrated} bound
-(the theorem-level guarantee is
-Theorem~\ref{thm:estimated}'s $\varepsilon_{K, B}$).
+(the theorem-level guarantee is Theorem~\ref{thm:estimated}'s
+$\varepsilon_{K, B}$). The method ships as one call,
+\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning the band, the
+selected branch and why, the coverage level, and the target that level refers
+to.
 
 \begin{algorithm}[t]
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}
 \KwIn{calibration curves $\{\widetilde R_c\}$ (unit = country), design replicates
 $\{\widehat v_c\}$, target curve $\widehat F_{\text{new}}$, level $\alpha$;
-frozen $\rho_0, \delta_{\max}, g_{\min}, \Delta_g$ and the $K$-only budget rule
-$\alpha_{\text{dec}}(K)$}
+frozen gate constants and the $K$-only budget rule $\alpha_{\text{dec}}(K)$}
 set $(\alpha_{\text{anchor}}, \alpha_{\text{dec}})$ by the frozen budget rule
 (full $\alpha$ to the anchors when gate B is infeasible at this $K$)\;
 compute diagnostics $s$, $\widehat s_T$, $\rhohat_{\text{LCB}}, D,
@@ -133,8 +120,3 @@ $r_{\text{branch}}\leftarrow\frac{K}{K-1}\,r_{\text{branch}}$
 \tcp*{exactness for the deployed center (Section~\ref{sec:theory})}}
 \Return $\widehat F_{\text{new}}\pm r_{\text{branch}}$, branch, and diagnostics\;
 \end{algorithm}
-
-\paragraph{Deployment.} The method ships as one call,
-\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning the band, the
-selected branch and why, the coverage level, and the target that level refers
-to.

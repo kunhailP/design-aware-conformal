@@ -1,31 +1,31 @@
-"""DA-PCB — Design-Aware Population Conformal Bands (prototype, E6).
+"""Design-aware primitives: design bootstrap, guarded deconvolution, gates.
 
 Plug-in PCB calibrates on E_g = θ̂_g − θ̃_g, treating each source's weighted
 sample CDF θ̃_g as the truth. When the sources are themselves modest surveys
 (ESS-scale n with clustering and weight dispersion), E_g = T_g − S_g conflates
 the transport error T_g = θ̂_g − θ_g with the survey error S_g = θ̃_g − θ_g.
-Three consequences the E6 pilot measures:
-  (i)  deployment (unsurveyed target, truth evaluation): the target score has
-       no S term, so plug-in calibration is stochastically inflated —
-       conservative coverage bought at inflated width;
-  (ii) validation (surveyed target, evaluated against θ̃): a target whose
-       survey is noisier than the calibration mix undercovers — the plug-in
-       failure is CONDITIONAL, appearing under design heterogeneity;
-  (iii) both distortions are estimable from the design: a PSU bootstrap gives
-       v_g(t) = SD of S_g(t), enabling the corrections below.
+The latent transport law is not identified from the contaminated curves alone
+(Theorem 1); the design bootstrap supplies the identifying information, and
+its finite-K reliability is itself bounded (Proposition 1: D ≥ √(2/(K−1))).
 
-Variants:
-  * `da_studentized_band` — deconvolve the transport scale
-    s_T² = s_plug² − mean_g v_g², studentise scores by the population-specific
-    total scale √(s_T² + v_g²), score the target with its own v (0 in
-    deployment). Aims at oracle width and conditional validity.
-  * `da_worstcase_band` — score each source by its worst-case error over the
-    design uncertainty set C_g = [L_g, U_g] (max distance from θ̂_g to the
-    band ends). Conservative by construction: an upper envelope, not an
-    efficiency device.
-Validity is exact for plug-in/oracle (exchangeable scores); for the DA
-variants it is approximate at the pilot stage (local-scale studentisation) —
-the simulation quantifies the gap before any theory is claimed.
+This module provides the primitives the deployed selector (`pcb.dapcb`) draws
+on:
+  * `psu_bootstrap` / `design_sd` — the design-noise estimate v_g(t)
+    (`rescale=True` gives the Rao–Wu–Yue rescaling bootstrap);
+  * `deconv_target_scale` — the finite-K-guarded deconvolved scale ŝ_T
+    (subtracts a lower confidence bound on the design variance, so the
+    correction cannot over-shrink; the scale of Theorem 4′);
+  * `rho_lcb`, `deconv_reliability` — the need (ρ̂_LCB) and reliability (D)
+    diagnostics behind the selector's gates;
+  * `da_studentized_band`, `da_worstcase_band` — the deconvolution and
+    conservative branch constructions.
+
+Validity architecture: the anchor branches are exact for the survey-estimate
+target T1 by exchangeability (Theorem 3); the deconvolution branch targets the
+latent trajectory T2 under (A1)–(A3) with remainder ε_{K,B} (Theorem 4′), and
+its gate cannot open below K = 94 at the frozen τ_D. See `pcb.dapcb` for the
+deployed selector and its guarantee, and the paper's Supplementary Material
+for statements and proofs.
 """
 from __future__ import annotations
 import numpy as np
@@ -85,8 +85,8 @@ def _finish(center, half, tighten):
 
 def deconv_target_scale(cal_errors: np.ndarray, v_cal: np.ndarray,
                         z: float = 1.6448536, floor_frac: float = 0.05):
-    """Finite-K-safe deconvolved target scale ŝ_T,safe(t) (docs/FINITE_K_
-    CORRECTION_PROTOCOL.md).
+    """Finite-K-guarded deconvolved target scale ŝ_T(t) (docs/FINITE_K_
+    CORRECTION_PROTOCOL.md; called the "finite-K-guarded scale" in the paper).
 
     Guards the mean(v²) subtraction with its one-sided lower CI, so we subtract
     LESS when the design-noise estimate is uncertain:

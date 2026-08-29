@@ -1,19 +1,17 @@
 \section{Evidence from the ESS and the AmericasBarometer}\label{sec:evidence}
 
 \paragraph{The regime characterization.} On real data the selector reduces to
-the clustered conformal band, and the reason is worth stating. Across both surveys, both estimands, and
-three outcomes, cross-national inference is a uniformly \emph{low design-noise}
-regime:
-$\rhohat\le0.22$ on LAPOP, at most $0.29$ in the ESS
-subgroup scan, well below the $\rho_0=0.47$ cutoff. Every $\rhohat$ we report is
-a downward-biased \emph{floor}, because the PSU bootstrap resamples $m$-of-$m$
-without Rao--Wu--Yue rescaling \citep{rao1992recent} and single-PSU strata
-contribute no variance. The rescaled rerun confirms the floors are tight: maxima
-$0.28$ (ESS) and $0.22$ (AmericasBarometer), still severalfold below $\rho_0$, zero gate
-activations, every certification count unchanged; and singleton strata, which no
-rescaling repairs, are $1$ of $7{,}028$ in the core rounds. The safe selector
-thus reduces to the clustered conformal band on all real data, not by assumption but by its own
-low-$\rho$ gate.
+the clustered conformal band. Across both surveys, both estimands, and three
+outcomes, cross-national inference is a uniformly \emph{low design-noise}
+regime: $\rhohat\le0.22$ on the
+AmericasBarometer, at most $0.29$ in the ESS subgroup scan, well below the
+$\rho_0=0.47$ cutoff. Every $\rhohat$ we report is a downward-biased
+\emph{floor}, because the PSU bootstrap resamples $m$-of-$m$ without
+Rao--Wu--Yue rescaling \citep{rao1992recent}; the rescaled rerun confirms the
+floors are tight --- maxima $0.28$ and $0.22$, still severalfold below
+$\rho_0$, zero gate activations, every certification count unchanged
+(Supplementary Material). The reduction is not an assumption but the
+selector's own low-$\rho$ gate at work.
 
 \paragraph{Why the deconvolution is unreachable, precisely.}
 
@@ -44,84 +42,71 @@ too few countries.
 Nor is the floor an artifact of our thresholds. Any \emph{unbiased} estimator
 of a variance from $K$ exchangeable populations has relative standard error at
 least $\sqrt{2/(K-1)}$ at the Gaussian member (Lehmann--Scheff\'e;
-Supplementary Material), so any correction relying on an unbiased
-noise-variance estimate at relative reliability $\tau$ --- the class the
-deployed diagnostic lives in --- needs $K\ge1+2/\tau^2$: the frozen $\tau_D$
-is one instantiation, $94$ its intercept, $\sqrt{2/(K-1)}$ the law for this
-estimator class. With the proved width gain
-$1-\sqrt{1-\rho^2}$, the $(K,\rho)$ plane splits into three regimes ---
-correction \emph{unnecessary}, \emph{unlearnable}, \emph{feasible} --- and this
-paper's datasets occupy the three corners (Figure~\ref{fig:frontier}).
+Supplementary Material), so any correction relying on such an estimate at
+relative reliability $\tau$ --- the class the deployed diagnostic lives in ---
+needs $K\ge1+2/\tau^2$: the frozen $\tau_D$ is one instantiation, $94$ its
+intercept, $\sqrt{2/(K-1)}$ the law for this estimator class. With the proved
+width gain $1-\sqrt{1-\rho^2}$, the $(K,\rho)$ plane splits into three
+regimes --- correction \emph{unnecessary}, \emph{unlearnable},
+\emph{feasible} --- and this paper's datasets occupy the three corners
+(Figure~\ref{fig:frontier}).
 
 \paragraph{Where the correction does live: small areas, on this same survey.}
 The barrier is about the unit, and the ESS itself contains a finer one. Take the
 estimand this regime is actually for, a region's departure from its own
 \emph{national} distribution, $D_g=F_g-F_{\text{nation}}$, and calibrate the
-transport band across regions. A single stratified-PSU bootstrap
-of the whole country recomputes $F_g$ and $F_{\text{nation}}$ on every
-replicate, so the design SD is that of the difference (exclusion rules in the
-Supplementary Material).
-
-On that estimand the design-to-total ratio is not marginal: $\rhohat_{\text{LCB}}$
-runs $0.26$--$0.52$ and clears $\rho_0=0.47$ in eight of twenty-three
-unit-rounds. Reliability needs scale, and the two gates open together only once
+transport band across regions, with the design SD of the difference from a
+single stratified-PSU bootstrap of the whole country (construction and
+exclusion rules in the Supplementary Material). On that estimand the
+design-to-total ratio is not marginal: $\rhohat_{\text{LCB}}$ runs
+$0.26$--$0.52$ and clears $\rho_0=0.47$ in eight of twenty-three unit-rounds.
+Reliability needs scale, and the two gates open together only once
 $K\gtrsim230$: units of forty to sixty respondents, rounds 9 and 10,
 $K=228$--$287$. There the \emph{frozen} selector, no constant retuned,
-activates the design-aware branch for the first time on real survey data: a band
-$21$--$27\%$ narrower than the conservative envelope at the reported level
-$0.88$, with certified width-gain lower bounds of $0.16$--$0.22$ against the
-$0.10$ efficiency threshold, across twelve independent bootstrap streams; the
-deconvolved target scale itself sits $15$--$17\%$ below its plug-in value.
+activates the design-aware branch for the first time on real survey data: a
+band $21$--$27\%$ narrower than the conservative envelope at the reported
+level $0.88$, with certified width-gain lower bounds of $0.16$--$0.22$ across
+twelve independent bootstrap streams.
 
-\paragraph{Is the region an exchangeable unit?} The regions nest in twenty-seven
-countries, nine each, and between-country differences carry $32$--$49\%$ of the
-variance in a region's sup-departure: the objection this paper would itself
-raise is that the effective unit is the country and $K$ is really $27$. Holding
-out whole countries provides the empirical diagnostic (Supplementary Material). Calibrating on the other
-twenty-six countries' regions, the plug-in anchor covers $0.89$--$0.90$
-against its $0.90$ target in all twelve cells, and, the informative
-contrast, differs by at most $0.015$ from leave-one-\emph{region}-out
-calibration, which keeps the held-out region's country-mates. Deleting nine
-country-mates from the calibration set changes essentially nothing, evidence
-against within-country dependence deflating the quantile. In the activating cells the selected
-band covers $0.94$--$0.98$ against its nominal $0.88$, scored on the observed
-departure, hence a lower bound for a branch targeting the latent one. Coverage
-conditional on the country does not transfer: the median held-out country
-is fully covered but the tenth percentile is $0.75$, the worst three (Bulgaria,
-Greece, Hungary, $0.53$--$0.63$) being those with the largest regional
-heterogeneity. The guarantee is marginal over regions, as conformal guarantees
-are, and we do not read it per country.
+The regions nest in twenty-seven countries, nine each, so the objection this
+paper would itself raise is that the effective unit is the country and $K$ is
+really $27$. Holding out whole countries provides the diagnostic: calibrating
+on the other twenty-six countries' regions leaves the plug-in anchor at
+$0.89$--$0.90$ against its $0.90$ target in all twelve cells, within $0.015$
+of leave-one-region-out calibration --- deleting nine country-mates changes
+essentially nothing, evidence against within-country dependence deflating the
+quantile. Coverage \emph{conditional} on the country does not transfer (the
+worst held-out countries sit at $0.53$--$0.63$; Supplementary Material); the
+guarantee is marginal over regions, as conformal guarantees are. In the
+activating cells the selected band covers $0.94$--$0.98$ against its nominal
+$0.88$, scored on the observed departure; the latent departure is
+unobservable, so we read the activation as feasibility --- the frozen
+procedure enters its correction regime at this unit --- with latent-target
+validity resting on the scale-family condition (A1) as everywhere in that
+branch. Two scope conditions travel with the result: reaching $K\gtrsim230$
+requires pooling regions coded at different NUTS levels (restricted to the
+fourteen countries sharing one level, the need gate still opens but
+$K\le140$ keeps the reliability gate shut), and round 11 never activates,
+its regional design noise being lower. The correction is thus not unreachable
+in principle, and not reachable across countries: it lives at the small-area
+scale, where Theorem~\ref{thm:impossible}'s remark said it would.
 
-Two further scope conditions travel with it. Reaching $K\gtrsim230$ requires pooling
-regions coded at different NUTS levels (the EU's territorial-unit
-classification); restricted to the fourteen countries
-sharing one level the need gate still opens in nine of twenty-one unit-rounds,
-but $K\le140$ keeps the reliability gate shut and the selector falls back to the
-conservative envelope, the same two-barrier structure as the national result
-above, one level down. And round 11 never activates, because its
-regional design noise is lower. The correction is therefore not unreachable in
-principle, and not reachable across countries: it lives at the small-area scale,
-which is where Theorem~\ref{thm:impossible}'s remark said it would.
-
-\paragraph{How coarse can the calibration unit be?} One constraint is sharp and,
-we believe, unremarked: the conformal level is infeasible whenever
-$K<\alpha^{-1}-1$, because the required order statistic exceeds the sample and
-the band is $[0,1]$ at any width---a too-coarse unit is unusable, not merely
-inefficient, and the cross-national default clears the floor comfortably
-($K=30$--$34$ against nine). Refining is not free either: with units of a
-controlled target size built by grouping whole PSUs, the band's half-width falls
-monotonically as units coarsen, from $0.190$ at forty respondents per unit
-to $0.065$ at three hundred and fifty. Both are statements about
-the \emph{calibration} unit; an estimand's unit is fixed by the question, and
-choosing among substantive areal partitions is the modifiable areal unit problem
-\citep{openshaw1984modifiable,robinson1950ecological}, to which we add nothing.
+\paragraph{How coarse can the calibration unit be?} One constraint is sharp
+and, we believe, unremarked: the conformal level is infeasible whenever
+$K<\alpha^{-1}-1$, the required order statistic exceeding the sample --- a
+too-coarse unit is unusable, not merely inefficient; and refining is not free
+either, half-width falling threefold as units coarsen over the observed range
+(Supplementary Material). Both are statements about the \emph{calibration}
+unit; an estimand's unit is fixed by the question, and choosing among
+substantive areal partitions is the modifiable areal unit problem
+\citep{openshaw1984modifiable,robinson1950ecological}, to which we add
+nothing.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.92\textwidth]{feasibility_frontier.pdf}
-\caption{The feasibility frontier in the $(K,\hat\rho)$ plane. Each marker
-is a real-data cell, placed at its lower confidence bound with a bar to the
-point estimate; filled markers are the four cells where the frozen selector
-activated. Dashed rules are the frozen boundaries (the need cutoff $\rho_0$
-and the reliability floor $K=1+2/\tau_D^2=94$); per-gate diagnostics are in
-the Supplementary Material.}\label{fig:frontier}
+\caption{The feasibility frontier in the $(K,\hat\rho)$ plane. Each marker is
+a real-data cell at its lower confidence bound, with a bar to the point
+estimate; filled markers are the four cells where the frozen selector
+activated. Dashed rules are the frozen boundaries, the need cutoff $\rho_0$
+and the reliability floor $K=94$.}\label{fig:frontier}
 \end{figure}

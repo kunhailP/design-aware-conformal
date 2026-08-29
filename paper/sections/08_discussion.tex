@@ -1,49 +1,41 @@
 \section{Discussion}\label{sec:discussion}
 
-Uncertainty in claims about repeated cross-national surveys is usually computed for
-the wrong unit---twice. We gave a multiplicity-honest simultaneous band for the
-claim unit and a hard boundary for the calibration unit: non-identified without the
-design-noise law (Theorem~\ref{thm:impossible}), unreachable for the deployed
-correction at cross-national scale with it (Proposition~\ref{prop:unreach}). The deployed object is the
-reduction, a clustered band valid at any $K$ inside a selection-free selector
-(Theorems~\ref{thm:exact}, \ref{thm:safe}), and the design-aware layer certifies,
-rather than corrects, at survey scale.
+Uncertainty in claims about repeated cross-national surveys is usually computed
+for the wrong unit --- twice. We gave a multiplicity-honest simultaneous band
+for the claim unit and a hard boundary for the calibration unit: non-identified
+without the design-noise law (Theorem~\ref{thm:impossible}), unreachable for
+the deployed correction at cross-national scale with it
+(Proposition~\ref{prop:unreach}). At the national unit the method reduces
+exactly to clustered population conformal --- certifying, with the reported
+$\rho$, that the simple band is the right one; the deconvolution regime needs
+many exchangeable units and comparable design noise, never both across
+countries but reachable one unit down (Section~\ref{sec:evidence}). Design
+uncertainty, in short, does not imply that one should correct for it;
+sometimes the valid response is to certify that the correction is not
+learnable at the available unit.
 
-\paragraph{When it reduces to ordinary conformal.} At the national unit the
-method reduces exactly to clustered population conformal: the machinery
-certifies that the simple band is the right one here, and reports the $\rho$
-that says so. The deconvolution regime needs many exchangeable units and
-comparable design noise, never both across countries, but reachable one unit
-down (Section~\ref{sec:evidence}) and routine in simulation at many-unit scale
-($K\approx220$--$300$ simulated small areas, deconvolution on up to $98\%$ of draws
-at $0.69$--$0.74\times$ the conservative width with valid coverage).
-
-\paragraph{Limitations.} Four scope conditions, stated fully in the Supplementary
-Material. \emph{Sampling error only:} the machinery is silent on measurement
-non-invariance (wording and translation changes, house effects, mode switches),
-which produces exactly the shifts the bands certify; certifications straddling
-such changes are conditional on measurement constancy.
-\emph{Variance-estimator bias:} the deployed $m$-of-$m$ PSU bootstrap
-\citep{rao1992recent,wolter2007introduction} biases design variance downward,
-though the Rao--Wu--Yue rescaled rerun leaves every count and gate unchanged.
-\emph{A superpopulation postulate:} transport-band exchangeability is over a
-non-sampled, panel-attriting country set (the certifications do not use it), and
-holds worse for the post-communist bloc than elsewhere.
-\emph{Metadata:} without design metadata (WVS) only weights-only replication is
-possible.
+\paragraph{Limitations.} Four scope conditions, stated fully in the
+Supplementary Material. The machinery prices sampling error only: measurement
+non-invariance (wording changes, house effects, mode switches) produces
+exactly the shifts the bands certify, so certifications straddling such
+changes are conditional on measurement constancy. The deployed $m$-of-$m$ PSU
+bootstrap \citep{rao1992recent,wolter2007introduction} biases design variance
+downward, though the Rao--Wu--Yue rescaled rerun leaves every count and gate
+unchanged. Transport-band exchangeability is a superpopulation postulate over
+a non-sampled, panel-attriting country set, and holds worse for the
+post-communist bloc. And without design metadata (WVS) only weights-only
+replication is possible.
 
 \paragraph{The general lesson.} Attaching uncertainty to the right unit changes
-substantive conclusions: persistence in none of thirty-three European democracies
-over two decades yet span erosion in eight, mostly invisible to adjacent-wave
-readings; a certified deconsolidation set several-fold smaller under a
-trajectory-persistence criterion than under wave-pair readings, with the
-surviving core concentrated outside the consolidated West. The pattern is not confined to
-surveys. Wherever prediction is calibrated on estimated objects---small-area
+substantive conclusions: persistence in none of thirty-three European
+democracies over two decades yet span erosion in eight, mostly invisible to
+adjacent-wave readings; a certified deconsolidation set several-fold smaller,
+concentrated outside the consolidated West. The pattern is not confined to
+surveys: wherever prediction is calibrated on estimated objects --- small-area
 model outputs, learned features, meta-analytic effects
-(Remark~\ref{rem:general})---the calibration targets carry their own error, and
-the claim unit is often coarser than the trend asserted. Throughout, absence of certification is
-not certification of absence: the severity analysis prices what each claim can
-detect, and the counts inherit that price. The right response is not
-to widen every band reflexively but to state the strongest object the data
-support, correct the estimation noise when it can be identified, and abstain
-when it cannot.
+(Remark~\ref{rem:general}) --- the calibration targets carry their own error,
+and the claim unit is often coarser than the trend asserted. Absence of
+certification is not certification of absence: the severity analysis prices
+what each claim can detect. The right response is not to widen every band reflexively but to state the strongest
+object the data support, correct the estimation noise when it can be
+identified, and abstain when it cannot.

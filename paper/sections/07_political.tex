@@ -16,9 +16,6 @@ begins. The closest competitor, latent-mood estimation
 countries into model-based credible intervals; our bands trade pooling for
 model-free coverage at a stated claim, and the two are complements.
 
-With the claim family and its one-band certification defined in
-Section~\ref{sec:claims}, the reanalysis reads results off it.
-
 \paragraph{The counts collapse across claims.} For \texttt{trstprl} over rounds
 9--11, a marginal pairwise reading flags $20$ of $30$
 countries; an any-pair
@@ -66,9 +63,8 @@ whole span certifies in eight countries (Cyprus, Spain, the United
 Kingdom, Greece, Hungary, Israel, Italy, Ukraine;
 Figure~\ref{fig:bounds}, Table~\ref{tab:magnitudes}).
 Against the per-claim construction the joint statement costs France at the span
-claim ($9\to8$) and six countries at the any-pair claim ($28\to22$); the two runs
-define adjacency differently, and the persistent zero holds under both
-(Supplementary Material).
+claim ($9\to8$) and six countries at the any-pair claim ($28\to22$); the
+persistent zero holds under both constructions (Supplementary Material).
 
 The across-country count itself can now carry a guarantee. Inverting each
 joint band over its level yields a per-country certification $p$-value;
@@ -84,8 +80,9 @@ contrasts certify, and the United Kingdom $11$ of $55$, erosion that a reading
 built from adjacent waves alone would mostly miss. Because every endpoint choice
 is certified at once, the band also delivers the \emph{share of a country's
 ordered contrasts that certify a decline}: a lower bound, comparable within a
-country but not across (the shared critical value increases strongly with record length while the
-denominator grows quadratically), so we do not rank on it. Within a country it is informative: Spain certifies over $32$ of its $55$
+country but not across (the shared critical value increases strongly with
+record length while the denominator grows quadratically), so we do not rank
+on it. Spain certifies over $32$ of its $55$
 contrasts and Slovenia over $21$ of $55$, neither entering the eight because
 the span contrast does not certify --- the endpoint sensitivity the joint band
 exposes. Ukraine's certified span decline of at least $25$
@@ -93,13 +90,14 @@ points runs from the post-Orange-Revolution wave of 2005 to a wartime sample: a
 certified statement about those two waves.
 
 \begin{table}[t]\centering
-\caption{Certified net decline in parliamentary trust, 2002--2024, read off one
-band covering every ordered contrast and both directions at $\alpha=0.10$
-jointly. \emph{Decline $\ge$}: simultaneous lower bound over the preregistered
-core, in CDF points. \emph{Contrasts}: ordered round pairs certified declining,
-of all admissible; their share is the endpoint-free erosion index. The certified
-set is unchanged at any weights-only design effect in
-$[0.6,2.0]$.}\label{tab:magnitudes}
+\caption{Certified net decline in parliamentary trust, 2002--2024, read off
+each country's joint band (every ordered contrast, both directions,
+$\alpha=0.10$). \emph{Decline $\ge$}: simultaneous lower bound over the
+preregistered core, in CDF points. \emph{Contrasts}: ordered round pairs
+certified declining, of all admissible; their share is the endpoint-free
+erosion index. The certified set is stable under weights-only design-effect
+inflation up to roughly $1.3$; above that Spain, the marginal member, drops
+out (Supplementary Material).}\label{tab:magnitudes}
 \begin{tabular}{lcccc}
 \toprule
 country & rounds & decline $\ge$ & contrasts & share \\
@@ -117,14 +115,12 @@ Spain & 1--11 & \phantom{0}0.6 & 32/55 & 0.58 \\
 \end{table}
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{ess_net_bounds.pdf}
-\caption{The certified object itself: each country's simultaneous lower
-bound on the net (first-to-last) decline in parliamentary trust, 2002--2024,
-read off that country's joint band over every ordered contrast at
-$\alpha=0.10$. Filled markers: the eight countries whose bound exceeds zero
-(certified); asterisks: the six countries named by the closed-testing
-prevalence bound (at least six true decliners at $90\%$ simultaneous
-confidence). Negative bounds say how far a country sits from certifying, not
-that it improved.}\label{fig:bounds}
+\caption{Each country's simultaneous lower bound on the net (first-to-last)
+decline in parliamentary trust, 2002--2024, read off its joint band at
+$\alpha=0.10$. Filled markers: the eight countries whose bound exceeds zero;
+asterisks: the six named by the closed-testing prevalence bound. Negative
+bounds say how far a country sits from certifying, not that it
+improved.}\label{fig:bounds}
 \end{figure}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
@@ -147,9 +143,9 @@ reanalysis of the ``democratic deconsolidation'' thesis
 \citep{foa2016democratic,foa2017signs} on the WVS/EVS trends (1981--2022,
 $59$--$77$ countries with $\ge2$ waves), recoding the five-item battery so that
 deconsolidation is a persistent decline over each scale's preregistered core.
-The WVS ships no design metadata, so it cannot validate the design-aware
-layer; its role here is a substantive stress test of the deconsolidation
-thesis, with the ESS carrying the design-based validity story. The verdict is
+The WVS ships no design metadata, so its role here is a substantive stress
+test of the deconsolidation thesis, with the ESS carrying the design-based
+validity story. The verdict is
 calibration, not denial, but the surviving phenomenon is not the
 one the thesis was about. A \emph{marginal wave-pair reading of the same
 data}, a criterion we construct to instantiate the bottom rung, since Foa and
@@ -172,7 +168,7 @@ half-supported (Supplementary Material).
 
 \paragraph{The certified core: where the surviving deconsolidation lives.}
 Aggregating per-item certifications yields a positive characterization
-(Figure~\ref{fig:core}; \texttt{e30}): of $38$ countries certified on $\ge1$ item, $13$
+(Figure~\ref{fig:core}): of $38$ countries certified on $\ge1$ item, $13$
 form a certified core on $\ge2$, headed by Albania on four. The core is
 post-communist and Arab-Spring states with fragile Latin American and African
 cases alongside, not the mature democracies the thesis
@@ -202,9 +198,8 @@ forecast. Item-level caveats are in the Supplementary Material.
 \begin{figure}[t]\centering
 \includegraphics[width=.95\textwidth]{certified_core.pdf}
 \caption{The thirteen-country certified core, by evidence strength (WVS/EVS
-1981--2022; $K=59$--$77$ per item). Circle area is the certified minimum
-per-pair decline --- the persistent band's simultaneous lower bound, in CDF
-points; small open circles mark items that do not certify. The full matrix
-of all thirty-eight countries certifying at least one item is in the
+1981--2022; $K=59$--$77$ per item). Circle area is the persistent band's
+simultaneous lower bound on the per-pair decline, in CDF points; open circles
+mark items that do not certify. The full thirty-eight-country matrix is in the
 Supplementary Material.}\label{fig:core}
 \end{figure}

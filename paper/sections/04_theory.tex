@@ -1,13 +1,12 @@
 \section{Theory}\label{sec:theory}
 
-Theorem~\ref{thm:exact} anchors the validity architecture (the base band,
-exact at every $K$ under its symmetric centers) and
-Theorem~\ref{thm:safe} carries the guarantee through the selector, under any
-selection rule; Theorems~\ref{thm:oracle} and~\ref{thm:estimated} price what
-the deployed band does not get for free --- the latent rather than estimated
-trajectory, an estimated rather than known noise law. Proofs are in
-the Supplementary Material, Section~S1; each theorem is paired with a machine-checked
-contract test.
+Theorem~\ref{thm:exact} anchors the validity architecture and
+Theorem~\ref{thm:safe} carries the guarantee through the selector;
+Theorems~\ref{thm:oracle} and~\ref{thm:estimated} price what the deployed band
+does not get for free --- the latent rather than estimated trajectory, an
+estimated rather than known noise law. Proofs are in the Supplementary
+Material, Section~S1; each theorem is paired with an automated contract test
+checking its computational implications.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
@@ -24,8 +23,8 @@ width a factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band.
 The gap in~(b) is a noise-tail plus a local anti-concentration term, vanishing
 with the design-noise scale at rate $\rho^{2/3}$ under variance-only tails and
 $\rho$ up to logarithms under sub-Gaussian noise --- but not by symmetry (a
-bimodal counterexample in the Supplementary Material), which is why we estimate
-and report $\rho$ rather than assume it away.
+bimodal counterexample, Supplementary Material): hence we estimate and report
+$\rho$ rather than assume it away.
 
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
 Let the base band use the unstudentized cluster score $R_c=\max_t|E_c(t)|$, with
@@ -40,10 +39,10 @@ distribution-free.
 
 The guarantee is exact for the survey-estimate trajectory T1; the latent
 trajectory T2 adds the gap of Theorem~\ref{thm:oracle}(b), bounded through the
-reported $\rho$. Exactness at every $K$ is bought by excluding two asymmetries a
-more adaptive band would introduce, in-sample modulation and grand-mean centers
-containing their own unit, at a cost of at most $5\%$ of width on the
-near-homoskedastic real curves.
+reported $\rho$. Exactness at every $K$ is bought by excluding two
+asymmetries --- in-sample modulation and grand-mean centers containing their
+own unit --- at a width cost of at most $5\%$ on the near-homoskedastic real
+curves.
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
 Assume a common scale family indexed by the design variance (A1),
@@ -56,20 +55,16 @@ $\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
 $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
 \end{theorem}
 
-The remainder's direction is fixed by construction: the finite-$K$-safe scale
+The remainder's direction is fixed by construction: the finite-$K$-guarded scale
 $\widehat s_T^2$ of Section~\ref{sec:method} subtracts a lower confidence bound
 on the design variance, so outside an $\alpha_2$-probability event the scale
 error widens the band. Some shape restriction is not removable (the
-counterexample above); (A1) is one sufficient choice.
-
-\paragraph{The deployed pipeline.} The miss budget is a frozen function of $K$
-alone: below the reliability floor ($K<94$, the regime in which the gate cannot
-open at all, Proposition~\ref{prop:unreach}, and the one covering every
-certification sample here including the WVS $\ge2$-wave sets at $K=59$--$77$)
-the anchors keep the full $\alpha$ and the deconvolution budget is zero; at
-$K\ge94$ the budget
-$\alpha_{\text{dec}}=\min\{\max(0.1\alpha,3/(K{+}1)),\alpha/2\}$ is reserved
-for it (derivation in the Supplementary Material).
+counterexample above); (A1) is one sufficient choice. The miss budget is a
+frozen function of $K$ alone: below the reliability floor ($K<94$, the regime
+in which the gate cannot open at all, Proposition~\ref{prop:unreach}, covering
+every certification sample here) the anchors keep the full $\alpha$ and the
+deconvolution budget is zero; at $K\ge94$ a frozen $K$-only rule reserves
+$\alpha_{\text{dec}}$ (Supplementary Material).
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
 Deploy Algorithm~\ref{alg:safe} with the unstudentized clustered and conservative
@@ -85,41 +80,30 @@ selection rule,
 \]
 \end{theorem}
 
-The clauses name different targets because they rest on different assumptions.
-Exchangeability alone delivers T1 exactly, with T2 adding
-Theorem~\ref{thm:oracle}(b)'s gap; (A1)--(A3) deliver the latent target directly,
-by an anchor-domination lemma, and the remainder $\varepsilon_{K,B}$ they carry
-is charged to the deconvolution branch alone. That remainder also prices the
-deployed centering: the calibration errors the pipeline feeds are
-leave-one-out centered, hence dependent --- they sum to zero identically, so
-(A1)'s independent curves cannot be them --- and the Supplementary Material
-extends Theorem~4$'$ to this construction, the centering adding a same-order
-$O(\sqrt{\log(KT)/K})$ term absorbed into $\varepsilon_{K,B}$. The anchor
-branches handle the same dependence \emph{exactly}, by the $K/(K{-}1)$
-inflation above.
+The clauses name different targets because they rest on different assumptions:
+exchangeability alone delivers T1 exactly, with T2 adding
+Theorem~\ref{thm:oracle}(b)'s gap, while (A1)--(A3) deliver the latent target
+directly, by an anchor-domination lemma, with the remainder
+$\varepsilon_{K,B}$ charged to the deconvolution branch alone --- the
+same-order term its leave-one-out centering adds is absorbed into
+$\varepsilon_{K,B}$ (the Supplementary Material extends Theorem~4$'$ to that
+construction). The proof uses no conditional-on-selection step: the
+conservative score dominates the clustered band's score pointwise, selection
+between nested bands anchored at an exact band is validity-free ---
+nested-conformal machinery \citep{gupta2022nested,yang2024selection}, with
+the contribution of engineering the branches so that it applies --- and a
+union bound charges the one non-nested branch its own budget.
 
-The proof uses no conditional-on-selection step. A nested-band lemma does the
-work: the conservative score dominates the clustered band's score pointwise, and selection
-between nested bands anchored at an exact band is validity-free. That is nested-conformal machinery
-\citep{gupta2022nested,yang2024selection}; our contribution is to engineer the
-branches so that it applies. A union bound then charges the one non-nested
-branch its own budget. Two scope notes. At $K\ge94$ the reported level is a frozen calibrated bound, not a
-theorem. And the unsurveyed-target deployment uses a leave-one-out center, outside
-Theorem~\ref{thm:exact}'s symmetric constructions --- but not outside theory:
-the deployed band inflated by $K/(K{-}1)$ is finite-sample valid at every $K$,
-distribution-free (Supplementary Material, Proposition~S), and the released
-default ships that inflation, so the band Theorem~\ref{thm:safe}'s first
-clause certifies is the band the package returns; the frozen gates still
-decide on the uninflated radii, so the sealed validation carries over a
-fortiori, at a width cost under $3.5\%$. The uninflated radius carries an
-explicit remainder $\delta_K$ --- the probability mass in a window of
-relative width $1/(K{-}1)$ above the radius, $O(1/K)$ under a conditional
-anti-concentration condition (Supplementary Material); a $28$-cell simulation across
-four families measures $\delta_K$ at zero ---
-no cell below the exact-construction floor beyond Monte Carlo error. The
-strictly exact split-fold alternative remains infeasible at survey scale:
-halving the calibration set below $\lceil1/\alpha\rceil$ units makes the
-conformal radius infinite, exactly at the $K$ this paper works at.
+Two scope notes. At $K\ge94$ the reported level is a frozen calibrated bound,
+not a theorem. And the unsurveyed-target deployment uses a leave-one-out
+center, outside Theorem~\ref{thm:exact}'s symmetric constructions --- but not
+outside theory: inflating the radius by $K/(K{-}1)$ restores finite-sample
+validity at every $K$, distribution-free (Supplementary Material,
+Proposition~S), and the released default ships that inflation, at a width cost
+under $3.5\%$; the frozen gates still decide on the uninflated radii, so the
+sealed validation carries over a fortiori. (The strictly exact split-fold
+alternative is infeasible at survey scale: halving the calibration set below
+$\lceil1/\alpha\rceil$ units makes the conformal radius infinite.)
 
 \paragraph{Efficiency.} The low-$\rho$ deconvolution-to-clustered width ratio is
 $1-\tfrac12\rho^2+O(\rho^4)$, proved; the conservative band contains the clustered one
