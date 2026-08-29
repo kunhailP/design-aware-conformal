@@ -90,3 +90,30 @@ def test_uncovered_rows_stay_missing(sddf_dir):
     merged = merge_design(both, s, verbose=False)
     fr = merged[(merged.cntry == "FR") & (merged.essround == 1)]
     assert fr.psu.isna().all()
+
+
+# ---------------------------------------------------------------- e61 ledger --
+def test_sddf_long_window_settlement():
+    """Pins the committed e61 outputs: the SDDF upgrade changes no net or
+    persistent count, with identical net membership (paper, Supplementary
+    Material 'the direct settlement')."""
+    import os
+    new = "results/ess_joint_claims_sddf.csv"
+    old = "results/ess_joint_claims.csv"
+    assert os.path.exists(new) and os.path.exists(old)
+    n, o = pd.read_csv(new), pd.read_csv(old)
+    for outcome in ("trstprl", "stfdem"):
+        nn = n[n.outcome == outcome]
+        oo = o[o.outcome == outcome]
+        assert sorted(nn.cntry[nn.net]) == sorted(oo.cntry[oo.net])
+        assert int(nn.persistent.sum()) == 0 == int(oo.persistent.sum())
+        assert int(nn.episodic.sum()) == int(oo.episodic.sum()) == 23
+    assert sorted(n[(n.outcome == "trstprl") & n.net].cntry) == [
+        "CY", "ES", "GB", "GR", "HU", "IL", "IT", "UA"]
+
+    lw = pd.read_csv("results/ess_long_window_sddf.csv")
+    for outcome, k_net, k_bonf in (("trstprl", 9, 8), ("stfdem", 8, 7)):
+        p = lw[lw.outcome == outcome]
+        assert int(p.net_da.sum()) == k_net
+        assert int(p.net_da_bonf.sum()) == k_bonf
+        assert int(p.persist_da.sum()) == 0

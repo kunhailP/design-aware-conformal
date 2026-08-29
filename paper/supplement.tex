@@ -1370,13 +1370,14 @@ marginal-to-persistent gap widens from $2.6$--$6.5\times$ to $3.0$--$8.3\times$
 --- confirming the paper's directional claim that the shipped gap is a lower
 bound.
 
-\paragraph{The long window, stress-tested four ways.} The rounds-1--11 analysis
-(\texttt{e36}) mixes design-bootstrap cells (rounds 9--11) with weights-only
-cells (rounds 1--8): $174$ of $231$ pairs have a weights-only side. Because each
-cell is self-studentized, the sup-$t$ critical value is scale-free per cell and
-the understatement enters only through the final margins, in the inclusive
-direction --- protective for the \emph{zero persistent} result, a liability for
-the \emph{nine net} result. Four checks bound it.
+\paragraph{The long window, stress-tested and then settled.} The rounds-1--11
+analysis (\texttt{e36}) mixes design-bootstrap cells (rounds 9--11) with
+weights-only cells (rounds 1--8): $174$ of $231$ pairs have a weights-only
+side. Because each cell is self-studentized, the sup-$t$ critical value is
+scale-free per cell and the understatement enters only through the final
+margins, in the inclusive direction --- protective for the \emph{zero
+persistent} result, a liability for the \emph{nine net} result. Four checks
+bound it, and a fifth settles it directly.
 \emph{(0) A scope correction.} The design-effect sensitivity below was run
 against the per-family construction that the joint band of the main text
 replaces, so it certifies the \emph{nine}-country set rather than the eight the
@@ -1405,6 +1406,23 @@ threshold, and reversing the inequality certifies rises. Computed per family,
 these gave $56$ rising pairs against $59$ falling and $24$ countries with both,
 at $\alpha$ per family; computed inside the joint band they give $23$ of
 thirty-three at $\alpha$ in total, which is the number the main text reports.
+\emph{(iv) The direct settlement} (\texttt{e61};
+\texttt{ess\_long\_window\_sddf.csv}, \texttt{ess\_joint\_claims\_sddf.csv}):
+merging the separately distributed ESS Sample Design Data Files for rounds
+1--8 (\texttt{pcb.data.ess\_sddf}; per-country files for rounds 1--6,
+integrated files for rounds 7--8) supplies psu/stratum for $245{,}897$
+respondents and upgrades $88$ country-rounds from the weights-only to the
+stratified-PSU design bootstrap, cutting the weights-only pairs from $174$ to
+about $106$ of $231$ per outcome; country-rounds whose SDDF is not published
+or carries no PSU remain weights-only. Rerun with the shipped seeds so that
+core-round draws are identical, the upgrade changes \emph{nothing} the
+manuscript reports: the joint-band net sets are unchanged with identical
+membership ($8$ trust, $7$ satisfaction), persistent stays zero on both
+outcomes, episodic stays $23$, and the per-family net and Bonferroni counts
+are unchanged --- the only movement is one marginal any-pair certification
+lost per outcome (Russia on trust, Switzerland on satisfaction in the
+per-family run), exactly the inclusive direction the understatement argument
+predicts.
 
 \paragraph{Nonresponse and sample-type limits the machinery does not reach.}
 Two exposures deserve naming rather than absorption into ``measurement

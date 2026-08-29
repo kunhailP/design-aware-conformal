@@ -19,9 +19,26 @@ registration with its provider. Place the files exactly as below — the loaders
   `bbabd8f6a071d566e9cc7741d321b3c09d70ec500efd221bb668fef749e581b2`
 - **Notes**: PSU/stratum ship in the *integrated* files only from round 9; rounds
   1–8 carry outcomes and weights (the long-window analysis `e36` uses a
-  weights-only bootstrap there, disclosed in the paper). The separate Sample
-  Design Data Files (rounds 1–8) would upgrade those rounds to the full design
-  bootstrap and are flagged as a revision item.
+  weights-only bootstrap there, disclosed in the paper).
+
+### 1b. ESS Sample Design Data Files (SDDF), rounds 1–8
+
+- **What**: the separately distributed design variables (`idno, cntry, psu,
+  stratify, prob`) for rounds 1–8. Rounds 7–8 ship as one integrated file per
+  round; rounds 1–6 as per-country files (not every country-round exists, and
+  some carry no PSU — those stay weights-only).
+- **Where**: <https://ess.sikt.no> — rounds 7–8 via the ESS API
+  (`https://api.ess.sikt.no/v1/data/dataFile/10.21338/ess7sddfe1_2` and
+  `.../ess8sddfe01_1`, with your ESS user ID; CSV format), rounds 1–6 from each
+  round's country documentation pages (`.spss.zip` archives).
+- **Place at**: `data/ess/sddf/` (any nesting; `.csv/.sav/.dta/.por`, zips are
+  auto-extracted). Old-vintage `.por` files unreadable by pyreadstat can be
+  converted to CSV with R's `foreign::read.spss`.
+- **Used by**: `pcb.data.ess_sddf` (merge on `cntry, essround, idno`, filling
+  psu/stratum only where the integrated file lacks them) and
+  `pcb.experiments.e61_sddf_long_window` (the long-window rerun; upgrades 88
+  country-rounds, changes no net or persistent count — committed outputs
+  `results/ess_long_window_sddf.csv`, `results/ess_joint_claims_sddf.csv`).
 
 ## 2. World Values Survey / EVS trend file, 1981–2022
 
