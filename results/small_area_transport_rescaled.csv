@@ -1,0 +1,45 @@
+pool,min_n,essround,K,median_region_n,rho_hat,rho_lcb,D,delta_ucb,gate_A,gate_B,branch,gain_lcb,width_ratio,coverage,fallback
+all countries,400,9,15,506,0.4705,0.3241,0.4807,0.0514,False,False,PCB,,0.9108,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,400,10,19,569,0.5177,0.3202,0.4499,0.0485,False,False,PCB,,0.9131,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,300,9,23,443,0.5304,0.3909,0.4387,0.0475,False,False,PCB,,0.8778,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,300,9,13,430,0.8262,0.5733,1.576,0.1547,True,False,conservative,,0.6613,0.9,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,300,10,38,442,0.4642,0.3383,0.2814,0.0326,False,False,PCB,,0.9173,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,300,10,20,407,0.453,0.288,0.3873,0.0426,False,False,PCB,,0.933,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,300,11,24,433,0.3835,0.2731,0.3626,0.0403,False,False,PCB,,0.9382,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,300,11,14,410,0.3411,0.2279,0.4726,0.0507,False,False,PCB,,0.9511,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,200,9,80,272,0.6097,0.5083,0.2465,0.0293,True,False,conservative,,0.822,0.9,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,200,9,40,279,0.5642,0.4353,0.3598,0.04,False,False,PCB,,0.857,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,200,10,75,331,0.5602,0.4435,0.2298,0.0278,False,False,PCB,,0.8659,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,200,10,33,363,0.528,0.3773,0.3324,0.0374,False,False,PCB,,0.8926,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,200,11,60,324,0.4357,0.3508,0.2304,0.0278,False,False,PCB,,0.9152,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,200,11,32,319,0.3845,0.291,0.3005,0.0344,False,False,PCB,,0.9372,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,150,9,114,231,0.6422,0.5374,0.2213,0.027,True,False,conservative,,0.8048,0.873,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,150,9,53,242,0.5531,0.4403,0.2759,0.0321,False,False,PCB,,0.8637,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,150,10,113,270,0.6003,0.4786,0.2187,0.0267,True,False,conservative,,0.8466,0.8733,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,150,10,52,260,0.6199,0.4075,0.3538,0.0395,False,False,PCB,,0.8767,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,150,11,106,230,0.4865,0.4069,0.1793,0.023,False,False,PCB,,0.892,0.877,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,150,11,52,233,0.4276,0.3295,0.2369,0.0284,False,False,PCB,,0.9255,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,100,9,171,196,0.587,0.5063,0.167,0.0218,True,False,conservative,,0.8346,0.8782,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,100,9,74,211,0.6243,0.5063,0.2625,0.0309,True,False,conservative,,0.8219,0.9,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,100,10,186,174,0.6071,0.5237,0.1613,0.0213,True,False,conservative,,0.8242,0.8787,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,100,10,78,186,0.5974,0.4538,0.2737,0.0319,False,False,PCB,,0.8549,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,100,11,162,182,0.5114,0.4428,0.151,0.0203,False,False,PCB,,0.8766,0.8797,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,100,11,83,186,0.5449,0.4417,0.2165,0.0265,False,False,PCB,,0.8693,0.9,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+all countries,80,9,196,163,0.6113,0.5293,0.1687,0.022,True,False,conservative,,0.8192,0.878,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,80,9,82,199,0.6465,0.5287,0.2601,0.0306,True,False,conservative,,0.8047,0.9,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,80,10,211,156,0.6286,0.545,0.1578,0.021,True,False,conservative,,0.8096,0.879,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,80,10,90,169,0.653,0.4999,0.2997,0.0344,True,False,conservative,,0.8242,0.9,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,80,11,196,165,0.5293,0.4644,0.1405,0.0194,False,True,PCB,,0.8654,0.8806,design noise negligible (ρ̂_LCB ≤ ρ₀) → clustered PCB
+common NUTS level,80,11,102,154,0.6043,0.5007,0.2143,0.0263,True,False,conservative,,0.8316,0.8737,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,60,9,228,149,0.6241,0.5473,0.1566,0.0209,True,False,conservative,,0.8082,0.8791,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,60,9,94,162,0.6461,0.5256,0.2455,0.0292,True,False,conservative,,0.8111,0.8708,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,60,10,248,142,0.6453,0.5653,0.1552,0.0207,True,False,conservative,,0.7958,0.8793,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,60,10,105,146,0.6945,0.5477,0.2619,0.0308,True,False,conservative,,0.7933,0.8692,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,60,11,233,136,0.5384,0.477,0.1313,0.0185,True,True,conservative,0.067,0.8591,0.8815,width gain insufficient (Ĝain_LCB ≤ g_min) → conservative fallback
+common NUTS level,60,11,116,135,0.5757,0.4836,0.1999,0.025,True,False,conservative,,0.8456,0.875,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,40,9,273,119,0.6278,0.5511,0.1424,0.0195,True,True,deconvolution,0.2366,0.8086,0.8805,
+common NUTS level,40,9,109,140,0.6398,0.52,0.2188,0.0267,True,False,conservative,,0.8186,0.8733,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,40,10,287,127,0.6552,0.5632,0.1545,0.0207,True,False,conservative,,0.7993,0.8793,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+common NUTS level,40,10,119,133,0.7373,0.5439,0.2946,0.0339,True,False,conservative,,0.7967,0.8661,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
+all countries,40,11,285,112,0.5469,0.4906,0.122,0.0176,True,True,conservative,0.0239,0.8521,0.8824,width gain insufficient (Ĝain_LCB ≤ g_min) → conservative fallback
+common NUTS level,40,11,140,113,0.6175,0.5291,0.193,0.0243,True,False,conservative,,0.8156,0.8757,finite-K remainder too large (δ̂_UCB > δ_max) → conservative fallback
