@@ -15,6 +15,9 @@ begins. The closest competitor, latent-mood estimation
 \citep{claassen2019estimating,claassen2020support,kolczynska2026trust}, pools
 countries into model-based credible intervals; our bands trade pooling for
 model-free coverage at a stated claim, and the two are complements.
+Certification levels throughout this section are design-bootstrap
+simultaneous levels, asymptotic in the within-country samples
+(Table~\ref{tab:targets}).
 
 \paragraph{The counts collapse across claims.} For \texttt{trstprl} over rounds
 9--11, a marginal pairwise reading flags $20$ of $30$
@@ -52,7 +55,8 @@ The null is not a bare one: reversing the inequality certifies
 certified movement is directionally balanced ($193$ declining against $212$
 rising). Inside the same band, and therefore at the same $\alpha$ for that country,
 twenty-three of thirty-three countries certify at least one decline
-and at least one recovery, on each outcome separately and twenty on both; the two directions share one critical value by construction, so
+and at least one recovery on each outcome separately, and twenty do so on
+both; the two directions share one critical value by construction, so
 no within-country correction is needed. The count across countries is a
 conjunction of thirty-three coverage events and carries no familywise control
 by itself; the closed-testing bound below supplies it. Whatever European trust did over two decades, it was not a monotone
@@ -84,10 +88,11 @@ is certified at once, the band also delivers the \emph{share of a country's
 ordered contrasts that certify a decline}: a lower bound, comparable within a
 country but not across (the shared critical value increases strongly with
 record length while the denominator grows quadratically), so we do not rank
-on it. Spain certifies over $32$ of its $55$
-contrasts and Slovenia over $21$ of $55$, neither entering the eight because
-the span contrast does not certify --- the endpoint sensitivity the joint band
-exposes. Ukraine's certified span decline of at least $25$
+on it. Spain certifies $32$ of its $55$
+contrasts yet clears its span by only $0.6$ CDF points --- the erosion index
+and the span magnitude measure different things --- and Slovenia certifies
+$21$ of $55$ without entering the eight at all, its span contrast failing:
+the endpoint sensitivity the joint band exposes. Ukraine's certified span decline of at least $25$
 points runs from the post-Orange-Revolution wave of 2005 to a wartime sample: a
 certified statement about those two waves.
 
@@ -127,7 +132,7 @@ improved.}\label{fig:bounds}
 
 The reclassified countries are the weak-signal, higher-noise cases---\emph{certified
 by the marginal plug-in but inconclusive under the design-aware band}, never
-``false positives, '' a term we reserve for simulation with known truth.
+``false positives,'' a term we reserve for simulation with known truth.
 
 \paragraph{Two confounds this window cannot exclude.} Round-10 fieldwork
 coincided with the pandemic's rally-round-the-flag movements, so ``persistent

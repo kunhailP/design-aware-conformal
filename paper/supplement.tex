@@ -28,10 +28,19 @@
 \newcommand{\rhohat}{\widehat{\rho}}
 \DeclareMathOperator{\SE}{SE}
 
-% Number figures/tables/sections with an "S" prefix for the online supplement.
+% Number figures/tables/sections with an "S" prefix for the online supplement,
+% and likewise the supplement's own theorem-like environments, so that the
+% supplement's Proposition S1 (leave-one-out validity) cannot collide with
+% the main manuscript's Proposition numbering.
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\theproposition}{S\arabic{proposition}}
+\renewcommand{\thelemma}{S\arabic{lemma}}
+\renewcommand{\thetheorem}{S\arabic{theorem}}
+\renewcommand{\theremark}{S\arabic{remark}}
+\renewcommand{\theassumption}{S\arabic{assumption}}
+\renewcommand{\thedefinition}{S\arabic{definition}}
 
 \title{Supplementary Material for\\
 ``The Wrong Unit of Uncertainty:\\
@@ -148,7 +157,7 @@ coverage drops below $1-\alpha$ there. Strict efficiency beyond the slack is the
 attainable only by shrinking $\mathfrak S$---i.e.\ by supplying information on
 the law of $S$ (equivalently the $v_c$), which is exactly the design-bootstrap
 information the deconvolution branch estimates (Theorem~4$'$), and whose
-finite-$K$ reliability is what Proposition~1 bounds.
+finite-$K$ reliability is what Proposition~2 bounds.
 \end{proof}
 
 \subsection{Theorem~2 (oracle validity)}
@@ -647,7 +656,7 @@ $\max_t(|E_c(t)|+z\,\widehat v_c(t))$ respectively, both calibrated at level
 $\alpha_{\text{anchor}}$) and the deconvolution branch calibrated at its own budget
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=
 (\alpha,0)$ when gate~B is infeasible at the observed $K$
-(Proposition~1: $K<94$ at the frozen constants, which covers every certification
+(Proposition~2: $K<94$ at the frozen constants, which covers every certification
 sample analyzed in this paper---ESS $K\approx30$, LAPOP $K\approx20$, and the WVS
 $\ge2$-wave sets at $K=59$--$77$; the WVS \emph{full item-coverage} sets at
 $K\approx95$--$105$ are feasible in principle but are not certification samples) and
@@ -725,7 +734,7 @@ the two bands are nested: $\widehat B_{\text{PCB}}\subseteq\widehat B_{\text{con
 By Theorem~3 the PCB band is exact at $\alpha_{\text{anchor}}$; by
 Lemma~\ref{lem:nested} any choice between the two nested branches retains
 $\Pr(\text{miss})\le\alpha_{\text{anchor}}$. When gate~B is infeasible the selector can
-only ever choose between these two (Proposition~1 is a \emph{deterministic} property of
+only ever choose between these two (Proposition~2 is a \emph{deterministic} property of
 the frozen diagnostic, Section below), so the deployed guarantee is
 $1-\alpha_{\text{anchor}}=1-\alpha$ with no remainder and no selection conditions. When
 gate~B is feasible the deconvolution branch (not nested; narrower) is charged its own
@@ -753,7 +762,7 @@ $\varepsilon_{K,B}$, confined to the $K\ge94$ regime where deconvolution can act
 and reported through $\widehat\delta_{\text{UCB}}(D)$ when it does.
 \end{remark}
 
-\subsection{Proposition~1 (survey-scale unreachability)}
+\subsection{Proposition~2 (survey-scale unreachability)}
 
 \emph{Statement.} The deployed selector activates deconvolution only if a \emph{need} gate
 $\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both hold, with
@@ -813,7 +822,7 @@ the \emph{cross-national} application: many-unit settings (subnational areas, sc
 clinics) routinely have $K\ge94$, where the reliability gate can open.
 \end{remark}
 
-\paragraph{The floor is not the selector's.} Proposition~1(b) is an
+\paragraph{The floor is not the selector's.} Proposition~2(b) is an
 algorithmic identity of the \emph{frozen} procedure. The natural objection is
 that $94$ is an artifact of our thresholds; the following lemma removes the
 procedure from the statement, for the class the deployed diagnostic lives in.
@@ -835,7 +844,7 @@ parameters unknown. $(\bar X, S^2)$ is complete and sufficient; $S^2$ is
 unbiased for $\sigma^2$, hence UMVU (Lehmann--Scheff\'e), with
 $\operatorname{Var}(S^2)=2\sigma^4/(K-1)$. No unbiased estimator has smaller
 variance than the UMVU one, which is the bound; the feasibility statement
-solves $\sqrt{2/(K-1)}\le\tau$ for $K$. Proposition~1(b)'s in-procedure floor
+solves $\sqrt{2/(K-1)}\le\tau$ for $K$. Proposition~2(b)'s in-procedure floor
 holds by construction on every realization; the lemma adds that no alternative
 estimator escapes the same floor at the member where spread assignments are
 hardest to distinguish (the $S\equiv0$ neighbourhood of Theorem~1's
@@ -846,7 +855,7 @@ lemma; a minimax version allowing bias (bounding
 $\inf_{\widehat V}\sup_{\sigma^2}\mathbb E[(\widehat V-\sigma^2)^2/\sigma^4]$)
 would be the fully universal statement and is left open. And the deployed
 diagnostic sits inside the class: the frozen SE formula is built on the
-unbiased $K$-cluster variance, so Proposition~1(b)'s floor holds on every
+unbiased $K$-cluster variance, so Proposition~2(b)'s floor holds on every
 realization by construction, not only at the Gaussian member.
 \end{proof}
 
@@ -954,7 +963,7 @@ $0.43$ at $K{=}25,\,L{=}16$, and the finite-$K$-guarded scale improves it but do
 itself reach nominal at small $K$. The deployed adaptive selector detects that the
 remainder cannot be bounded and abstains to the conservative branch, remaining valid
 throughout at a width cost---the mechanism behind the $K{=}320$-only activation in
-the confirmatory holdout in the main text.
+the relocated confirmatory holdout below (Table~\ref{tab:holdout}).
 
 \begin{figure}[t]\centering
 \includegraphics[width=.62\textwidth]{theory_shrinkage.pdf}
@@ -1066,6 +1075,25 @@ concentration-dependent, not uniform over the $\rho\ge0.72$ range. Under the rev
 Theorem~5$'$ this entire failure mode is confined to the $K\ge94$,
 $\alpha_{\text{dec}}$-budgeted branch and cannot touch the survey-scale guarantee.
 
+\paragraph{The final sealed validation (\texttt{e33}), and its one disclosed
+generator bug.} The main text's headline validation is a third, final layer:
+six unseen data-generating families $\times$ $120$ cells, with the script
+hash recorded before first execution
+(\texttt{configs/final\_validation\_manifest.json}). The first sealed run
+failed $15$ of $120$ cells, all in one family (\texttt{ar2\_rounds}) at every
+$K$ --- including $K$ where the U0 anchor is exact for \emph{any}
+exchangeable DGP, which is what diagnosed the failure as a \emph{generator}
+bug rather than a pipeline one: the target trajectory was normalized by its
+own sample SD while calibration curves used the pooled SD, an
+exchangeability-violating asymmetry in the DGP itself. The generator's
+normalization was amended (analytic stationary SD; only that branch changed,
+the procedure untouched), the amended script re-hashed, and the second sealed
+run passes all $120$ cells (worst coverage $0.878$ against the $0.88$ floor
+within Monte-Carlo tolerance, zero activations below $K=94$). Both runs are
+committed (\texttt{final\_validation\_seal1.csv}, worst $0.53$;
+\texttt{final\_validation.csv}), and the main text's validation paragraph
+points here.
+
 \section{Additional empirical robustness}\label{sup:empirical}
 
 \paragraph{The ESS long window (rounds 1--11, 2002--2024): construction and full
@@ -1093,7 +1121,8 @@ under-detection face of the wrong-unit diagnosis---while Greece certifies the ne
 rung over its full 2002--2024 participation (rounds 1, 2, 4, 5, 10, 11), so the
 headline's single-pair caveat concerns the top rung only. Upgrading rounds 1--8 to
 the full design bootstrap requires merging the separately shipped Sample Design
-Data Files and remains flagged for the archived replication.
+Data Files; that merge is delivered as \texttt{e61} (``the direct
+settlement'' below), and changes no net or persistent count.
 
 \paragraph{Same-items comparison with the Claassen latent panel (public data).}
 Claassen's country--year support-for-democracy estimates (the corrected AJPS
@@ -1357,10 +1386,11 @@ questions. \emph{Power (null-imposed):} the estimand is \emph{replaced} by an
 injected decline of $\delta$ CDF points over the preregistered core --- $\widehat
 D\leftarrow\delta$ and the bootstrap draws recentred on it --- keeping each of the
 $30$ countries' $57$ real stratified-PSU bootstraps. At $\delta=0$ this is the
-sharp null and all three rungs certify in $0.000$ of countries (nominal $0.10$);
-$80\%$ power arrives at $\delta=0.02$--$0.03$ per pair for the net rung, $0.04$
-for the pairwise rung, and $\approx0.06$ for the persistent rung. This
-reproduces E32's simulated ordering and thresholds against genuine design noise.
+sharp null and realized size is $0.001$--$0.007$ across the three rungs
+(nominal $0.10$); $80\%$ power arrives at $\delta\approx0.033$ per pair for
+the net rung, $\approx0.06$ for the pairwise rung, and $\approx0.075$ for the
+persistent rung. This reproduces E32's simulated ordering against genuine
+design noise.
 \emph{Detection (additive):} the injection is added on top of what each country
 actually did, so $\delta=0$ returns the observed certification rates ($0.20$ net,
 $0.03$ persistent) and the curve answers ``how much further decline would bring
@@ -1428,11 +1458,11 @@ or carries no PSU remain weights-only. Rerun with the shipped seeds so that
 core-round draws are identical, the upgrade changes \emph{nothing} the
 manuscript reports: the joint-band net sets are unchanged with identical
 membership ($8$ trust, $7$ satisfaction), persistent stays zero on both
-outcomes, episodic stays $23$, and the per-family net and Bonferroni counts
-are unchanged --- the only movement is one marginal any-pair certification
-lost per outcome (Russia on trust, Switzerland on satisfaction in the
-per-family run), exactly the inclusive direction the understatement argument
-predicts.
+outcomes, the both-directions count stays $23$, and the per-family net and
+Bonferroni counts are unchanged --- the only movement is one marginal
+any-pair certification lost per outcome (Russia on trust in the joint band,
+Switzerland on satisfaction in the per-family run), exactly the inclusive
+direction the understatement argument predicts.
 
 \paragraph{Nonresponse and sample-type limits the machinery does not reach.}
 Two exposures deserve naming rather than absorption into ``measurement
@@ -1461,9 +1491,9 @@ $s_{\text{plug}}$ continues to absorb the realized noise. What the sweep
 demonstrates is therefore a failure mode of the $\rhohat$ diagnostic under
 sparse-PSU designs---with the deployed band's coverage remaining at or above nominal
 throughout---not a substantive saturation law, and we have removed ``saturation''
-claims resting on it from the main text. A rescaled-bootstrap rerun
-(\texttt{psu\_bootstrap(rescale=True)}, added to the package) is flagged for the
-archived replication.
+claims resting on it from the main text. The rescaled-bootstrap reruns
+(\texttt{psu\_bootstrap(rescale=True)}) are delivered as \texttt{e38} and
+\texttt{e62}, reported under ``promised reruns'' above.
 
 \paragraph{The positive regime, demonstrated (E31).} The scope result says where the
 correction is unreachable; a companion simulation shows where it pays. On the

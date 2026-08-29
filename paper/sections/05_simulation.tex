@@ -5,17 +5,18 @@ coverage, and the safe selector meets its guarantees on data it has never seen.
 
 \subsection{The wrong unit collapses coverage}\label{sec:wrongunit-sim}
 
-On a ground-truth simulation ($K=30$ countries, $T=6$ thresholds, errors
-correlated across rounds and thresholds) we ask each band for \emph{trajectory}
-coverage, the whole curve-path at once (Figure~\ref{fig:wrongunit}). All three
-bands are unstudentized and finite-sample, so only the score's unit varies. A
-band that is marginally valid at the round level covers the trajectory $81.7\%$
-of the time at $L=2$ and $49.8\%$ at $L=8$; per threshold the figures are
-$38.2\%$ and $3.5\%$. Only the country-trajectory band holds its nominal $90\%$
-at every length, because the trajectory is a single exchangeable unit. This is
-the coverage face of the paper's thesis, and the same mechanism drives the
-certification-count collapse of Section~\ref{sec:political}. Pre-registered,
-reported as produced.
+On a ground-truth simulation ($K=30$ countries, $T=6$ thresholds, trajectory
+length $L$ rounds, errors correlated across rounds and thresholds) we ask
+each band for \emph{trajectory} coverage, the whole curve-path at once
+(Figure~\ref{fig:wrongunit}). All three bands are unstudentized and
+finite-sample, so only the score's unit varies. A band that is marginally
+valid at the round level covers the trajectory $81.7\%$ of the time at $L=2$
+and $49.8\%$ at $L=8$; per threshold the figures are $38.2\%$ and $3.5\%$.
+Only the country-trajectory band holds its nominal $90\%$ at every length,
+because the trajectory is a single exchangeable unit. This is the coverage
+face of the paper's thesis, and the same mechanism drives the
+certification-count collapse of Section~\ref{sec:political}. The simulation
+was pre-registered and is reported as produced.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{wrong_unit_coverage.pdf}

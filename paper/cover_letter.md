@@ -1,11 +1,5 @@
 # Cover letter — Political Analysis submission
 
-*Draft. The author should check the salutation against the current masthead
-before sending, add the AI-use sentence agreed for the Acknowledgments, and
-delete this note.*
-
----
-
 Professor Daniel Hopkins
 Professor Brandon Stewart
 Editors-in-Chief, *Political Analysis*
@@ -20,12 +14,13 @@ attach uncertainty to the wrong unit, and to two different wrong units at once.
 A single wave-pair contrast is read as a persistent, distribution-wide trend;
 and the objects a conformal band calibrates on — other countries' attitude
 distributions — are themselves complex-survey *estimates*, plugged in as if they
-were truth. The paper gives a finite-sample simultaneous band over a country's
-whole trajectory, with the country as the exchangeable unit, and an ordered
-hierarchy of claims read off one band at one level. It then draws the scope
-boundary for the second error: without the design-noise law the correction is
-non-identified, and with it the correction remains unreachable at cross-national
-scale, because the reliability diagnostic obeys an algorithmic floor requiring
+were truth. The paper gives a design-based simultaneous band over a country's
+whole trajectory, with an ordered hierarchy of claims read off one band at one
+level, and a finite-sample conformal band for cross-country transport with the
+country as the exchangeable unit. It then draws the scope boundary for the
+second error: without the design-noise law the correction is non-identified,
+and with it the deployed correction remains unreachable at cross-national
+scale, because its reliability diagnostic obeys an algorithmic floor requiring
 at least 94 exchangeable populations. One unit down, on regions within the same
 survey, the frozen procedure does activate.
 

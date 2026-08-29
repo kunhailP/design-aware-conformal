@@ -11,8 +11,9 @@ The claims of interest differ in their unit. A \emph{pairwise} claim asks
 whether a given adjacent pair of waves shows a distributional shift;
 \emph{any-pair} whether some adjacent pair does; \emph{net} whether the
 first-to-last span declined; \emph{persistent country-wide} whether the whole
-distribution declined simultaneously across the trajectory; \emph{Bonferroni}
-further controls the number of countries examined. These claims form a partial
+distribution declined simultaneously across the trajectory (a Bonferroni
+layer across countries strengthens along a different axis and sits atop any
+rung). The claims form a partial
 order, not a chain: persistent implies both net and any-pair, but net and
 any-pair are incomparable --- a dip that recovers certifies an adjacent pair
 with no net decline, and a slow accumulation can certify a long span while no
@@ -41,8 +42,8 @@ deployment: trend claims in this literature are made claim by claim, and one
 studentized sup-$t$ band over the whole contrast family removes the
 corrections a per-claim construction needs --- no Bonferroni across a
 country's pairs, no separate budget for certified recoveries, no
-endpoint-selection cost --- at the price of a wider critical value, which we
-report. The persistent object is covered directly by one functional band
+endpoint-selection cost --- at the price of a wider critical value, whose
+cost we report (Section~\ref{sec:political}). The persistent object is covered directly by one functional band
 \citep{diquigiovanni2021conformal}, a distinction of estimand rather than
 error rate \citep{gelman2012why,benjamini1995controlling}. The band itself is
 a design-based simultaneous sup-$t$ band on wave-pair CDF differences from the
@@ -65,10 +66,12 @@ stratified-PSU bootstrap:
 survey-estimate target at any $K$ under Theorem~\ref{thm:exact}'s symmetric
 centers, with the latent gap of Theorem~\ref{thm:oracle}(b).
 \emph{(ii) Deconvolution} studentizes by the finite-$K$-guarded target scale
-$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\, \overline{\widehat v^2}(t)-z\, \SE\, ]_+, \ \text{floor}\big)$,
-which subtracts a \emph{lower} confidence bound on the design variance so the
-correction cannot over-shrink; its width scales as $\sqrt{1-\rho^2}$ relative to
-the clustered band. \emph{(iii) Conservative} inflates each unstudentized score by the design SD,
+$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\, \overline{\widehat v^2}(t)-z\, \SE\, ]_+, \ \text{floor}\big)$
+--- $z\,\SE$ a one-sided margin on the mean design variance at guard level
+$\alpha_2$ ($z=1.645$ deployed), the floor a small positive constant --- which
+subtracts a \emph{lower} confidence bound on the design variance so the
+correction cannot over-shrink; its width scales as $\sqrt{1-\rho^2}$ relative
+to the clustered band. \emph{(iii) Conservative} inflates each unstudentized score by the design SD,
 $\max_t(|\widetilde E_c(t)|+z\, \widehat v_c(t))$, a score that dominates the clustered
 band's score pointwise, so the conservative band \emph{contains} the clustered
 band by construction.
@@ -81,10 +84,13 @@ alone: \emph{need} (A: $\rhohat_{\text{LCB}}>\rho_0$, a conservative lower
 confidence bound on $\rho$), \emph{reliability}
 (B: $\widehat\delta_{\text{UCB}}(D)\le\delta_{\max}$, a frozen upper confidence
 bound on the finite-$K$ coverage remainder through the diagnostic
-$D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$), \emph{efficiency}
-(C: a certified width gain $\widehat{\text{Gain}}$ over the conservative band
-clearing a margined threshold), and \emph{stability} (D); otherwise the band
-is an anchor, as Algorithm~\ref{alg:safe} routes. Every gate is target-blind, so by
+$D=\max_t \SE(\widehat s_T^2)/\widehat s_T^2$; equivalently $D\le\tau_D$
+under the frozen affine $\widehat\delta_{\text{UCB}}$,
+Proposition~\ref{prop:unreach}), \emph{efficiency} (a certified width gain
+$\widehat{\text{Gain}}$ over the conservative band clearing a margined
+threshold), and \emph{stability} (the guarded subtraction leaves the scale
+above its positive floor); otherwise the band is an anchor, as
+Algorithm~\ref{alg:safe} routes. Every gate is target-blind, so by
 Theorem~\ref{thm:safe}'s nested-band argument validity survives even
 adversarial selection between the anchor branches; the non-nested
 deconvolution branch is charged its own miss budget, and only in the $K\ge94$
@@ -100,8 +106,9 @@ to.
 
 \begin{algorithm}[t]
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}
-\KwIn{calibration curves $\{\widetilde R_c\}$ (unit = country), design replicates
-$\{\widehat v_c\}$, target curve $\widehat F_{\text{new}}$, level $\alpha$;
+\KwIn{calibration curves $\{\widetilde E_c\}$ (unit = country), design replicates
+$\{\widehat v_c\}$, transport center $\widehat\mu$ (leave-one-out mean in the
+unsurveyed-target default), level $\alpha$;
 frozen gate constants and the $K$-only budget rule $\alpha_{\text{dec}}(K)$}
 set $(\alpha_{\text{anchor}}, \alpha_{\text{dec}})$ by the frozen budget rule
 (full $\alpha$ to the anchors when gate B is infeasible at this $K$)\;
@@ -118,5 +125,5 @@ deconvolution\;}
 leave-one-out (the unsurveyed-target default)}{
 $r_{\text{branch}}\leftarrow\frac{K}{K-1}\,r_{\text{branch}}$
 \tcp*{exactness for the deployed center (Section~\ref{sec:theory})}}
-\Return $\widehat F_{\text{new}}\pm r_{\text{branch}}$, branch, and diagnostics\;
+\Return $\widehat\mu\pm r_{\text{branch}}$, branch, and diagnostics\;
 \end{algorithm}
