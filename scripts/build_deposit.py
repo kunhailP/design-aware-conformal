@@ -30,7 +30,10 @@ INCLUDE = [
     "requirements.txt", "pyproject.toml", "Makefile",
     "pcb", "tests", "rpkg", "results", "configs", "docs", "paper", "scripts",
 ]
-EXCLUDE_DIRS = {"__pycache__", ".pytest_cache", ".git", "data", "dist"}
+# NOTE: the licensed /data/ tree is never walked (it is not in INCLUDE);
+# excluding the *name* "data" here would also drop the pcb/data loader
+# package, which a replication analyst needs for Tier 2.
+EXCLUDE_DIRS = {"__pycache__", ".pytest_cache", ".git", "dist"}
 EXCLUDE_SUFFIX = (".pyc", ".aux", ".bbl", ".blg", ".log", ".out", ".toc",
                   ".DS_Store")
 # a fixed timestamp (the repo's public-release convention): 2026-08-20 00:00
