@@ -142,7 +142,16 @@ both outcomes under Simes and under Bonferroni, same six countries**
 
 ## Remaining author actions
 
-1. AI disclosure: both halves are WRITTEN (Acknowledgments + Data
+0. **AI disclosure — left blank on purpose (2026-09-06, author's decision to
+   write it personally).** Three marked slots: `% AUTHOR TO WRITE` at the
+   end of `sections/03_method.tex` (code/data-analysis use, Methods),
+   the visible bold placeholder in `main.tex` Acknowledgments (text/proof
+   use), and the bold placeholder in `cover_letter.md`. The previous drafts
+   are in git history (commit `b28efc9`, `paper/main.tex`). Ledger test
+   `test_no_author_placeholders_left` fails until the visible placeholders
+   are removed, so the tree cannot pass CI in a submittable-looking state
+   with them present.
+1. (superseded by 0) AI disclosure: both halves were written (Acknowledgments + Data
    Availability Statement) — review the wording, adjust if desired.
 2. Read-through of the full PDF (voice pass), with particular attention to
    §2's rewritten objects paragraph, Table 2, and the §4 proof sketch.

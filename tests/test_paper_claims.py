@@ -530,6 +530,20 @@ def test_cross_country_prevalence():
     _present("at least six", "closed testing across the thirty-three")
 
 
+def test_no_author_placeholders_left():
+    """Submission guard: the generative-AI disclosure slots are deliberately
+    left for the author (see docs/PA_COMPLIANCE.md item 0). While the visible
+    placeholders remain, the manuscript is not submittable, and this test says
+    so. Delete the placeholders (not this test) once the disclosure is
+    written."""
+    marker = "to be written by the author"
+    if marker in _norm(TEXT):
+        pytest.xfail("AI-disclosure placeholder still present in main.tex "
+                     "(author action; see docs/PA_COMPLIANCE.md item 0)")
+    cover = open(os.path.join(PAPER, "cover_letter.md"), encoding="utf-8").read()
+    assert "[AUTHOR:" not in cover, "cover-letter placeholder still present"
+
+
 def test_cross_country_prevalence_sddf():
     """S4: the prevalence bound re-derived on the rounds 1-8 SDDF upgrade
     (e61) is unchanged -- d = 6 on both outcomes under Simes AND Bonferroni

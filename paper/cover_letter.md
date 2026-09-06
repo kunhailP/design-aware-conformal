@@ -78,7 +78,9 @@ archives with extensive dependencies.
 Supplementary Material is submitted as a separate PDF and contains the full
 proofs, the extended robustness analyses, and documented validation
 diagnostics. I declare no competing interests, and the research received no
-specific grant.
+specific grant. **[AUTHOR: one-sentence generative-AI disclosure pointing to
+the manuscript's Methods and Acknowledgments — PA asks for it in the cover
+letter as well.]**
 
 Thank you for considering the manuscript.
 
