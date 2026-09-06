@@ -7,16 +7,16 @@ activates only where it is provably reliable.
 \subsection{Within-country certification: one band, a family of claims}
 \label{sec:claims}
 
-The claims of interest differ in their unit. Write
+Write
 $\theta_{a,b}(t)=F_b(t)-F_a(t)$ for the contrast between observed rounds
-$a<b$ at threshold $t$ --- positive where response mass has moved below $t$,
-a decline --- and $\mathcal T_0$ for the preregistered core of thresholds.
-Table~\ref{tab:claims} defines each claim as an event for this contrast
-surface. They form a partial order, not a chain: persistent implies both net
-and any-pair, but net and any-pair are incomparable --- a recovered dip
-certifies an adjacent pair without net decline, and a slow accumulation
-certifies a span while no adjacent pair clears the critical value. The
-claims are not separate tests: each claim,
+$a<b$ at threshold $t$, positive where response mass has moved below $t$, a
+decline. Let $\mathcal T_0$ be the
+preregistered core of thresholds. Table~\ref{tab:claims} defines each claim
+as an event for this contrast surface. The claims form a partial order, not
+a chain. Persistent implies both net and any-pair, but net and any-pair are
+incomparable: a recovered dip certifies an adjacent pair without net
+decline, and a slow accumulation certifies a span while no adjacent pair
+clears the critical value. Nor are the claims separate tests: each claim,
 every sub-span, and the reverse direction is a function of one object, the
 country's surface of wave-pair contrasts, so all are certified on one
 coverage event.
@@ -60,18 +60,17 @@ dependence on $|J|$: on $\{\theta\in\widehat B\}$, set inclusion delivers every
 certified claim at once.
 \end{proposition}
 
-The proof is the line just given; reading each deterministic consequence off
-one simultaneous region is the post-hoc logic of \citet{scheffe1953method},
-closed testing \citep{marcus1976closed}, and the selection-free bounds of
-\citet{goeman2011multiple,katsevich2020simultaneous}. The contribution is its
-deployment: trend claims in this literature are made claim by claim, and one
-studentized sup-$t$ band over the whole contrast family removes the
-corrections a per-claim construction needs --- no Bonferroni across a
+Reading each deterministic consequence off one simultaneous region is the post-hoc logic of \citet{scheffe1953method},
+of closed testing \citep{marcus1976closed}, and of the selection-free bounds
+of \citet{goeman2011multiple,katsevich2020simultaneous}. The contribution is
+the deployment. Trend claims in this literature are made claim by claim,
+whereas one studentized sup-$t$ band over the whole contrast family removes
+the corrections a per-claim construction needs (no Bonferroni across a
 country's pairs, no separate budget for certified recoveries, no
-endpoint-selection cost --- at the price of a wider critical value, whose
-cost we report (Section~\ref{sec:political}). The persistent object is
-covered directly by one functional band \citep{diquigiovanni2021conformal}
---- an estimand distinction, not an error-rate one
+endpoint-selection cost) at the price of a wider critical value, reported in
+Section~\ref{sec:political}. The persistent object is covered
+directly by one functional band \citep{diquigiovanni2021conformal}; the
+distinction is one of estimand, not of error rate
 \citep{gelman2012why,benjamini1995controlling}. The band itself is a
 design-based sup-$t$ band on wave-pair CDF differences from the
 stratified-PSU bootstrap \citep{rao1988resampling,wolter2007introduction},
@@ -85,48 +84,50 @@ Theorem~\ref{thm:impossible} says the design bootstrap is the identifying
 input; the transport method turns it into a band by choosing, target-blind,
 among three constructions.
 
-\paragraph{Three branches.} For calibration curves $\{\Gtilde_c\}_{c=1}^K$
+\paragraph{Three branches.} Take calibration curves $\{\Gtilde_c\}_{c=1}^K$
 with per-country design SD $\widehat v_c(t)$ from the stratified-PSU
-bootstrap: \emph{(i) the clustered conformal band} takes the conformal
+bootstrap. \emph{(i) The clustered conformal band} takes the conformal
 quantile of the \emph{unstudentized} scores $\max_t|\Gtilde_c(t)|$, exact
 for the survey-estimate target at any $K$ under Theorem~\ref{thm:exact}'s
-symmetric centers; \emph{(ii) deconvolution} studentizes by the
-finite-$K$-guarded target scale
-$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
-which subtracts a one-sided margin below the mean design variance
-($z=1.645$ deployed) so that, on the guard event, the correction cannot
-over-shrink, and whose target scale --- not its realized width --- contracts
-by $\sqrt{1-\rho(t)^2}$ coordinate by coordinate under (A1);
-\emph{(iii) the
-conservative band} inflates each score by the design SD,
+symmetric centers. \emph{(ii) Deconvolution}
+studentizes by the finite-$K$-guarded target scale
+$\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$.
+The guard subtracts a one-sided margin below the mean design variance
+($z=1.645$ deployed), so that on the guard event the correction cannot
+over-shrink. Under (A1) the branch's target scale, though not its realized
+width, contracts by $\sqrt{1-\rho(t)^2}$ coordinate by coordinate.
+\emph{(iii) The conservative band} inflates each score by the design SD,
 $\max_t(|\Gtilde_c(t)|+z\,\widehat v_c(t))$, which dominates the clustered
 score pointwise, so the conservative band \emph{contains} the clustered band
 by construction.
 
 \paragraph{Safe selector (Algorithm~\ref{alg:safe}).} A naive selector asks
 \emph{can we deconvolve} and \emph{do we need to}; the safe selector adds
-\emph{can we do it safely at this $K$?} Deconvolution is used only when four
-target-blind gates pass, all computed from the calibration set: \emph{need}
-($\rhohat_{\text{LCB}}>\rho_0$, the aggregate design share against a frozen
-operational cutoff), \emph{reliability}
-($D=\max_t\SE(\widehat s_T^2)/\widehat s_T^2\le\tau_D$, a frozen bound on
-the finite-$K$ remainder, Proposition~\ref{prop:unreach}), \emph{efficiency}
-(a certified width gain over the conservative band), and \emph{stability}
-(the guarded scale stays above its floor); otherwise the band is an anchor.
-All constants are frozen before validation (Supplementary Material), and
-Theorem~\ref{thm:safe} shows validity survives any selection between the
-anchors, the deconvolution branch being charged its own budget only where
-its gate can open at all ($K\ge94$). Three levels must not be confused: the
-\emph{nominal} $1-\alpha$; the \emph{theorem} level
-$1-\alpha-\varepsilon_{K,B}$ of Theorem~\ref{thm:estimated}, whose remainder
-is unobservable; and the \emph{validated operational} level the procedure
-reports when it deconvolves, $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a
-bound frozen before validation and checked by it. The method ships as one
-call, \texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning band, branch, and level.
+\emph{can we do it safely at this $K$?} Deconvolution is used only
+when four target-blind gates pass, all computed from the calibration set.
+The \emph{need} gate requires $\rhohat_{\text{LCB}}>\rho_0$, the aggregate
+design share against a frozen operational cutoff. The \emph{reliability}
+gate requires $D=\max_t\SE(\widehat s_T^2)/\widehat s_T^2\le\tau_D$, a
+frozen bound on the finite-$K$ remainder (Proposition~\ref{prop:unreach}).
+The \emph{efficiency} gate requires a certified width gain over the
+conservative band, and the \emph{stability} gate requires the guarded scale
+to stay above its floor. Otherwise the band is an anchor. All constants are
+frozen before validation (Supplementary Material). Theorem~\ref{thm:safe}
+shows that validity survives any selection between the anchors, the
+deconvolution branch being charged its own budget only where its gate can
+open at all ($K\ge94$). Three levels differ: the \emph{nominal}
+$1-\alpha$; the \emph{theorem} level $1-\alpha-\varepsilon_{K,B}$ of
+Theorem~\ref{thm:estimated}, whose remainder is unobservable; and the
+\emph{validated operational} level reported when the procedure deconvolves,
+$1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a bound frozen before validation
+and checked by it. The method ships as one call,
+\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning band, branch,
+and level.
 % AUTHOR TO WRITE (PA generative-AI policy, code/data-analysis use belongs in
 % the methods section): e.g. \paragraph{Computational implementation.} ...
 % tool, version(s), dates, access method, scope; note the contract tests and
-% the bit-identical reproductions. Budget ~40-50 words (body is 5,511).
+% the bit-identical reproductions. Budget <=55 words: abstract+body+figure
+% legends stand at ~5,945 of the 6,000-word cap (texcount -inc main.tex).
 
 \begin{algorithm}[t]
 \caption{Nominal-safe adaptive design-aware band}\label{alg:safe}

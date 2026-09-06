@@ -2,28 +2,26 @@
 
 Comparative politics increasingly treats a national public as a
 \emph{distribution} rather than a mean. Trust in parliament in a country and
-year is a cumulative distribution function over a response scale, and repeated
-cross-national surveys---the European Social Survey
-\citep[ESS;][]{kaminska2017survey}, the World Values Survey (WVS), the
-AmericasBarometer \citep{lapop2021pulse}---generate claims about how those
-distributions evolve across waves. A second use follows: \emph{transporting} trajectories, predicting one
-country's from the others', with conformal prediction's finite-sample,
-distribution-free coverage
-\citep{vovk2005algorithmic,lei2018distribution}.
+year is a cumulative distribution function over a response scale, and
+repeated cross-national surveys, among them the European Social Survey
+\citep[ESS;][]{kaminska2017survey}, the World Values Survey (WVS), and the
+AmericasBarometer \citep{lapop2021pulse}, generate claims about how those
+distributions evolve across waves. A second use, \emph{transporting} trajectories (predicting one country's
+from the others'), draws on conformal prediction's finite-sample,
+distribution-free coverage \citep{vovk2005algorithmic,lei2018distribution}.
 
 \paragraph{Two wrong units.} One principle organizes this paper: \emph{the
 stochastic unit of a guarantee must coincide with the unit of the scientific
 claim it certifies}. Claims from repeated surveys violate it twice.
-Uncertainty is routinely reported for a local contrast --- one wave pair, one
-threshold --- while the \emph{claim} it is taken to support, ``democratic
-trust is declining,'' concerns a whole trajectory. The deconsolidation
-debate of \citet{foa2016democratic,foa2017signs} and
-\citet{valgardsson2025crisis} is the substantive case we re-examine, not a
-methodological culprit: its own evidence is cohort comparisons.
-The second, subtler wrong unit is the calibration: the objects conformal
+Uncertainty is routinely reported for a local contrast, one wave pair at one
+threshold, while the \emph{claim} it is taken to support (``democratic
+trust is declining'') concerns a whole trajectory. The deconsolidation debate
+of \citet{foa2016democratic,foa2017signs} and \citet{valgardsson2025crisis}
+is the substantive case we re-examine, not a methodological culprit, since
+its own evidence is cohort comparisons. The
+second, subtler wrong unit is the calibration: the objects conformal
 transport calibrates on are themselves \emph{estimated} from complex
-probability samples, and existing constructions plug them in as if exact
-\citep{dunn2023distribution,lee2023distribution}.
+probability samples, and existing constructions plug them in as if exact \citep{dunn2023distribution,lee2023distribution}.
 
 The two errors are distinct. Writing $F_{c, r}(t)$ for country $c$'s latent CDF at
 threshold $t$ in wave $r$ and $\Ftilde_{c, r}(t)$ for its complex-survey estimate,
@@ -33,19 +31,18 @@ threshold $t$ in wave $r$ and $\Ftilde_{c, r}(t)$ for its complex-survey estimat
 \;+\; \underbrace{\big(\Ftilde_{c, r}(t)-F_{c, r}(t)\big)}_{\text{design error}},
 \end{equation}
 where $\mu_r$ is the transport center. A band calibrated on the observed
-$\Ftilde$ scores treats the sum as the transport error alone: its spread
-conflates cross-population variation with survey-design variation that is
-irrelevant to the latent target, so it can be inefficient (under a scale
-family its target scale is inflated by the familiar $1/\sqrt{1-\rho^2}$), yet
-any correction
-subtracting the survey noise can make it too narrow, being itself estimated
-from few countries.
+$\Ftilde$ scores treats the sum as if it were the transport error alone. Its
+spread mixes cross-population variation with survey-design variation
+that is irrelevant to the latent target, so the band can be inefficient
+(under a scale family its target scale is inflated by the familiar
+$1/\sqrt{1-\rho^2}$). Yet a correction that subtracts the survey noise,
+itself estimated from a handful of countries, can make the band too narrow.
 
 \paragraph{Contributions.} We make four.
 \emph{First, a procedure for the claim unit}: a design-based simultaneous band
-over a country's whole trajectory, from which a partially ordered family of
-claims --- from a single wave pair up to persistent decline over a
-preregistered core of the distribution --- is read off one coverage event
+over a country's whole trajectory. From it a partially ordered family of
+claims, from a single wave pair up to persistent decline over a
+preregistered core of the distribution, is read off one coverage event
 (Section~\ref{sec:claims}).
 \emph{Second, an identification boundary for the calibration unit.} Without
 information on the design-noise law the latent transport-error law is
@@ -53,28 +50,27 @@ non-identified, and no band built on the observed curves can uniformly improve
 on the plug-in conformal band beyond its discreteness slack while remaining
 valid (Theorem~\ref{thm:impossible}).
 \emph{Third, the feasibility boundary of the correction, and a selector that
-respects it.} Even with the design-noise information supplied, the correction's
-reliability diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$, so the
-deployed correction requires $K\ge94$ exchangeable populations --- which the
-two largest surveys fail in opposite ways, while one unit down (regions
-within countries, $K\approx230$--$290$) the same frozen selector activates
-(Section~\ref{sec:evidence}). The anchor band
-is finite-sample valid at every $K$, exact under its symmetric centers and
-carried into the released leave-one-out deployment by an explicit
-$K/(K{-}1)$ inflation, and the selector preserves each branch's guarantee
-(Theorems~\ref{thm:exact} and~\ref{thm:safe}). (The clustered band is
-machinery shared with a companion paper on a non-survey domain,
-\citealp{park2026poverty}; new here is what the survey layer forces --- the identification boundary, the floor, the safe selector, and the claim-family
-deployment.)
-\emph{Fourth, two reanalyses where the procedures change the substantive
+respects it.} Even with the design-noise information supplied, the
+correction's reliability diagnostic obeys an algorithmic floor
+$D\ge\sqrt{2/(K-1)}$, so the deployed correction requires $K\ge94$
+exchangeable populations. The two largest surveys fail this bound in
+opposite ways, while one unit down, on regions within countries
+($K\approx230$--$290$), the same frozen selector activates
+(Section~\ref{sec:evidence}). The anchor band is finite-sample valid at
+every $K$, exact under its symmetric centers and carried into the released
+leave-one-out deployment by an explicit $K/(K{-}1)$ inflation, and the
+selector preserves each branch's guarantee (Theorems~\ref{thm:exact} and~\ref{thm:safe}). The clustered band itself is
+machinery shared with a companion paper on a non-survey domain
+\citep{park2026poverty}; new here is what the survey layer forces: the identification boundary, the floor, the safe selector, and the
+claim-family deployment.
+\emph{Fourth, two reanalyses in which the procedures change the substantive
 picture} (Section~\ref{sec:political}). For European trust the family certifies
-net decline in six of thirty countries (2018--2024) against the twenty a
-marginal reading flags; over the full
-2002--2024 record no country certifies persistence,
-while twenty-three of thirty-three certify both declines and recoveries and
-eight certify span erosion, all read off one band per country. Globally,
-applying a trajectory-persistence criterion to the Foa--Mounk
-``deconsolidation'' battery on the WVS trend file (1981--2022) cuts the wave-pair
-certified set by $2.6$--$6.5\times$, and the surviving thirteen-country
-\emph{co-certified core} concentrates in post-communist and Arab-Spring-aftermath
-states.
+net decline in six of thirty countries (2018--2024), against the twenty a
+marginal reading flags. Over the full 2002--2024 record no country
+certifies persistence, while twenty-three of thirty-three certify both
+declines and recoveries and eight certify span erosion, all read off one
+band per country. Globally, applying a trajectory-persistence criterion to
+the Foa--Mounk ``deconsolidation'' battery on the WVS trend file (1981--2022)
+cuts the wave-pair certified set by $2.6$--$6.5\times$, and the surviving
+thirteen-country \emph{co-certified core} concentrates in post-communist
+and Arab-Spring-aftermath states.

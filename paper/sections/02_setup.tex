@@ -5,16 +5,16 @@ treated as exchangeable units. Each country has a latent \emph{response-distribu
 trajectory} $F_{c, r}(t)$, a CDF over a fixed grid of thresholds
 $t\in\{t_1, \dots, t_T\}$ and survey rounds $r$. We say \emph{response
 distribution} deliberately: reading a certified shift as an \emph{attitude}
-shift additionally requires measurement invariance across waves
+shift also requires measurement invariance across waves
 (Section~\ref{sec:discussion}), though every claim below survives monotone
-recoding of the ordinal scale. We do not see $F_{c, r}$; we see a complex-survey estimate
-$\Ftilde_{c, r}(t)=F_{c, r}(t)+S_{c, r}(t)$, where $S_{c, r}$ is design (sampling) error
-with a design variance $v_{c, r}(t)^2$ that a stratified
-primary-sampling-unit (PSU) / replicate-weight bootstrap can estimate. Three
-curves carry the paper: the latent deviation from the transport center,
-$G_c=\{F_{c,r}(t)-\mu_r(t)\}_{r,t}$;
-the design error $S_c$; and their observable sum
-$\Gtilde_c=\{\Ftilde_{c,r}(t)-\mu_r(t)\}_{r,t}=G_c+S_c$, the
+recoding of the ordinal scale. We do not see $F_{c, r}$. We see a
+complex-survey estimate $\Ftilde_{c, r}(t)=F_{c, r}(t)+S_{c, r}(t)$, where
+$S_{c, r}$ is design (sampling) error with a design variance $v_{c, r}(t)^2$
+that a stratified primary-sampling-unit (PSU) or replicate-weight bootstrap
+can estimate. Three curves carry the paper: the latent deviation from the
+transport center, $G_c=\{F_{c,r}(t)-\mu_r(t)\}_{r,t}$; the design error
+$S_c$; and their observable sum
+$\Gtilde_c=\{\Ftilde_{c,r}(t)-\mu_r(t)\}_{r,t}=G_c+S_c$, which is the
 decomposition~\eqref{eq:decomp}. The transport score of a country is its
 worst-case standardized deviation over the trajectory,
 \[
@@ -23,40 +23,39 @@ R_c \;=\; \max_{r, t}\frac{|G_{c, r}(t)|}{\sigma(t)},
 \widetilde{R}_c \;=\; \max_{r, t}\frac{|\Gtilde_{c, r}(t)|}{\sigma(t)},
 \]
 with $\sigma(t)$ a fixed modulation profile (the deployed anchor takes
-$\sigma\equiv1$, the unstudentized score); $R_c$ is latent,
-$\widetilde R_c$ observed, and $\xi_c:=\widetilde R_c-R_c$ is the score
-contamination --- a difference of maxima, bounded by
-$|\xi_c|\le\max_{r,t}|S_{c,r}(t)|/\sigma(t)$ but not additive noise, and
-nothing below treats it as centred. Design noise is measured where the
-additive model holds exactly, at the curve coordinate: with
-$s_{\mathrm{plug}}^2(t)$ the between-country variance of $\Gtilde_c(t)$,
+$\sigma\equiv1$, the unstudentized score). $R_c$ is latent,
+$\widetilde R_c$ observed, and $\xi_c:=\widetilde R_c-R_c$ is a difference
+of maxima, bounded by
+$|\xi_c|\le\max_{r,t}|S_{c,r}(t)|/\sigma(t)$; it is not additive noise, and
+nothing below treats it as centred. Design noise is measured at the curve
+coordinate, where the additive model holds. Let $s_{\mathrm{plug}}^2(t)$ be the between-country variance of $\Gtilde_c(t)$,
 $s_R^2(t)$ that of $G_c(t)$, and $\overline{v^2}(t)$ the mean design
-variance, $s_{\mathrm{plug}}^2(t)=s_R^2(t)+\overline{v^2}(t)$ for design
-error independent of the latent curve, and the \emph{design share}
+variance. For design error independent of the latent curve,
+$s_{\mathrm{plug}}^2(t)=s_R^2(t)+\overline{v^2}(t)$, and the \emph{design
+share}
 \[
 \rho(t)^2 \;=\; \frac{\overline{v^2}(t)}{s_{\mathrm{plug}}^2(t)}
 \;=\;\frac{\overline{v^2}(t)}{s_R^2(t)+\overline{v^2}(t)}\;\in\;[0,1)
 \]
-is the governing quantity: $\rho\to0$ is the design-noise-negligible
-regime, $\rho\to1$ the noise-dominated one. The scalar $\rhohat$ we report
-and gate on is a conservative aggregate of this profile (the ratio of the
-$t$-averaged lower confidence bound on $\overline{v^2}(t)$ to the
-$t$-averaged upper bound on $s_{\mathrm{plug}}^2(t)$), a diagnostic rather
-than a sup-score variance decomposition; the point estimate reported beside
-it is the same ratio without the bounds,
-$\sqrt{\overline{\widehat v^2}}/\overline{s_{\mathrm{plug}}}$.
+is the governing quantity; design noise is negligible as $\rho\to0$ and
+dominant as $\rho\to1$. The scalar
+$\rhohat$ that we report and gate on is a conservative aggregate of this
+profile, the ratio of the $t$-averaged lower confidence bound on
+$\overline{v^2}(t)$ to the $t$-averaged upper bound on
+$s_{\mathrm{plug}}^2(t)$. It is a diagnostic, not a variance decomposition
+of the sup-score; the point estimate reported beside it drops the bounds, $\sqrt{\overline{\widehat v^2}}/\overline{s_{\mathrm{plug}}}$.
 
 \paragraph{Target and validity.} We want a simultaneous band covering a
 new country's \emph{latent} trajectory (target T2),
 $\Pr\big(F_{\text{new}, r}(t)\in\widehat B(r, t)\ \forall r, t\big)\ge1-\alpha$;
 the \emph{survey-estimate} trajectory $\Ftilde_{\text{new}}$ is target T1.
 Ordinary clustered conformal on the observed scores is exact for T1 under
-exchangeability and a symmetric center (Theorem~\ref{thm:exact}); its latent
-coverage differs by an explicit gap vanishing with
-the design-noise scale (Theorem~\ref{thm:oracle}(b); symmetry alone is not
-enough), its spread carries design variation --- under a scale family, a
-scale inflation by $1/\sqrt{1-\rho(t)^2}$ --- and removing that is a
-deconvolution. Table~\ref{tab:targets} collects the paper's
+exchangeability and a symmetric center (Theorem~\ref{thm:exact}). Its latent
+coverage differs by an explicit gap that vanishes with the design-noise
+scale (Theorem~\ref{thm:oracle}(b); symmetry alone is not enough), and its
+spread carries design variation, a scale inflation by
+$1/\sqrt{1-\rho(t)^2}$ under a scale family, whose removal is a
+deconvolution. Table~\ref{tab:targets} collects the
 procedure--target--guarantee triples.
 
 \begin{table}[t]
@@ -88,18 +87,18 @@ band.}\label{tab:targets}
 \end{table}
 
 \paragraph{What country exchangeability assumes.} The transport band's
-identifying assumption is a superpopulation postulate --- participating
-countries' trajectory laws are symmetric draws, over a set that is not
-sampled and enters rounds non-randomly --- tempered three ways: the headline
-certifications of Section~\ref{sec:political} do not use it; under
+identifying assumption is a superpopulation postulate: participating
+countries' trajectory laws are symmetric draws over a set that is not
+sampled and enters rounds non-randomly. Three things temper it. The
+headline certifications of Section~\ref{sec:political} do not use it. Under
 approximate exchangeability the \citet{barber2023conformal} bound controls
-the gap; and a leave-one-region-out audit finds near-nominal held-out
+the gap. And a leave-one-region-out audit finds near-nominal held-out
 coverage except for the post-communist East (Supplementary Material).
 
 \paragraph{The impossibility.} The deconvolution is not identified from the
-contaminated curves alone. The result is stated at
-the curve level of~\eqref{eq:decomp}, where the additive model \emph{is} the
-survey sampling structure; the design noise may be arbitrarily heteroskedastic
+contaminated curves alone. The result is stated at the curve level
+of~\eqref{eq:decomp}, where the additive model \emph{is} the survey
+sampling structure; the design noise may be arbitrarily heteroskedastic
 across thresholds.
 
 \begin{theorem}[Non-identification and necessity of design information]
@@ -118,28 +117,28 @@ one up to the conformal discreteness slack, which randomized smoothing
 exhausts. Uniform improvement requires shrinking the class of noise laws.
 \end{theorem}
 
-The reading is constructive (proof in the Supplementary Material):
-a band both valid and narrower than the plug-in must supply the design-noise
-law --- exactly what Section~\ref{sec:method}'s design bootstrap does.
+The reading is constructive (proof in the Supplementary Material): a band
+both valid and narrower than the plug-in must supply the design-noise law,
+which is what Section~\ref{sec:method}'s design bootstrap does.
 
 \begin{remark}[Beyond surveys]\label{rem:general}
 Nothing here is survey-specific: the result holds whenever conformal
-calibration uses estimated objects --- model-based small-area outputs,
-learned or imputed features, meta-analytic effects. Design or measurement
+calibration uses estimated objects (model-based small-area outputs, learned
+or imputed features, meta-analytic effects). Design or measurement
 information is the identifying ingredient, its finite-$K$ reliability itself
-bounded (Proposition~\ref{prop:unreach}); confirmed on a non-survey
-small-area calibration (Supplementary Material).
+bounded (Proposition~\ref{prop:unreach}). A non-survey small-area simulation
+confirms the point (Supplementary Material).
 \end{remark}
 
 \paragraph{Relation to existing work.} Conformal prediction has met complex
 surveys for unit-level prediction \citep{wieczorek2023design}, and
 cluster-as-unit constructions treat each cluster's data as cleanly sampled
-\citep{dunn2023distribution,lee2023distribution}; our calibration objects are
+\citep{dunn2023distribution,lee2023distribution}. Our calibration objects are
 instead estimated under complex designs
 \citep{binder1983variances,lumley2010complex}. Noise-aware conformal methods
 correct under a \emph{known} noise model
-\citep{einbinder2024label,sesia2025adaptive,singer2025conformal};
-Theorem~\ref{thm:impossible} says that premise fails for design noise --- a
-deconvolution problem \citep{fan1991optimal} --- and
-Proposition~\ref{prop:unreach} that even a supplied law faces a finite-$K$
-floor.
+\citep{einbinder2024label,sesia2025adaptive,singer2025conformal}.
+Theorem~\ref{thm:impossible} says that this premise fails for design noise,
+which is a deconvolution problem \citep{fan1991optimal}, and
+Proposition~\ref{prop:unreach} says that even a supplied law faces a
+finite-$K$ floor.

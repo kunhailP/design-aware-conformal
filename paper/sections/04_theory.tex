@@ -1,12 +1,9 @@
 \section{Theory}\label{sec:theory}
 
-Theorem~\ref{thm:exact} anchors the validity architecture and
-Theorem~\ref{thm:safe} carries the guarantee through the selector;
-Theorems~\ref{thm:oracle} and~\ref{thm:estimated} price what the deployed band
-does not get for free --- the latent rather than estimated trajectory, an
-estimated rather than known noise law. Proofs are in the Supplementary
-Material, Section~S1; each theorem is paired with an automated contract test
-checking its computational implications.
+Theorem~\ref{thm:exact} anchors validity and Theorem~\ref{thm:safe}
+carries it through the selector; Theorems~\ref{thm:oracle}
+and~\ref{thm:estimated} price the latent target and the estimated noise law. Proofs are in the
+Supplementary Material, Section~S1.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
@@ -16,22 +13,22 @@ $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
 $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
 \Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$.
 (c)~Under the scale-family condition (A1), the oracle deconvolution band
-with the true target scale is finite-sample valid for the latent target,
+with the true target scale is finite-sample valid for the latent target and
 exact at the attainable conformal rank, and its target scale is a factor
-$\sqrt{1-\rho(t)^2}$ of the observed scale at each coordinate --- the
-realized width carries in addition the ratio of the two conformal quantiles,
-which tends to one as $\rho\to0$; some such shape restriction is necessary
+$\sqrt{1-\rho(t)^2}$ of the observed scale at each coordinate. The realized
+width carries, in addition, the ratio of the two conformal quantiles, which
+tends to one as $\rho\to0$. Some such shape restriction is necessary
 (Supplementary Material).
 \end{theorem}
 
-The gap in~(b) is a noise-tail plus a local anti-concentration term. Both
-vanish with the design-noise scale --- $|\xi|\le\lVert S\rVert_\infty$, so
-the tail term concerns the design error alone, and with $\sigma_\xi$ a
-scale for $\xi$ the gap is of order $\sigma_\xi^{2/3}$ under variance-only
-tails and $\sigma_\xi$ up to logarithms under sub-Gaussian noise --- but
-not by symmetry (a bimodal counterexample, Supplementary Material), and
-nothing assumes $\xi$ centred: hence we estimate and report the design
-share rather than assume it away.
+The gap in~(b), a noise-tail term plus a local anti-concentration term,
+vanishes with the design-noise scale. Since $|\xi|\le\lVert S\rVert_\infty$,
+the tail term concerns the design error alone; with $\sigma_\xi$ a scale for
+$\xi$, the gap is of order $\sigma_\xi^{2/3}$ under variance-only tails and
+of order $\sigma_\xi$ up to logarithms under sub-Gaussian noise. The gap
+does not vanish by symmetry alone (a bimodal counterexample is in the
+Supplementary Material), and nothing assumes $\xi$ centred. Hence we estimate
+and report the design share rather than assume it away.
 
 \begin{theorem}[Exact finite-$K$ validity of the deployed base band]\label{thm:exact}
 Let the base band use the unstudentized cluster score of the \emph{observed}
@@ -42,24 +39,23 @@ symmetric-construction condition (the Supplementary Material states the four
 admissible cases). If the countries are exchangeable, then for every $K$ the
 band $\widehat B=\text{center}\pm\widehat q$, with $\widehat q$ the
 $\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of
-$\{\widetilde R_c\}_{c\le K}$ --- and $\widehat q=\infty$ when that rank
-exceeds $K$, i.e.\ when $K<\alpha^{-1}-1$ --- satisfies
+$\{\widetilde R_c\}_{c\le K}$ (and $\widehat q=\infty$ when that rank
+exceeds $K$, i.e.\ when $K<\alpha^{-1}-1$), satisfies
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge1-\alpha$,
 distribution-free, with equality at the stated rank level when the scores are
 almost surely distinct. The guarantee holds at every $K$; the band is
 informative only for $K\ge\alpha^{-1}-1$.
 \end{theorem}
 
-Exactness at every $K$ is bought by excluding two
-asymmetries --- in-sample modulation and grand-mean centers containing their
-own unit --- at a width cost of at most $5\%$ on the near-homoskedastic real
-curves.
+Exactness at every $K$ is bought by excluding two asymmetries, in-sample
+modulation and grand-mean centers that contain their own unit, at a width
+cost of at most $5\%$ on the near-homoskedastic real curves.
 
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
 Assume a common scale family indexed by the design variance (A1),
 anti-concentration of the sup-score law near its upper quantile (A2), and
-bounded curves with an unbiased size-$B$ design bootstrap (A3); the appendix
-states all three precisely. Then (i)~with oracle scales the deconvolution band
+bounded curves with an unbiased size-$B$ design bootstrap (A3); the
+Supplementary Material states all three. Then (i)~with oracle scales the deconvolution band
 is finite-sample valid for the latent target at every $K$ and exact at the
 attainable conformal rank, and (ii)~with
 estimated scales it satisfies
@@ -67,13 +63,12 @@ $\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
 $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
 \end{theorem}
 
-By construction, the finite-$K$-guarded scale
+By construction the finite-$K$-guarded scale
 $\widehat s_T^2$ of Section~\ref{sec:method} subtracts a one-sided margin
 below the mean design variance, so on the guard event (Supplementary
 Material) the design-variance-subtraction component of the scale error can
-only widen the band; the sampling error in $s_{\mathrm{plug}}^2$ stays
-two-sided and is absorbed into $\varepsilon_{K,B}$. Some shape restriction is not removable (the
-counterexample above); (A1) is one sufficient choice.
+only widen the band. The sampling error in $s_{\mathrm{plug}}^2$ stays
+two-sided and is absorbed into $\varepsilon_{K,B}$.
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
 Let the anchors use Theorem~\ref{thm:exact}'s centers (or the leave-one-out
@@ -94,24 +89,23 @@ the first clause finite-sample, the second carrying
 Theorem~\ref{thm:estimated}'s remainder.
 \end{theorem}
 
-\emph{Proof sketch.} Below the floor, gate~B cannot open
+\emph{Proof sketch.} Below the floor gate~B cannot open
 (Proposition~\ref{prop:unreach}(b) is a deterministic identity of the frozen
-diagnostic), so the selector only ever chooses between the two anchors. Their
-scores are ordered pointwise, $|\Gtilde_c(t)|+z\widehat v_c(t)\ge
-|\Gtilde_c(t)|$, so at a common level the conservative order statistic
-is at least the clustered one and the bands are nested,
-$\widehat B_{\text{clu}}\subseteq\widehat B_{\text{con}}$. A miss of
-whichever band is selected therefore implies a miss of
-$\widehat B_{\text{clu}}$, which Theorem~\ref{thm:exact} bounds by $\alpha$:
-the first clause, with no conditioning on the selection event
+diagnostic), so the selector only ever chooses between the two anchors. Their scores are ordered pointwise,
+$|\Gtilde_c(t)|+z\widehat v_c(t)\ge|\Gtilde_c(t)|$, so at a common level the
+conservative order statistic is at least the clustered one and the bands are
+nested, $\widehat B_{\text{clu}}\subseteq\widehat B_{\text{con}}$. A miss of
+whichever band is selected implies a miss of $\widehat B_{\text{clu}}$,
+which Theorem~\ref{thm:exact} bounds by $\alpha$. This is the first clause;
+it conditions on no selection event
 \citep{gupta2022nested,yang2024selection}. At $K\ge94$ the budget splits,
 $\alpha=\alpha_{\text{anchor}}+\alpha_{\text{dec}}$, by a frozen rule of $K$
-alone, and the target changes because the assumptions do: under (A1) each
-observed calibration score dominates its latent counterpart
-($\sqrt{s_R^2+v_c^2}\ge s_R$ pointwise), so the anchor quantile
-stochastically dominates the latent-score order statistic and the anchors
+alone, and the target changes because the assumptions do. Under (A1) each
+observed calibration score dominates its latent counterpart, since
+$\sqrt{s_R^2+v_c^2}\ge s_R$ pointwise, so the anchor quantile
+stochastically dominates the latent-score order statistic, and the anchors
 are valid for the \emph{latent} target at $\alpha_{\text{anchor}}$
-(anchor-domination lemma, Supplementary Material); with the deployed
+(anchor-domination lemma, Supplementary Material). With the deployed
 leave-one-out center they pay a same-order centering term
 (Proposition~S3), absorbed into $\varepsilon_{K,B}$. The non-nested
 deconvolution branch is charged its own budget by a union bound,
@@ -122,22 +116,19 @@ Theorem~\ref{thm:estimated}(ii) for the always-deconvolve band, its own
 centering term priced the same way (Supplementary Material). No term
 conditions on $\widehat J$.
 
-Two scope notes. At $K\ge94$ the level the procedure reports is a validated
-operational bound (Section~\ref{sec:method}), not the theorem level. And the
-unsurveyed-target deployment uses a leave-one-out center, outside
-Theorem~\ref{thm:exact}'s symmetric constructions, but inflating the radius
-by $K/(K{-}1)$ restores finite-sample validity at every $K$,
-distribution-free (Proposition~S1); the released default ships that
-inflation at a width cost of $1/(K{-}1)$, $3.5\%$ at the ESS's $K\approx30$, the frozen gates deciding on the
-uninflated radii so the sealed validation carries over a fortiori. (The
-exact split-fold alternative is infeasible at survey scale: halving the
-calibration set below $\alpha^{-1}{-}1$ units makes the conformal radius
-infinite.)
+A scope note. The unsurveyed-target deployment uses a leave-one-out center,
+outside Theorem~\ref{thm:exact}'s symmetric constructions, but inflating the
+radius by $K/(K{-}1)$ restores finite-sample validity at every $K$,
+distribution-free (Proposition~S1). The released default ships that
+inflation at a width cost of $1/(K{-}1)$, $3.5\%$ at the ESS's
+$K\approx30$; the frozen gates decide on the uninflated radii, so the sealed
+validation carries over a fortiori. The exact split-fold alternative is infeasible at survey scale:
+halving the calibration set below $\alpha^{-1}{-}1$ units makes the
+conformal radius infinite.
 
 \paragraph{Efficiency.} Under (A1) the deconvolution band reduces
-continuously to the clustered band as $\rho\to0$, its oracle scale factor
-being exactly $\sqrt{1-\rho(t)^2}=1-\tfrac12\rho(t)^2+O(\rho(t)^4)$ at each
-coordinate; the conservative band contains the clustered one
-pointwise; and selection cannot inflate miscoverage
-(Theorem~\ref{thm:safe}). The remaining width results, one of them open, are in
-the Supplementary Material.
+continuously to the clustered band as $\rho\to0$, with oracle scale factor
+$\sqrt{1-\rho(t)^2}=1-\tfrac12\rho(t)^2+O(\rho(t)^4)$ at each coordinate;
+the conservative band contains the clustered one pointwise; and selection
+cannot inflate miscoverage (Theorem~\ref{thm:safe}). Remaining width
+results, one open, are in the Supplementary Material.
