@@ -6,9 +6,9 @@ year is a cumulative distribution function over a response scale, and repeated
 cross-national surveys---the European Social Survey
 \citep[ESS;][]{kaminska2017survey}, the World Values Survey (WVS), the
 AmericasBarometer \citep{lapop2021pulse}---generate claims about how those
-distributions evolve across waves. A second use follows: \emph{transporting}
-the trajectories, predicting one country's from the others', for which
-conformal prediction promises finite-sample, distribution-free coverage
+distributions evolve across waves. A second use follows: \emph{transporting} trajectories, predicting one
+country's from the others', with conformal prediction's finite-sample,
+distribution-free coverage
 \citep{vovk2005algorithmic,lei2018distribution}.
 
 \paragraph{Two wrong units.} One principle organizes this paper: \emph{the
@@ -36,7 +36,8 @@ where $\mu_r$ is the transport center. A band calibrated on the observed
 $\Ftilde$ scores treats the sum as the transport error alone: its spread
 conflates cross-population variation with survey-design variation that is
 irrelevant to the latent target, so it can be inefficient (under a scale
-family, by the familiar factor $\sqrt{1-\rho^2}$), yet any correction
+family its target scale is inflated by the familiar $1/\sqrt{1-\rho^2}$), yet
+any correction
 subtracting the survey noise can make it too narrow, being itself estimated
 from few countries.
 
@@ -64,8 +65,7 @@ carried into the released leave-one-out deployment by an explicit
 $K/(K{-}1)$ inflation, and the selector preserves each branch's guarantee
 (Theorems~\ref{thm:exact} and~\ref{thm:safe}). (The clustered band is
 machinery shared with a companion paper on a non-survey domain,
-\citealp{park2026poverty}; new here is what the survey layer forces --- the
-impossibility, the floor, the safe selector, and the claim-family
+\citealp{park2026poverty}; new here is what the survey layer forces --- the identification boundary, the floor, the safe selector, and the claim-family
 deployment.)
 \emph{Fourth, two reanalyses where the procedures change the substantive
 picture} (Section~\ref{sec:political}). For European trust the family certifies
@@ -77,5 +77,5 @@ eight certify span erosion, all read off one band per country. Globally,
 applying a trajectory-persistence criterion to the Foa--Mounk
 ``deconsolidation'' battery on the WVS trend file (1981--2022) cuts the wave-pair
 certified set by $2.6$--$6.5\times$, and the surviving thirteen-country
-\emph{certified core} concentrates in post-communist and Arab-Spring-aftermath
+\emph{co-certified core} concentrates in post-communist and Arab-Spring-aftermath
 states.

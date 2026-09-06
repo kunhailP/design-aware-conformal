@@ -95,8 +95,8 @@ finite-$K$-guarded target scale
 $\widehat s_{T}^2(t)=\max\!\big(s_{\text{plug}}^2(t)-[\,\overline{\widehat v^2}(t)-z\,\SE\,]_+,\ \text{floor}\big)$,
 which subtracts a one-sided margin below the mean design variance
 ($z=1.645$ deployed) so that, on the guard event, the correction cannot
-over-shrink, and whose width
-scales as $\sqrt{1-\rho(t)^2}$ coordinate by coordinate under (A1);
+over-shrink, and whose target scale --- not its realized width --- contracts
+by $\sqrt{1-\rho(t)^2}$ coordinate by coordinate under (A1);
 \emph{(iii) the
 conservative band} inflates each score by the design SD,
 $\max_t(|\Gtilde_c(t)|+z\,\widehat v_c(t))$, which dominates the clustered
@@ -122,8 +122,7 @@ $1-\alpha-\varepsilon_{K,B}$ of Theorem~\ref{thm:estimated}, whose remainder
 is unobservable; and the \emph{validated operational} level the procedure
 reports when it deconvolves, $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a
 bound frozen before validation and checked by it. The method ships as one
-call, \texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning band,
-branch, level, and the target the level refers to.
+call, \texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning band, branch, and level.
 % AUTHOR TO WRITE (PA generative-AI policy, code/data-analysis use belongs in
 % the methods section): e.g. \paragraph{Computational implementation.} ...
 % tool, version(s), dates, access method, scope; note the contract tests and

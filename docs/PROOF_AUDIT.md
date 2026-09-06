@@ -20,7 +20,7 @@ transport-center means.
 |---|---|---|
 | exchangeability | countries' observed trajectory laws symmetric | Thm 2(a), Thm 3, Prop S1, Thm 5′ first clause |
 | (A1) scale family | $\tilde G_c=\sqrt{s_R^2+v_c^2}\,W_c$, $G_{K+1}=s_R W_{K+1}$, $W$ i.i.d., $EW=0$, $EW^2=1$, $0<s_{\min}\le s_R\le s_{\max}$ | Thm 2(c), Thm 4′, Prop S2, Prop S3, Lemma dominate |
-| (A2) anti-concentration | density $\le L$ near the relevant quantile for $M=\max_t\|W\|$ and for $R^{\rm lat}=\max_t s_R\|W\|$; observed score puts mass $\ge\eta$ on each side within $\delta$ | Thm 4′(ii) middle term, Prop S2, Prop S3, Lemma orderstat |
+| (A2) anti-concentration | for the two **i.i.d.** score laws $M=\max_t\|W\|$ (at $q^*$) and $R^{\rm lat}=\max_t s_R\|W\|$ (at $q^{\rm lat}$): density $\le L$ on a fixed $h_0$-neighbourhood, mass $\ge\eta$ on each side within it; nothing on the heterogeneous observed scores | Thm 4′(ii) middle term, Prop S2, Prop S3, Lemma orderstat |
 | (A3) moments/bounded/bootstrap | finite fourth moment, curves bounded, unbiased size-$B$ bootstrap | Thm 4′(ii) scale-error term, Hoeffding steps in Props S2–S3 |
 | independence across countries | for Thm 2(b)'s anti-concentration step only | Thm 2(b) rate remarks |
 
@@ -52,10 +52,10 @@ transport-center means.
 - Status: proved from a standard inequality. Consumed by Thm 4′(ii) and Prop S3 (replaces the earlier "binomial concentration" sentence).
 
 ### Theorem 4′ (estimated-law validity)
-- (i) oracle scales: studentized scores are i.i.d. copies of $M$ (hand-check: $\max_t|\tilde G_c|/\sqrt{s_R^2+v_c^2}=\max_t|W_c|$ needs (A1) *coordinate-wise*, which is why the scale family must share the shape process).
-- (ii) three terms: scale error $2Lq^*\delta_{K,B}$ (A2 density bound × relative scale perturbation), $\eta_{K,B}$ (Bernstein tails of the variance estimates, A3), $r_K$ (Lemma orderstat).
+- (i) oracle scales: studentized scores are i.i.d. copies of $M$ (hand-check: $\max_t|\tilde G_c|/\sqrt{s_R^2+v_c^2}=\max_t|W_c|$ needs (A1) *coordinate-wise*, which is why the scale family must share the shape process); valid at every $K$, exact at the attainable rank ($m\le K$, distinct scores).
+- (ii) three terms: scale error $2Lq^*\delta_{K,B}$ (A2 density bound × relative scale perturbation, valid once the shrinking window $2q^*\delta_{K,B}$ fits inside the fixed $h_0/2$ neighbourhood), $\eta_{K,B}$ (Bernstein tails of the variance estimates, A3), $r_K$ (Lemma orderstat on the i.i.d. $M$-copies).
 - Hand-check: the relative perturbation $\Delta_0(t)=\hat s_T(t)/s_R(t)-1$ needs $s_R\ge s_{\min}>0$ — now in (A1).
-- (iii) one-sidedness of the guard: per-threshold statement only; the $1-T\alpha_2$ union bound is disclosed as weak at $T\approx10$–26. The main text says "on the guard event".
+- (iii) one-sidedness of the guard: a deterministic conditional statement on the guard event $\{[\bar{\hat v^2}-z\,SE]_+\le\bar v^2\ \forall t\}$; $z=1.645$ is a normal-reference operational margin with no theorem-level probability attached (A3 gives Bernstein concentration, not a normal pivot). Not used by the coverage bound in (ii).
 - Open: the constants $C_1,C_2$ are "obtainable", not displayed.
 - Status: proved with explicit assumptions; constants undisplayed. Test: `test_estimated_law_validity.py`.
 
@@ -65,14 +65,14 @@ transport-center means.
 - Status: proved. Test: `test_loo_validity.py::test_loo_centered_deconvolution_coverage`.
 
 ### Proposition S3 (LOO-centred anchors, latent target) — new
-- Step 0: Lemma dominate on raw scores (below).
-- Step 1 hand-check: $|a_c-\tilde R_c|\le\max_t|\bar Y_{-c}(t)|$ (sup-norm triangle inequality); a uniform score perturbation $\le\zeta$ moves any order statistic by $\le\zeta$.
-- Step 2 hand-check: $\max_t|G_{K+1}-\bar Y|\le R^{\rm lat}+\max_t|\bar Y|$.
-- Step 3: miss $\Rightarrow R^{\rm lat}>\hat q-2\zeta$ (uses $\tfrac{K}{K-1}\ge1$).
-- Step 4: $\zeta\le C_3\sqrt{\log((K+1)T)/K}$ w.p. $1-O(K^{-1/2})$ (Hoeffding; same as S2).
-- Step 5–6: window below $\hat q$; $R^{\rm lat}\perp\hat q$ under (A1); density bound on $\{|\hat q-q^\dagger|\le\delta\}$, Lemma orderstat off it.
-- **Author decisions**: (A2) now names $R^{\rm lat}$ and the mass condition explicitly — accept, or restate (A2) for "every weighted sup $\max_t s(t)|W(t)|$ with bounded $s$".
-- Status: proved under the stated (A2). Test: `test_loo_validity.py::test_loo_centered_anchor_latent_coverage` (bounded and Gaussian $W$; raw vs LOO on the same draws).
+- The observed scores $\tilde R_c=\max_t\sqrt{s_R^2+v_c^2}|W_c|$ are independent but **not identically distributed** (country-specific $v_c$); the proof touches them only through one pathwise inequality and never applies an i.i.d. tool to them.
+- Step 1 hand-check: $\tilde R_c\ge R^{\rm lat}_c$ for each $c$ $\Rightarrow$ $\tilde R_{(m)}\ge R^{\rm lat}_{(m)}$ (componentwise domination is inherited by sorted vectors).
+- Step 2 hand-check: $|a_c-\tilde R_c|\le\max_t|\bar Y_{-c}(t)|\le\zeta$; an order statistic moves by at most a uniform perturbation; so $\hat q^{\rm loo}\ge\tilde R_{(m)}-\zeta\ge R^{\rm lat}_{(m)}-\zeta$.
+- Step 3 hand-check: $\max_t|G_{K+1}-\bar Y|\le R^{\rm lat}_{K+1}+\zeta$.
+- Step 4: miss $\Rightarrow R^{\rm lat}_{K+1}>R^{\rm lat}_{(m)}-2\zeta$ (uses $\tfrac{K}{K-1}\ge1$).
+- Step 5: $\zeta\le C_3\sqrt{\log((K+1)T)/K}$ w.p. $1-O(K^{-1/2})$ (Hoeffding + union bound; A3 boundedness, $EW=0$).
+- Step 6: the $K+1$ latent scores are i.i.d. under (A1): conformal rank identity for $\Pr(R^{\rm lat}_{K+1}>R^{\rm lat}_{(m)})\le\alpha_{\rm anchor}$; the window below $R^{\rm lat}_{(m)}$ uses independence of the target, (A2)'s density bound on $\{|R^{\rm lat}_{(m)}-q^{\rm lat}|\le h_0/2\}$ once $2\gamma\le h_0/2$, and Lemma orderstat (i.i.d. latent scores) off it.
+- Status: proved under (A1)–(A3) with (A2) read at the anchor level. Test: `test_loo_validity.py::test_loo_centered_anchor_latent_coverage` (country-specific $v_c$; bounded and Gaussian $W$; raw vs LOO on the same draws).
 
 ### Lemma (anchor domination under A1)
 - Hand-check: $\sqrt{s_R^2+v_c^2}\ge s_R$ pointwise $\Rightarrow\tilde R_c\ge R^{\rm lat}_c$ for the coupled copy; order statistics preserve the coupling; conformal rank identity on the $K+1$ i.i.d. latent scores.
@@ -96,7 +96,7 @@ transport-center means.
 
 ## Hand-check list (order of payoff)
 
-1. Prop S3 steps 1–3 (three inequalities).
+1. Prop S3 steps 1–4 (domination of order statistics; two triangle inequalities; the miss inclusion).
 2. Lemma orderstat (DKW both sides, the $2/K$ slack).
 3. Thm 4′(i): why coordinate-wise (A1) is exactly what makes the studentized scores i.i.d.
 4. Prop S1's two identities.

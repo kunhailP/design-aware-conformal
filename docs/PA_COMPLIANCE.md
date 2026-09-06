@@ -181,6 +181,26 @@ items applied; suite 123 green + the placeholder guard:
    `test_stratified_bootstrap`); experiments untouched to preserve
    bit-identity.
 
+Fourth external read (proof-level), 2026-09-06 — all items applied:
+
+1. **Proposition S3 re-proved** on the i.i.d. latent scores: the observed
+   anchor scores are independent but not identically distributed
+   (country-specific $v_c$), so the earlier DKW step on them was invalid;
+   the (A1) domination is now pushed to the $m$-th order statistic and
+   every i.i.d. tool (rank identity, anti-concentration window, DKW lemma)
+   runs on $R^{\rm lat}$ only. (A2) restated for the two i.i.d. laws $M$
+   and $R^{\rm lat}$ with a fixed radius $h_0$; Theorem 4′(ii) keeps
+   $h_0$ and the shrinking $\delta_{K,B}$ apart.
+2. **Guard clause (iii)** is a deterministic statement on the guard event;
+   $z=1.645$ is a normal-reference operational margin (no theorem-level
+   probability; main text no longer says "per-threshold level $\alpha_2$").
+3. **Scale factor vs. realized width** unified: Theorem 2(c), §3(ii), §6
+   ("oracle scale-factor gain"), §1–§2 all speak of the target scale;
+   Theorem 4′(i)/2(c) say "valid at every $K$, exact at the attainable
+   conformal rank".
+4. "co-certified core" (first use, §7 heading, Figure 4); the supplement's
+   "the region is the unit" sentence softened to the main text's stance.
+
 ## Remaining author actions
 
 0. **AI disclosure — left blank on purpose (2026-09-06, author's decision to

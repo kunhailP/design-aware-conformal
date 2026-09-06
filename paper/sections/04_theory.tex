@@ -16,9 +16,11 @@ $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
 $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
 \Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$.
 (c)~Under the scale-family condition (A1), the oracle deconvolution band
-with the true target scale is finite-sample exact for the latent target,
-with width a factor $\sqrt{1-\rho(t)^2}$ of the clustered band at each
-coordinate, up to $o(1)$; some such shape restriction is necessary
+with the true target scale is finite-sample valid for the latent target,
+exact at the attainable conformal rank, and its target scale is a factor
+$\sqrt{1-\rho(t)^2}$ of the observed scale at each coordinate --- the
+realized width carries in addition the ratio of the two conformal quantiles,
+which tends to one as $\rho\to0$; some such shape restriction is necessary
 (Supplementary Material).
 \end{theorem}
 
@@ -58,7 +60,8 @@ Assume a common scale family indexed by the design variance (A1),
 anti-concentration of the sup-score law near its upper quantile (A2), and
 bounded curves with an unbiased size-$B$ design bootstrap (A3); the appendix
 states all three precisely. Then (i)~with oracle scales the deconvolution band
-is finite-sample exact for the latent target at every $K$, and (ii)~with
+is finite-sample valid for the latent target at every $K$ and exact at the
+attainable conformal rank, and (ii)~with
 estimated scales it satisfies
 $\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
 $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
@@ -66,8 +69,8 @@ $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
 
 The remainder's direction is fixed by construction: the finite-$K$-guarded scale
 $\widehat s_T^2$ of Section~\ref{sec:method} subtracts a one-sided margin
-below the mean design variance, so on the guard event (per-threshold level
-$\alpha_2$; Supplementary Material) the scale error can only widen the band. Some shape restriction is not removable (the
+below the mean design variance, so on the guard event (Supplementary
+Material) the scale error can only widen the band. Some shape restriction is not removable (the
 counterexample above); (A1) is one sufficient choice.
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
