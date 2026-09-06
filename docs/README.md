@@ -10,6 +10,7 @@ governs. Three tiers:
 | `DATA_SOURCES.md` | exact licensed-file editions, retrieval steps, sha256 checksums |
 | `REPRODUCIBILITY.md` | two-tier reproduction protocol; what was verified bit-identical |
 | `PROOFS.md` | proof notes backing the supplement (the supplement is the citable text) |
+| `PROOF_AUDIT.md` | per-result checklist: assumptions consumed, steps as inequalities to hand-check, imported tools, contract test, status |
 | `SAFE_SELECTOR_SPEC.md` | frozen selector constants and gate definitions the code implements |
 | `PA_REVISION_PLAN.md` | current revision plan: external-review verification ledger + framing items |
 | `DEVELOPMENT_ROADMAP.md` | current development plan: the four-contribution target and workstreams |

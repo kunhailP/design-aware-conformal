@@ -446,8 +446,18 @@ within-country sampling covariance across thresholds is governed by the design w
 the between-country profile is governed by substantive heterogeneity, so (A1) is an
 idealization---the price of finite-sample exactness. Bimodal mixtures of
 Remark~\ref{rem:bimodal} violate it.
-\emph{(A2, anti-concentration.)} $M:=\max_t|W(t)|$ has a density bounded by $L$ on a
-neighborhood of its $(1-\alpha_{\text{dec}})$ quantile $q^*$.
+\emph{(A2, anti-concentration.)} Two sup-scores of the shape process enter the
+proofs, $M:=\max_t|W(t)|$ (deconvolution branch, at its $(1-\alpha_{\text{dec}})$
+quantile $q^*$) and the latent anchor score $R^{\text{lat}}:=\max_t s_R(t)|W(t)|$
+(anchor branches, at $q^\dagger$, the $(1-\alpha_{\text{anchor}})$ quantile of the
+observed score $\widetilde R=\max_t|Y(t)|$). Each has a density bounded by $L$ on a
+$\delta$-neighbourhood of its stated point, and the observed score whose order
+statistic is deployed there ($M$'s i.i.d.\ copies for deconvolution with oracle
+scales, $\widetilde R$ for the anchors) puts mass at least $\eta>0$ on each side of
+that point inside the neighbourhood, $F(q^-)-F(q-\delta)\ge\eta$ and
+$F(q+\delta)-F(q)\ge\eta$ --- the condition under which its order statistic
+concentrates there (Lemma~\ref{lem:orderstat}). A continuous score with positive
+density at the point satisfies both for small $\delta$.
 \emph{(A3, moments, boundedness, and bootstrap.)} The scores have finite fourth
 moment (kurtosis $\kappa$) and the error curves are uniformly bounded (automatic on
 the CDF scale, where $|\Gtilde_c(t)|\le1$), so that empirical second moments
@@ -457,6 +467,29 @@ $\le c_v/B$. (Boundedness is what buys the logarithmic---rather than
 polynomial---dependence on $KT$ below; without it, Chebyshev alone gives the same
 conclusion with $\log(KT)$ replaced by a polynomial factor and a correspondingly
 slower rate.)
+
+\begin{lemma}[Order-statistic concentration]\label{lem:orderstat}
+Let $Z_1,\dots,Z_K$ be i.i.d.\ with distribution function $F$, let
+$q=\inf\{x:F(x)\ge1-\alpha\}$, $m=\lceil(1-\alpha)(K{+}1)\rceil$, and suppose
+$F(q^-)-F(q-\delta)\ge\eta$ and $F(q+\delta)-F(q)\ge\eta$ for some
+$\delta,\eta>0$. Then for $K>2/\eta$,
+\[
+\Pr\big(|Z_{(m)}-q|>\delta\big)\;\le\;2\exp\!\big\{-2K(\eta-2/K)^2\big\},
+\]
+so $r_K:=\Pr(|Z_{(m)}-q|>\delta)=O(e^{-cK})$, in particular $o(K^{-1/2})$.
+\end{lemma}
+
+\begin{proof}
+$Z_{(m)}>q+\delta$ iff fewer than $m$ of the $Z_i$ are $\le q+\delta$, i.e.\
+$\widehat F_K(q+\delta)<m/K$. Since $m\le(1-\alpha)(K{+}1)+1$, $m/K\le1-\alpha+2/K$,
+while $F(q+\delta)\ge F(q)+\eta\ge1-\alpha+\eta$; hence
+$F(q+\delta)-\widehat F_K(q+\delta)>\eta-2/K$, an event of probability at most
+$\exp\{-2K(\eta-2/K)^2\}$ by the one-sided Dvoretzky--Kiefer--Wolfowitz--Massart
+inequality. Symmetrically, $Z_{(m)}<q-\delta$ iff at least $m$ of the $Z_i$ are
+$<q-\delta$, i.e.\ $\widehat F_K((q-\delta)^-)\ge m/K\ge1-\alpha$, while
+$F(q-\delta)\le F(q^-)-\eta\le1-\alpha-\eta$; the deviation exceeds $\eta$, with
+probability at most $\exp\{-2K\eta^2\}$. Add the two.
+\end{proof}
 
 \emph{Statement.} Under (A1)--(A3), the always-deconvolve band --- radius
 $\widehat q\cdot\widehat s_T(t)$ with $\widehat q$ the
@@ -473,7 +506,7 @@ scales,
 \qquad
 \delta_{K,B}=C_1\sqrt{\tfrac{(\kappa-1+z^2)\log K}{K}}+C_2\sqrt{\tfrac{c_v\log(KT)}{B}},
 \]
-with $\eta_{K,B},r_K=O(K^{-1/2})$ obtainable from the Bernstein bounds of (A3) and
+with $\eta_{K,B}=O(K^{-1/2})$ obtainable from the Bernstein bounds of (A3), $r_K=O(e^{-cK})$ from Lemma~\ref{lem:orderstat}, and
 order-statistic concentration ($C_1,C_2$ depend on $(\kappa,z,L,q^*)$ through those
 inequalities; we do not display numerical values), so
 $\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
@@ -505,8 +538,9 @@ $M_{K+1}>M_{(m)}\,(1-\delta)/(1+\delta)\ge M_{(m)}(1-2\delta)$, so
 \text{ (exchangeable ranks)}}
 +\ \Pr\big(M_{K+1}\in(M_{(m)}(1-2\delta),\,M_{(m)}]\big)\;+\;\Pr(\delta^*>\delta).
 \]
-For the middle term, $M_{(m)}$ concentrates on $q^*$ at rate $r_K=O(K^{-1/2})$
-(binomial concentration of the empirical CDF at $q^*$ together with (A2)); on that
+For the middle term, $M_{(m)}$ concentrates on $q^*$: by
+Lemma~\ref{lem:orderstat} under (A2)'s mass condition,
+$r_K=\Pr(|M_{(m)}-q^*|>\delta)=O(e^{-cK})$; on the complementary
 event $M_{(m)}$ lies in the neighbourhood of $q^*$ where (A2)'s density bound
 holds, the interval has length $\le2\delta q^*(1+o(1))$, and (A2) bounds its
 probability by $2Lq^*\delta+o(\delta)$; the complementary excursion event is
@@ -636,10 +670,12 @@ completes the proof.
 \begin{proposition}[Latent validity of the leave-one-out-centered anchors]
 \label{prop:looanchor}
 Assume (A1)--(A3) for the raw curves $Y_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$
-(normalized as in (A1)), and (A2$'$): the latent target score
-$R^{\text{lat}}=\max_t s_R(t)|W_{K+1}(t)|$ has a density bounded by $L'$ on
-a neighbourhood of $q^\dagger$, the $(1-\alpha_{\text{anchor}})$-quantile of
-the observed score $\widetilde R=\max_t|Y(t)|$. Build the clustered anchor
+(normalized as in (A1)), with (A2) read at the anchor level: the latent
+target score $R^{\text{lat}}=\max_t s_R(t)|W_{K+1}(t)|$ has density at most
+$L$ on a $\delta$-neighbourhood of $q^\dagger$, the $(1-\alpha_{\text{anchor}})$
+quantile of the observed score $\widetilde R=\max_t|Y(t)|$, and $\widetilde R$
+puts mass at least $\eta$ on each side of $q^\dagger$ inside it. Build the
+clustered anchor
 exactly as deployed: leave-one-out-centered calibration errors
 $\widetilde G^{\text{loo}}_c=Y_c-\bar Y_{-c}$, scores
 $a_c=\max_t|\widetilde G^{\text{loo}}_c(t)|$, $\widehat q^{\,\text{loo}}$
@@ -649,7 +685,7 @@ and band $\bar Y\pm\tfrac{K}{K-1}\widehat q^{\,\text{loo}}$. Then
 \Pr\big(F_{\text{new}}\in\widehat B^{\text{loo}}_{\text{anchor}}\big)\;\ge\;
 1-\alpha_{\text{anchor}}-\gamma^{\text{anch}}_K,
 \qquad
-\gamma^{\text{anch}}_K=4L'C_3\sqrt{\frac{\log\big((K{+}1)T\big)}{K}}+O(K^{-1/2}),
+\gamma^{\text{anch}}_K=4LC_3\sqrt{\frac{\log\big((K{+}1)T\big)}{K}}+O(K^{-1/2}),
 \]
 and the same bound holds for the conservative anchor, whose band contains
 the clustered one. Since $\gamma^{\text{anch}}_K$ has the order of
@@ -684,11 +720,12 @@ $\mathbb E\big[F_{\text{lat}}(\widehat q)-F_{\text{lat}}(\widehat q-2\gamma)\big
 with $F_{\text{lat}}$ the distribution function of $R^{\text{lat}}$ ---
 no conditioning on a calibration-measurable endpoint is needed, unlike the
 remark after Proposition~\ref{prop:loo}. On $\{|\widehat q-q^\dagger|\le\delta\}$,
-with $\delta$ the radius of (A2$'$)'s neighbourhood, this is at most
-$2L'\cdot2\gamma$; off it, the event has probability
-$r_K:=\Pr(|\widehat q-q^\dagger|>\delta)=O(K^{-1/2})$ by the order-statistic
-concentration that (A3) supplies (as in the proof of Theorem~4$'$(ii)).
-Collecting terms gives $\gamma^{\text{anch}}_K$. The $K/(K{-}1)$ inflation only enlarges the band,
+with $\delta$ the radius of (A2)'s neighbourhood, this is at most
+$2L\cdot2\gamma$; off it, the event has probability
+$r_K:=\Pr(|\widehat q-q^\dagger|>\delta)=O(e^{-cK})$ by
+Lemma~\ref{lem:orderstat} applied to the i.i.d.\ observed scores
+$\{\widetilde R_c\}$ under (A2)'s mass condition. Collecting terms gives
+$\gamma^{\text{anch}}_K$, whose $O(K^{-1/2})$ is the Hoeffding failure event. The $K/(K{-}1)$ inflation only enlarges the band,
 and the conservative band contains the clustered one, so both statements
 follow. (Machine check: \texttt{test\_loo\_validity.py::%
 test\_loo\_centered\_anchor\_latent\_coverage} runs the (A1) family through
