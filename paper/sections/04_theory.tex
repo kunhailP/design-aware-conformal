@@ -67,17 +67,21 @@ $\Pr(F_{\text{new}}\in\widehat B)\ge 1-\alpha-\varepsilon_{K,B}$ with
 $\varepsilon_{K,B}=O\big(\sqrt{\log(KT)/\min(K,B)}\,\big)$.
 \end{theorem}
 
-The remainder's direction is fixed by construction: the finite-$K$-guarded scale
+The guard fixes one direction by construction: the finite-$K$-guarded scale
 $\widehat s_T^2$ of Section~\ref{sec:method} subtracts a one-sided margin
 below the mean design variance, so on the guard event (Supplementary
-Material) the scale error can only widen the band. Some shape restriction is not removable (the
+Material) the design-variance-subtraction component of the scale error can
+only widen the band; the sampling error in $s_{\mathrm{plug}}^2$ stays
+two-sided and is absorbed into $\varepsilon_{K,B}$. Some shape restriction is not removable (the
 counterexample above); (A1) is one sufficient choice.
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
-Assume the countries are exchangeable and the anchors use
-Theorem~\ref{thm:exact}'s centers (or the leave-one-out center with its
-$K/(K{-}1)$ inflation, Propositions~S1 and~S3); for the second clause assume
-additionally (A1)--(A3). Deploy Algorithm~\ref{alg:safe} with the
+Let the anchors use Theorem~\ref{thm:exact}'s centers (or the leave-one-out
+center with its $K/(K{-}1)$ inflation, Propositions~S1 and~S3). For the
+first clause assume the countries' observed trajectories exchangeable; for
+the second assume (A1)--(A3), under which the observed scores are
+independent but not identically distributed and the latent scores are
+i.i.d. Deploy Algorithm~\ref{alg:safe} with the
 unstudentized clustered and conservative branches, scores
 $\max_t|\Gtilde_c(t)|$ and $\max_t(|\Gtilde_c(t)|+z\widehat v_c(t))$,
 at level $\alpha_{\text{anchor}}$,

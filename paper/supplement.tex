@@ -106,7 +106,9 @@ assumed on the sup-scores, and $\mathcal S$ may be arbitrarily heteroskedastic
 across thresholds (e.g.\ the $F(t)(1-F(t))$ sampling variance). Let
 $\widehat q_{\text{plug}}$ be the $\lceil(1-\alpha)(K{+}1)\rceil$-th order
 statistic of $\{\lVert\Gtilde_c\rVert_\infty\}$, the plug-in radius of
-Theorem~3 built on the observed curves.
+Theorem~3 built on the observed curves, with $\widehat q_{\text{plug}}=\infty$
+when that rank exceeds $K$ (Theorem~3's convention; the statement is then
+trivial).
 (i)~$\mathcal L_G$ is not identified from
 $\mathcal L_{\Gtilde}=\mathcal L_G*\mathcal S$ over $\mathfrak S$.
 (ii)~Write $s_K:=\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)\ge0$ for the
@@ -519,11 +521,16 @@ with $\eta_{K,B}=O(K^{-1/2})$ obtainable from the Bernstein bounds of (A3), $r_K
 order-statistic concentration ($C_1,C_2$ depend on $(\kappa,z,L,q^*)$ through those
 inequalities; we do not display numerical values), so
 $\varepsilon_{K,B}:=2Lq^*\delta_{K,B}+\eta_{K,B}+r_K\to0$ at rate
-$\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$-guarded guard makes the scale-error
-term one-sided: on the intersection of the guard's per-threshold coverage events
-(probability $\ge1-T\alpha_2$ by a union bound over the $T$ thresholds, or
-$\ge1-\alpha_2$ with a Bonferroni-adjusted guard level $\alpha_2/T$),
-$\widehat s_T$ is at least the oracle-consistent scale (the guard subtracts \emph{less} design variance than the truth), so the band errs wide, not narrow.
+$\sqrt{\log(KT)/\min(K,B)}$; and (iii)~the finite-$K$ guard makes the
+design-variance-subtraction component of the scale error one-sided: on the
+guard event $\mathcal E_{\text{guard}}=\{[\,\overline{\widehat v^2}(t)-z\,\SE(t)\,]_+
+\le\overline{v^2}(t)\ \forall t\}$ the guard subtracts \emph{less} design
+variance than the truth, so
+$\widehat s_T^2(t)\ge\max\{\widehat s_{\text{plug}}^2(t)-\overline{v^2}(t),\,\text{floor}\}$
+and that component errs wide, not narrow. No theorem-level probability is
+attached to $\mathcal E_{\text{guard}}$ for the deployed normal-reference
+$z=1.645$; the remaining, two-sided sampling error in $\widehat s_{\text{plug}}^2$
+is what (ii)'s $\varepsilon_{K,B}$ controls.
 
 \begin{proof}
 \emph{(i)} Under (A1) with oracle scales the studentized calibration scores are
@@ -576,10 +583,11 @@ rather than $\overline{\widehat v^2}$. On the \emph{guard event}
 $\mathcal E_{\text{guard}}=\{[\,\overline{\widehat v^2}(t)-z\,\SE(t)\,]_+\le
 \overline{v^2}(t)\ \forall t\}$ the subtracted amount does not exceed the true
 design variance at any threshold, so
-$\widehat s_T^2\ge s_{\text{plug},0}^2-\overline{v^2}$ errs on the wide side of
-the oracle scale and the corresponding half of the $\Delta_0$ perturbation can
-only \emph{increase} coverage: on $\mathcal E_{\text{guard}}$ the two-sided
-bound of (ii) holds with its scale-error term one-sided. This is a
+$\widehat s_T^2(t)\ge\max\{\widehat s_{\text{plug}}^2(t)-\overline{v^2}(t),\,\text{floor}\}$:
+the subtraction component of $\Delta_0$ errs on the wide side of the oracle
+scale and can only \emph{increase} coverage, while the sampling error of
+$\widehat s_{\text{plug}}^2$ itself remains two-sided and is the part of
+$\Delta_0$ that (ii) prices. This is a
 deterministic conditional statement. The deployed $z=1.645$ is a
 normal-reference operational margin: (A3) supplies Bernstein concentration for
 $\overline{\widehat v^2}$, not an exact normal pivot, so no theorem-level
