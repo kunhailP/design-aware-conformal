@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import hashlib
 import os
-import shutil
 import subprocess
 import zipfile
 
@@ -82,28 +81,32 @@ def main():
         for digest, rel in manifest:
             fh.write(f"{digest}  {name}/{rel}\n")
 
-    zpath = os.path.join(dist, f"{name}.zip")
-    with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
-        info = zipfile.ZipInfo(f"{name}/SHA256SUMS", date_time=ZIP_DATE)
-        info.external_attr = 0o644 << 16
-        z.writestr(info, open(man_path).read())
-        for rel in files:
-            info = zipfile.ZipInfo(f"{name}/{rel}", date_time=ZIP_DATE)
+    def _write_zip(path):
+        with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+            info = zipfile.ZipInfo(f"{name}/SHA256SUMS", date_time=ZIP_DATE)
             info.external_attr = 0o644 << 16
-            with open(os.path.join(ROOT, rel), "rb") as fh:
-                z.writestr(info, fh.read())
+            z.writestr(info, open(man_path).read())
+            for rel in files:
+                info = zipfile.ZipInfo(f"{name}/{rel}", date_time=ZIP_DATE)
+                info.external_attr = 0o644 << 16
+                with open(os.path.join(ROOT, rel), "rb") as fh:
+                    z.writestr(info, fh.read())
+        with open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()
 
+    zpath = os.path.join(dist, f"{name}.zip")
+    zdig = _write_zip(zpath)
     sz = os.path.getsize(zpath) / 1e6
-    with open(zpath, "rb") as fh:
-        zdig = hashlib.sha256(fh.read()).hexdigest()
     print(f"deposit : dist/{name}.zip  ({sz:.1f} MB, {len(files)} files)")
     print(f"sha256  : {zdig}")
     print(f"manifest: dist/SHA256SUMS")
-    # rebuild determinism check
+    # determinism check: build the archive a second time and compare digests
     tmp = zpath + ".check"
-    shutil.copy(zpath, tmp)
-    print("deterministic: rebuild from the same tree yields this same sha256")
+    zdig2 = _write_zip(tmp)
     os.remove(tmp)
+    if zdig2 != zdig:
+        raise SystemExit("deposit archive is not deterministic: second build differs")
+    print("deterministic: a second build of the same tree reproduced this sha256")
 
 
 if __name__ == "__main__":

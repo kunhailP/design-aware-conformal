@@ -1,7 +1,7 @@
-"""WVS/EVS Trends loader for the deconsolidation reanalysis (E26).
+"""WVS Trend File loader for the deconsolidation reanalysis (E26).
 
 Licensed microdata (never committed): data/wvs/data_pa/Trends_VS_1981_2022_Stata_v4_1.dta
-(442,473 rows, WVS/EVS integrated trends, 1981–2022). We load only the Foa–Mounk
+(442,473 rows, the WVS-only Trend File v4.1, 1981–2022 -- not the EVS-merged IVS). We load only the Foa–Mounk
 democratic-support battery + country/wave/weight/age, recode WVS negative missing codes
 to NaN, and recode each item to a common **pro-democratic orientation** (higher = more
 supportive of liberal democracy) so a single "persistent decline" = deconsolidation.
@@ -81,7 +81,7 @@ def main():
     a = audit(df)
     os.makedirs("results", exist_ok=True)
     a.to_csv("results/wvs_deconsolidation_audit.csv", index=False)
-    print(f"WVS/EVS trends: {len(df)} rows, {df.S003.nunique()} countries, "
+    print(f"WVS trend file: {len(df)} rows, {df.S003.nunique()} countries, "
           f"waves {sorted(df.S002VS.dropna().unique().astype(int))}\n")
     print(a.to_string(index=False))
 

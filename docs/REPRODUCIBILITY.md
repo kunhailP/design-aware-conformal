@@ -45,7 +45,7 @@ python -m pcb.data.audit_lapop
 # headline reanalyses
 python -m pcb.experiments.e13_ess_audit             # ESS certification counts (§7)
 python -m pcb.experiments.e36_ess_long_window       # long window 2002–2024 (§7)
-python -m pcb.experiments.e26_wvs_deconsolidation   # WVS/EVS Foa–Mounk (§7; ~1–2 h)
+python -m pcb.experiments.e26_wvs_deconsolidation   # WVS Foa–Mounk (§7; 3–6 min per REPLICATION.md)
 python -m pcb.experiments.e34_wvs_country_flags     # per-country rung flags
 python -m pcb.experiments.e50_joint_claim_family    # the joint band (paper Table 2)
 python -m pcb.experiments.e54_small_area_transport  # small-area activation (§6; ~1–2 h)
@@ -84,7 +84,7 @@ from the committed `results/*.csv` — microdata is not needed for figures.
 ## Compute
 
 Everything runs on a single multicore machine; no GPU. The heavy items are the
-validation grids (`e22`, `e33`; hours) and `e26` (~1–2 hours). Memory: the ESS
+validation grids (`e22`, `e33`; hours) and the rescaled-bootstrap reruns (`e38`, `e62`; 1–2 hours each). Memory: the ESS
 and LAPOP `.dta` reads peak at ~8–16 GB; the parquet caches make reruns cheap.
 
 ## Determinism

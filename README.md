@@ -1,7 +1,7 @@
 # The Wrong Unit of Uncertainty
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests: 110 passing](https://img.shields.io/badge/tests-110%20passing-green)
+![CI](https://github.com/kunhailP/design-aware-conformal/actions/workflows/tests.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Replication package for *"The Wrong Unit of Uncertainty: Simultaneous Inference
@@ -23,7 +23,7 @@ This package provides:
   the design-aware (deconvolution) correction, with a provably selection-free
   deployed selector;
 - two named reanalyses — **ESS parliamentary trust** (2002–2024) and the
-  **WVS/EVS Foa–Mounk deconsolidation battery** (1981–2022) — plus V-Dem
+  **WVS Foa–Mounk deconsolidation battery** (WVS Trend File, 1981–2022) — plus V-Dem
   cross-tabs and a same-items comparison with the Claassen latent panel.
 
 ## Headline results (all regenerate from `results/*.csv`)
@@ -85,7 +85,9 @@ the curated, deterministic submission archive. Two tiers
   including from the API-built subset).
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.
-Common targets: `make test`, `make tier1`, `make figures`, `make paper`.
+Shell entry points: `setup.sh`, `run_public.sh` (Tier 1), `run_restricted.sh`
+(Tier 2, checks the licensed inputs first), `run_all.sh`. Fine-grained
+targets: `make test`, `make tier1`, `make tier2`, `make figures`, `make paper`.
 
 ## Layout
 
@@ -94,12 +96,12 @@ paper/            LaTeX source + compiled PDFs (main, supplement, title page)
 rpkg/dapcb/        R package: pure-R dapcb port, vignette, golden cross-language tests
 pcb/
   inference/      clustered/population conformal, design_aware, safe selector
-  data/           survey loaders: ESS, WVS/EVS trend, LAPOP (schema audits)
+  data/           survey loaders: ESS, WVS trend file, LAPOP (schema audits)
   simulation/ theory/     generators and theory checks
   experiments/    e6–e58 (simulation arc, ESS/LAPOP/WVS, robustness, frontier,
                   prevalence; e43–e49, e51 superseded/withdrawn — see supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
-tests/            110 tests: theorem<->code contracts plus a claim ledger pinning
+tests/            contract tests (theorem<->code) plus a claim ledger pinning
                   every headline number in the paper to the CSV that licenses it
 results/          precomputed result tables (CSV) — every paper number lives here
 docs/             preregistrations, results write-ups, proofs, data sources, HANDOFF
@@ -108,7 +110,7 @@ configs/          frozen validation manifests (seeds, script hashes)
 
 ## Data notice
 
-`/data/` is gitignored: the ESS, WVS/EVS, and LAPOP microdata are licensed by
+`/data/` is gitignored: the ESS, WVS, and LAPOP microdata are licensed by
 their providers and never committed. Download each from its provider and place
 per `docs/DATA_SOURCES.md`. Everything else — code, results, paper — is
 MIT-licensed (see `LICENSE`); the licensed survey data are **not** covered by

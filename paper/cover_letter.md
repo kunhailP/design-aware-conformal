@@ -1,9 +1,8 @@
 # Cover letter — Political Analysis submission
 
-Professor Patrick T. Brandt
-Editor-in-Chief, *Political Analysis*
+Editors, *Political Analysis*
 
-Dear Professor Brandt,
+Dear Editors,
 
 I am submitting **"The Wrong Unit of Uncertainty: Simultaneous Inference for
 Repeated Cross-National Surveys"** for consideration as a Research Article.
@@ -25,7 +24,7 @@ at least 94 exchangeable populations. One unit down, on regions within the same
 survey, the frozen procedure does activate.
 
 Substantively, the claim family cuts a marginal reading of twenty of thirty
-European countries to net decline in six; over 2002–2024 no country certifies a
+ESS countries to net decline in six; over 2002–2024 no country certifies a
 persistent slide, twenty-three of thirty-three certify both declines and
 recoveries, and span erosion certifies in eight — and closed testing across
 countries certifies, with 90% simultaneous confidence, that at least six of the
@@ -54,8 +53,8 @@ three microdata sources are licensed and cannot be redistributed:
 
 - the European Social Survey integrated file, rounds 1–11 (free registration,
   ESS End User Licence);
-- the World Values Survey / EVS joint trend file 1981–2022 (registration and a
-  purpose statement required under the WVSA/EVS terms);
+- the World Values Survey Trend File 1981–2022, v4.1 (registration and a
+  purpose statement required under the WVSA terms);
 - the AmericasBarometer / LAPOP Grand Merge 2004–2023 (free after registration).
 
 The restriction is on redistribution, not on access: each file is available to

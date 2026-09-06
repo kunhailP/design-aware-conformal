@@ -8,8 +8,8 @@ fetched 2026-08-20). Status: ✅ compliant / 🔶 author action / ⬜ at-accepta
 
 | requirement | status | evidence / action |
 |---|---|---|
-| ≤ 6,000 words (abstract + body + figure legends + footnotes; excludes title page, references, words inside tables) | ✅ | **Measured 2026-09-06 with `texcount -inc main.tex`** (tabular cells excluded, math not counted). Before the pass: body 5,743 + abstract 193 + figure legends 190 = 6,126 (over). After the first pass: body 5,588 + 193 + 190 = 5,971. After the second read's additions (coordinate-level ρ, claim table, proof sketch, Bonferroni baselines, closed-testing assumption) and matching compression of §3/§4/§6/§7: body **5,590** + abstract 199 + figure legends 190 = **5,979**. Section headers (~170) and table captions (~165) are not in PA's definition; a Word-style count that included them would read ~6,300, so any further additions must be paid for. PA does not ask for the count to be stated on the title page. |
-| Abstract ≤ 200 words | ✅ | **198** by prose count (script in repo history) |
+| ≤ 6,000 words (abstract + body + figure legends + footnotes; excludes title page, references, words inside tables) | ✅ | **Measured 2026-09-06 with `texcount -inc main.tex`** (tabular cells excluded, math not counted). Before the pass: body 5,743 + abstract 193 + figure legends 190 = 6,126 (over). After the first pass: body 5,588 + 193 + 190 = 5,971. After the second read's additions (coordinate-level ρ, claim table, proof sketch, Bonferroni baselines, closed-testing assumption) and matching compression of §3/§4/§6/§7: body 5,590 + abstract 199 + figure legends 190 = 5,979. Third pass (headroom for the author's AI-disclosure sentence in §3, per PA's placement rule): body **5,511** + abstract **192** + figure legends 190 = **5,893**. Section headers (~170) and table captions (~165) are not in PA's definition; a Word-style count that included them would read ~6,300, so any further additions must be paid for. PA does not ask for the count to be stated on the title page. |
+| Abstract ≤ 200 words | ✅ | **192** (`texcount`, 2026-09-06) |
 | Keywords | ✅ | not required by PA |
 | 12-pt, double-spaced, page numbers, footnotes at bottom | ✅ | `main.tex`: `12pt` + `\doublespacing`; article-class page numbers; no endnotes |
 | Line numbers | ✅ | added by ScholarOne, not the author |
@@ -18,7 +18,7 @@ fetched 2026-08-20). Status: ✅ compliant / 🔶 author action / ⬜ at-accepta
 | Figure fonts Verdana/Arial preferred | ✅ | `pcb/figures/style.py` now prefers Arial → Verdana (falls back to DejaVu where unavailable) |
 | Captions carry title, sample/period, notes, units | ✅ | spot-checked all four main figures (replicates, K, windows, α stated) |
 | References: Chicago author-date, `chicago.bst` + natbib | ✅ | exactly this setup |
-| **Data citations with persistent identifiers, in the reference list** | ✅/🔶 | Added `@misc` entries for ESS, WVS/EVS trend v4.1, LAPOP Grand Merge, V-Dem v15 (doi:10.23696/vdemds25), Claassen (doi:10.7910/DVN/HWLW0J), cited from the Data Availability Statement. 🔶 author: record the ESS per-round edition DOIs and the WVS v4.1 versioned DOI shown by the providers (bib notes mark both). |
+| **Data citations with persistent identifiers, in the reference list** | ✅/🔶 | `@misc` entries for ESS (all twelve integrated-file edition DOIs and the two SDDF DOIs in full `10.21338/...` form), the WVS Trend File v4.1 (doi:10.14281/18241.27; labelled WVS-only, not the EVS-merged IVS — the loader's 442,473 rows are the WVS file), LAPOP Grand Merge (doi:10.15695/lapop/CGD1393), V-Dem v15 (doi:10.23696/vdemds25), Claassen (doi:10.7910/DVN/HWLW0J), cited from the Data Availability Statement. |
 | Statement order: Funding → Acknowledgments → Data Availability → Competing Interests → References | ✅ | `main.tex` back matter, in that order |
 | Funding statement format | ✅ | "no specific grant" sentence |
 | Data Availability Statement in PA's initial format (code location cited) | ✅ | now opens "Replication code for this article is available at ⟨repo⟩", Dataverse-on-acceptance line retained |
@@ -35,21 +35,22 @@ fetched 2026-08-20). Status: ✅ compliant / 🔶 author action / ⬜ at-accepta
 |---|---|---|
 | Restricted-data notification to the editor at submission | ✅ | cover letter section, mirrors PA research-transparency policy |
 | Replication materials at conditional acceptance (Dataverse; Code Ocean recommended for heavy dependencies) | ⬜ | `make deposit` builds the deterministic archive (`REPLICATION.md` §5); cover letter proposes a Code Ocean capsule |
-| Reproducibility verifiable by the PA team | ✅ | 110 tests incl. the claim ledger; e13/e26/e50 verified bit-identical from raw files in two environments |
+| Reproducibility verifiable by the PA team | ✅ | contract tests + claim ledger (119 at v1.1, CI green); e13/e26/e50 verified bit-identical from raw files in two environments |
 
 ## Pre-submission pass, 2026-09-06
 
-Done in this pass (all rebuilt, 114 tests green, PDFs recompiled):
+Done in this pass (all rebuilt, tests green, PDFs recompiled):
 
 - Main text no longer leaks an experiment id (`\texttt{e46}` removed from §7).
 - Three visible overfull lines fixed: the author/affiliation line under the
   title, Theorem 5's two-clause display (now `gather*`), and the repository
   URL in the Data Availability Statement (`url` package `hyphens` option).
 - Supplement title block now carries the author (was "The Authors").
-- Cover letter: addressed to the Editor-in-Chief as of 1 September 2026
-  (Patrick T. Brandt, per the journal's editorial-board page fetched
-  2026-09-06; Hopkins/Stewart handle only manuscripts accepted before
-  31 August 2026); affiliation aligned with the manuscript; Proposition
+- Cover letter: addressed generically ("Dear Editors") — the journal's
+  editorial-board page fetched 2026-09-06 lists Patrick T. Brandt as
+  Editor-in-Chief from 1 September 2026 while the journal homepage still
+  shows Hopkins/Stewart, so a named greeting is not safe until ScholarOne
+  shows it; affiliation aligned with the manuscript; Proposition
   numbering corrected (unreachability is Proposition 2, claim-family
   transfer Proposition 1); bit-identical reproduction count updated to three.
 - README / REPLICATION_MAP proposition numbers aligned with the compiled PDF.

@@ -23,18 +23,31 @@ independent environments):
   `requirements.txt`; the two bit-identical reproductions above ran under
   those pins. R ≥ 4.2 only for the optional R port (`rpkg/dapcb`).
 - Install: `pip install -r requirements.txt && pip install -e .`
-- Hardware: any modern machine. Runtimes below are from a 2026 Linux server;
-  wall-clock scales with single-core speed (nothing is parallelized).
+- Hardware: any modern machine; nothing is parallelized, so wall-clock
+  scales with single-core speed. Reference environment for the 2026-09-06
+  reproduction: Ubuntu 22.04 container on Linux 6.8, AMD EPYC 7H12 (2
+  sockets, 256 threads; one core used), 1 TiB RAM (peak resident set for the
+  ESS `.dta` read ≈ 8–16 GB; 32 GB is ample), 20 GB disk (the ESS API
+  Parquets and rebuilt subset take ≈ 0.3 GB; the Wizard `.dta` alone is
+  2.0 GB), Python 3.11.10, R 4.1.2. Wall-clock there: Step 0 ≈ 45 s, e13
+  ≈ 4 min, e36 ≈ 10 min, e50 ≈ 10 min, e56 ≈ 8 min, e61 ≈ 50 min
+  (rounds 1–8 SDDF merge included). Runtimes in the tables below are from
+  the same class of machine.
+- Shell entry points (PA replication-guideline layout): `setup.sh`
+  (environment), `run_public.sh` (Tier 1: tests, simulations, public-data
+  analyses, figures), `run_restricted.sh` (Tier 2: verifies the licensed
+  inputs' sha256 first, then the survey reanalyses), `run_all.sh` (both).
+  `make` targets remain the fine-grained interface.
 
 ## 2. Run order
 
 ### Step 0 — contract tests (no data, ~20 s)
 
 ```bash
-python -m pytest tests/ -q          # 110 tests
+python -m pytest tests/ -q          # pytest reports the current count (119 at v1.1)
 ```
 
-70 theorem↔code contract tests plus the claim ledger. **If this
+Theorem↔code contract tests plus the claim ledger. **If this
 passes, every headline number in the manuscript matches the committed CSVs**
 — the ledger is the authoritative map from paper claims to artifacts (each
 test names the CSV and the claim text it pins).

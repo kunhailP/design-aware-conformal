@@ -68,12 +68,15 @@ registration with its provider. Place the files exactly as below — the loaders
   `results/ess_long_window_sddf.csv`, `results/ess_joint_claims_sddf.csv`,
   `results/ess_prevalence_sddf.csv`).
 
-## 2. World Values Survey / EVS trend file, 1981–2022
+## 2. World Values Survey (WVS) Trend File, 1981–2022
 
-- **What**: WVS/EVS joint trend file, Stata version 4.1
-  (`Trends_VS_1981_2022_stata_v4_1`).
+- **What**: the WVS-only Trend File 1981–2022, version 4.1 (`WVS_Trend_1981_2022_v4.1`,
+  Stata; 442,473 cases, 108 countries/territories, 306 surveys; doi:10.14281/18241.27).
+  This is **not** the Integrated Values Surveys (IVS) file that merges the EVS trend
+  (666,907 cases): the separately distributed EVS trend file is not merged in, and
+  the paper labels every result from this file "WVS".
 - **Where**: <https://www.worldvaluessurvey.org/WVSEVStrend.jsp> (registration and
-  purpose statement required by the WVSA/EVS terms).
+  purpose statement required by the WVSA terms).
 - **Place at**: `data/wvs/data_pa/Trends_VS_1981_2022_Stata_v4_1.dta`
 - **Verify**: 499,799,219 bytes; sha256
   `d12c6e3ced6bef34a08917eb504c392795efa2aa7a7e614de37cfdc35c822c0f`
