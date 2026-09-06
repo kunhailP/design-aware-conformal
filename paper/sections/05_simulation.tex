@@ -13,10 +13,18 @@ finite-sample, so only the score's unit varies. A band that is marginally
 valid at the round level covers the trajectory $81.7\%$ of the time at $L=2$
 and $49.8\%$ at $L=8$; per threshold the figures are $38.2\%$ and $3.5\%$.
 Only the country-trajectory band holds its nominal $90\%$ at every length,
-because the trajectory is a single exchangeable unit. This is the coverage
-face of the paper's thesis, and the same mechanism drives the
-certification-count collapse of Section~\ref{sec:political}. The simulation
-was pre-registered and is reported as produced.
+because the trajectory is a single exchangeable unit. The obvious rejoinder
+--- correct the wrong-unit bands for multiplicity --- fails at survey
+scale: a Bonferroni-corrected per-round band needs a conformal quantile at
+level $\alpha/L$, which exists only for $K\ge L/\alpha-1$ countries ($79$ at
+$L=8$; $479$ for the threshold-level band), so at $K=30$ its radius is
+infinite for every $L\ge4$; where it exists ($K=100$) it is $4$--$26\%$
+wider than the trajectory band for comparable or higher coverage
+($90$--$94\%$ against $89$--$91\%$). The question is not whether to correct but which unit
+carries the simultaneous statement at the $K$ surveys have. The same
+mechanism drives the certification-count collapse of
+Section~\ref{sec:political}. The simulation was preregistered
+and is reported as produced; the corrected baselines were added at review.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{wrong_unit_coverage.pdf}
@@ -38,17 +46,15 @@ claim. The powered claim for secular decline is the net span, co-headlined in
 Section~\ref{sec:political}.
 
 \paragraph{Validation.} The frozen procedure was then evaluated on a sealed
-set of six unseen data-generating families, with the script hash recorded
-before first execution: all $120$ cells were compatible with the target
-coverage (worst $0.878$), with zero activations below $K=94$, as the floor
-requires. The complete three-layer validation history --- including a first
-holdout demoted to development after a scorer audit, and a disclosed generator
-bug --- is reported in the Supplementary Material.
+set of six unseen data-generating families, script hash recorded before
+first execution: all $120$ cells were compatible with the target coverage
+(worst $0.878$), with zero activations below $K=94$, as the floor requires.
+The three-layer validation history --- including a first holdout demoted to
+development after a scorer audit --- is in the Supplementary Material.
 
-\paragraph{A design-preserving stress test, and what it does not show.}
-Subsampling the real AmericasBarometer, the deployed selector never fires, and
-the pooled $\rhohat$ turnover at deep subsampling coincides with $\approx1$ PSU
-per stratum, where the $m$-of-$m$ variance estimate collapses --- a failure mode
-of the $\rhohat$ diagnostic under sparse-PSU designs, not a saturation law;
-the regime characterization of Section~\ref{sec:evidence} rests on full-sample
-estimates (Supplementary Material).
+\paragraph{A design-preserving stress test.} Subsampling the real
+AmericasBarometer, the deployed selector never fires; the $\rhohat$ turnover
+at deep subsampling is a sparse-PSU failure of the diagnostic, not a
+saturation law, and the regime characterization of
+Section~\ref{sec:evidence} rests on full-sample estimates (Supplementary
+Material).

@@ -1,17 +1,17 @@
 # Cover letter — Political Analysis submission
 
-Professor Daniel Hopkins
-Professor Brandon Stewart
-Editors-in-Chief, *Political Analysis*
+Professor Patrick T. Brandt
+Editor-in-Chief, *Political Analysis*
 
-Dear Editors,
+Dear Professor Brandt,
 
 I am submitting **"The Wrong Unit of Uncertainty: Simultaneous Inference for
 Repeated Cross-National Surveys"** for consideration as a Research Article.
 
 **What the paper does.** Claims about repeated cross-national surveys routinely
 attach uncertainty to the wrong unit, and to two different wrong units at once.
-A single wave-pair contrast is read as a persistent, distribution-wide trend;
+A single wave-pair contrast is read as a persistent trend across the whole
+low-trust core of the distribution;
 and the objects a conformal band calibrates on — other countries' attitude
 distributions — are themselves complex-survey *estimates*, plugged in as if they
 were truth. The paper gives a design-based simultaneous band over a country's
@@ -27,7 +27,9 @@ survey, the frozen procedure does activate.
 Substantively, the hierarchy cuts a marginal reading of twenty of thirty
 European countries to net decline in six; over 2002–2024 no country certifies a
 persistent slide, twenty-three of thirty-three certify both declines and
-recoveries, and span erosion certifies in eight. On the World Values Survey the
+recoveries, and span erosion certifies in eight — and closed testing across
+countries certifies, with 90% simultaneous confidence, that at least six of the
+thirty-three truly declined over their span. On the World Values Survey the
 same shift of rung cuts the certified set several-fold, and what survives
 concentrates in post-communist and Arab-Spring states rather than in the
 consolidated democracies the deconsolidation thesis concerned.
@@ -39,9 +41,10 @@ Park (2026); the manuscript says so where the band is introduced. Everything
 the survey layer forces is new to this paper and appears in no other
 manuscript: the curve-level non-identification theorem for estimated
 calibration objects (Theorem 1), the finite-$K$ reliability floor and
-survey-scale unreachability result (Proposition 1), the safe-adaptive selector
+survey-scale unreachability result (Proposition 2), the safe-adaptive selector
 and its validity theorem (Theorem 5), the partially ordered claim family read
-off one band, and both reanalyses. There is no textual overlap beyond the
+off one band (Proposition 1) with its closed-testing prevalence bound, and
+both reanalyses. There is no textual overlap beyond the
 shared base construction, which both papers disclose.
 
 **Notification of restricted data access.** In line with the journal's
@@ -62,9 +65,10 @@ the restricted files, so that a reader holding the same three files reproduces
 the results without modification. The package separates the analysis into a tier
 that needs no microdata — the simulations, the theory contract tests, and the
 sealed validation runs — and a tier that does, with exact file names, variable
-lists, retrieval steps and sha256 checksums documented for each source. Two
-results (the ESS certification counts and the WVS hierarchy) have been verified
-to reproduce bit-identically from the raw files.
+lists, retrieval steps and sha256 checksums documented for each source. Three
+headline results (the ESS certification counts, the WVS hierarchy, and the
+joint claim family) have been verified to reproduce bit-identically from the
+raw files in independent environments.
 
 Given the dependency footprint — Python and R, a compiled survey-data reader,
 and several long-running bootstrap experiments — I intend to prepare the
@@ -84,6 +88,6 @@ Thank you for considering the manuscript.
 Sincerely,
 
 Kunwoo Park
-Department of Politics, Kookmin University
+Department of Political Science and International Relations, Kookmin University
 Seoul, Republic of Korea
 pkw31386094@gmail.com · ORCID 0009-0007-9067-8964

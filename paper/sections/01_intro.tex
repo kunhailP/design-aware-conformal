@@ -13,10 +13,13 @@ conformal prediction promises finite-sample, distribution-free coverage
 
 \paragraph{Two wrong units.} One principle organizes this paper: \emph{the
 stochastic unit of a guarantee must coincide with the unit of the scientific
-claim it certifies}. Claims from repeated surveys violate it twice. A
-common inferential move builds the \emph{claim} --- ``democratic trust is
-declining'' --- from a single wave-pair contrast and narrates it as a
-country-level trend \citep{foa2016democratic,foa2017signs,valgardsson2025crisis}.
+claim it certifies}. Claims from repeated surveys violate it twice.
+Uncertainty is routinely reported for a local contrast --- one wave pair, one
+threshold --- while the \emph{claim} it is taken to support, ``democratic
+trust is declining,'' concerns a whole trajectory. (The deconsolidation
+debate \citep{foa2016democratic,foa2017signs,valgardsson2025crisis} is the
+substantive case we re-examine, not a methodological culprit: its own
+evidence is cohort comparisons.)
 The second, subtler wrong unit is the calibration: the objects conformal
 transport calibrates on are themselves \emph{estimated} from complex
 probability samples, and existing constructions plug them in as if exact
@@ -37,8 +40,9 @@ survey noise can make it too narrow, being itself estimated from few countries.
 \paragraph{Contributions.} We make four.
 \emph{First, a procedure for the claim unit}: a design-based simultaneous band
 over a country's whole trajectory, from which a partially ordered family of
-claims --- from a single wave pair up to persistent, distribution-wide
-decline --- is read off one coverage event (Section~\ref{sec:claims}).
+claims --- from a single wave pair up to persistent decline over a
+preregistered core of the distribution --- is read off one coverage event
+(Section~\ref{sec:claims}).
 \emph{Second, an impossibility theorem for the calibration unit.} Without
 information on the design-noise law the latent transport-error law is
 non-identified, and no band built on the observed curves can uniformly improve
@@ -48,21 +52,22 @@ to correct away; it is an inferential boundary.
 \emph{Third, the feasibility boundary of the correction, and a selector that
 respects it.} Even with the design-noise information supplied, the correction's
 reliability diagnostic obeys an algorithmic floor $D\ge\sqrt{2/(K-1)}$, so the
-deployed correction requires $K\ge94$ exchangeable populations --- a bound the
-two largest surveys fail in opposite ways, while one unit down, on regions'
-departures from their national distributions ($K\approx230$--$290$), the same
-frozen selector does activate (Section~\ref{sec:evidence}). The anchor band
-is finite-sample valid at every $K$ --- exact under its symmetric centers,
-and carrying the guarantee into the released leave-one-out deployment through
-an explicit $K/(K{-}1)$ inflation --- and the selector preserves each
-branch's stated guarantee (Theorems~\ref{thm:exact} and~\ref{thm:safe}). (The clustered band is machinery
-shared with a companion paper on a non-survey domain, \citealp{park2026poverty};
-new here is what the survey layer forces --- the impossibility, the floor, the
-safe selector, and the claim-family deployment.)
+deployed correction requires $K\ge94$ exchangeable populations --- which the
+two largest surveys fail in opposite ways, while one unit down (regions
+within countries, $K\approx230$--$290$) the same frozen selector activates
+(Section~\ref{sec:evidence}). The anchor band
+is finite-sample valid at every $K$, exact under its symmetric centers and
+carried into the released leave-one-out deployment by an explicit
+$K/(K{-}1)$ inflation, and the selector preserves each branch's guarantee
+(Theorems~\ref{thm:exact} and~\ref{thm:safe}). (The clustered band is
+machinery shared with a companion paper on a non-survey domain,
+\citealp{park2026poverty}; new here is what the survey layer forces --- the
+impossibility, the floor, the safe selector, and the claim-family
+deployment.)
 \emph{Fourth, two reanalyses where the procedures change the substantive
 picture} (Section~\ref{sec:political}). For European trust the family certifies
-net decline in six of thirty countries (2018--2024) --- twelve at the weaker
-any-pair rung --- against the twenty a marginal reading flags; over the full
+net decline in six of thirty countries (2018--2024) against the twenty a
+marginal reading flags; over the full
 2002--2024 record no country certifies persistence,
 while twenty-three of thirty-three certify both declines and recoveries and
 eight certify span erosion, all read off one band per country. Globally,

@@ -25,6 +25,7 @@
 
 \graphicspath{{figures/}}
 \newcommand{\Ftilde}{\widetilde{F}}
+\newcommand{\Gtilde}{\widetilde{G}}
 \newcommand{\rhohat}{\widehat{\rho}}
 \DeclareMathOperator{\SE}{SE}
 
@@ -45,7 +46,9 @@
 \title{Supplementary Material for\\
 ``The Wrong Unit of Uncertainty:\\
 Simultaneous Inference for Repeated Cross-National Surveys''}
-\author{The Authors}
+\author{Kunwoo Park\\
+\small Department of Political Science and International Relations,\\
+\small Kookmin University, Seoul, Republic of Korea}
 \date{}
 
 \begin{document}
@@ -63,40 +66,49 @@ the replication package that checks its computational implications numerically. 
 argument is a sketch or rests on an estimated constant, we say so.
 
 \paragraph{Common setup.} We observe $K$ exchangeable source countries $c=1,\dots,K$ plus
-a target $K{+}1$. Each country $c$ has a latent attitude curve $F_c$ (a CDF over a grid
-$t_1<\dots<t_T$) and a transport center $\mu$ (a leave-one-out mean or fitted center),
-with plug-in error curve $E_c(t)=\widehat\theta_t(P_c)-\theta_t(P_c)$. The latent
-transport score is $R_c=\max_{r,t}|F_c(t)-\mu(t)|/\sigma(t)$, the country-level
-(exchangeable-unit) score. $F_c$ is not observed; a complex survey returns
-$\Ftilde_c=F_c+S_c$ with design error $S_c$, inducing the contaminated score
-$\widetilde R_c=R_c+\xi_c$ with $\mathbb E[\xi_c\mid R_c]=0$ and
-$\operatorname{Var}(\xi_c\mid\cdot)=v_c^2$, where $v_c^2$ is estimated by a
-stratified-PSU / replicate-weight design bootstrap. Write $s_{\text{plug}}^2=s_R^2+
-\overline{v^2}$ and the design-to-total SD ratio $\rho=\sqrt{\overline{v^2}}/
-s_{\text{plug}}\in[0,1)$. Two targets are kept distinct throughout: the survey-estimate
-score $\widetilde R_{K+1}$ (T1) and the latent score $R_{K+1}$ (T2), the object the
-political claim concerns.
+a target $K{+}1$. Each country $c$ has a latent response-distribution curve
+$F_c$ (a CDF over a grid $t_1<\dots<t_T$, stacked over rounds where a
+trajectory is meant) and a transport center $\mu$ (a leave-one-out mean or
+fitted center). Three curves are kept apart, in the main text's symbols: the
+latent deviation $G_c=F_c-\mu$; the design error $S_c$ of the complex-survey
+estimate, $\Ftilde_c=F_c+S_c$, with coordinate-wise design variance
+$v_c(t)^2$ estimated by a stratified-PSU / replicate-weight bootstrap; and
+the observed deviation $\Gtilde_c=\Ftilde_c-\mu=G_c+S_c$. The latent
+transport score is $R_c=\max_t|G_c(t)|/\sigma(t)$ and the observed score
+$\widetilde R_c=\max_t|\Gtilde_c(t)|/\sigma(t)$ ($\sigma\equiv1$ for the
+deployed unstudentized anchors); $\xi_c:=\widetilde R_c-R_c$ is the score
+contamination, a difference of maxima with $|\xi_c|\le\max_t|S_c(t)|/\sigma(t)$,
+on which no centring or variance structure is assumed anywhere below. Design
+noise is quantified at the coordinate, where the additive model is exact:
+$s_{\text{plug}}^2(t)=\operatorname{Var}_c\Gtilde_c(t)=s_R^2(t)+\overline{v^2}(t)$
+for design error independent of the latent curve, and the design share
+$\rho(t)^2=\overline{v^2}(t)/s_{\text{plug}}^2(t)\in[0,1)$; the scalar
+$\rhohat_{\text{LCB}}$ of the selector is the conservative aggregate of this
+profile defined in \texttt{pcb.inference.design\_aware.rho\_lcb} (ratio of
+$t$-averaged bounds). Two targets are kept distinct throughout: the
+survey-estimate score $\widetilde R_{K+1}$ (T1) and the latent score
+$R_{K+1}$ (T2), the object the political claim concerns.
 
 \subsection{Theorem~1 (non-identification and necessity of design information)}
 
 \emph{Statement (curve level).} The result is stated for the curve-level model
-$\widetilde E_c=E_c+S_c$ of the main text's decomposition (1): the latent
-deviation curves $E_1,\dots,E_K,E_{\text{new}}\in\mathbb R^T$ are exchangeable
-with law $\mathcal L_E$; the design-noise curves $S_c$ are i.i.d.\ with law
+$\Gtilde_c=G_c+S_c$ of the main text's decomposition (1): the latent
+deviation curves $G_1,\dots,G_K,G_{\text{new}}\in\mathbb R^T$ are exchangeable
+with law $\mathcal L_G$; the design-noise curves $S_c$ are i.i.d.\ with law
 $\mathcal S$, independent of the latent curves (the two-level survey
 structure: given the drawn population, the sampling mechanism is independent
 of which curve was drawn); and $\mathcal S$ is known only to lie in an
 admissible class $\mathfrak S$ that (a)~contains $\delta_0$ (negligible design
 noise) and (b)~is closed under one further convolution by some nondegenerate
-symmetric law $\mathcal N$, with $\mathcal L_E$ likewise expressible with and
+symmetric law $\mathcal N$, with $\mathcal L_G$ likewise expressible with and
 without the factor $\mathcal N$. No additive or independence structure is
 assumed on the sup-scores, and $\mathcal S$ may be arbitrarily heteroskedastic
 across thresholds (e.g.\ the $F(t)(1-F(t))$ sampling variance). Let
 $\widehat q_{\text{plug}}$ be the $\lceil(1-\alpha)(K{+}1)\rceil$-th order
-statistic of $\{\lVert\widetilde E_c\rVert_\infty\}$, the plug-in radius of
+statistic of $\{\lVert\Gtilde_c\rVert_\infty\}$, the plug-in radius of
 Theorem~3 built on the observed curves.
-(i)~$\mathcal L_E$ is not identified from
-$\mathcal L_{\widetilde E}=\mathcal L_E*\mathcal S$ over $\mathfrak S$.
+(i)~$\mathcal L_G$ is not identified from
+$\mathcal L_{\Gtilde}=\mathcal L_G*\mathcal S$ over $\mathfrak S$.
 (ii)~Write $s_K:=\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)-(1-\alpha)\ge0$ for the
 conformal discreteness slack. Let $\widehat\rho$ be a non-randomized
 measurable functional of the observed curves alone with
@@ -105,7 +117,7 @@ $\mu\pm\widehat\rho$ is valid at level $1-\alpha$ for the latent target under
 \emph{every} $\mathcal S\in\mathfrak S$. Then on the member
 $\mathcal S=\delta_0$ the coverage deficit relative to the plug-in is bounded
 by the slack,
-$\Pr\big(\widehat\rho<\lVert E_{\text{new}}\rVert_\infty\le
+$\Pr\big(\widehat\rho<\lVert G_{\text{new}}\rVert_\infty\le
 \widehat q_{\text{plug}}\big)\le s_K$: no observed-curve band valid over the
 class improves on the plug-in uniformly by more than the discreteness slack.
 A randomized band can shave exactly $s_K$ and no more. (The statement bounds
@@ -120,34 +132,34 @@ laws, so validity must be read relative to the stated subclass.)
 (i)~Convolution in $\mathbb R^T$ is not injective on the admissible class.
 With $\mathcal N$ as in condition~(b), pick $\mathcal S_0\in\mathfrak S$ with
 $\mathcal S_0*\mathcal N\in\mathfrak S$ and put
-$\mathcal L_E'=\mathcal L_E*\mathcal N$, $\mathcal S=\mathcal S_0*\mathcal N$,
+$\mathcal L_G'=\mathcal L_G*\mathcal N$, $\mathcal S=\mathcal S_0*\mathcal N$,
 $\mathcal S'=\mathcal S_0$. Both pairs are admissible, distinct
 ($\mathcal N$ nondegenerate), and
-$\mathcal L_E*\mathcal S=\mathcal L_E*\mathcal S_0*\mathcal N
-=\mathcal L_E'*\mathcal S'$: the same observed law, with the spread split
+$\mathcal L_G*\mathcal S=\mathcal L_G*\mathcal S_0*\mathcal N
+=\mathcal L_G'*\mathcal S'$: the same observed law, with the spread split
 differently between latent signal and design noise. (A single coordinate
 $T{=}1$ already suffices, e.g.\ Gaussian
 $N(0,\sigma^2-\tau^2)*N(0,\tau^2)=N(0,\sigma^2)$ for any $0<\tau^2<\sigma^2$;
 the general-$T$ statement follows by product laws.)
 
-(ii)~A radius $\widehat\rho=\widehat\rho(\{\widetilde E_c\})$ has the same
+(ii)~A radius $\widehat\rho=\widehat\rho(\{\Gtilde_c\})$ has the same
 joint law with the observed data in any two configurations sharing the
 observed law---in particular the two of part~(i), whose latent laws differ by
 the dispersing factor $\mathcal N$. Validity for every admissible
 $\mathcal S$ therefore forces the radius to cover the most-dispersed
 admissible latent law compatible with the observed data, attained at
 $\mathcal S=\delta_0$, where all observed spread is latent. Concretely, take
-$\mathcal S=\delta_0\in\mathfrak S$. Then $\widetilde E_c=E_c$ for every $c$,
+$\mathcal S=\delta_0\in\mathfrak S$. Then $\Gtilde_c=G_c$ for every $c$,
 and the target satisfies $F_{\text{new}}\in\mu\pm\widehat\rho\iff
-\lVert E_{\text{new}}\rVert_\infty\le\widehat\rho$, with
-$\lVert E_{\text{new}}\rVert_\infty$ exchangeable with the $K$ observed
+\lVert G_{\text{new}}\rVert_\infty\le\widehat\rho$, with
+$\lVert G_{\text{new}}\rVert_\infty$ exchangeable with the $K$ observed
 sup-scores. The conformal rank identity gives
-$\Pr\big(\lVert E_{\text{new}}\rVert_\infty\le\widehat q_{\text{plug}}\big)=
+$\Pr\big(\lVert G_{\text{new}}\rVert_\infty\le\widehat q_{\text{plug}}\big)=
 \lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)=(1-\alpha)+s_K$, so a non-randomized
 radius sitting almost surely at or below $\widehat q_{\text{plug}}$ has latent
 coverage
 $(1-\alpha)+s_K-
-\Pr\big(\widehat\rho<\lVert E_{\text{new}}\rVert_\infty\le
+\Pr\big(\widehat\rho<\lVert G_{\text{new}}\rVert_\infty\le
 \widehat q_{\text{plug}}\big)$; validity at $1-\alpha$ on this member
 therefore forces the deficit to be at most $s_K$, which is the claimed bound.
 The slack is attainable and no more: randomized smoothing of the conformal
@@ -171,20 +183,26 @@ $\Pr(\widetilde R_{K+1}\le\widehat q)\ge1-\alpha$, using exchangeability only.
 \Pr\big(\widetilde R_{K+1}\in(\widehat q-u,\ \widehat q\,]\big),
 \]
 so the T1$\to$T2 coverage gap is controlled by a noise-tail term and a local
-anti-concentration term, both of which vanish with the design-noise scale.
-Quantitatively, with countries independent (so that the target score is independent
-of $\widehat q$) and a density bound $L$ for $\widetilde R$ near its upper quantile:
-optimizing $u$ under a variance-only tail bound (Chebyshev) gives a gap of order
-$\rho^{2/3}$; under sub-Gaussian design-noise tails---the natural case for
-bootstrap-estimated design error---the optimized gap is $O(\rho\sqrt{\log(1/\rho)})$.
-We use independence, not mere exchangeability, for the anti-concentration step; the
-tail term needs neither.
+anti-concentration term, both of which vanish with the design-noise scale:
+since $|\xi_{K+1}|\le\lVert S_{K+1}\rVert_\infty$, the tail term is at most
+$\Pr(\lVert S_{K+1}\rVert_\infty>u)$, a statement about the design error
+alone, whatever the shape of the score law. Quantitatively, write
+$\sigma_\xi$ for a scale of $\xi$ (a bound on its standard deviation, itself
+at most the sup-norm scale of $S$). With countries independent (so that the
+target score is independent of $\widehat q$) and a density bound $L$ for
+$\widetilde R$ near its upper quantile, optimizing $u$ under a variance-only
+tail bound (Chebyshev) gives a gap of order $\sigma_\xi^{2/3}$; under
+sub-Gaussian design-noise tails---the natural case for bootstrap-estimated
+design error---the optimized gap is $O(\sigma_\xi\sqrt{\log(1/\sigma_\xi)})$.
+We use independence, not mere exchangeability, for the anti-concentration
+step; the tail term needs neither, and neither term assumes $\xi$ centred.
 Equivalently, the \emph{noise-inflated} band with radius $\widehat q+u$ covers the
 latent target at level $1-\alpha-\Pr(|\xi_{K+1}|>u)$ with no anti-concentration
-condition. (c)~The oracle deconvolution band with the true target scale has width a
-factor $\sqrt{1-\rho^2}+o(1)$ of the clustered band, and under the scale-family
-assumption (A1) of Theorem~4$'$ it is finite-sample \emph{exact} for the latent
-target (Theorem~4$'$(i)).
+condition. (c)~The oracle deconvolution band with the true target scale has,
+coordinate by coordinate, width a factor $\sqrt{1-\rho(t)^2}$ (up to the
+$o(1)$ of replacing finite-$K$ conformal quantiles by population ones) of the
+clustered band, and under the scale-family assumption (A1) of Theorem~4$'$
+it is finite-sample \emph{exact} for the latent target (Theorem~4$'$(i)).
 
 \begin{proof}
 (a)~By exchangeability of $\{\widetilde R_c\}_{c=1}^{K+1}$ the rank of
@@ -198,11 +216,15 @@ $\Pr(R_{K+1}>\widehat q)\le\Pr(\xi_{K+1}<-u)+\Pr(\widetilde R_{K+1}>\widehat q-u
 $\Pr(\widetilde R_{K+1}>\widehat q-u)\le\alpha+\Pr(\widetilde R_{K+1}\in(\widehat q-u,
 \widehat q])$ by part~(a). For the inflated band,
 $\{R_{K+1}>\widehat q+u\}\subseteq\{\widetilde R_{K+1}>\widehat q\}\cup\{|\xi_{K+1}|>u\}$
-directly. (c)~The oracle deconvolution scale satisfies $s_T^2=s^2(1-\rho^2)$ by the law
-of total variance $\operatorname{Var}(\widetilde R)=\operatorname{Var}(R)+\mathbb E[v^2]$
-under conditional mean-zero noise, giving the width factor $\sqrt{1-\rho^2}+o(1)$,
-the $o(1)$ as $K\to\infty$ from replacing the two laws' finite-$K$ conformal
-quantiles by their population counterparts.
+directly. (c)~At each coordinate the design error is mean-zero (design
+unbiasedness of the survey estimate) and independent of the latent curve, so
+$\operatorname{Var}_c\Gtilde_c(t)=\operatorname{Var}_cG_c(t)+\overline{v^2}(t)$
+exactly, i.e.\ $s_T^2(t)=s_{\text{plug}}^2(t)\,(1-\rho(t)^2)$ for the oracle
+deconvolution scale; under (A1) the studentized scores of the two bands
+coincide up to this scale, giving the pointwise width factor
+$\sqrt{1-\rho(t)^2}$, with the $o(1)$ as $K\to\infty$ from replacing the two
+laws' finite-$K$ conformal quantiles by their population counterparts. No
+statement about the variance of the sup-score $\widetilde R$ is used.
 \end{proof}
 
 \begin{remark}[Symmetric noise alone is \emph{not} sufficient for latent
@@ -229,16 +251,16 @@ not rely on it.
 
 \subsection{Theorem~3 (exact finite-$K$ validity of the deployed base band)}
 
-\emph{Statement.} Let the error curves be $E_c(t)=\widehat\theta_c(t)-\mu(t)$, where the
+\emph{Statement.} Let the error curves be $\Gtilde_c(t)=\Ftilde_c(t)-\mu(t)$, where the
 center $\mu$ satisfies the \emph{symmetric-construction condition}: it is (i)~a fixed
 function independent of the $K{+}1$ curves, or (ii)~computed from a disjoint center
 fold, or (iii)~computed \emph{per unit} from that unit's own auxiliary data by a common
 rule (e.g.\ the country's own previous round, as in the deployed ESS certification), or
 (iv)~a symmetric function of \emph{all} $K{+}1$ curves including the target's (the
 surveyed-target validation mode). With the unstudentized cluster score
-$R_c=\max_t|E_c(t)|$ and the countries exchangeable, for \emph{every} $K$ the band
+$\widetilde R_c=\max_t|\Gtilde_c(t)|$ and the countries exchangeable, for \emph{every} $K$ the band
 $\widehat B=\text{center}\pm\widehat q$ with $\widehat q$ the
-$\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{R_c\}$
+$\lceil(1-\alpha)(K{+}1)\rceil$-th order statistic of $\{\widetilde R_c\}$
 satisfies
 $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)\ge
 1-\alpha$, distribution-free---for the \emph{survey-estimate} trajectory T1,
@@ -249,17 +271,17 @@ under (A1) by the anchor-domination lemma below.
 \begin{proof}
 Under any of (i)--(iv) the map from the $K{+}1$ curves to the $K{+}1$ scores is
 symmetric in the units (conditional on the fold in case~(ii)), so the scores
-$E_1,\dots,E_{K+1}$ are exchangeable elements of $\mathbb R^T$. If the score law is
-atomless the $\{R_c\}$ are a.s.\ distinct; with atoms (possible for discrete
+$\Gtilde_1,\dots,\Gtilde_{K+1}$ are exchangeable elements of $\mathbb R^T$. If the score law is
+atomless the $\{\widetilde R_c\}$ are a.s.\ distinct; with atoms (possible for discrete
 survey scales), break ties by a symmetric uniform randomization---the standard
 conformal device---which preserves exchangeability of the ranks, and the guarantee
 holds as stated (without randomization, ties can only make the band conservative,
-never anti-conservative, since the order statistic weakly increases). Therefore the rank of $R_{K+1}$ is uniform on
-$\{1,\dots,K{+}1\}$, and with $\widehat q=R_{(m)}$, $m=\lceil(1-\alpha)(K{+}1)\rceil$,
-$\Pr(R_{K+1}\le\widehat q)=m/(K{+}1)\ge1-\alpha$. The simultaneous coverage event is
+never anti-conservative, since the order statistic weakly increases). Therefore the rank of $\widetilde R_{K+1}$ is uniform on
+$\{1,\dots,K{+}1\}$, and with $\widehat q=\widetilde R_{(m)}$, $m=\lceil(1-\alpha)(K{+}1)\rceil$,
+$\Pr(\widetilde R_{K+1}\le\widehat q)=m/(K{+}1)\ge1-\alpha$. The simultaneous coverage event is
 pointwise equivalent to the scalar event:
-$\Ftilde_{\text{new}}(t)\in\widehat B(t)\ \forall t\iff|E_{K+1}(t)|\le\widehat q\ \forall t\iff
-\max_t|E_{K+1}(t)|\le\widehat q\iff R_{K+1}\le\widehat q$. Hence simultaneous coverage is
+$\Ftilde_{\text{new}}(t)\in\widehat B(t)\ \forall t\iff|\Gtilde_{K+1}(t)|\le\widehat q\ \forall t\iff
+\max_t|\Gtilde_{K+1}(t)|\le\widehat q\iff \widetilde R_{K+1}\le\widehat q$. Hence simultaneous coverage is
 $\ge\lceil(1-\alpha)(K{+}1)\rceil/(K{+}1)$, distribution-free. Intersecting the band with
 $[0,1]$ and applying the isotonic tightening $L(t)=\mathrm{clip}_{[0,1]}(\max_{t'\le t}
 \mathrm{lo}(t'))$, $U(t)=\mathrm{clip}_{[0,1]}(\min_{t'\ge t}\mathrm{hi}(t'))$ only shrink
@@ -274,7 +296,7 @@ A grand mean over the calibration countries, used as the center for an
 calibration country sits inside its own center (deviations shrunk by $(K{-}1)/K$) while
 the target sits outside, which biases $\widehat q$ downward --- an anti-conservative
 $O(1/K)$ asymmetry. The deployed remedy is the leave-one-out deviation
-$E_c=\widehat\theta_c-\operatorname{mean}_{c'\ne c}\widehat\theta_{c'}$
+$\Gtilde_c=\Ftilde_c-\operatorname{mean}_{c'\ne c}\widehat\theta_{c'}$
 (\texttt{pcb.inference.conformal\_band.loo\_deviations}): each calibration score then
 excludes its own unit exactly as the target's score excludes the target. The residual
 asymmetry (a pool of $K{-}1$ versus $K$ units) is covered by the following
@@ -368,7 +390,7 @@ fortiori, and the cost is at most $3.5\%$ of width at the $K$ of this
 paper's surveys.
 
 \emph{Modulation self-inclusion deficit (proof sketch; estimated constant).} If instead
-one studentizes by an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,E_c(t)$ computed
+one studentizes by an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,\Gtilde_c(t)$ computed
 from the calibration curves themselves, the unobserved target does not share this
 denominator, which breaks exchangeability. A first-order expansion of the order-statistic
 bias in the number $g$ of modulation slots each country contributes to gives a coverage
@@ -381,7 +403,7 @@ unstudentized.
 If the modulation is a single in-sample \emph{scalar} $\widehat s$ (the same number at
 every threshold and slot), the studentized band is \emph{identical} to the
 unstudentized band, hence exact at any $K$: the scores are
-$\max_t|E_c(t)|/\widehat s$, their $m$-th order statistic is $M_{(m)}/\widehat s$ with
+$\max_t|\Gtilde_c(t)|/\widehat s$, their $m$-th order statistic is $M_{(m)}/\widehat s$ with
 $M_{(m)}$ the unstudentized order statistic, and the band radius
 $\widehat q\cdot\widehat s=M_{(m)}$ --- the data-dependent scalar cancels
 identically. Self-inclusion deficits therefore arise \emph{only} from non-constant
@@ -405,8 +427,8 @@ deconvolution's distributional matching is an identity rather than an approximat
 \emph{Assumptions.}
 \emph{(A1, scale family.)} There exist i.i.d.\ random curves $W_1,\dots,W_{K+1}$ and
 deterministic-given-design scales such that the observed calibration curves satisfy
-$\widetilde E_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$ and the latent target curve
-satisfies $E_{K+1}(t)=s_R(t)\,W_{K+1}(t)$. This is strong, and we state its content
+$\Gtilde_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$ and the latent target curve
+satisfies $G_{K+1}(t)=s_R(t)\,W_{K+1}(t)$. This is strong, and we state its content
 plainly: it requires not only a common (e.g.\ Gaussian) shape family but that the
 design noise share the latent curves' \emph{cross-threshold correlation profile}, so
 that noise changes only the scale of a common shape process. In real surveys the
@@ -418,7 +440,7 @@ Remark~\ref{rem:bimodal} violate it.
 neighborhood of its $(1-\alpha_{\text{dec}})$ quantile $q^*$.
 \emph{(A3, moments, boundedness, and bootstrap.)} The scores have finite fourth
 moment (kurtosis $\kappa$) and the error curves are uniformly bounded (automatic on
-the CDF scale, where $|\widetilde E_c(t)|\le1$), so that empirical second moments
+the CDF scale, where $|\Gtilde_c(t)|\le1$), so that empirical second moments
 and bootstrap replicate averages obey Bernstein-type sub-exponential tail bounds;
 and the size-$B$ design bootstrap is unbiased for $v_c^2(t)$ with relative variance
 $\le c_v/B$. (Boundedness is what buys the logarithmic---rather than
@@ -429,7 +451,7 @@ slower rate.)
 \emph{Statement.} Under (A1)--(A3), the always-deconvolve band --- radius
 $\widehat q\cdot\widehat s_T(t)$ with $\widehat q$ the
 $\lceil(1-\alpha_{\text{dec}})(K{+}1)\rceil$-th order statistic of the studentized
-scores $\max_t|\widetilde E_c(t)|/\sqrt{\widehat s_T(t)^2+\widehat v_c(t)^2}$ ---
+scores $\max_t|\Gtilde_c(t)|/\sqrt{\widehat s_T(t)^2+\widehat v_c(t)^2}$ ---
 satisfies: (i)~with \emph{oracle} scales ($\widehat s_T=s_R$, $\widehat v_c=v_c$) it is
 finite-sample \emph{exact} for the latent target at every $K$; (ii)~with estimated
 scales,
@@ -453,8 +475,8 @@ $\widehat s_T$ is at least the oracle-consistent scale (the guard subtracts \emp
 
 \begin{proof}
 \emph{(i)} Under (A1) with oracle scales the studentized calibration scores are
-$\max_t|\widetilde E_c|/\sqrt{s_R^2+v_c^2}=\max_t|W_c|=M_c$, i.i.d., and the target's
-studentized score is $\max_t|E_{K+1}|/s_R=M_{K+1}$, an independent copy. The $K{+}1$
+$\max_t|\Gtilde_c|/\sqrt{s_R^2+v_c^2}=\max_t|W_c|=M_c$, i.i.d., and the target's
+studentized score is $\max_t|G_{K+1}|/s_R=M_{K+1}$, an independent copy. The $K{+}1$
 scores are exchangeable, the rank of $M_{K+1}$ is uniform, and the order-statistic
 band is exact --- the argument of Theorem~3 verbatim. (This also proves the oracle
 clause of Theorem~2(c).)
@@ -514,7 +536,7 @@ parameter) is the configuration under which the uniform statement is nontrivial.
 is stated for the independent calibration curves of (A1). The deployed
 high-$K$ pipeline feeds it something else: writing $Y_c$ for the observed
 departure curves, the calibration objects are the leave-one-out-centered
-errors $\widetilde E^{\text{loo}}_c=Y_c-\bar Y_{-c}$, and the target is
+errors $\widetilde G^{\text{loo}}_c=Y_c-\bar Y_{-c}$, and the target is
 scored against the transport center $\bar Y$. These are dependent by
 construction --- they sum to zero identically --- so (A1)'s i.i.d.\ structure
 cannot hold for them and clause~(i)'s exactness does not transfer verbatim.
@@ -534,7 +556,7 @@ scale is floored at $0.05\max_t\widehat s_{\text{plug}}(t)$ --- so
 $\omega_0>0$ holds whenever the population scale is nondegenerate,
 $\inf_K\max_t s_{\text{plug}}(t)\ge c>0$, which the scale family of (A1)
 with $s_R>0$ supplies.) Build the band exactly as in Theorem~4$'$(ii) but from
-$\widetilde E^{\text{loo}}_c$, the latent target scored against $\bar Y$.
+$\widetilde G^{\text{loo}}_c$, the latent target scored against $\bar Y$.
 Then
 \[
 \Pr\big(F_{\text{new}}\in\widehat B\big)\;\ge\;
@@ -559,7 +581,7 @@ s_T^{\text{raw}\,2}+\widehat v_c^2}$ for the studentizer computed from the
 raw curves (the object Theorem~4$'$(ii) already compares to its oracle) and
 $\omega^{\text{loo}}_c$ for the one computed from the centered curves ---
 the deployed object. The centering identity is exact:
-$\widetilde E^{\text{loo}}_c=\tfrac{K}{K-1}(Y_c-\bar Y)$, so the
+$\widetilde G^{\text{loo}}_c=\tfrac{K}{K-1}(Y_c-\bar Y)$, so the
 per-threshold calibration spread, which is taken about the calibration mean
 in both cases, satisfies $\widehat s^{\text{loo}}_{\text{plug}}(t)
 =\tfrac{K}{K-1}\,\widehat s^{\text{raw}}_{\text{plug}}(t)$ \emph{exactly},
@@ -600,7 +622,7 @@ completes the proof.
 Contract test: \texttt{tests/test\_loo\_validity.py::%
 test\_loo\_centered\_deconvolution\_coverage} runs the (A1) scale-family DGP
 \emph{through the leave-one-out centering} --- the construction the pipeline
-actually deploys, $\sum_c\widetilde E^{\text{loo}}_c=0$ verified in-test ---
+actually deploys, $\sum_c\widetilde G^{\text{loo}}_c=0$ verified in-test ---
 and checks the always-deconvolve band's latent-target coverage at
 activation-regime $K$, under a bounded-symmetric $W$ matching (A3)'s
 boundedness clause literally and a Gaussian $W$ for robustness.
@@ -651,8 +673,8 @@ probabilities.
 \end{proof}
 
 \emph{Statement (Theorem~5$'$).} Deploy the selector of Algorithm~1 with the
-unstudentized PCB and conservative branches (scores $\max_t|E_c(t)|$ and
-$\max_t(|E_c(t)|+z\,\widehat v_c(t))$ respectively, both calibrated at level
+unstudentized PCB and conservative branches (scores $\max_t|\Gtilde_c(t)|$ and
+$\max_t(|\Gtilde_c(t)|+z\,\widehat v_c(t))$ respectively, both calibrated at level
 $\alpha_{\text{anchor}}$) and the deconvolution branch calibrated at its own budget
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=
 (\alpha,0)$ when gate~B is infeasible at the observed $K$
@@ -696,10 +718,10 @@ $\alpha_{\text{anchor}}+\Pr(\widehat J=\text{dec})$ for T1.
 Under (A1), let $M_c=\max_t|W_c(t)|$ and let $R^{\text{lat}}_{K+1}=
 \max_t s_R(t)|W_{K+1}(t)|$ be the latent target's unstudentized score. Each
 calibration score satisfies
-$R_c=\max_t\sqrt{s_R(t)^2+v_c(t)^2}\,|W_c(t)|\ \ge\ \max_t s_R(t)|W_c(t)|$
-pointwise in $t$, so $R_c$ stochastically dominates an i.i.d.\ copy of
+$\widetilde R_c=\max_t\sqrt{s_R(t)^2+v_c(t)^2}\,|W_c(t)|\ \ge\ \max_t s_R(t)|W_c(t)|$
+pointwise in $t$, so $\widetilde R_c$ stochastically dominates an i.i.d.\ copy of
 $R^{\text{lat}}_{K+1}$. Hence the anchor quantile $\widehat q$, an order
-statistic of $\{R_c\}$, stochastically dominates the same order statistic of
+statistic of $\{\widetilde R_c\}$, stochastically dominates the same order statistic of
 $K$ i.i.d.\ copies of $R^{\text{lat}}$, and
 $\Pr(R^{\text{lat}}_{K+1}\le\widehat q)\ge
 \lceil(1-\alpha_{\text{anchor}})(K{+}1)\rceil/(K{+}1)\ge1-\alpha_{\text{anchor}}$:
@@ -709,10 +731,10 @@ conservative for it, under (A1).
 
 \begin{proof}
 $\sqrt{s_R^2+v_c^2}\ge s_R$ pointwise gives the pointwise inequality on the
-integrands, hence on the suprema, hence $R_c\ge R^{\text{lat}}_c$ almost surely
+integrands, hence on the suprema, hence $\widetilde R_c\ge R^{\text{lat}}_c$ almost surely
 for the copy built from the same $W_c$. Coupling the $K$ calibration units to
 $K$ i.i.d.\ copies of $R^{\text{lat}}$ in this way makes every order statistic
-of $\{R_c\}$ at least the corresponding order statistic of the copies, and the
+of $\{\widetilde R_c\}$ at least the corresponding order statistic of the copies, and the
 conformal rank identity applied to the $K{+}1$ i.i.d.\ latent scores gives the
 displayed bound.
 \end{proof}
@@ -728,7 +750,7 @@ claim built on observed scores.
 
 \begin{proof}
 The conservative score dominates the PCB score pointwise
-($|E_c(t)|+z\widehat v_c(t)\ge|E_c(t)|$, $\widehat v\ge0$), so at the common level
+($|\Gtilde_c(t)|+z\widehat v_c(t)\ge|\Gtilde_c(t)|$, $\widehat v\ge0$), so at the common level
 $\alpha_{\text{anchor}}$ the conservative order statistic is at least the PCB one and
 the two bands are nested: $\widehat B_{\text{PCB}}\subseteq\widehat B_{\text{con}}$.
 By Theorem~3 the PCB band is exact at $\alpha_{\text{anchor}}$; by
@@ -1238,11 +1260,35 @@ $p$-value inherits the design bootstrap's control. On both outcomes the set
 $\{p\le0.10\}$ reproduces the joint-band net set exactly (eight countries on
 \texttt{trstprl}, seven on \texttt{stfdem}), a check the ledger pins. Second,
 closed testing over the thirty-three with Simes local tests
-\citep{goeman2011multiple} --- valid here because the country bootstraps are
-independent --- gives a $90\%$ simultaneous lower confidence bound on the
-number of true discoveries: $d=6$ on \texttt{trstprl} (Cyprus, the United
-Kingdom, Greece, Ukraine, Israel, Italy) and $d=6$ on \texttt{stfdem} (Cyprus,
-Spain, Israel, Ukraine, Hungary, the United Kingdom). Closed testing trims the
+\citep{goeman2011multiple} gives a $90\%$ simultaneous lower confidence
+bound on the number of true discoveries: $d=6$ on \texttt{trstprl} (Cyprus,
+the United Kingdom, Greece, Ukraine, Israel, Italy) and $d=6$ on
+\texttt{stfdem} (Cyprus, Spain, Israel, Ukraine, Hungary, the United
+Kingdom). Simes local tests require the $p$-values to be independent or
+positively dependent (PRDS) across countries. That is a \emph{design}
+assumption --- conditional on the finite populations, the countries'
+sampling mechanisms are independent, which the ESS's country-by-country
+sample designs support --- and not a consequence of running separate
+bootstrap streams. Because the assumption is not testable from the data, the
+same closed testing is rerun with Bonferroni local tests, which are valid
+under arbitrary dependence: the largest subset surviving its Bonferroni test
+has size $h_B=\max\{k: p_{(m-k+1)}>\alpha/k\}$, $d=m-h_B$, and the subset
+bound is computed by direct closure (\texttt{pcb.inference.prevalence},
+pinned to exhaustive closed testing on small families in
+\texttt{tests/test\_prevalence\_local\_tests.py}). The Bonferroni bound is
+also $d=6$ on both outcomes and names the same six countries: the four
+$p$-values at the bootstrap floor ($0.0005$) and the next two ($\le0.0025$
+on trust, $\le0.0015$ on satisfaction) clear $\alpha/33$ with room, so the
+statement does not lean on the dependence assumption. Nor on the design
+layer of the early rounds: rounds 1--8 enter the shipped $p$-values through
+the weights-only respondent bootstrap of the integrated files, and the
+Sample Design Data File merge (\texttt{e61}, 88 country-rounds upgraded to
+a stratified-PSU bootstrap) reruns the $p$-value inversion with the same
+seeds (\texttt{results/ess\_prevalence\_sddf.csv}). Ten of the sixty-six
+$p$-values move, by at most $0.016$, and the bound is unchanged under the
+rounds 1--8 SDDF upgrade: $d=6$ on both outcomes under Simes and under
+Bonferroni local tests, naming the same six countries. Closed testing trims
+the
 certified sets' marginal members (Spain and Hungary on \texttt{trstprl}, France
 on \texttt{stfdem}), which is the honest gap between a per-country-$\alpha$
 count and a simultaneous one. Naming is licensed by simultaneity over
