@@ -49,5 +49,11 @@ curve level), `test_fixed_length_exchangeability` /
 (Theorem 4′), `test_safe_selector` / `test_anchor_domination` (Theorem 5′),
 `test_prop1_floor` (Proposition 2, the reliability floor; the test name
 predates the claim-family proposition), `test_claim_family` (Proposition 1
-and the rung partial order), `test_prevalence` (the closed-testing bound, planted
+and the rung partial order), `test_loo_validity` (Propositions S1–S3: the
+K/(K−1)-inflated LOO deployment, the LOO-centered deconvolution, and the
+LOO-centered anchors' latent validity under (A1) — the last runs the
+scale-family DGP through the deployed centering and pins the centering cost
+against the raw-centered anchor), `test_stratified_bootstrap` (the public
+`stratified_psu_bootstrap` equals the experiments' inline construction draw
+for draw), `test_prevalence` (the closed-testing bound, planted
 truth), `test_dapcb_api` (the deployed entry point end to end).

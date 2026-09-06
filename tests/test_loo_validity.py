@@ -115,6 +115,46 @@ def test_loo_centered_deconvolution_coverage():
         assert abs(cov_loo - cov_ind) <= 0.02 + 3 * se, (fam, cov_loo, cov_ind)
 
 
+def test_loo_centered_anchor_latent_coverage():
+    """Supplement, prop:looanchor (the Theorem 5 K>=94 clause for the DEPLOYED
+    anchors): run the (A1) scale-family DGP through the leave-one-out
+    centering that dapcb ships by default, with the K/(K-1) inflation, and
+    check that the clustered anchor covers the LATENT target at level
+    1 - alpha - gamma_K^anch. The anchor-domination lemma alone covers only
+    raw-centered scores; the proposition prices the centering. Pins: (a)
+    the raw-centered anchor meets the lemma's floor; (b) the deployed LOO
+    anchor meets the floor up to a small gamma allowance at K=250; (c) the
+    LOO-vs-raw coverage difference on the SAME draws is within MC noise
+    (gamma_K^anch is small), for a bounded W (A3 literally) and a Gaussian W."""
+    from pcb.dapcb import loo_exact_inflation
+    from pcb.inference.conformal_band import loo_deviations
+    from pcb.inference.design_aware import _finite_quantile
+
+    rng = np.random.default_rng(5)
+    K, T, a, reps = 250, 6, 0.10, 1500
+    s_R = 0.05
+    r3 = np.sqrt(3.0)
+    for fam in ("bounded", "gaussian"):
+        hit_loo = hit_raw = 0
+        for _ in range(reps):
+            v = rng.uniform(0.03, 0.08, K + 1)[:, None] * np.ones((1, T))
+            W = (rng.uniform(-r3, r3, (K + 1, T)) if fam == "bounded"
+                 else rng.standard_normal((K + 1, T)))
+            Y = np.sqrt(s_R**2 + v**2) * W
+            mu = 0.3 + 0.05 * np.arange(T)
+            E = loo_deviations(mu[None] + Y[:K])          # deployed centering
+            q_loo = _finite_quantile(np.max(np.abs(E), 1), a) * loo_exact_inflation(K)
+            err = s_R * W[K] - Y[:K].mean(0)               # latent target vs bar Y
+            hit_loo += np.max(np.abs(err)) <= q_loo
+            q_raw = _finite_quantile(np.max(np.abs(Y[:K]), 1), a)   # lemma's object
+            hit_raw += np.max(np.abs(s_R * W[K])) <= q_raw
+        cov_loo, cov_raw = hit_loo / reps, hit_raw / reps
+        se = np.sqrt(a * (1 - a) / reps)
+        assert cov_raw >= 1 - a - 3 * se, (fam, cov_raw)            # lem:dominate
+        assert cov_loo >= 1 - a - 3 * se - 0.01, (fam, cov_loo)     # prop:looanchor
+        assert abs(cov_loo - cov_raw) <= 0.02 + 3 * se, (fam, cov_loo, cov_raw)
+
+
 def test_dapcb_ships_the_inflation_by_default():
     """The deployed API returns the K/(K-1)-inflated anchor radius (the band
     prop:loo(i) certifies), while the gates/diagnostics stay on the frozen

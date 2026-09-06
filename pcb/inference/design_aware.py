@@ -61,9 +61,50 @@ def psu_bootstrap(psu_cnt: np.ndarray, psu_tot: np.ndarray, B: int = 200,
     return psu_cnt[idx].sum(axis=1) / psu_tot[idx].sum(axis=1)[:, None]
 
 
+def stratified_psu_bootstrap(psu_cnt: np.ndarray, psu_tot: np.ndarray,
+                             stratum: np.ndarray, B: int = 200, rng=None,
+                             rescale: bool = False) -> np.ndarray:
+    """Stratified PSU bootstrap of the weighted CDF. Returns (B, T).
+
+    `psu_cnt` (m, T) and `psu_tot` (m,) are the per-PSU weighted counts below
+    each threshold and the per-PSU weight totals; `stratum` (m,) labels each
+    PSU's stratum. PSUs are resampled with replacement WITHIN each stratum
+    (m_h-of-m_h, or m_h-1 with the m_h/(m_h-1) Rao-Wu-Yue rescaling when
+    `rescale=True`; single-PSU strata carry no internal variance and are
+    kept fixed), and the resampled totals are pooled across strata before the
+    ratio is taken. This is the construction the paper calls "the
+    stratified-PSU bootstrap" and the one every ESS/LAPOP experiment
+    implements inline (e.g. `e12_ess_decline._design_boot`, which draws the
+    same indices in the same order for the same `rng`); `psu_bootstrap` is
+    its single-stratum kernel. Draw order per stratum: `rng.integers(0, m_h,
+    size=(B, m_h))` (or `(B, m_h-1)` when rescaling), strata in sorted order.
+    """
+    if rng is None:
+        rng = np.random.default_rng(0)
+    strat = np.asarray(stratum)
+    T = psu_cnt.shape[1]
+    bc = np.zeros((B, T)); bt = np.zeros(B)
+    for s in np.unique(strat):
+        rows = np.flatnonzero(strat == s); m = len(rows)
+        if m > 1 and rescale:
+            f = m / (m - 1.0)
+            idx = rows[rng.integers(0, m, size=(B, m - 1))]
+            bc += psu_cnt[idx].sum(1) * f; bt += psu_tot[idx].sum(1) * f
+            continue
+        idx = rows[rng.integers(0, m, size=(B, m))] if m > 1 else \
+            np.broadcast_to(rows, (B, 1))
+        bc += psu_cnt[idx].sum(1); bt += psu_tot[idx].sum(1)
+    return bc / bt[:, None]
+
+
 def design_sd(psu_cnt, psu_tot, B: int = 200, rng=None,
-              rescale: bool = False) -> np.ndarray:
-    """v_g(t): design-based SD of the survey error S_g(t)."""
+              rescale: bool = False, stratum=None) -> np.ndarray:
+    """v_g(t): design-based SD of the survey error S_g(t). Pass `stratum`
+    for the stratified construction; without it PSUs are treated as one
+    stratum."""
+    if stratum is not None:
+        return stratified_psu_bootstrap(psu_cnt, psu_tot, stratum, B, rng,
+                                        rescale=rescale).std(axis=0)
     return psu_bootstrap(psu_cnt, psu_tot, B, rng, rescale=rescale).std(axis=0)
 
 

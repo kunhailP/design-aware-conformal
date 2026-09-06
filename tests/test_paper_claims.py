@@ -480,7 +480,10 @@ def test_deconvolution_loo_extension_stated():
     test_loo_centered_deconvolution_coverage."""
     _present("they sum to zero identically",
              "LOO-centered deconvolution",
-             "absorbed into $\\varepsilon_{K,B}$")
+             "absorbed into $\\varepsilon_{K,B}$",
+             # and the same pricing for the deployed LOO anchors (prop:looanchor)
+             "Latent validity of the leave-one-out-centered anchors",
+             "Propositions~S1 and~S3")
 
 
 def test_feasibility_frontier():

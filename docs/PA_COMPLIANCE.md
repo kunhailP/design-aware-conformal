@@ -140,6 +140,47 @@ both outcomes under Simes and under Bonferroni, same six countries**
 (`results/ess_prevalence_sddf.csv`, pinned by
 `test_cross_country_prevalence_sddf`; stated in §7 and S4).
 
+Third external read (proofs vs. the deployed objects), 2026-09-06 — all
+items applied; suite 123 green + the placeholder guard:
+
+1. **Theorem 5, K ≥ 94 clause, deployed anchors.** The anchor-domination
+   lemma covers raw-centered scores only; the released default centers by
+   leave-one-out. New Proposition S3 (supplement) prices that centering for
+   the anchors exactly as Proposition S2 does for deconvolution — a uniform
+   score perturbation of order √(log((K+1)T)/K) under (A1)–(A3) plus an
+   anti-concentration condition (A2′) on the latent score — and Theorem 5′
+   / the main-text sketch absorb γ_K^anch into ε_{K,B}. Contract test
+   `test_loo_centered_anchor_latent_coverage` runs the (A1) family through
+   the deployed centering (bounded and Gaussian W) and pins the cost
+   against the raw anchor on the same draws.
+2. **(A1) made complete**: W normalized coordinate-wise (E W = 0, E W² = 1)
+   and the latent scale bounded away from zero and infinity (the relative
+   perturbations divide by s_R).
+3. **AW-1 claim reduced to what the proof gives**: the band ratio is
+   1 + o(1) as ρ → 0; the exact 1 − ρ²/2 + O(ρ⁴) expansion is stated for the
+   oracle scale factor only (main §4 no longer says "proved" for the band).
+4. **Guard wording**: "one-sided margin … on the guard event" replaces
+   "lower confidence bound … cannot over-shrink" (§3, §4); the supplement's
+   honesty note about the un-Bonferronized per-threshold z was already
+   there.
+5. **Small-area rescaling in the main text**: activation survives
+   Rao–Wu–Yue rescaling but the activating cells fall from four to one
+   (§6; e62).
+6. **Wording**: "negligible at ρ̂ ≤ 0.22" → "expected to be small, not
+   assumed away" (S1); "unlearnable (within the unbiased-variance class)";
+   K/(K−1) cost stated as 1/(K−1) (3.5 % at K≈30, 5 % at K≈20); the
+   reported point ρ̂ defined (√mean v̂² / mean s_plug) beside the LCB
+   aggregate (§2); "identification boundary" instead of "impossibility
+   theorem" in the contributions; the WVS "certified core" labelled as
+   per-item co-certification, not a 90 % conjunction statement (§7) — the
+   partial-conjunction upgrade (Benjamini–Heller, 4·p₍₂₎ ≤ 0.10 with
+   per-item p-values from `claim_family_pvalues`) needs the WVS microdata
+   and is left as an author option.
+7. **API**: `stratified_psu_bootstrap` added as the canonical
+   construction (draw-for-draw equal to `e12._design_boot`;
+   `test_stratified_bootstrap`); experiments untouched to preserve
+   bit-identity.
+
 ## Remaining author actions
 
 0. **AI disclosure — left blank on purpose (2026-09-06, author's decision to

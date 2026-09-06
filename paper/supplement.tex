@@ -391,8 +391,8 @@ factor \texttt{loo\_exact\_inflation}): the frozen gates are evaluated on the
 uninflated radii, exactly the decision rule the sealed validation runs
 froze, and the inflation is a monotone widening applied to the returned
 anchor radius only --- so every sealed coverage result is inherited a
-fortiori, and the cost is at most $3.5\%$ of width at the $K$ of this
-paper's surveys.
+fortiori, and the cost is $1/(K-1)$ of width: $3.5\%$ at the ESS's
+$K\approx30$, $5\%$ at the AmericasBarometer's $K\approx20$.
 
 \emph{Modulation self-inclusion deficit (proof sketch; estimated constant).} If instead
 one studentizes by an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,\Gtilde_c(t)$ computed
@@ -433,8 +433,13 @@ deconvolution's distributional matching is an identity rather than an approximat
 \emph{(A1, scale family.)} There exist i.i.d.\ random curves $W_1,\dots,W_{K+1}$ and
 deterministic-given-design scales such that the observed calibration curves satisfy
 $\Gtilde_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$ and the latent target curve
-satisfies $G_{K+1}(t)=s_R(t)\,W_{K+1}(t)$. This is strong, and we state its content
-plainly: it requires not only a common (e.g.\ Gaussian) shape family but that the
+satisfies $G_{K+1}(t)=s_R(t)\,W_{K+1}(t)$, with $W$ normalized coordinate-wise
+to $\mathbb E\,W(t)=0$ and $\mathbb E\,W(t)^2=1$ (so that $s_R^2$ and $v_c^2$
+are variances and $s_{\text{plug}}^2=s_R^2+\overline{v^2}$ is the main text's
+coordinate identity) and the latent scale nondegenerate and bounded,
+$0<s_{\min}\le s_R(t)\le s_{\max}<\infty$ for every $t$ (the relative
+perturbations $\Delta_0(t)$ below divide by $s_R(t)$). This is strong, and we
+state its content plainly: it requires not only a common (e.g.\ Gaussian) shape family but that the
 design noise share the latent curves' \emph{cross-threshold correlation profile}, so
 that noise changes only the scale of a common shape process. In real surveys the
 within-country sampling covariance across thresholds is governed by the design while
@@ -545,10 +550,14 @@ errors $\widetilde G^{\text{loo}}_c=Y_c-\bar Y_{-c}$, and the target is
 scored against the transport center $\bar Y$. These are dependent by
 construction --- they sum to zero identically --- so (A1)'s i.i.d.\ structure
 cannot hold for them and clause~(i)'s exactness does not transfer verbatim.
-For the \emph{anchor} branches this same dependence is handled exactly, by
-Proposition~\ref{prop:loo}'s $K/(K{-}1)$ inflation; for the deconvolution
-branch, whose guarantee already carries an estimation remainder, the honest
-resolution is to price the centering inside that remainder.
+For the \emph{anchor} branches this same dependence is handled exactly for
+the survey-estimate target by Proposition~\ref{prop:loo}'s $K/(K{-}1)$
+inflation; their \emph{latent}-target validity under (A1), which
+Lemma~\ref{lem:dominate} below establishes for raw-centered scores, is
+carried to the leave-one-out center by Proposition~\ref{prop:looanchor},
+which prices the centering the same way as for the deconvolution branch,
+whose guarantee already carries an estimation remainder: the honest
+resolution in both cases is to price the centering inside that remainder.
 
 \begin{proposition}[LOO-centered deconvolution]\label{prop:loodec}
 Assume (A1)--(A3) for the raw curves,
@@ -622,6 +631,62 @@ $2L\cdot2\gamma/\omega_0$ up to the $M_{(m)}$-concentration terms already
 inside $r_K$. Chaining the two perturbations --- multiplicative
 studentizer into $\delta^*$, additive numerator into the window ---
 completes the proof.
+\end{proof}
+
+\begin{proposition}[Latent validity of the leave-one-out-centered anchors]
+\label{prop:looanchor}
+Assume (A1)--(A3) for the raw curves $Y_c(t)=\sqrt{s_R(t)^2+v_c(t)^2}\,W_c(t)$
+(normalized as in (A1)), and (A2$'$): the latent target score
+$R^{\text{lat}}=\max_t s_R(t)|W_{K+1}(t)|$ has a density bounded by $L'$ on
+a neighbourhood of $q^\dagger$, the $(1-\alpha_{\text{anchor}})$-quantile of
+the observed score $\widetilde R=\max_t|Y(t)|$. Build the clustered anchor
+exactly as deployed: leave-one-out-centered calibration errors
+$\widetilde G^{\text{loo}}_c=Y_c-\bar Y_{-c}$, scores
+$a_c=\max_t|\widetilde G^{\text{loo}}_c(t)|$, $\widehat q^{\,\text{loo}}$
+their $\lceil(1-\alpha_{\text{anchor}})(K{+}1)\rceil$-th order statistic,
+and band $\bar Y\pm\tfrac{K}{K-1}\widehat q^{\,\text{loo}}$. Then
+\[
+\Pr\big(F_{\text{new}}\in\widehat B^{\text{loo}}_{\text{anchor}}\big)\;\ge\;
+1-\alpha_{\text{anchor}}-\gamma^{\text{anch}}_K,
+\qquad
+\gamma^{\text{anch}}_K=4L'C_3\sqrt{\frac{\log\big((K{+}1)T\big)}{K}}+O(K^{-1/2}),
+\]
+and the same bound holds for the conservative anchor, whose band contains
+the clustered one. Since $\gamma^{\text{anch}}_K$ has the order of
+$\varepsilon_{K,B}$'s $K$-term, it is absorbed into $\varepsilon_{K,B}$
+wherever Theorem~5$'$'s $K\ge94$ clause is quoted, exactly as $\gamma_K$ is.
+\end{proposition}
+
+\begin{proof}
+Let $\widehat q$ be the order statistic, at the same rank, of the raw scores
+$\widetilde R_c=\max_t|Y_c(t)|$; Lemma~\ref{lem:dominate} gives
+$\Pr(R^{\text{lat}}\le\widehat q)\ge1-\alpha_{\text{anchor}}$. Two uniform
+perturbations connect the deployed construction to this one. First,
+$|a_c-\widetilde R_c|\le\max_t|\bar Y_{-c}(t)|\le\zeta$ for every $c\le K$,
+with $\zeta=\max\big(\max_c\max_t|\bar Y_{-c}(t)|,\,\max_t|\bar Y(t)|\big)$
+as in Proposition~\ref{prop:loodec}, so
+$\widehat q^{\,\text{loo}}\ge\widehat q-\zeta$ (a uniform perturbation of
+the scores moves any order statistic by at most itself). Second, the latent
+target's deployed score satisfies
+$\max_t|G_{K+1}(t)-\bar Y(t)|\le R^{\text{lat}}+\zeta$. Since
+$\tfrac{K}{K-1}\ge1$, a miss of the deployed band implies
+$R^{\text{lat}}+\zeta>\widehat q^{\,\text{loo}}\ge\widehat q-\zeta$, i.e.\
+$R^{\text{lat}}>\widehat q-2\zeta$. By (A3)'s boundedness and
+$\mathbb E\,W=0$, Hoeffding's inequality with a union bound over the
+$(K{+}1)T$ cells gives $\zeta\le\gamma:=C_3\sqrt{\log((K{+}1)T)/K}$ outside
+an event of probability $O(K^{-1/2})$. On its complement,
+$\Pr(R^{\text{lat}}>\widehat q-2\gamma)\le\Pr(R^{\text{lat}}>\widehat q)
++\Pr(\widehat q-2\gamma<R^{\text{lat}}\le\widehat q)$: the first term is at
+most $\alpha_{\text{anchor}}$ by the lemma, and the second is a window of
+width $2\gamma$ below $\widehat q$, which concentrates on $q^\dagger$ at
+rate $r_K=O(K^{-1/2})$ ((A3), as in the proof of Theorem~4$'$(ii)), so
+(A2$'$) bounds it by $2L'\cdot2\gamma+r_K$. Collecting terms gives
+$\gamma^{\text{anch}}_K$. The $K/(K{-}1)$ inflation only enlarges the band,
+and the conservative band contains the clustered one, so both statements
+follow. (Machine check: \texttt{test\_loo\_validity.py::%
+test\_loo\_centered\_anchor\_latent\_coverage} runs the (A1) family through
+the deployed centering and pins the centering cost against the raw-centered
+anchor on the same draws.)
 \end{proof}
 
 Contract test: \texttt{tests/test\_loo\_validity.py::%
@@ -700,7 +765,9 @@ with no conditions on the selection rule,
 \]
 exactly and with exchangeability alone, for the survey-estimate target T1; the
 latent target T2 carries in addition the two-term gap of Theorem~2(b),
-negligible at the observed $\rhohat\le0.22$ (national level; at most $0.29$ in
+expected to be small --- not assumed away: the gap is a tail-plus-anti-concentration
+quantity, and Remark~\ref{rem:bimodal} shows small symmetric noise alone does not
+close it --- at the observed $\rhohat\le0.22$ (national level; at most $0.29$ in
 the ESS subgroup scan). When $K\ge94$, so that the deconvolution branch is
 reachable, then \emph{under} (A1)--(A3),
 \[
@@ -709,9 +776,10 @@ reachable, then \emph{under} (A1)--(A3),
 \]
 now for the \emph{latent} target directly, where $\varepsilon_{K,B}$ is the
 estimated-law remainder of Theorem~4$'$ --- enlarged to absorb the
-leave-one-out-centering term $\gamma_K$ of Proposition~\ref{prop:loodec},
-which has the same order --- attached to the deconvolution branch
-only and reported at deployment through the observable diagnostic
+leave-one-out-centering terms $\gamma_K$ of Proposition~\ref{prop:loodec}
+(deconvolution branch) and $\gamma^{\text{anch}}_K$ of
+Proposition~\ref{prop:looanchor} (anchors), both of the same order --- and
+reported at deployment through the observable diagnostic
 $\widehat\delta_{\text{UCB}}(D)$. The two clauses therefore state different
 targets, because they rest on different assumptions: exchangeability alone
 reaches T1; (A1)--(A3) --- which the $K\ge94$ clause already inherits from
@@ -746,7 +814,9 @@ displayed bound.
 
 \noindent With Lemma~\ref{lem:dominate} the $K\ge94$ union bound runs on the
 latent target throughout: the anchor term is $\alpha_{\text{anchor}}$ by the
-lemma, the deconvolution term is $\alpha_{\text{dec}}+\varepsilon_{K,B}$ by
+lemma for raw-centered anchors and $\alpha_{\text{anchor}}+\gamma^{\text{anch}}_K$
+by Proposition~\ref{prop:looanchor} for the deployed leave-one-out center,
+the deconvolution term is $\alpha_{\text{dec}}+\varepsilon_{K,B}$ by
 Theorem~4$'$(ii), which is a latent-target statement to begin with. (Machine
 check: \texttt{test\_anchor\_domination.py}.) Note the lemma uses (A1) only
 through the common shape process; it is exactly the shape restriction that
@@ -928,10 +998,16 @@ $W_D=q_D\,s\sqrt{1-\rho^2}$ (deconvolution), and $W_C=q_C\,s$ (conservative).
 \to s$ and the deconvolution scores converge pointwise (at fixed $K$) to the PCB scores, so
 $q_D/q_P\to1$ by continuity of the finite-sample quantile in the studentization, and
 \[
-W_D/W_P=(q_D/q_P)\sqrt{1-\rho^2}=1-\tfrac12\rho^2+O(\rho^4)
+W_D/W_P=(q_D/q_P)\sqrt{1-\rho^2}=1+o(1):
 \]
-by Taylor expansion. Below $\rho_0$ the selector returns PCB exactly, so
-$W_{\text{adaptive}}=W_P$.
+the deconvolution band reduces continuously to PCB. The oracle scale
+component alone has the exact second-order expansion
+$\sqrt{1-\rho^2}=1-\tfrac12\rho^2+O(\rho^4)$; whether the full width ratio
+inherits it depends on the rate at which $q_D/q_P\to1$, which the
+continuity argument does not quantify (a first-order term $O(\rho)$ in
+$q_D/q_P$ is not excluded), so the $\tfrac12\rho^2$ gain is a statement about
+the scale factor, not a proved bound on the band. Below $\rho_0$ the
+selector returns PCB exactly, so $W_{\text{adaptive}}=W_P$.
 
 \emph{AW-2 (conservative dominance, conditional).} For $\rho\ge\rho_0$ with stable
 deconvolution, $W_D/W_C=(q_D/q_C)\sqrt{1-\rho^2}$. The worst-case scores $(|E|+z v)/s$
