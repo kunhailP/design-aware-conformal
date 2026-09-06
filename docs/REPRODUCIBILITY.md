@@ -98,7 +98,7 @@ holdout config was lost and its corrected-scorer rerun uses a fresh seed.
 
 `tests/test_paper_claims.py` pins every headline number in `paper/` to the
 result table that licenses it, and fails if either moves. It runs in CI with the
-contract tests. Three rounds of referee reports on this manuscript found the
+contract tests. Three rounds of pre-submission external review of this manuscript found the
 same failure mode more than once — a number or a scope word in the text
 drifting from what the experiment produced — so the ledger exists to make that
 class of error impossible to ship. A claim in the paper but not in the ledger is

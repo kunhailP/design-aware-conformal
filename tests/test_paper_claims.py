@@ -1,7 +1,7 @@
 """Claim ledger: every headline number in the manuscript, checked against the
 committed result tables.
 
-Three rounds of referee reports on this paper found the same failure mode more
+Three rounds of pre-submission external review found the same failure mode more
 than once -- a number or a scope word in the text drifting away from what the
 experiment actually produced (a caption claiming entries were unchanged when
 only the country list was; an abstract clause contradicted by the paper's own
@@ -537,9 +537,9 @@ def test_no_author_placeholders_left():
     so. Delete the placeholders (not this test) once the disclosure is
     written."""
     marker = "to be written by the author"
-    if marker in _norm(TEXT):
-        pytest.xfail("AI-disclosure placeholder still present in main.tex "
-                     "(author action; see docs/PA_COMPLIANCE.md item 0)")
+    assert marker not in _norm(TEXT), (
+        "AI-disclosure placeholder still present in main.tex "
+        "(author action; see docs/PA_COMPLIANCE.md item 0)")
     cover = open(os.path.join(PAPER, "cover_letter.md"), encoding="utf-8").read()
     assert "[AUTHOR:" not in cover, "cover-letter placeholder still present"
 

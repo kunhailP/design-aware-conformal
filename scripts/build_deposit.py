@@ -27,6 +27,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INCLUDE = [
     "REPLICATION.md", "README.md", "LICENSE", "CITATION.cff",
     "requirements.txt", "pyproject.toml", "Makefile",
+    "setup.sh", "run_public.sh", "run_restricted.sh", "run_all.sh",
     "pcb", "tests", "rpkg", "results", "configs", "docs", "paper", "scripts",
 ]
 # NOTE: the licensed /data/ tree is never walked (it is not in INCLUDE);

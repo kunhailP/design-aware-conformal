@@ -21,7 +21,10 @@ independent environments):
 
 - Python 3.11 (tested 3.11.10), CPU only. Exact package versions in
   `requirements.txt`; the two bit-identical reproductions above ran under
-  those pins. R ≥ 4.2 only for the optional R port (`rpkg/dapcb`).
+  those pins. R is optional: the R port (`rpkg/dapcb`) declares R ≥ 3.6 and
+  is CI-checked on the current release; converting old SPSS portable SDDF
+  files (`scripts/convert_sddf_por.R`) needs only base R with `foreign`
+  (reference environment below: R 4.1.2).
 - Install: `pip install -r requirements.txt && pip install -e .`
 - Hardware: any modern machine; nothing is parallelized, so wall-clock
   scales with single-core speed. Reference environment for the 2026-09-06
@@ -36,7 +39,10 @@ independent environments):
 - Shell entry points (PA replication-guideline layout): `setup.sh`
   (environment), `run_public.sh` (Tier 1: tests, simulations, public-data
   analyses, figures), `run_restricted.sh` (Tier 2: verifies the licensed
-  inputs' sha256 first, then the survey reanalyses), `run_all.sh` (both).
+  inputs' sha256 first — a WVS or LAPOP mismatch stops the run, an ESS
+  mismatch is allowed for the API-built subset — then the survey reanalyses,
+  then `sha256sum -c results/EXPECTED_SHA256SUMS` on the regenerated headline
+  CSVs), `run_all.sh` (both).
   `make` targets remain the fine-grained interface.
 
 ## 2. Run order
@@ -44,7 +50,7 @@ independent environments):
 ### Step 0 — contract tests (no data, ~20 s)
 
 ```bash
-python -m pytest tests/ -q          # pytest reports the current count (119 at v1.1)
+python -m pytest tests/ -q          # pytest reports the current count (120 at the current main)
 ```
 
 Theorem↔code contract tests plus the claim ledger. **If this
