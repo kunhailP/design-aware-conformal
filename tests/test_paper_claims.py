@@ -560,7 +560,8 @@ def test_wrong_unit_collapse_figure_one():
     assert (traj.traj_cov_pct >= 90 - 2 * traj.cov_se * 1).all() or \
         (traj.traj_cov_pct >= 88.9).all()
     _present("$49.8\\%$", "$3.5\\%$")
-    # Referee addition: Bonferroni-corrected wrong-unit bands. At K=30 the
+    # Post-preregistration robustness benchmark: Bonferroni-corrected
+    # wrong-unit bands. At K=30 the
     # corrected per-round band is infinite for L>=4 (needs K >= L/alpha - 1)
     # and the corrected threshold band always; at K=100 the corrected
     # per-round band over-covers and is wider than the trajectory band.

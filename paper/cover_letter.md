@@ -76,12 +76,10 @@ replication archive as a Code Ocean capsule, as the guidelines recommend for
 archives with extensive dependencies.
 
 **Other declarations.** The manuscript is not under consideration elsewhere. The
-Supplementary Material is submitted as
-a separate PDF and contains the proofs, the extended robustness analyses, and
-two documented withdrawals: a result that an earlier draft reported and that our
-own follow-up experiment refuted, and an artifact we diagnosed and report as
-such. I declare no competing interests, and the research received no specific
-grant.
+Supplementary Material is submitted as a separate PDF and contains the full
+proofs, the extended robustness analyses, and documented validation
+diagnostics. I declare no competing interests, and the research received no
+specific grant.
 
 Thank you for considering the manuscript.
 

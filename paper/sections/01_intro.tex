@@ -33,9 +33,12 @@ threshold $t$ in wave $r$ and $\Ftilde_{c, r}(t)$ for its complex-survey estimat
 \;+\; \underbrace{\big(\Ftilde_{c, r}(t)-F_{c, r}(t)\big)}_{\text{design error}},
 \end{equation}
 where $\mu_r$ is the transport center. A band calibrated on the observed
-$\Ftilde$ scores treats the sum as the transport error alone: when the design
-error is non-negligible the band is too wide, yet any correction subtracting the
-survey noise can make it too narrow, being itself estimated from few countries.
+$\Ftilde$ scores treats the sum as the transport error alone: its spread
+conflates cross-population variation with survey-design variation that is
+irrelevant to the latent target, so it can be inefficient (under a scale
+family, by the familiar factor $\sqrt{1-\rho^2}$), yet any correction
+subtracting the survey noise can make it too narrow, being itself estimated
+from few countries.
 
 \paragraph{Contributions.} We make four.
 \emph{First, a procedure for the claim unit}: a design-based simultaneous band

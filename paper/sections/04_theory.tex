@@ -15,10 +15,11 @@ $\Pr(\Ftilde_{\text{new}}\in\widehat B)\ge1-\alpha$, using exchangeability only.
 (b)~For the latent target the same band satisfies, for every $u>0$,
 $\Pr(F_{\text{new}}\in\widehat B)\ge1-\alpha-\Pr(\xi<-u)-
 \Pr(\widetilde R\in(\widehat q-u,\widehat q\,])$.
-(c)~The deconvolution band with the true target scale is valid for the latent
-target, and finite-sample exact under the scale-family assumption (A1), with
-width a factor $\sqrt{1-\rho(t)^2}$ of the clustered band at each
-coordinate, up to $o(1)$.
+(c)~Under the scale-family condition (A1), the oracle deconvolution band
+with the true target scale is finite-sample exact for the latent target,
+with width a factor $\sqrt{1-\rho(t)^2}$ of the clustered band at each
+coordinate, up to $o(1)$; some such shape restriction is necessary
+(Supplementary Material).
 \end{theorem}
 
 The gap in~(b) is a noise-tail plus a local anti-concentration term. Both
@@ -127,8 +128,9 @@ exact split-fold alternative is infeasible at survey scale: halving the
 calibration set below $\alpha^{-1}{-}1$ units makes the conformal radius
 infinite.)
 
-\paragraph{Efficiency.} The low-$\rho$ deconvolution-to-clustered width ratio is
-$1-\tfrac12\rho(t)^2+O(\rho(t)^4)$ at each coordinate, proved; the conservative band contains the clustered one
+\paragraph{Efficiency.} Under (A1) the low-$\rho$ deconvolution-to-clustered
+width ratio is $1-\tfrac12\rho(t)^2+O(\rho(t)^4)$ at each coordinate,
+proved; the conservative band contains the clustered one
 pointwise; and selection cannot inflate miscoverage
 (Theorem~\ref{thm:safe}). The remaining width results, one of them open, are in
 the Supplementary Material.

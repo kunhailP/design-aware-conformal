@@ -198,11 +198,16 @@ We use independence, not mere exchangeability, for the anti-concentration
 step; the tail term needs neither, and neither term assumes $\xi$ centred.
 Equivalently, the \emph{noise-inflated} band with radius $\widehat q+u$ covers the
 latent target at level $1-\alpha-\Pr(|\xi_{K+1}|>u)$ with no anti-concentration
-condition. (c)~The oracle deconvolution band with the true target scale has,
-coordinate by coordinate, width a factor $\sqrt{1-\rho(t)^2}$ (up to the
-$o(1)$ of replacing finite-$K$ conformal quantiles by population ones) of the
-clustered band, and under the scale-family assumption (A1) of Theorem~4$'$
-it is finite-sample \emph{exact} for the latent target (Theorem~4$'$(i)).
+condition. (c)~Under the scale-family assumption (A1) of Theorem~4$'$, the
+oracle deconvolution band with the true target scale is finite-sample
+\emph{exact} for the latent target (Theorem~4$'$(i)) and has, coordinate by
+coordinate, width a factor $\sqrt{1-\rho(t)^2}$ (up to the $o(1)$ of
+replacing finite-$K$ conformal quantiles by population ones) of the
+clustered band. Both statements live under (A1): the variance identity
+$s_T^2(t)=s_{\text{plug}}^2(t)(1-\rho(t)^2)$ holds without it, but turning
+a scale identity into a band-width ratio and a latent-coverage statement
+requires the standardized shapes to match, which is what (A1) supplies and
+what Remark~\ref{rem:bimodal} shows cannot be dispensed with.
 
 \begin{proof}
 (a)~By exchangeability of $\{\widetilde R_c\}_{c=1}^{K+1}$ the rank of

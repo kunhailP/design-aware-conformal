@@ -6,7 +6,7 @@ TRAJECTORY far below nominal (the recursion ~0.9^L), while the country-trajector
 holds nominal at any L. All bands are unstudentized, so the only thing that varies is the
 UNIT of the nonconformity score.
 
-Referee addition (2026-09): the obvious rejoinder is "of course marginal bands do
+Post-preregistration robustness addition (2026-09): the obvious rejoinder is "of course marginal bands do
 not cover jointly -- correct them". So the same run also carries the
 Bonferroni-corrected wrong-unit bands (per-round band at alpha/L, per-threshold
 band at alpha/(L*T)). Two facts result. (i) At survey scale they do not exist: a
