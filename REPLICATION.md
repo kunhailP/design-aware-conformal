@@ -15,6 +15,7 @@ independent environments):
 | 2026-07-27 | author machine | e13 (ESS certification) and e26 (WVS hierarchy) reproduce the committed CSVs **bit-identically** |
 | 2026-08-20 | fresh Linux container, this package's pinned versions | e13, e26, **and e50** (joint claim family) reproduce **bit-identically**; input files verified by sha256 against `docs/DATA_SOURCES.md` |
 | 2026-08-29 | fresh Linux container | e13, e26, e50 **and the e38 rescaled CSVs** reproduce bit-identically from sha256-verified inputs; the rounds 1–8 SDDF merge (e61) and the small-area rescaling sensitivity (e62) were run in this environment and their outputs committed |
+| 2026-09-06 | fresh Linux container, **ESS inputs fetched by script through the ESS Data Portal API** (`scripts/fetch_ess_api.py`, `fetch_ess_sddf.py`, `build_ess_subset.py`; no Wizard download) | `ess_audit.csv` and **e13, e36, e40, e50, e56 reproduce bit-identically**; the SDDF merge upgrades the same 88 country-rounds; e61 reproduces `ess_joint_claims_sddf.csv` bit-identically and `ess_long_window_sddf.csv` value-identically (run before the integer-type fix in the build script; round columns printed as floats), and its new prevalence rerun (`ess_prevalence_sddf.csv`, committed) leaves the closed-testing bound at d = 6 on both outcomes |
 
 ## 1. Environment
 
@@ -73,7 +74,7 @@ python -m pcb.experiments.e56_prevalence             # closed-testing bound
 | `e56` | `results/ess_prevalence.csv` (prevalence d=6) | 5–10 min |
 | `e38` | `results/*_rescaled.csv` (Rao–Wu–Yue sensitivity) | 1–2 h |
 | `e62` | `results/small_area_transport_rescaled.csv` (RWY small-area sensitivity) | 1–2 h |
-| `e61` | `results/ess_long_window_sddf.csv`, `results/ess_joint_claims_sddf.csv` (rounds 1–8 SDDF upgrade; additionally needs the SDDF files per `docs/DATA_SOURCES.md` §1b) | 30–60 min |
+| `e61` | `results/ess_long_window_sddf.csv`, `results/ess_joint_claims_sddf.csv`, `results/ess_prevalence_sddf.csv` (rounds 1–8 SDDF upgrade; additionally needs the SDDF files per `docs/DATA_SOURCES.md` §1b). The prevalence rerun re-derives the closed-testing "at least six" on the design-upgraded p-value vector and prints Simes and Bonferroni d against the shipped values (both stay at 6; ledger pin `test_cross_country_prevalence_sddf`) | 40–75 min |
 
 To verify bit-identity yourself: back up the committed CSV, rerun the
 experiment, and `diff` — all runs are deterministic under fixed seeds

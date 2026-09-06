@@ -34,7 +34,7 @@ This package provides:
 | Over the full 2002–2024 record, read off one joint band: persistence in **0/33**, span erosion in **8**, and 23/33 certifying both a decline and a recovery at one α | `e50`, §7 |
 | Closed testing across countries: with 90% simultaneous confidence **at least 6 of 33** truly declined over their span, on each outcome — the across-country count itself now carries a guarantee | `e56`, §7 |
 | WVS: a trajectory-persistence criterion cuts the wave-pair certified set 2.6–6.5× (rung alone: 1.9–4.8×); the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
-| Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 1, §2/§6 |
+| Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 2, §2/§6 |
 | Robustness: RWY-rescaled bootstrap, WVS and joint-band design-effect sweeps, mode audit from the data's own mode variable, LORO exchangeability, null-imposed severity injection, window-matched Claassen — plus two **withdrawn** results with published diagnoses | `e38`–`e53`, Supplement |
 
 ## Quickstart
@@ -76,9 +76,13 @@ the curated, deterministic submission archive. Two tiers
   V-Dem/Claassen public-data analyses run out of the box.
 - **Tier 2 (licensed microdata)**: the ESS/WVS/LAPOP reanalyses. Exact files,
   registration links, placement paths, and sha256 checksums are in
-  **[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md)**. The ESS certification, the
-  WVS hierarchy, and the joint claim family reproduce the committed CSVs
-  **bit-identically** (verified in two independent environments).
+  **[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md)**; the ESS inputs (integrated
+  files and all SDDF files) can also be fetched by script through the ESS
+  Data Portal API with a registered user ID (`scripts/fetch_ess_api.py`,
+  `scripts/fetch_ess_sddf.py`, `scripts/build_ess_subset.py`). The ESS
+  certification, the WVS hierarchy, and the joint claim family reproduce the
+  committed CSVs **bit-identically** (verified in independent environments,
+  including from the API-built subset).
 
 All runs use fixed seeds (`pcb.util.det_seed`) and are deterministic.
 Common targets: `make test`, `make tier1`, `make figures`, `make paper`.

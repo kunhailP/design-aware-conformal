@@ -5,7 +5,7 @@ The machine-authoritative version of this table is
 test, which reads the CSV and greps the manuscript, and fails if either
 moves. Experiments regenerate the CSVs deterministically (fixed seeds); the
 three marked ★ have been verified to reproduce **bit-identically** from the
-raw licensed files in two independent environments (see `REPLICATION.md`).
+raw licensed files in independent environments (see `REPLICATION.md`).
 
 | paper claim (location) | experiment | artifact (`results/`) | ledger test |
 |---|---|---|---|
@@ -21,10 +21,12 @@ raw licensed files in two independent environments (see `REPLICATION.md`).
 | WVS rung-gap decomposition: 2.6–6.5× mixed; 1.7–4.8× / 1.9–4.8× rung-only (§7) | `e26` ★ | `wvs_deconsolidation.csv` | `test_wvs_rung_gap_decomposition` |
 | 13-country certified core; West enters twice, flagged (§7) | `e30` | `certified_core.csv` | `test_certified_core_size_and_west` |
 | Core stable at variance ×1.5 / ×2.0 (13 → 12) (§7) | `e39` | `wvs_deff_country_flags.csv` | `test_wvs_deff_core_stability` |
-| Wrong-unit collapse: 3.5% / 49.8% vs 90% at L=8 (§5, Fig. 1) | `e28` | `wrong_unit_coverage.csv` | `test_wrong_unit_collapse_figure_one` |
+| Wrong-unit collapse: 3.5% / 49.8% vs 90% at L=8 (§5, Fig. 1); Bonferroni-corrected wrong-unit bands infinite at K=30 for L≥4 (floor K ≥ L/α−1 = 79), 92–94% coverage and 4–26% wider at K=100 (§5) | `e28` | `wrong_unit_coverage.csv`, `wrong_unit_coverage_bonferroni.csv` | `test_wrong_unit_collapse_figure_one` |
+| Prevalence bound identical under Bonferroni local tests (no dependence assumption): d=6, same six named (§7, S4) | `e56` (`shipped_bounds`) | `ess_prevalence.csv` | `test_ess_prevalence_bonferroni_sensitivity` |
+| Prevalence bound unchanged under the rounds 1–8 SDDF upgrade: d=6 both outcomes, Simes and Bonferroni, same six (§7, S4) | `e61` | `ess_prevalence_sddf.csv` | `test_cross_country_prevalence_sddf` |
 | Severity: net rung powered at 0.02–0.03, persistent needs 0.06–0.08 (§5) | `e32`, `e42` | `severity.csv`, `real_severity.csv` | `test_severity_ordering` |
 | Real-data injection thresholds ≈ 0.033 / 0.075; size 0.001–0.007 (§5) | `e42` | `real_severity.csv` | `test_real_severity_is_monte_carlo_not_mde` |
-| Reliability floor: D ≥ √(2/(K−1)), K ≥ 94 at frozen τ_D (§6, Prop. 1) | identity | — | `test_reliability_floor_arithmetic`, `test_prop1_floor` |
+| Reliability floor: D ≥ √(2/(K−1)), K ≥ 94 at frozen τ_D (§6, Prop. 2) | identity | — | `test_reliability_floor_arithmetic`, `test_prop1_floor` |
 | WVS gate probe: K=95–105 floor-feasible, ρ̂_LCB ≤ 0.10, gate A never opens (§6) | `e26` probe | `wvs_gate_probe.csv` | `test_wvs_gate_probe` |
 | Three regimes occupied; selector fired only in 'feasible' (§6, S1, Fig. S) | `e57` | `feasibility_frontier.csv` | `test_feasibility_frontier` |
 | Small-area activation: 4 cells, K=228–287, band 20.5–26.6% narrower (certified 0.16–0.22), level 0.881 (abstract, §6) | `e54` | `small_area_transport.csv` | `test_small_area_activation` |
@@ -45,6 +47,7 @@ Theorem ↔ code contracts (the other 70 tests) live in the remaining
 curve level), `test_fixed_length_exchangeability` /
 `test_unstudentized_exchangeability` (Theorem 3), `test_estimated_law_validity`
 (Theorem 4′), `test_safe_selector` / `test_anchor_domination` (Theorem 5′),
-`test_prop1_floor` (Proposition 1), `test_claim_family` (Proposition 2 and the
-rung partial order), `test_prevalence` (the closed-testing bound, planted
+`test_prop1_floor` (Proposition 2, the reliability floor; the test name
+predates the claim-family proposition), `test_claim_family` (Proposition 1
+and the rung partial order), `test_prevalence` (the closed-testing bound, planted
 truth), `test_dapcb_api` (the deployed entry point end to end).

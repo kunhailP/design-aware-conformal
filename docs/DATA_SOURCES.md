@@ -17,6 +17,22 @@ registration with its provider. Place the files exactly as below — the loaders
 - **Place at**: `data/ess/Datafile-subset.dta`
 - **Verify**: 1,959,409,874 bytes; sha256
   `bbabd8f6a071d566e9cc7741d321b3c09d70ec500efd221bb668fef749e581b2`
+- **Scripted alternative (verified 2026-09-06)**: the same subset can be built
+  from the ESS Data Portal API without the Wizard. With your ESS user ID
+  (shown on the portal's API page after registration):
+  ```bash
+  ESS_USER_ID=<id> python scripts/fetch_ess_api.py     # 12 integrated + 2 SDDF Parquets, ~95 MB
+  python scripts/build_ess_subset.py                   # -> data/ess/Datafile-subset.dta
+  ```
+  The API serves each cited edition DOI (`refs.bib`, `essdata2024`) as a
+  Parquet file; the build script stacks rounds 1–11 (round 10 = face-to-face
+  file then self-completion file), keeps the Wizard variables plus `idno` and
+  `mode`, and recodes the ESS missing codes (77/88/99; `mode` 9) to missing as
+  the Stata files do. The file it writes differs byte-wise from the Wizard
+  download (different writer), but every country × round count equals
+  `results/ess_audit.csv` and `e13` reproduces
+  `results/ess_country_certification.csv` **bit-identically** from it — the
+  within-country row order the bootstrap depends on is the integrated files'.
 - **Notes**: PSU/stratum ship in the *integrated* files only from round 9; rounds
   1–8 carry outcomes and weights (the long-window analysis `e36` uses a
   weights-only bootstrap there, disclosed in the paper).
@@ -34,11 +50,23 @@ registration with its provider. Place the files exactly as below — the loaders
 - **Place at**: `data/ess/sddf/` (any nesting; `.csv/.sav/.dta/.por`, zips are
   auto-extracted). Old-vintage `.por` files unreadable by pyreadstat can be
   converted to CSV with R's `foreign::read.spss`.
+- **Scripted alternative (verified 2026-09-06)**:
+  ```bash
+  ESS_USER_ID=<id> python scripts/fetch_ess_api.py ess7sddfe1_2 ess8sddfe01_1   # rounds 7-8 (then export the Parquets to CSV under data/ess/sddf/)
+  python scripts/fetch_ess_sddf.py          # rounds 1-6: 99 per-country .spss.zip archives from the portal catalogue
+  Rscript scripts/convert_sddf_por.R        # converts the .por vintages pyreadstat cannot read (needs R + `foreign`)
+  python -m pcb.data.ess_sddf               # ingest: 88 country-rounds upgraded to core (90 -> 178)
+  ```
+  The rounds 1–6 archives are the "Sample data (SDDF)" related materials of
+  each country page (public document store; no user ID needed). Of the 72
+  `.por` files, pyreadstat reads 46 and R's `foreign` reads the other 26; both
+  are needed for the full set.
 - **Used by**: `pcb.data.ess_sddf` (merge on `cntry, essround, idno`, filling
   psu/stratum only where the integrated file lacks them) and
   `pcb.experiments.e61_sddf_long_window` (the long-window rerun; upgrades 88
   country-rounds, changes no net or persistent count — committed outputs
-  `results/ess_long_window_sddf.csv`, `results/ess_joint_claims_sddf.csv`).
+  `results/ess_long_window_sddf.csv`, `results/ess_joint_claims_sddf.csv`,
+  `results/ess_prevalence_sddf.csv`).
 
 ## 2. World Values Survey / EVS trend file, 1981–2022
 
