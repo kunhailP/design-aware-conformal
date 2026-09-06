@@ -90,29 +90,52 @@ def claim_family_pvalues(curves: np.ndarray, boots: np.ndarray,
                 p_any_adjacent=min(p_dec[s] for s in adjacent))
 
 
-def _h(pvals, alpha: float) -> int:
-    """Size of the largest subset of the FULL family that its own Simes test
+def _local_rejects(q_sorted: np.ndarray, alpha: float, local: str) -> bool:
+    """Local test of the intersection hypothesis with ascending p-values `q`.
+
+    'simes'      : reject iff some q_(i) <= i*alpha/k. Valid under independence
+                   or PRDS of the p-values across units.
+    'bonferroni' : reject iff q_(1) <= alpha/k. Valid under ARBITRARY dependence
+                   -- the assumption-free fallback reported alongside Simes.
+    """
+    k = q_sorted.size
+    if local == "simes":
+        return bool(np.any(q_sorted <= alpha * np.arange(1, k + 1) / k))
+    if local == "bonferroni":
+        return bool(q_sorted[0] <= alpha / k)
+    raise ValueError(f"unknown local test {local!r}")
+
+
+def _h(pvals, alpha: float, local: str = "simes") -> int:
+    """Size of the largest subset of the FULL family that the local test
     fails to reject: h(alpha) in Goeman et al.'s closed-testing shortcut.
-    Checking the k largest p-values suffices, because enlarging any p-value
-    keeps Simes non-rejecting."""
+    Checking the k largest p-values suffices for both local tests, because
+    enlarging any p-value keeps either test non-rejecting."""
     p = np.sort(np.asarray(pvals, float))[::-1]          # descending
     h = 0
     for k in range(1, p.size + 1):
         q = np.sort(p[:k])                               # k largest, ascending
-        if np.all(q > alpha * np.arange(1, k + 1) / k):  # Simes fails to reject
+        if not _local_rejects(q, alpha, local):
             h = k
     return h
 
 
-def true_discoveries(pvals, alpha: float = 0.10) -> int:
+def true_discoveries(pvals, alpha: float = 0.10, local: str = "simes") -> int:
     """Goeman-Solari 1-alpha lower confidence bound on the number of true
-    claims among ALL of `pvals`, via closed testing with Simes local tests
-    (d = m - h). Requires the p-values valid and independent across units (or
-    PRDS), which the per-country design bootstraps satisfy."""
-    return int(len(np.asarray(pvals, float)) - _h(pvals, alpha))
+    claims among ALL of `pvals` (d = m - h), via closed testing with Simes
+    local tests (default) or Bonferroni local tests.
+
+    Simes needs the p-values valid and independent across units (or PRDS):
+    for survey-certification p-values that is a DESIGN assumption -- that,
+    given the finite populations, the countries' sampling mechanisms are
+    independent -- not a property of running separate bootstrap streams.
+    Bonferroni needs nothing beyond validity of each p-value and is reported
+    as the assumption-free sensitivity (`e56`, supplement S4)."""
+    return int(len(np.asarray(pvals, float)) - _h(pvals, alpha, local))
 
 
-def true_discoveries_subset(sub_pvals, full_pvals, alpha: float = 0.10) -> int:
+def true_discoveries_subset(sub_pvals, full_pvals, alpha: float = 0.10,
+                            local: str = "simes") -> int:
     """The same 1-alpha simultaneous bound, read on a SUBSET post hoc.
 
     Closed testing makes the bound simultaneous over every subset, but the
@@ -128,18 +151,66 @@ def true_discoveries_subset(sub_pvals, full_pvals, alpha: float = 0.10) -> int:
     would treat S as its own family, ignore the closure, and can be
     anti-conservative (e.g. full p = (.04, .06, .5) at alpha = .1 gives
     d(all) = 1; the naive subset bound on (.04, .06) would claim 2, the
-    closure-correct bound is 1)."""
+    closure-correct bound is 1).
+
+    With Bonferroni local tests the closure is computed directly: a subset
+    I of S survives the closed procedure iff SOME superset J of I in the full
+    family is not locally rejected, min_J p > alpha/|J|. Enlarging J by any
+    unit whose p-value is at least min_J p keeps the minimum and lowers the
+    threshold, so without loss J = J(m) = {j : p_j >= m} for some p-value m
+    of the full family, and the largest surviving I inside S is J(m) & S.
+    Hence
+
+        h_B(S) = max{ #{j in S : p_j >= m} : m a p-value with
+                                             m > alpha / #{j : p_j >= m} },
+        d(S) = |S| - h_B(S).
+
+    Both shortcuts are pinned to exhaustive closed testing on small families
+    in `tests/test_prevalence_local_tests.py`."""
     sub = np.sort(np.asarray(sub_pvals, float))
-    h = _h(full_pvals, alpha)
-    if h == 0:
-        return int(sub.size)
-    best = 0
-    for u in range(1, sub.size + 1):
-        best = max(best, 1 - u + int(np.sum(sub <= u * alpha / h)))
-    return int(max(best, 0))
+    full = np.asarray(full_pvals, float)
+    if local == "simes":
+        h = _h(full, alpha, "simes")
+        if h == 0:
+            return int(sub.size)
+        best = 0
+        for u in range(1, sub.size + 1):
+            best = max(best, 1 - u + int(np.sum(sub <= u * alpha / h)))
+        return int(max(best, 0))
+    if local == "bonferroni":
+        h_b = 0
+        for m in np.unique(full):
+            if m > alpha / int(np.sum(full >= m)):           # J(m) survives
+                h_b = max(h_b, int(np.sum(sub >= m)))
+        return int(sub.size - h_b)
+    raise ValueError(f"unknown local test {local!r}")
 
 
-def prevalence_lower_bound(pvalue_per_country: dict, alpha: float = 0.10) -> dict:
+def closed_testing_bruteforce(sub_idx, full_pvals, alpha: float,
+                              local: str = "simes") -> int:
+    """Exhaustive closed testing (2^m intersections) -- reference
+    implementation for the contract tests; usable for m <= ~14 only."""
+    from itertools import combinations
+    full = np.asarray(full_pvals, float)
+    m = full.size
+    rejected = {}
+    for k in range(1, m + 1):
+        for J in combinations(range(m), k):
+            rejected[frozenset(J)] = _local_rejects(np.sort(full[list(J)]),
+                                                    alpha, local)
+    def closed_reject(I):
+        return all(rejected[J] for J in rejected if I <= J)
+    S = list(sub_idx)
+    h = 0
+    for k in range(1, len(S) + 1):
+        for I in combinations(S, k):
+            if not closed_reject(frozenset(I)):
+                h = max(h, k)
+    return len(S) - h
+
+
+def prevalence_lower_bound(pvalue_per_country: dict, alpha: float = 0.10,
+                           local: str = "simes") -> dict:
     """Convenience wrapper: {country: p} -> the prevalence statement.
 
     Two distinct objects, both simultaneously valid at level alpha because
@@ -159,11 +230,11 @@ def prevalence_lower_bound(pvalue_per_country: dict, alpha: float = 0.10) -> dic
     """
     items = sorted(pvalue_per_country.items(), key=lambda kv: kv[1])
     pvals = [p for _, p in items]
-    d = true_discoveries(pvals, alpha)
+    d = true_discoveries(pvals, alpha, local)
     k_named = 0
     for k in range(1, len(items) + 1):
-        if true_discoveries_subset(pvals[:k], pvals, alpha) == k:
+        if true_discoveries_subset(pvals[:k], pvals, alpha, local) == k:
             k_named = k
-    return dict(d=d, alpha=alpha,
+    return dict(d=d, alpha=alpha, local=local,
                 countries_named=[c for c, _ in items[:k_named]],
                 named_covers_d=(k_named >= d))

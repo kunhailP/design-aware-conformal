@@ -68,24 +68,15 @@ def _synthetic():
     return out
 
 
-def _ess():
-    try:
-        from pcb.data.audit_ess import audit, load
-        from pcb.experiments.e12_ess_decline import (_design_boot, _naive_boot,
-                                                     _round_stats, _wcdf, CORE_T)
-    except Exception as e:                                  # pragma: no cover
-        print(f"\n[ESS] loaders unavailable ({e}); skipping the real-data run.")
-        return
-    try:
-        df = load()
-    except Exception as e:
-        print(f"\n[ESS] microdata not present ({e}); skipping the real-data run.")
-        return
-
-    kl = audit(df).set_index(["cntry", "essround"])["sample"]
-    df = df.assign(_w=df["anweight"].fillna(df["pspwght"]))
-    df = df[df._w.notna() & (df._w > 0)]
-    rows = []
+def run_ess(df, kl, out="results/ess_prevalence.csv", tag="ESS"):
+    """Per-country p_net / p_any_adjacent on the prepared ESS frame `df`
+    (weights already in `_w`) with country-round classification `kl`, then the
+    closed-testing prevalence bound under Simes AND Bonferroni local tests.
+    Same seeds as the shipped run, so a design-upgraded frame (e61, SDDF
+    rounds 1-8) changes only the extended-round draws."""
+    from pcb.experiments.e12_ess_decline import (_design_boot, _naive_boot,
+                                                 _round_stats, _wcdf, CORE_T)
+    rows, bounds = [], {}
     for outcome in ("trstprl", "stfdem"):
         pvals = {}
         for c, csub in df.groupby("cntry", observed=True):
@@ -109,17 +100,55 @@ def _ess():
             rows.append(dict(outcome=outcome, cntry=str(c),
                              p_net=round(pv["p_net"], 5),
                              p_any_adjacent=round(pv["p_any_adjacent"], 5)))
-        out = prevalence_lower_bound(pvals, ALPHA)
-        print(f"\n[ESS {outcome}] K={len(pvals)}; with 90% simultaneous "
-              f"confidence at least {out['d']} countries truly satisfy net "
-              f"decline: {out['countries_named']}")
+        for local in ("simes", "bonferroni"):
+            b = prevalence_lower_bound(pvals, ALPHA, local)
+            bounds[(outcome, local)] = b
+            print(f"\n[{tag} {outcome}, {local}] K={len(pvals)}; with 90% "
+                  f"simultaneous confidence at least {b['d']} countries truly "
+                  f"satisfy net decline: {b['countries_named']}")
     os.makedirs("results", exist_ok=True)
-    pd.DataFrame(rows).to_csv("results/ess_prevalence.csv", index=False)
-    print("wrote results/ess_prevalence.csv")
+    pd.DataFrame(rows).to_csv(out, index=False)
+    print(f"wrote {out}")
+    return bounds
+
+
+def _ess():
+    try:
+        from pcb.data.audit_ess import audit, load
+    except Exception as e:                                  # pragma: no cover
+        print(f"\n[ESS] loaders unavailable ({e}); skipping the real-data run.")
+        return
+    try:
+        df = load()
+    except Exception as e:
+        print(f"\n[ESS] microdata not present ({e}); skipping the real-data run.")
+        return
+
+    kl = audit(df).set_index(["cntry", "essround"])["sample"]
+    df = df.assign(_w=df["anweight"].fillna(df["pspwght"]))
+    df = df[df._w.notna() & (df._w > 0)]
+    return run_ess(df, kl)
+
+
+def shipped_bounds(path="results/ess_prevalence.csv", alpha=ALPHA):
+    """Re-read the committed p-values and report the bound under both local
+    tests -- the microdata-free half of the sensitivity (supplement S4)."""
+    d = pd.read_csv(path)
+    out = {}
+    for outcome, g in d.groupby("outcome"):
+        for local in ("simes", "bonferroni"):
+            out[(outcome, local)] = prevalence_lower_bound(
+                dict(zip(g.cntry, g.p_net)), alpha, local)
+    return out
 
 
 def main():
     _synthetic()
+    if os.path.exists("results/ess_prevalence.csv"):
+        print("\n=== shipped ESS p-values: Simes vs Bonferroni local tests ===")
+        for (outcome, local), b in shipped_bounds().items():
+            print(f"  {outcome:8s} {local:10s} d = {b['d']}  named: "
+                  f"{b['countries_named']}")
     _ess()
 
 

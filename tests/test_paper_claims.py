@@ -530,6 +530,24 @@ def test_cross_country_prevalence():
     _present("at least six", "closed testing across the thirty-three")
 
 
+def test_cross_country_prevalence_sddf():
+    """S4: the prevalence bound re-derived on the rounds 1-8 SDDF upgrade
+    (e61) is unchanged -- d = 6 on both outcomes under Simes AND Bonferroni
+    local tests, naming the same six countries as the shipped p-values."""
+    from pcb.inference.prevalence import prevalence_lower_bound
+    s = _csv("ess_prevalence_sddf.csv")
+    d = _csv("ess_prevalence.csv")
+    for oc in ("trstprl", "stfdem"):
+        gs, gd = s[s.outcome == oc], d[d.outcome == oc]
+        assert len(gs) == 33, (oc, len(gs))
+        for local in ("simes", "bonferroni"):
+            bs = prevalence_lower_bound(dict(zip(gs.cntry, gs.p_net)), 0.10, local)
+            bd = prevalence_lower_bound(dict(zip(gd.cntry, gd.p_net)), 0.10, local)
+            assert bs["d"] == 6 and bd["d"] == 6, (oc, local, bs["d"], bd["d"])
+            assert set(bs["countries_named"]) == set(bd["countries_named"]), (oc, local)
+    _present("unchanged under the rounds 1--8 SDDF upgrade")
+
+
 def test_wrong_unit_collapse_figure_one():
     """Fig. 1 / Sec. 5: the paper's opening exhibit. At L=8 threshold-level
     coverage is 3.5%, round-level 49.8%, and only the country-trajectory
@@ -542,6 +560,29 @@ def test_wrong_unit_collapse_figure_one():
     assert (traj.traj_cov_pct >= 90 - 2 * traj.cov_se * 1).all() or \
         (traj.traj_cov_pct >= 88.9).all()
     _present("$49.8\\%$", "$3.5\\%$")
+    # Referee addition: Bonferroni-corrected wrong-unit bands. At K=30 the
+    # corrected per-round band is infinite for L>=4 (needs K >= L/alpha - 1)
+    # and the corrected threshold band always; at K=100 the corrected
+    # per-round band over-covers and is wider than the trajectory band.
+    from pcb.experiments.e28_wrong_unit_coverage import bonferroni_feasible_K
+    assert bonferroni_feasible_K(8) == 79
+    assert bonferroni_feasible_K(8, per_threshold=True) == 479
+    for L in (4, 6, 8):
+        assert not bool(d.loc[(L, "per_round_bonf"), "feasible"])
+    assert bool(d.loc[(2, "per_round_bonf"), "feasible"])
+    assert not d.xs("marginal_bonf", level="method").feasible.any()
+    b = _csv("wrong_unit_coverage_bonferroni.csv")
+    b = b[b.K == 100].set_index(["L", "method"])
+    pb = b.xs("per_round_bonf", level="method")
+    assert pb.feasible.all()
+    assert 90.0 <= pb.traj_cov_pct.min() and pb.traj_cov_pct.max() <= 94.0
+    assert round(float(pb.width_ratio_median.min()), 2) == 1.04
+    assert round(float(pb.width_ratio_median.max()), 2) == 1.26
+    tr = b.xs("trajectory", level="method")
+    assert 89.0 <= tr.traj_cov_pct.min() and tr.traj_cov_pct.max() <= 91.0
+    # comparable-or-higher coverage: within 2 MC-SEs (~1 point) at L=2, higher after
+    assert (pb.traj_cov_pct.values >= tr.traj_cov_pct.values - 1.0).all()
+    _present("$79$ at $L=8$", "$4$--$26\\%$ wider", "$90$--$94\\%$ against $89$--$91\\%$")
 
 
 def test_figure_layers():

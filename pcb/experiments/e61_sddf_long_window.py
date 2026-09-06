@@ -10,6 +10,10 @@ and reruns
 
   (a) the per-family long window of E36  -> results/ess_long_window_sddf.csv
   (b) the joint claim family of E50      -> results/ess_joint_claims_sddf.csv
+  (c) the prevalence p-values of E56     -> results/ess_prevalence_sddf.csv
+      (the closed-testing bound uses the whole p-value vector, not just the
+      fixed-alpha certified set, so "at least d" must be re-derived on the
+      design-upgraded p-values; printed under Simes and Bonferroni local tests)
 
 with the SAME per-country seeds as the shipped runs, so core-round draws are
 identical and every delta is attributable to the SDDF upgrade alone. Shipped
@@ -152,6 +156,16 @@ def main():
     e50.to_csv("results/ess_joint_claims_sddf.csv", index=False)
     _delta("joint band (e50)", e50, "results/ess_joint_claims.csv",
            ["net", "persistent", "any_pair", "episodic"])
+
+    from pcb.experiments.e56_prevalence import run_ess, shipped_bounds
+    new = run_ess(df, kl, out="results/ess_prevalence_sddf.csv", tag="ESS-SDDF")
+    if os.path.exists("results/ess_prevalence.csv"):
+        old = shipped_bounds()
+        print("\n=== prevalence (e56): SDDF vs shipped ===")
+        for key in sorted(new):
+            mark = "" if new[key]["d"] == old[key]["d"] else "   <-- CHANGED"
+            print(f"  {key[0]:8s} {key[1]:10s} d {old[key]['d']} -> "
+                  f"{new[key]['d']}{mark}")
 
 
 if __name__ == "__main__":
