@@ -677,11 +677,18 @@ $(K{+}1)T$ cells gives $\zeta\le\gamma:=C_3\sqrt{\log((K{+}1)T)/K}$ outside
 an event of probability $O(K^{-1/2})$. On its complement,
 $\Pr(R^{\text{lat}}>\widehat q-2\gamma)\le\Pr(R^{\text{lat}}>\widehat q)
 +\Pr(\widehat q-2\gamma<R^{\text{lat}}\le\widehat q)$: the first term is at
-most $\alpha_{\text{anchor}}$ by the lemma, and the second is a window of
-width $2\gamma$ below $\widehat q$, which concentrates on $q^\dagger$ at
-rate $r_K=O(K^{-1/2})$ ((A3), as in the proof of Theorem~4$'$(ii)), so
-(A2$'$) bounds it by $2L'\cdot2\gamma+r_K$. Collecting terms gives
-$\gamma^{\text{anch}}_K$. The $K/(K{-}1)$ inflation only enlarges the band,
+most $\alpha_{\text{anchor}}$ by the lemma. For the second, $W_{K+1}$ is
+independent of the calibration curves under (A1), so $R^{\text{lat}}$ is
+independent of $\widehat q$ and the window probability equals
+$\mathbb E\big[F_{\text{lat}}(\widehat q)-F_{\text{lat}}(\widehat q-2\gamma)\big]$
+with $F_{\text{lat}}$ the distribution function of $R^{\text{lat}}$ ---
+no conditioning on a calibration-measurable endpoint is needed, unlike the
+remark after Proposition~\ref{prop:loo}. On $\{|\widehat q-q^\dagger|\le\delta\}$,
+with $\delta$ the radius of (A2$'$)'s neighbourhood, this is at most
+$2L'\cdot2\gamma$; off it, the event has probability
+$r_K:=\Pr(|\widehat q-q^\dagger|>\delta)=O(K^{-1/2})$ by the order-statistic
+concentration that (A3) supplies (as in the proof of Theorem~4$'$(ii)).
+Collecting terms gives $\gamma^{\text{anch}}_K$. The $K/(K{-}1)$ inflation only enlarges the band,
 and the conservative band contains the clustered one, so both statements
 follow. (Machine check: \texttt{test\_loo\_validity.py::%
 test\_loo\_centered\_anchor\_latent\_coverage} runs the (A1) family through
