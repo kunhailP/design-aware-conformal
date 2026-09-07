@@ -1,9 +1,7 @@
 \section{Theory}\label{sec:theory}
 
-Theorem~\ref{thm:exact} anchors validity and Theorem~\ref{thm:safe}
-carries it through the selector; Theorems~\ref{thm:oracle}
-and~\ref{thm:estimated} price the latent target and the estimated noise law. Proofs are in the
-Supplementary Material, Section~S1.
+Table~\ref{tab:targets} maps each procedure to the target it covers. Proofs
+are in the Supplementary Material, Section~S1.
 
 \begin{theorem}[Oracle validity]\label{thm:oracle}
 Suppose the countries are exchangeable and the design law is known.
@@ -67,7 +65,13 @@ $\widehat s_T^2$ of Section~\ref{sec:method} subtracts a one-sided margin
 below the mean design variance, so on the guard event (Supplementary
 Material) the design-variance-subtraction component of the scale error can
 only widen the band. The sampling error in $s_{\mathrm{plug}}^2$ stays
-two-sided and is absorbed into $\varepsilon_{K,B}$.
+two-sided and is absorbed into $\varepsilon_{K,B}$. (A1) is strong --- it
+requires the design noise to share the latent curves' cross-threshold
+correlation profile --- and the survey-scale guarantee does not rest on it:
+where it is doubtful the selector abstains.
+
+The two clauses below cover different targets: the survey-estimated
+trajectory below the floor, the latent one above it.
 
 \begin{theorem}[Safe-adaptive finite-$K$ validity]\label{thm:safe}
 Let the anchors use Theorem~\ref{thm:exact}'s centers (or the leave-one-out
@@ -99,7 +103,7 @@ which Theorem~\ref{thm:exact} bounds by $\alpha$. This is the first clause;
 it conditions on no selection event
 \citep{gupta2022nested,yang2024selection}. At $K\ge94$ the budget splits,
 $\alpha=\alpha_{\text{anchor}}+\alpha_{\text{dec}}$, by a frozen rule of $K$
-alone, and the target changes because the assumptions do. Under (A1) each
+alone. Under (A1) each
 observed calibration score dominates its latent counterpart, since
 $\sqrt{s_R^2+v_c^2}\ge s_R$ pointwise, so the anchor quantile
 stochastically dominates the latent-score order statistic, and the anchors
@@ -120,8 +124,7 @@ outside Theorem~\ref{thm:exact}'s symmetric constructions, but inflating the
 radius by $K/(K{-}1)$ restores finite-sample validity at every $K$,
 distribution-free (Proposition~S1). The released default ships that
 inflation at a width cost of $1/(K{-}1)$, $3.5\%$ at the ESS's
-$K\approx30$; the frozen gates decide on the uninflated radii, so the sealed
-validation carries over a fortiori. The exact split-fold alternative is infeasible at survey scale:
+$K\approx30$. The exact split-fold alternative is infeasible at survey scale:
 halving the calibration set below $\alpha^{-1}{-}1$ units makes the
 conformal radius infinite.
 

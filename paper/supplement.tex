@@ -170,7 +170,7 @@ exactly $1-\alpha$ on this member, and any band shaving more than $s_K$ of
 coverage drops below $1-\alpha$ there. Strict efficiency beyond the slack is therefore
 attainable only by shrinking $\mathfrak S$---i.e.\ by supplying information on
 the law of $S$ (equivalently the $v_c$), which is exactly the design-bootstrap
-information the deconvolution branch estimates (Theorem~4$'$), and whose
+information the deconvolution branch estimates (Theorem~4), and whose
 finite-$K$ reliability is what Proposition~2 bounds.
 \end{proof}
 
@@ -200,10 +200,10 @@ We use independence, not mere exchangeability, for the anti-concentration
 step; the tail term needs neither, and neither term assumes $\xi$ centred.
 Equivalently, the \emph{noise-inflated} band with radius $\widehat q+u$ covers the
 latent target at level $1-\alpha-\Pr(|\xi_{K+1}|>u)$ with no anti-concentration
-condition. (c)~Under the scale-family assumption (A1) of Theorem~4$'$, the
+condition. (c)~Under the scale-family assumption (A1) of Theorem~4, the
 oracle deconvolution band with the true target scale is finite-sample
 valid for the latent target, exact at the attainable conformal rank
-(Theorem~4$'$(i)), and its target scale is, coordinate by coordinate, a factor
+(Theorem~4(i)), and its target scale is, coordinate by coordinate, a factor
 $\sqrt{1-\rho(t)^2}$ of the observed scale $s_{\text{plug}}(t)$; the realized
 band width carries in addition the ratio of the two conformal quantiles, which
 tends to one as $\rho\to0$ (AW-1) but is not a function of $\rho(t)$. Both
@@ -426,12 +426,12 @@ unstudentized clustered construction, the paper's anchor branch) gives up only
 the profile adaptivity --- the level normalization was free all along.
 \end{lemma}
 
-\subsection{Theorem~4$'$ (estimated-law validity, with explicit assumptions)}
+\subsection{Theorem~4 (estimated-law validity, with explicit assumptions)}
 
-The earlier draft stated this result as an order-of-magnitude proof sketch. The
-version below is a theorem: the price is three explicit assumptions, and the reward is
-that the oracle case becomes \emph{exact} and the estimated case carries a proved,
-one-sided remainder. The assumptions are not decorative --- the bimodal counterexample
+This section states the main text's Theorem~4 with its three assumptions in
+full and proves it. Under them the oracle case is \emph{exact} and the
+estimated case carries a proved, one-sided remainder. The assumptions are
+not decorative --- the bimodal counterexample
 of Remark~\ref{rem:bimodal} shows that \emph{some} shape restriction is necessary for
 any latent-target claim, and (A1) is exactly the restriction under which the
 deconvolution's distributional matching is an identity rather than an approximation.
@@ -600,7 +600,7 @@ which a uniform statement is nontrivial --- $z$ is a free parameter of the
 shipped guard). The coverage bound in (ii) does not use (iii).
 \end{proof}
 
-\paragraph{Extension: the leave-one-out-centered deployment.} Theorem~4$'$
+\paragraph{Extension: the leave-one-out-centered deployment.} Theorem~4
 is stated for the independent calibration curves of (A1). The deployed
 high-$K$ pipeline feeds it something else: writing $Y_c$ for the observed
 departure curves, the calibration objects are the leave-one-out-centered
@@ -627,7 +627,7 @@ not an implementation fact: the shipped floor is \emph{relative} --- the
 scale is floored at $0.05\max_t\widehat s_{\text{plug}}(t)$ --- so
 $\omega_0>0$ holds whenever the population scale is nondegenerate,
 $\inf_K\max_t s_{\text{plug}}(t)\ge c>0$, which the scale family of (A1)
-with $s_R>0$ supplies.) Build the band exactly as in Theorem~4$'$(ii) but from
+with $s_R>0$ supplies.) Build the band exactly as in Theorem~4(ii) but from
 $\widetilde G^{\text{loo}}_c$, the latent target scored against $\bar Y$.
 Then
 \[
@@ -640,17 +640,17 @@ Then
 with $C_3$ an absolute constant from the boundedness clause of (A3). Since
 $\gamma_K$ has the same order as $\varepsilon_{K,B}$'s $K$-term, we absorb
 it into $\varepsilon_{K,B}$ (enlarged constants) wherever the remainder is
-quoted, including Theorem~5$'$'s $K\ge94$ clause.
+quoted, including Theorem~5's $K\ge94$ clause.
 \end{proposition}
 
 \begin{proof}
-The comparison with Theorem~4$'$(ii)'s independent construction factors into
+The comparison with Theorem~4(ii)'s independent construction factors into
 two perturbations, one to the studentizer and one to the numerator; we chain
 them.
 
 \emph{Studentizer.} Write $\omega^{\text{raw}}_c=\sqrt{\widehat
 s_T^{\text{raw}\,2}+\widehat v_c^2}$ for the studentizer computed from the
-raw curves (the object Theorem~4$'$(ii) already compares to its oracle) and
+raw curves (the object Theorem~4(ii) already compares to its oracle) and
 $\omega^{\text{loo}}_c$ for the one computed from the centered curves ---
 the deployed object. The centering identity is exact:
 $\widetilde G^{\text{loo}}_c=\tfrac{K}{K-1}(Y_c-\bar Y)$, so the
@@ -660,7 +660,7 @@ in both cases, satisfies $\widehat s^{\text{loo}}_{\text{plug}}(t)
 and the derived scale inherits a relative perturbation of at most
 $(\tfrac{K}{K-1})^2-1=O(1/K)$ through the guarded subtraction and the
 relative floor. This is a multiplicative studentizer perturbation of
-exactly the form of $\Delta_c$ in the proof of Theorem~4$'$(ii); it chains
+exactly the form of $\Delta_c$ in the proof of Theorem~4(ii); it chains
 into $\delta^*$ there, enlarging $\delta_{K,B}$'s constants and nothing
 else.
 
@@ -681,7 +681,7 @@ probability $O(K^{-1/2})$. A uniform score perturbation moves order
 statistics by no more than itself, so
 $\widehat q^{\,\text{loo}}\ge\widehat q-\gamma/\omega_0$, and a miss of the
 LOO band implies the independent construction's target score exceeds
-$\widehat q-2\gamma/\omega_0$. The proof of Theorem~4$'$(ii) applies
+$\widehat q-2\gamma/\omega_0$. The proof of Theorem~4(ii) applies
 verbatim to that event, with the additive window
 $(\widehat q-2\gamma/\omega_0,\,\widehat q\,]$ priced by (A2)'s density
 bound exactly as the multiplicative scale window was: probability at most
@@ -712,7 +712,7 @@ and band $\bar Y\pm\tfrac{K}{K-1}\widehat q^{\,\text{loo}}$. Then
 and the same bound holds for the conservative anchor, whose band contains
 the clustered one. Since $\gamma^{\text{anch}}_K$ has the order of
 $\varepsilon_{K,B}$'s $K$-term, it is absorbed into $\varepsilon_{K,B}$
-wherever Theorem~5$'$'s $K\ge94$ clause is quoted, exactly as $\gamma_K$ is.
+wherever Theorem~5's $K\ge94$ clause is quoted, exactly as $\gamma_K$ is.
 \end{proposition}
 
 \begin{proof}
@@ -789,20 +789,20 @@ bimodal construction violates it and defeats \emph{any} latent-target band built
 observed scores, so a condition of this type is not an artifact of our proof but a
 feature of the problem. When (A1) is doubtful the pipeline does not rely on it:
 gate~D (stability) and the conservative fallback do not use (A1), and at survey scale
-Theorem~5$'$'s guarantee bypasses this theorem entirely. Machine check:
+Theorem~5's guarantee bypasses this theorem entirely. Machine check:
 \texttt{test\_estimated\_law\_validity.py} verifies (i)-type exactness and the
 $K$/$B$ decay of the remainder on a scale-family DGP, and the bimodal DGP's exclusion
 is verified by \texttt{test\_latent\_target\_bridge.py}.
 \end{remark}
 
-\subsection{Theorem~5$'$ (safe-adaptive finite-$K$ validity---the deployed pipeline)}
+\subsection{Theorem~5 (safe-adaptive finite-$K$ validity---the deployed pipeline)}
 
-The deployed validity argument uses \emph{no conditional-on-selection step}. (An
-earlier draft argued that conditioning on a calibration-measurable selection event
-leaves each branch's marginal guarantee intact; that inference is false in general ---
-the selection event and the conformal quantile are functions of the same calibration
-scores, so conditioning breaks the rank-uniformity that the marginal guarantee rests
-on. The architecture below removes the need for any such step.)
+The deployed validity argument uses \emph{no conditional-on-selection step}.
+It could not: the selection event and the conformal quantile are functions of
+the same calibration scores, so conditioning on the former breaks the
+rank-uniformity the marginal guarantee rests on. Validity instead follows from
+the nesting of the anchor branches, which makes selection among them free, and
+from a separate error budget for the deconvolution branch.
 
 \begin{lemma}[Free selection among nested bands]\label{lem:nested}
 Let $\widehat B_1\subseteq\widehat B_2$ be two bands (as random sets) with
@@ -827,7 +827,7 @@ $\widehat B_1\subseteq\widehat B_2$, on $\{\widehat J=1\}$ trivially). Take
 probabilities.
 \end{proof}
 
-\emph{Statement (Theorem~5$'$).} Deploy the selector of Algorithm~1 with the
+\emph{Statement (Theorem~5).} Deploy the selector of Algorithm~1 with the
 unstudentized PCB and conservative branches (scores $\max_t|\Gtilde_c(t)|$ and
 $\max_t(|\Gtilde_c(t)|+z\,\widehat v_c(t))$ respectively, both calibrated at level
 $\alpha_{\text{anchor}}$) and the deconvolution branch calibrated at its own budget
@@ -860,7 +860,7 @@ reachable, then \emph{under} (A1)--(A3),
 1-\alpha-\varepsilon_{K,B},
 \]
 now for the \emph{latent} target directly, where $\varepsilon_{K,B}$ is the
-estimated-law remainder of Theorem~4$'$ --- enlarged to absorb the
+estimated-law remainder of Theorem~4 --- enlarged to absorb the
 leave-one-out-centering terms $\gamma_K$ of Proposition~\ref{prop:loodec}
 (deconvolution branch) and $\gamma^{\text{anch}}_K$ of
 Proposition~\ref{prop:looanchor} (anchors), both of the same order --- and
@@ -868,7 +868,7 @@ reported at deployment through the observable diagnostic
 $\widehat\delta_{\text{UCB}}(D)$. The two clauses therefore state different
 targets, because they rest on different assumptions: exchangeability alone
 reaches T1; (A1)--(A3) --- which the $K\ge94$ clause already inherits from
-Theorem~4$'$ --- additionally reach T2, via the following domination lemma.
+Theorem~4 --- additionally reach T2, via the following domination lemma.
 Without (A1)--(A3) the $K\ge94$ worst case is
 $\alpha_{\text{anchor}}+\Pr(\widehat J=\text{dec})$ for T1.
 
@@ -902,7 +902,7 @@ latent target throughout: the anchor term is $\alpha_{\text{anchor}}$ by the
 lemma for raw-centered anchors and $\alpha_{\text{anchor}}+\gamma^{\text{anch}}_K$
 by Proposition~\ref{prop:looanchor} for the deployed leave-one-out center,
 the deconvolution term is $\alpha_{\text{dec}}+\varepsilon_{K,B}$ by
-Theorem~4$'$(ii), which is a latent-target statement to begin with. (Machine
+Theorem~4(ii), which is a latent-target statement to begin with. (Machine
 check: \texttt{test\_anchor\_domination.py}.) Note the lemma uses (A1) only
 through the common shape process; it is exactly the shape restriction that
 Remark~\ref{rem:bimodal} shows is unavoidable for \emph{any} latent-target
@@ -956,7 +956,7 @@ satisfies $D\ge\sqrt{2/(K-1)}$ \emph{identically, for every possible dataset}, s
 cannot open unless $K\ge1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen $\tau_D=0.147$. This
 is a property of the frozen procedure, not a statistical estimate: the deployed pipeline
 provably never deconvolves at cross-national-survey $K$, which is what
-Theorem~5$'$ uses.
+Theorem~5 uses.
 \emph{(b, statistical --- fourth-moment dependent.)} The interpretation of the floor as
 \emph{the} sampling error of a $K$-cluster variance is exact under Gaussian scores and
 otherwise holds up to the kurtosis: the true relative SE of $\widehat s^2$ is
@@ -996,7 +996,7 @@ scores the frozen formula over-states the sampling error, so the gate is merely
 over-conservative (an efficiency cost); for heavy-tailed scores it under-states it, so
 $\widehat\delta_{\mathrm{UCB}}$ can under-budget the remainder --- exactly the
 $0.02\%$ extreme-tail failure mode the holdout exposed (Section~S3), now confined by
-Theorem~5$'$ to the $K\ge94$, $\alpha_{\text{dec}}$-budgeted branch. The exact
+Theorem~5 to the $K\ge94$, $\alpha_{\text{dec}}$-budgeted branch. The exact
 threshold $K\approx94$ depends on the frozen gate-B constants (conservatively
 calibrated on the development grid); a less conservative $\delta_{\max}$ would lower
 it, but the calibration-free statement is the floor itself. The barrier is specific to
@@ -1105,7 +1105,7 @@ deconvolution strictly narrows it whenever design noise is present. (Conditional
 stated first-order expansion of $q_C$.)
 
 \emph{AW-3 (selection cannot inflate miscoverage, proven).} Superseded by
-Theorem~5$'$: the nested-branch lemma (any selection between
+Theorem~5: the nested-branch lemma (any selection between
 $B_{\text{PCB}}\subseteq B_{\text{con}}$ is free) plus the union bound over the
 $\alpha_{\text{dec}}$-budgeted deconvolution branch give
 $\Pr(\text{target}\in B_{\widehat J})\ge1-\alpha-\varepsilon_{K,B}
@@ -1180,20 +1180,76 @@ undercovers at small $K$ in the transition zone---the finite-$K$ remainder the s
 gate controls.}\label{fig:selector}
 \end{figure}
 
-\section{Extended robustness of the remainder bound}\label{sup:robustness}
+\section{Validation of the remainder bound}\label{sup:robustness}
 
-\paragraph{Corrected-scorer holdout rerun.} A code audit found that the sealed
-holdout runner scored the PCB branch with the S2 studentized quantiles --- a
-different band from the U0 construction the package deploys --- so the sealed run
-certified a band the pipeline does not ship. We disclose this and report both: the
-sealed run (historical; it is what exposed the S2 deficit) and a full rerun of the
-same $450$-cell grid scoring the band \texttt{dapcb} actually returns, under the
-revised $\alpha$-budget architecture of Theorem~5$'$ and a fresh seed (the original
-sealed configuration file was not preserved in the archive; the grid is reconstructed
-exactly from the sealed run's cell table). The rerun passes every preregistered
-criterion outright: worst cell $0.882$ (binomial-compatible with the exact level),
-$450/450$ cells floor-compatible, deconvolution activating only at $K{=}320$, and a
-low-$\rho$ width ratio of $1.005$ to plain PCB.
+\paragraph{What ``frozen'' means here, and the provenance of each run.} This
+package uses no external study registry. Throughout, \emph{preregistered} and
+\emph{frozen} mean fixed in the replication archive before the evaluation
+that follows it: the analysis core, gate constants and acceptance criteria
+are committed in \texttt{docs/}, and the sealed runs additionally record the
+script hash in \texttt{configs/} before first execution. Two runs in that
+history exposed defects, one in a scoring harness and one in a simulation
+generator, and both are reported here with what they did and did not change.
+Table~\ref{tab:provenance} is the audit trail; the rest of this section gives
+the numbers.
+
+\begin{table}[t]\centering
+\caption{Validation provenance. No defect found in this history changed the
+deployed procedure: one was a harness that scored a band the package does not
+ship, the other a data-generating process that violated exchangeability. Both
+the superseded and the current runs are committed.}\label{tab:provenance}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+run & frozen before evaluation & defect found & procedure changed? & effect on reported claims \\
+\midrule
+Holdout, sealed & grid and criteria (config not archived) &
+harness scored the S2 studentized band, not the deployed U0 &
+no & none; it is what exposed the S2 finite-$K$ deficit \\
+Holdout, corrected-scorer rerun & grid rebuilt from the sealed cell table; fresh seed &
+--- & no & $450/450$ cells, worst $0.882$ \\
+Base-method rerun & fresh grid, ten DGPs, MC tolerance &
+--- & band already switched S2\,$\to$\,U0 & worst cell $0.802\to0.893$ \\
+Final sealed \texttt{e33}, run 1 & script hash in \texttt{configs/} &
+generator normalized the target by its own SD & no --- generator only &
+run superseded; both runs committed \\
+Final sealed \texttt{e33}, run 2 & amended generator re-hashed &
+--- & no & $120/120$ cells, worst $0.878$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\paragraph{The failure: a finite-$K$ deficit in the studentized base band.}
+The sealed holdout scored the PCB branch with the S2 studentized quantiles,
+a different band from the U0 construction the package deploys. That is a
+defect in the harness, but a productive one: it is what exposed the
+studentized band's finite-$K$ self-inclusion deficit, whose worst deployed
+cell was $0.843$ (weak cross-round dependence at $K{=}25$), worst at small
+$K$ and long trajectories.
+
+\paragraph{The fix, and its price.} The deployed band was switched to the
+unstudentized clustered construction, for which Theorem~3 is exact at every
+$K$. A rerun on a fresh grid ($K\in\{15,\dots,60\}$, ten DGPs) confirms it:
+the worst cell rises from $0.802$ (S2, $K{=}15$) to $0.893$, and every cell is
+compatible with its exact floor within the frozen Monte-Carlo tolerance
+(floor minus $2\,$MC-SE; $29$ of $120$ cells sit numerically below the floor
+by at most $1.7$ MC-SE, as expected from binomial noise around an exact
+level). The price is width: $1.02$--$1.05\times$ on the real ESS transport
+bands, since trust-CDF errors are $\approx$homoskedastic across the low-trust
+core. The cells paying more than $10\%$ are synthetic heavy-tailed and
+irregular-length curves at $K{=}15$ ($1.17$--$1.18\times$), where the
+studentized alternative is itself invalid.
+
+\paragraph{The validation.} Rerunning the same $450$-cell grid on the band
+\texttt{dapcb} actually returns, under the $\alpha$-budget architecture of
+Theorem~5 and a fresh seed, passes every frozen criterion outright: worst
+cell $0.882$ (binomial-compatible with the exact level), $450/450$ cells
+floor-compatible, deconvolution activating only at $K{=}320$, and a
+low-$\rho$ width ratio of $1.005$ to plain PCB. The original sealed
+configuration file was not preserved in the archive, so the grid is
+reconstructed exactly from the sealed run's cell table; both runs appear in
+Table~\ref{tab:holdout}.
 
 \begin{table}[t]\centering
 \caption{Holdout validation of the safe selector (450 cells, 800 reps each; relocated
@@ -1235,43 +1291,25 @@ worst family) against the $0.88$ floor and $0.90$ nominal. Right: deconvolution
 activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdout}
 \end{figure}
 
-\paragraph{Cell-by-cell resolution of the base-method deficit.} On the holdout the
-studentized band's worst deployed cell was $0.843$ (weak cross-round dependence at
-$K{=}25$), a finite-$K$ self-inclusion deficit worst at small $K$ and long trajectories.
-After switching to the unstudentized clustered band, a preregistered rerun on a fresh
-grid ($K\in\{15,\dots,60\}$, ten DGPs) confirms the fix: the worst cell rises from
-$0.802$ (S2, $K{=}15$) to $0.893$, every cell is compatible with its exact floor within
-the preregistered Monte-Carlo tolerance (floor minus $2\,$MC-SE; $29$ of $120$ cells sit
-numerically below the floor by at most $1.7$ MC-SE, as expected from binomial noise
-around an exact level), and the width cost
-is $1.02$--$1.05\times$ on the real ESS transport bands (trust-CDF errors are
-$\approx$homoskedastic across the low-trust core, so the constant-width band is
-competitive; the cells where it pays more than $10\%$ are synthetic heavy-tailed and
-irregular-length curves at $K{=}15$---the latter at $1.17$--$1.18\times$---where the
-studentized alternative is itself invalid).
-
-\paragraph{Extreme-tail behavior of the remainder bound.} Beyond the base-method deficit
-resolved by deploying the unstudentized clustered band, the holdout exposed a second,
-extreme-tail limitation. The Gaussian-calibrated
+\paragraph{A second limitation, in the extreme tail.} The Gaussian-calibrated
 remainder bound $\widehat\delta_{\text{UCB}}$ is not robust at the extreme: in $77$ of
 $360{,}000$ draws ($0.02\%$), on strongly-dependent or heavy-tailed DGPs at $K{=}320$,
 draws that pass gate~B undercover to $\approx0.79$. In the $\rho=0.90$ cells the gates
 route $96$--$98\%$ of draws to conservative and the deployed cell coverage is
 $0.98$--$0.996$; at $\rho=0.72$ the gates route far fewer draws away (deployed cell
 coverage $0.89$--$0.90$ on the two hardest families), so the protection is
-concentration-dependent, not uniform over the $\rho\ge0.72$ range. Under the revised
-Theorem~5$'$ this entire failure mode is confined to the $K\ge94$,
+concentration-dependent, not uniform over the $\rho\ge0.72$ range. Under
+Theorem~5 this entire failure mode is confined to the $K\ge94$,
 $\alpha_{\text{dec}}$-budgeted branch and cannot touch the survey-scale guarantee.
 
-\paragraph{The final sealed validation (\texttt{e33}), and its one disclosed
-generator bug.} The main text's headline validation is a third, final layer:
-six unseen data-generating families $\times$ $120$ cells, with the script
-hash recorded before first execution
+\paragraph{The final sealed validation (\texttt{e33}).} The main text's
+headline validation is a third layer: six unseen data-generating families
+$\times$ $120$ cells, with the script hash recorded before first execution
 (\texttt{configs/final\_validation\_manifest.json}). The first sealed run
 failed $15$ of $120$ cells, all in one family (\texttt{ar2\_rounds}) at every
 $K$ --- including $K$ where the U0 anchor is exact for \emph{any}
-exchangeable DGP, which is what diagnosed the failure as a \emph{generator}
-bug rather than a pipeline one: the target trajectory was normalized by its
+exchangeable DGP. That is what diagnosed the failure as a \emph{generator}
+defect rather than a pipeline one: the target trajectory was normalized by its
 own sample SD while calibration curves used the pooled SD, an
 exchangeability-violating asymmetry in the DGP itself. The generator's
 normalization was amended (analytic stationary SD; only that branch changed,
@@ -1736,7 +1774,7 @@ claims resting on it from the main text. The rescaled-bootstrap reruns
 correction is unreachable; a companion simulation shows where it pays. On the
 MRP-style small-area DGP (latent area curves plus known heteroskedastic posterior
 SDs), the frozen pipeline --- unchanged constants, the $\alpha$-budget architecture of
-Theorem~5$'$ --- is run at $K\in\{60,94,150,220,300\}$ areas and posterior-noise
+Theorem~5 --- is run at $K\in\{60,94,150,220,300\}$ areas and posterior-noise
 ratios $0.3$--$0.9$, scoring the returned band against the latent area curve
 ($800$ reps per cell). Three facts emerge. First, gate-B \emph{feasibility}
 ($K\ge94$) is necessary but not sufficient: with the deconvolution branch honestly
