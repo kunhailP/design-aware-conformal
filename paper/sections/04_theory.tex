@@ -51,8 +51,9 @@ cost of at most $5\%$ on the near-homoskedastic real curves.
 \begin{theorem}[Estimated-law validity]\label{thm:estimated}
 Assume a common scale family indexed by the design variance (A1),
 anti-concentration of the sup-score law near its upper quantile (A2), and
-bounded curves with an unbiased size-$B$ design bootstrap (A3); the
-Supplementary Material states all three. Then (i)~with oracle scales the deconvolution band
+bounded curves with a size-$B$ design bootstrap whose ideal variance is the
+design variance (A3), stated in full in the Supplementary Material with the
+bootstrap's two layers separated. Then (i)~with oracle scales the deconvolution band
 is finite-sample valid for the latent target at every $K$ and exact at the
 attainable conformal rank, and (ii)~with
 estimated scales it satisfies
@@ -65,10 +66,11 @@ $\widehat s_T^2$ of Section~\ref{sec:method} subtracts a one-sided margin
 below the mean design variance, so on the guard event (Supplementary
 Material) the design-variance-subtraction component of the scale error can
 only widen the band. The sampling error in $s_{\mathrm{plug}}^2$ stays
-two-sided and is absorbed into $\varepsilon_{K,B}$. (A1) is strong --- it
-requires the design noise to share the latent curves' cross-threshold
-correlation profile --- and the survey-scale guarantee does not rest on it:
-where it is doubtful the selector abstains.
+two-sided and is absorbed into $\varepsilon_{K,B}$. (A1) matches the
+\emph{distributions} of standardized observed and latent curves, more than
+equal covariance profiles give; Gaussian families satisfy it. The
+survey-scale guarantee does not rest on it: where it is doubtful the selector
+abstains.
 
 The two clauses below cover different targets: the survey-estimated
 trajectory below the floor, the latent one above it.
@@ -132,5 +134,4 @@ conformal radius infinite.
 continuously to the clustered band as $\rho\to0$, with oracle scale factor
 $\sqrt{1-\rho(t)^2}=1-\tfrac12\rho(t)^2+O(\rho(t)^4)$ at each coordinate;
 the conservative band contains the clustered one pointwise; and selection
-cannot inflate miscoverage (Theorem~\ref{thm:safe}). Remaining width
-results, one open, are in the Supplementary Material.
+cannot inflate miscoverage (Theorem~\ref{thm:safe}).

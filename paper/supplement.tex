@@ -79,6 +79,29 @@ main-manuscript numbering. Each result is paired with an automated contract test
 the replication package that checks its computational implications numerically. Where the source
 argument is a sketch or rests on an estimated constant, we say so.
 
+\begin{table}[t]\centering
+\caption{Replication crosswalk. Each formal result is paired with the
+contract test in the replication package that checks its computational
+implications; the proofs below do not name them individually.}\label{tab:crosswalk}
+\begin{tabular}{ll}
+\toprule
+result & contract test \\
+\midrule
+Theorem~1 (non-identification) & \texttt{test\_theorem0.py} \\
+Theorem~2 (oracle validity, T1$\to$T2 gap) & \texttt{test\_latent\_target\_bridge.py} \\
+Theorem~3 (exact finite-$K$ base band) & \texttt{test\_unstudentized\_exchangeability.py} \\
+Proposition~S1 (leave-one-out deployment) & \texttt{test\_loo\_validity.py} \\
+Theorem~4 (estimated-law validity) & \texttt{test\_estimated\_law\_validity.py} \\
+Propositions~S2--S3 (LOO-centered branches) & \texttt{test\_loo\_validity.py} \\
+Lemma~\ref{lem:dominate} (anchor domination) & \texttt{test\_anchor\_domination.py} \\
+Theorem~5 (safe-adaptive selector) & \texttt{test\_selector\_validity.py} \\
+Proposition~2 (finite-$K$ feasibility) & \texttt{test\_prop1\_floor.py} \\
+Closed testing and prevalence bounds & \texttt{test\_prevalence\_local\_tests.py} \\
+Partial conjunction (WVS) & \texttt{test\_partial\_conjunction.py} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \paragraph{Common setup.} We observe $K$ exchangeable source countries $c=1,\dots,K$ plus
 a target $K{+}1$. Each country $c$ has a latent response-distribution curve
 $F_c$ (a CDF over a grid $t_1<\dots<t_T$, stacked over rounds where a
@@ -161,11 +184,9 @@ the general-$T$ statement follows by product laws.)
 (ii)~A radius $\widehat\rho=\widehat\rho(\{\Gtilde_c\})$ has the same
 joint law with the observed data in any two configurations sharing the
 observed law---in particular the two of part~(i), whose latent laws differ by
-the dispersing factor $\mathcal N$. Validity for every admissible
-$\mathcal S$ therefore forces the radius to cover the most-dispersed
-admissible latent law compatible with the observed data, attained at
-$\mathcal S=\delta_0$, where all observed spread is latent. Concretely, take
-$\mathcal S=\delta_0\in\mathfrak S$. Then $\Gtilde_c=G_c$ for every $c$,
+the dispersing factor $\mathcal N$. Validity is required for every admissible $\mathcal S$, so it suffices to
+evaluate it at the single member $\mathcal S=\delta_0\in\mathfrak S$, where
+all observed spread is latent. Take that member. Then $\Gtilde_c=G_c$ for every $c$,
 and the target satisfies $F_{\text{new}}\in\mu\pm\widehat\rho\iff
 \lVert G_{\text{new}}\rVert_\infty\le\widehat\rho$, with
 $\lVert G_{\text{new}}\rVert_\infty$ exchangeable with the $K$ observed
@@ -263,7 +284,7 @@ Counterexample: $R\in\{0,10\}$ with masses $(0.85,0.15)$ and $\xi=\pm1$ with equ
 probability give $Q_{0.9}(R)=10$ but $Q_{0.9}(R+\xi)=9$ --- the symmetric noise moves
 mass \emph{below} the latent quantile --- and the conformal band calibrated on the noisy
 scores undercovers the latent target ($0.867$ at $K=200$, $\alpha=0.10$, in the
-replication package's contract test \texttt{test\_latent\_target\_bridge.py}). Bimodal
+replication package's contract tests). Bimodal
 latent score laws of this shape arise naturally when a minority of countries follows a
 distinct regime. This is why Theorem~2(b) is stated as an explicit two-term bound (small
 noise $\Rightarrow$ small gap) rather than as unconditional conservativeness, and why on
@@ -440,7 +461,7 @@ the profile adaptivity --- the level normalization was free all along.
 This section states the main text's Theorem~4 with its three assumptions in
 full and proves it. Under them the oracle case is \emph{exact} and the
 estimated case carries a proved, one-sided remainder. The assumptions are
-not decorative --- the bimodal counterexample
+not innocuous --- the bimodal counterexample
 of Remark~\ref{rem:bimodal} shows that \emph{some} shape restriction is necessary for
 any latent-target claim, and (A1) is exactly the restriction under which the
 deconvolution's distributional matching is an identity rather than an approximation.
@@ -454,10 +475,17 @@ to $\mathbb E\,W(t)=0$ and $\mathbb E\,W(t)^2=1$ (so that $s_R^2$ and $v_c^2$
 are variances and $s_{\text{plug}}^2=s_R^2+\overline{v^2}$ is the main text's
 coordinate identity) and the latent scale nondegenerate and bounded,
 $0<s_{\min}\le s_R(t)\le s_{\max}<\infty$ for every $t$ (the relative
-perturbations $\Delta_0(t)$ below divide by $s_R(t)$). This is strong, and we
-state its content plainly: it requires not only a common (e.g.\ Gaussian) shape family but that the
-design noise share the latent curves' \emph{cross-threshold correlation profile}, so
-that noise changes only the scale of a common shape process. In real surveys the
+perturbations $\Delta_0(t)$ below divide by $s_R(t)$). This is strong. (A1) is a direct
+\emph{distributional} matching condition on the standardized observed and
+latent curves: it asks that $\Gtilde_c/\sqrt{s_R^2+v_c^2}$ and $G_{K+1}/s_R$
+follow one common law $W$. That does not follow from the additive model
+$\Gtilde=G+S$ with $S$ independent of $G$, nor from equality of the two
+covariance profiles, since a standardized sum of independent processes need
+not share the summand's law; convolution-stable families --- Gaussian, and
+common-elliptical constructions more generally --- are the leading cases
+where it does. Substantively (A1) requires the design noise to share the
+latent curves' \emph{cross-threshold correlation profile}, so that noise
+changes only the scale of a common shape process. In real surveys the
 within-country sampling covariance across thresholds is governed by the design while
 the between-country profile is governed by substantive heterogeneity, so (A1) is an
 idealization---the price of finite-sample exactness. Bimodal mixtures of
@@ -479,12 +507,23 @@ through pathwise domination.
 \emph{(A3, moments, boundedness, and bootstrap.)} The scores have finite fourth
 moment (kurtosis $\kappa$) and the error curves are uniformly bounded (automatic on
 the CDF scale, where $|\Gtilde_c(t)|\le1$), so that empirical second moments
-and bootstrap replicate averages obey Bernstein-type sub-exponential tail bounds;
-and the size-$B$ design bootstrap is unbiased for $v_c^2(t)$ with relative variance
-$\le c_v/B$. (Boundedness is what buys the logarithmic---rather than
-polynomial---dependence on $KT$ below; without it, Chebyshev alone gives the same
-conclusion with $\log(KT)$ replaced by a polynomial factor and a correspondingly
-slower rate.)
+and bootstrap replicate averages obey Bernstein-type sub-exponential tail bounds.
+The bootstrap enters in two layers, which we keep apart.
+\emph{(A3a, design-variance target.)} The resampling scheme's ideal variance
+--- its $B\to\infty$ limit --- equals the design variance $v_c^2(t)$. This is
+an idealization of the survey bootstrap, not a theorem about it: for a
+stratified-PSU scheme it is the usual with-replacement-across-PSUs
+approximation, exact in the limit of many PSUs per stratum and biased
+downward when strata are sparse.
+\emph{(A3b, finite-$B$ Monte Carlo.)} Given that target, the size-$B$
+replicate average estimates it with relative variance $\le c_v/B$.
+Only (A3b) contributes the $B^{-1/2}$ term in $\varepsilon_{K,B}$; (A3a) is
+an approximation whose empirical adequacy is probed rather than proved, by
+the Rao--Wu--Yue rescaled reruns and the design-effect sweeps of
+Section~\ref{sup:empirical}. (Boundedness is what buys the
+logarithmic---rather than polynomial---dependence on $KT$ below; without it,
+Chebyshev alone gives the same conclusion with $\log(KT)$ replaced by a
+polynomial factor and a correspondingly slower rate.)
 
 \begin{lemma}[Order-statistic concentration]\label{lem:orderstat}
 Let $Z_1,\dots,Z_K$ be i.i.d.\ with distribution function $F$, let
@@ -623,7 +662,7 @@ inflation; their \emph{latent}-target validity under (A1), which
 Lemma~\ref{lem:dominate} below establishes for raw-centered scores, is
 carried to the leave-one-out center by Proposition~\ref{prop:looanchor},
 which prices the centering the same way as for the deconvolution branch,
-whose guarantee already carries an estimation remainder: the honest
+whose guarantee already carries an estimation remainder: the
 resolution in both cases is to price the centering inside that remainder.
 
 \begin{proposition}[LOO-centered deconvolution]\label{prop:loodec}
@@ -777,14 +816,12 @@ condition gives probability $O(e^{-cK})$.
 Collecting terms, $\alpha_{\text{anchor}}+4L\gamma+O(K^{-1/2})+O(e^{-cK})
 =\alpha_{\text{anchor}}+\gamma^{\text{anch}}_K$. The $K/(K{-}1)$ inflation
 only enlarges the band, and the conservative band contains the clustered one,
-so both statements follow. (Machine check: \texttt{test\_loo\_validity.py::%
-test\_loo\_centered\_anchor\_latent\_coverage} runs the (A1) family with
+so both statements follow. (A contract test runs the (A1) family with
 country-specific $v_c$ through the deployed centering and pins the centering
 cost against the raw-centered anchor on the same draws.)
 \end{proof}
 
-Contract test: \texttt{tests/test\_loo\_validity.py::%
-test\_loo\_centered\_deconvolution\_coverage} runs the (A1) scale-family DGP
+A contract test runs the (A1) scale-family DGP
 \emph{through the leave-one-out centering} --- the construction the pipeline
 actually deploys, $\sum_c\widetilde G^{\text{loo}}_c=0$ verified in-test ---
 and checks the always-deconvolve band's latent-target coverage at
@@ -798,10 +835,10 @@ bimodal construction violates it and defeats \emph{any} latent-target band built
 observed scores, so a condition of this type is not an artifact of our proof but a
 feature of the problem. When (A1) is doubtful the pipeline does not rely on it:
 gate~D (stability) and the conservative fallback do not use (A1), and at survey scale
-Theorem~5's guarantee bypasses this theorem entirely. Machine check:
-\texttt{test\_estimated\_law\_validity.py} verifies (i)-type exactness and the
+Theorem~5's guarantee bypasses this theorem entirely. Contract tests verify
+(i)-type exactness and the
 $K$/$B$ decay of the remainder on a scale-family DGP, and the bimodal DGP's exclusion
-is verified by \texttt{test\_latent\_target\_bridge.py}.
+is verified numerically.
 \end{remark}
 
 \subsection{Theorem~5 (safe-adaptive finite-$K$ validity---the deployed pipeline)}
@@ -912,7 +949,7 @@ lemma for raw-centered anchors and $\alpha_{\text{anchor}}+\gamma^{\text{anch}}_
 by Proposition~\ref{prop:looanchor} for the deployed leave-one-out center,
 the deconvolution term is $\alpha_{\text{dec}}+\varepsilon_{K,B}$ by
 Theorem~4(ii), which is a latent-target statement to begin with. (Machine
-check: \texttt{test\_anchor\_domination.py}.) Note the lemma uses (A1) only
+check: contract test.) Note the lemma uses (A1) only
 through the common shape process; it is exactly the shape restriction that
 Remark~\ref{rem:bimodal} shows is unavoidable for \emph{any} latent-target
 claim built on observed scores.
@@ -948,7 +985,7 @@ The gates (A--D) therefore no longer carry any validity burden: they are an
 efficiency-and-robustness device that decides \emph{which} of three individually
 budgeted constructions to return. This is weaker machinery than the earlier
 conditional claim and strictly stronger guarantees: at survey scale the deployed band
-is exact, full stop, and the only remainder anywhere in the pipeline is Theorem~4's
+is exact, and the only remainder anywhere in the pipeline is Theorem~4's
 $\varepsilon_{K,B}$, confined to the $K\ge94$ regime where deconvolution can activate
 and reported through $\widehat\delta_{\text{UCB}}(D)$ when it does.
 \end{remark}
@@ -959,24 +996,24 @@ and reported through $\widehat\delta_{\text{UCB}}(D)$ when it does.
 $\rhohat_{\mathrm{LCB}}>\rho_0$ and a \emph{reliability} gate $D\le\tau_D$ both hold, with
 $D=\max_t\widehat{\mathrm{SE}}(\widehat s_T^2)/\widehat s_T^2$ computed by the frozen
 formula below. Two facts bound these.
-\emph{(a, algorithmic --- deterministic.)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}
-\in[0,1)$ with $s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$; and the deployed diagnostic
-satisfies $D\ge\sqrt{2/(K-1)}$ \emph{identically, for every possible dataset}, so gate~B
-cannot open unless $K\ge1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen $\tau_D=0.147$. This
-is a property of the frozen procedure, not a statistical estimate: the deployed pipeline
-provably never deconvolves at cross-national-survey $K$, which is what
-Theorem~5 uses.
-\emph{(b, statistical --- fourth-moment dependent.)} The interpretation of the floor as
-\emph{the} sampling error of a $K$-cluster variance is exact under Gaussian scores and
-otherwise holds up to the kurtosis: the true relative SE of $\widehat s^2$ is
-$\sqrt{(\kappa-1)/K}\,(1+o(1))$ with $\kappa$ the score kurtosis, larger than the
-Gaussian formula for heavy-tailed scores ($\kappa>3$) and smaller for platykurtic ones
-($\kappa<3$).
+\emph{(a, the need gate.)} $\rho=\sqrt{\overline{v^2}}/s_{\mathrm{plug}}
+\in[0,1)$ with $s_{\mathrm{plug}}^2=s_R^2+\overline{v^2}$, and
+$\rhohat_{\mathrm{LCB}}$ is its conservative aggregate, so gate~A fires only
+when design noise is an appreciable fraction of the between-population
+spread; $\rho_0$ is a frozen operational threshold.
+\emph{(b, the reliability gate.)} The deployed diagnostic satisfies
+$D\ge\sqrt{2/(K-1)}$ \emph{identically, for every possible dataset}, so
+gate~B cannot open unless $K\ge1+2/\tau_D^2$, i.e.\ $K\ge94$ at the frozen
+$\tau_D=0.147$. This is a property of the frozen procedure, not a statistical
+estimate: the deployed pipeline provably never deconvolves at
+cross-national-survey $K$, which is what Theorem~5 uses.
 
 \begin{proof}
 (a)~$\rho^2=\overline{v^2}/(s_R^2+\overline{v^2})\in[0,1)$, so the need gate can fire only
 when the design noise $\overline{v^2}$ is an appreciable fraction of the between-population
-signal $s_R^2$. The frozen diagnostic computes
+signal $s_R^2$.
+
+(b)~The frozen diagnostic computes
 $\widehat{\mathrm{SE}}(\widehat s_T^2)=\sqrt{2s_{\mathrm{plug}}^4/(K-1)+(\mathrm{SD}_K(v^2)
 /\sqrt K)^2}$ and, by construction of the finite-$K$-guarded scale,
 $\widehat s_T\le s_{\mathrm{plug}}$ for every $t$; hence
@@ -986,15 +1023,15 @@ D=\max_t\frac{\widehat{\mathrm{SE}}(\widehat s_T^2)}{\widehat s_T^2}
 \ =\ \sqrt{\tfrac{2}{K-1}}
 \]
 as an algebraic identity of the deployed statistic (checked numerically in
-\texttt{test\_prop1\_floor.py}). Hence $D\le\tau_D$ forces $\sqrt{2/(K-1)}\le\tau_D$,
+a contract test). Hence $D\le\tau_D$ forces $\sqrt{2/(K-1)}\le\tau_D$,
 i.e.\ $K\ge1+2/\tau_D^2$. With the frozen gate-B constants
 $\widehat\delta_{\mathrm{UCB}}(D)=a+bD$, $a=0.0061$, $b=0.0943$, $\delta_{\max}=0.02$, the
 threshold is $\tau_D=(\delta_{\max}-a)/b=0.147$, giving $K\ge1+2/0.147^2\approx94$.
 Repeated cross-national surveys have $K\le33$ (ESS) and $\sim20$--$40$ (LAPOP,
 Afrobarometer, Eurobarometer), so the gate-B feasible region is empty at survey scale
 regardless of $\rho$: even if the need gate were passed, deconvolution stays blocked.
-(b)~is the standard $\operatorname{Var}(\widehat s^2)=(\mu_4-\sigma^4\,(K-3)/(K-1))/K$
-expansion.
+The kurtosis expansion behind the remark below is the standard
+$\operatorname{Var}(\widehat s^2)=(\mu_4-\sigma^4\,(K-3)/(K-1))/K$.
 \end{proof}
 
 \begin{remark}
@@ -1013,15 +1050,25 @@ the \emph{cross-national} application: many-unit settings (subnational areas, sc
 clinics) routinely have $K\ge94$, where the reliability gate can open.
 \end{remark}
 
+\begin{remark}[The floor's statistical reading is kurtosis-dependent]
+Part~(b) is an identity of the frozen diagnostic. Reading $\sqrt{2/(K-1)}$ as
+\emph{the} sampling error of a $K$-cluster variance is a separate,
+distributional statement: it is exact under Gaussian scores and otherwise
+holds up to the kurtosis, the true relative SE of $\widehat s^2$ being
+$\sqrt{(\kappa-1)/K}\,(1+o(1))$ with $\kappa$ the score kurtosis --- larger
+than the Gaussian formula for heavy-tailed scores ($\kappa>3$) and smaller
+for platykurtic ones ($\kappa<3$). Nothing in Theorem~5 uses this reading.
+\end{remark}
+
 \paragraph{The floor is not the selector's.} Proposition~2(b) is an
-algorithmic identity of the \emph{frozen} procedure. The natural objection is
+algorithmic identity of the \emph{frozen} procedure. One objection is
 that $94$ is an artifact of our thresholds; the following lemma removes the
 procedure from the statement, for the class the deployed diagnostic lives in.
 
 \begin{lemma}[Unbiased-estimation reliability floor]\label{lem:floor}
-At the Gaussian member of the observation model, let $\widehat V$ be any
-\emph{unbiased} estimator of a variance $\sigma^2$ built from $K$ exchangeable
-population summaries with unknown mean. Then
+At the i.i.d.\ Gaussian member of the exchangeable model class, let
+$\widehat V$ be any \emph{unbiased} estimator of a variance $\sigma^2$ built
+from $K$ population summaries with unknown mean. Then
 $\operatorname{Var}(\widehat V)\ge2\sigma^4/(K-1)$: the relative standard error
 of any such estimator is at least $\sqrt{2/(K-1)}$. Consequently any
 correction that relies on an unbiased noise-variance estimate with a
@@ -1060,7 +1107,7 @@ $K<1+2/\tau^2$ --- the need is real and no estimator is reliable enough to
 certify the subtraction), and \emph{feasible} ($\rho$ and $K$ both large). The
 deployed gates A and B are the frozen instantiations of the two quantities.
 the main text's Figure~2 places this paper's datasets (per-gate
-diagnostics in Figure~S\ref{fig:gates}): the WVS
+diagnostics in Figure~\ref{fig:gates}): the WVS
 full-coverage sets sit deep in the unnecessary regime ($K=95$--$105$,
 $\rhohat_{\mathrm{LCB}}\le0.10$); every ESS national-unit cell sits left of the
 floor ($K\le33$, $\rhohat_{\mathrm{LCB}}\le0.15$); and the small-area estimand
@@ -1298,7 +1345,7 @@ SDs), the frozen pipeline --- unchanged constants, the $\alpha$-budget architect
 Theorem~5 --- is run at $K\in\{60,94,150,220,300\}$ areas and posterior-noise
 ratios $0.3$--$0.9$, scoring the returned band against the latent area curve
 ($800$ reps per cell). Three facts emerge. First, gate-B \emph{feasibility}
-($K\ge94$) is necessary but not sufficient: with the deconvolution branch honestly
+($K\ge94$) is necessary but not sufficient: with the deconvolution branch
 budgeted at $\alpha_{\text{dec}}=\max(0.1\alpha,\,3/(K{+}1))$, its conformal quantile
 is informative --- and the width-gain gate clears --- only from $K\approx220$, so the
 practical activation frontier sits near $K\approx200$--$300$. Second, where it
@@ -1311,8 +1358,10 @@ floor. Many-unit clustered settings (US counties, schools, clinics) have $K$ wel
 beyond this frontier; repeated cross-national surveys never do
 (\texttt{e31\_positive\_regime}; \texttt{results/positive\_regime.csv}).
 
-\paragraph{The barriers are not survey artifacts.} Both gates are distribution-free, so
-the boundary should transfer to any conformal procedure calibrated on estimated objects
+\paragraph{The barriers are not survey artifacts.} The need gate is
+distribution-free and the reliability floor holds across the
+unbiased-variance estimator class, so the boundary should transfer to
+conformal procedures calibrated on estimated objects by the same route
 (the general remark of the main text). A simulation confirms it outside the survey
 setting (\texttt{e29\_beyond\_surveys}): across Gaussian, heavy-tailed, skewed, and a
 non-survey model-based small-area (MRP-style) calibration, the reliability floor
@@ -1380,7 +1429,7 @@ national-scale abstention persists --- but the four-cell activation table of
 \texttt{e54} is specific to the shipped $m$-of-$m$ calibration, which is one
 reason the rescaling is reported as a sensitivity rather than promoted to the
 deployed default. The more consequential structural fact is different and we
-state it plainly: in $52$ of the $90$ core country-rounds the median PSU
+state it: in $52$ of the $90$ core country-rounds the median PSU
 contains a single respondent---these are register samples of individuals, where
 \texttt{psu} carries no clustering to absorb. the main text's
 ``uniformly low design-noise regime'' is therefore in substantial part a
@@ -1546,7 +1595,7 @@ rounds 1--8 SDDF upgrade: $d=6$ on both outcomes under Simes and under
 Bonferroni local tests, naming the same six countries. Closed testing trims
 the
 certified sets' marginal members (Spain and Hungary on \texttt{trstprl}, France
-on \texttt{stfdem}), which is the honest gap between a per-country-$\alpha$
+on \texttt{stfdem}), which is the gap between a per-country-$\alpha$
 count and a simultaneous one. Naming is licensed by simultaneity over
 subsets, read correctly: the global $d$ says ``at least six among all
 thirty-three,'' not ``these six,'' so the named set is re-certified on its own
@@ -1785,7 +1834,7 @@ but we read this as an underpowered null rather than youth stability: only $17$ 
 $30$ countries clear the preregistered minimum-sample gate for a single youth band,
 and the smaller, noisier youth cells yield wider design-aware bands that certify
 less---the small-$K$ scope condition of the simulation appearing on real
-data. The analysis thus supports the headline while adding an honest caveat, and it
+data. The analysis thus supports the headline with that caveat, and it
 is emphatically \emph{not} a story of youth-led democratic disaffection.
 
 \paragraph{Youth deconsolidation on the World Values Survey.} The youth claim in the
