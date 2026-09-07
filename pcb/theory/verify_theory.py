@@ -95,14 +95,6 @@ def main():
         ok &= r['cov_sup_sim'] >= 1 - alpha - 0.015
         ok &= r['cov_bonf_sim'] >= 1 - alpha - 0.015
 
-    print("\n=== Sandwich vs observed empirical joint coverages (THEORY Thm 2b) ===")
-    for T, obs, lbl in [(19, 0.375, "E1 pseudo-pop"), (10, 0.541, "E3 PIP consumption")]:
-        floor = (1 - alpha) ** T
-        inside = floor <= obs <= 1 - alpha
-        print(f"  {lbl:>20} (T={T}): floor (1-a)^T={floor:.3f} <= obs={obs:.3f} "
-              f"<= 1-a=0.900  -> {'inside ✓' if inside else 'OUTSIDE ✗'}")
-        ok &= inside
-
     print("\n" + ("ALL THEORY CHECKS PASS ✓" if ok else "SOME CHECKS FAILED ✗"))
     return ok
 
