@@ -23,9 +23,9 @@ SOFTWARE.
 ---
 
 Note on data licensing:
-- World Bank Poverty and Inequality Platform (PIP) data, fetched by
-  src/data/fetch_pip.py and stored in data/external/pip_curves.csv, is
-  distributed by the World Bank under CC-BY 4.0.
-- The DrivenData competition data used in experiment E1 is NOT included in this
-  repository and is subject to the competition's own license; it must be obtained
-  separately.
+- The ESS, WVS, and LAPOP microdata analyzed in this package are licensed by
+  their providers, are NOT included in this repository, and are not covered by
+  the MIT license above. Obtain each from its provider and place it as
+  described in docs/DATA_SOURCES.md.
+- V-Dem and the Claassen latent panel are public; see docs/DATA_SOURCES.md for
+  their versions, DOIs, and terms.

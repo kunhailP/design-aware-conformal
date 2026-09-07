@@ -15,10 +15,14 @@ twice: a wave-pair mean contrast stands in for a persistent, distribution-wide
 trajectory, and an estimated distribution stands in for the latent one it samples.
 This package provides:
 
-- a **finite-sample simultaneous band** over a country's whole
-  response-distribution trajectory, with the country as the exchangeable unit and a partially ordered
-  claim family (pairwise, any-pair, net, persistent — persistent at the top —
-  plus a Bonferroni layer across countries);
+- **within a country**, a **design-based simultaneous band** over the whole
+  response-distribution trajectory — a studentized sup-*t* band on wave-pair CDF
+  differences from the stratified-PSU bootstrap, so an **asymptotic** guarantee —
+  carrying a partially ordered claim family (pairwise, any-pair, net, persistent
+  — persistent at the top);
+- **across countries**, a **finite-sample clustered conformal band**, with the
+  country as the exchangeable unit, plus a Bonferroni layer and a closed-testing
+  lower bound on the across-country count;
 - a **non-identification theorem and survey-scale unreachability boundary** for
   the design-aware (deconvolution) correction, with a provably selection-free
   deployed selector;

@@ -11,8 +11,10 @@ For each country, test the partial-conjunction claim that at least two available
 WVS battery items truly exhibit persistent decline over every consecutive
 observed wave pair and every preregistered core threshold.
 
-The component p-values invert the exact one-sided adjacent-pair band used by
-`pcb.experiments.e26_wvs_deconsolidation`. A country-item is available when E26
+The component p-values invert exactly the same one-sided adjacent-pair
+design-bootstrap band used by `pcb.experiments.e26_wvs_deconsolidation`; that
+band is E26's weights-only bootstrap band, asymptotic rather than
+finite-sample exact. A country-item is available when E26
 has at least two qualifying waves, using E26's fixed `MIN_N=400`, item support,
 core thresholds, weights, 2,000 bootstrap draws, and deterministic seeds.
 
