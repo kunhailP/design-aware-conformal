@@ -71,7 +71,7 @@ def main():
     axR.set_xlabel("ρ̂ (conservative LCB)", fontsize=9, color=TEXT)
     axR.set_ylabel("safe-deconvolution activation (%)", fontsize=9, color=TEXT)
     axR.legend(fontsize=8, frameon=False, labelcolor=TEXT, ncol=2)
-    axR.set_title("Efficient branch unlocks with K;\nsmall K abstains (honest)",
+    axR.set_title("Efficient branch unlocks with K;\nsmall K: selector abstains",
                   fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
     os.makedirs("figures", exist_ok=True); fig.savefig("figures/holdout_validation.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/holdout_validation.pdf", bbox_inches="tight")

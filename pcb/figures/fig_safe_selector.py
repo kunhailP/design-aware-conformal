@@ -66,8 +66,8 @@ def main():
     axR.set_xlabel("ρ̂ (conservative)", fontsize=9, color=TEXT)
     axR.set_ylabel("safe-deconvolution activation (%)", fontsize=9, color=TEXT)
     axR.legend(fontsize=8, frameon=False, labelcolor=TEXT)
-    axR.set_title("Larger K unlocks the efficient branch;\nsmall K abstains "
-                  "(honest inference)", fontsize=9.5, color=TEXT, loc="left")
+    axR.set_title("Larger K unlocks the efficient branch;\nsmall K: selector "
+                  "abstains", fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()
     os.makedirs("figures", exist_ok=True); fig.savefig("figures/safe_selector_grid.png", dpi=300, bbox_inches="tight"); fig.savefig("figures/safe_selector_grid.pdf", bbox_inches="tight")
     plt.close(fig)

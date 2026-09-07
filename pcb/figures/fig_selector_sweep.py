@@ -4,7 +4,7 @@ figures/selector_sweep.png : two panels vs ρ̂ —
   (top) branch share PCB → deconvolution → conservative fallback;
   (bottom) coverage of PCB (over-covers), deconvolution (under-covers at finite K),
   and the routed adaptive pipeline, against the nominal 0.90 line.
-Honest: shows the transition AND the finite-K deconvolution undercoverage.
+Shows the transition and the finite-K deconvolution undercoverage.
 
 Run:  python -m pcb.figures.fig_selector_sweep   (after e19_selector_sweep)
 """
@@ -71,7 +71,7 @@ def main():
     ax2.set_xlabel("ρ̂  (estimated design/transport SD ratio)", fontsize=9, color=TEXT)
     ax2.set_ylabel("coverage of latent target", fontsize=9, color=TEXT)
     ax2.legend(fontsize=8, frameon=False, loc="lower left", labelcolor=TEXT)
-    ax2.set_title("Honest finite-K (K=30) picture: deconvolution undercovers in the "
+    ax2.set_title("Finite-K (K=30): deconvolution undercovers in the "
                   "transition\nregime (ε_{K,B}); real data never reaches ρ̂>0.23",
                   fontsize=9.5, color=TEXT, loc="left")
     fig.tight_layout()

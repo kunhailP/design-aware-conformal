@@ -233,8 +233,9 @@ finite-$K$ reliability is what Proposition~2 bounds.
 \subsection{Theorem~2 (oracle validity)}
 
 \emph{Statement.} With the countries exchangeable and the design law known: (a)~the
-clustered band on $\{\widetilde R_c\}$ covers the survey-estimate target T1 exactly,
-$\Pr(\widetilde R_{K+1}\le\widehat q)\ge1-\alpha$, using exchangeability only.
+clustered band on $\{\widetilde R_c\}$ is finite-sample valid for the
+survey-estimate target T1, $\Pr(\widetilde R_{K+1}\le\widehat q)\ge1-\alpha$,
+and exact at the attainable conformal rank, using exchangeability only.
 (b)~For the latent target T2 the same band satisfies, for every $u>0$,
 \[
 \Pr(R_{K+1}\le\widehat q)\;\ge\;1-\alpha\;-\;\Pr(\xi_{K+1}<-u)\;-\;
@@ -317,7 +318,7 @@ log-concave latent density) the classical dominance argument does go through, bu
 not rely on it.
 \end{remark}
 
-\subsection{Theorem~3 (exact finite-$K$ validity of the deployed base band)}
+\subsection{Theorem~3 (exact finite-$K$ validity of the base band)}
 
 \emph{Statement.} Let the error curves be $\Gtilde_c(t)=\Ftilde_c(t)-\mu(t)$, where the
 center $\mu$ satisfies the \emph{symmetric-construction condition}: it is (i)~a fixed
@@ -921,7 +922,8 @@ with no conditions on the selection rule,
 \Pr\big(\Ftilde_{\text{new},r}(t)\in\widehat B(r,t)\ \forall r,t\big)\;\ge\;1-\alpha
 \quad (K<94,\ \text{deconvolution unreachable}),
 \]
-exactly and with exchangeability alone, for the survey-estimate target T1; the
+with exchangeability alone, and exact at the attainable conformal rank, for
+the survey-estimate target T1; the
 latent target T2 carries in addition the two-term gap of Theorem~2(b),
 expected to be small --- not assumed away: the gap is a tail-plus-anti-concentration
 quantity, and Remark~\ref{rem:bimodal} shows small symmetric noise alone does not
@@ -1062,8 +1064,9 @@ $\operatorname{Var}(\widehat s^2)=(\mu_4-\sigma^4\,(K-3)/(K-1))/K$.
 \end{proof}
 
 \begin{remark}
-Part~(a) is what the validity theorem needs, and it is unconditional. Part~(b) is what
-the \emph{calibration} of $\widehat\delta_{\mathrm{UCB}}$ needs, and its
+Part~(b)'s floor is what Theorem~5 needs, and it is unconditional. The
+kurtosis reading of that floor (remark below) is what the \emph{calibration}
+of $\widehat\delta_{\mathrm{UCB}}$ needs, and its
 fourth-moment dependence is a real limitation in one direction only: for platykurtic
 scores the frozen formula over-states the sampling error, so the gate is merely
 over-conservative (an efficiency cost); for heavy-tailed scores it under-states it, so
@@ -1186,7 +1189,7 @@ This section answers three questions in order: what fails without the
 finite-$K$ guard, whether the deployed selector restores coverage, and what
 the validation does and does not establish.
 
-\subsection{What fails without the guard}
+\subsection{The finite-$K$ mechanism}
 
 A controlled Gaussian illustration (design SD $=$ transport SD, $\rho{=}0.9$;
 \code{fig_theory_illustration.py}) makes the failure explicit and shows
@@ -1226,7 +1229,7 @@ deployed adaptive selector abstains to conservative and stays valid
 throughout.}\label{fig:coverage_LK}
 \end{figure}
 
-\subsection{Does the deployed selector restore coverage?}\label{sup:robustness}
+\subsection{Validation of the deployed selector}\label{sup:robustness}
 
 \paragraph{What ``frozen'' means here, and the provenance of each run.} This
 package uses no external study registry. Throughout, \emph{preregistered} and
@@ -1269,7 +1272,7 @@ Final sealed \texttt{e33}, run 2 & amended generator re-hashed &
 \end{tabular}
 \end{table}
 
-\paragraph{The failure: a finite-$K$ deficit in the studentized base band.}
+\paragraph{Base-band audit.}
 The sealed holdout scored the PCB branch with the S2 studentized quantiles,
 a different band from the U0 construction the package deploys. That is a
 defect in the harness, but a productive one: it is what exposed the
@@ -1277,7 +1280,7 @@ studentized band's finite-$K$ self-inclusion deficit, whose worst deployed
 cell was $0.843$ (weak cross-round dependence at $K{=}25$), worst at small
 $K$ and long trajectories.
 
-\paragraph{The fix, and its price.} The deployed band was switched to the
+\paragraph{The deployed band, and its width cost.} The deployed band was switched to the
 unstudentized clustered construction, for which Theorem~3 is exact at every
 $K$. A rerun on a fresh grid ($K\in\{15,\dots,60\}$, ten DGPs) confirms it:
 the worst cell rises from $0.802$ (S2, $K{=}15$) to $0.893$, and every cell is
@@ -1290,7 +1293,7 @@ core. The cells paying more than $10\%$ are synthetic heavy-tailed and
 irregular-length curves at $K{=}15$ ($1.17$--$1.18\times$), where the
 studentized alternative is itself invalid.
 
-\paragraph{The validation.} Rerunning the same $450$-cell grid on the band
+\paragraph{Holdout validation of the deployed selector.} Rerunning the same $450$-cell grid on the band
 \texttt{dapcb} actually returns, under the $\alpha$-budget architecture of
 Theorem~5 and a fresh seed, passes every frozen criterion outright: worst
 cell $0.882$ (binomial-compatible with the exact level), $450/450$ cells
@@ -1333,9 +1336,9 @@ worst family) against the $0.88$ floor and $0.90$ nominal. Right: deconvolution
 activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdout}
 \end{figure}
 
-\subsection{What the validation does and does not establish}\label{sup:scope}
+\subsection{Scope of the validation}\label{sup:scope}
 
-\paragraph{A limitation in the extreme tail.} The Gaussian-calibrated
+\paragraph{Extreme-tail limitation of the remainder bound.} The Gaussian-calibrated
 remainder bound $\widehat\delta_{\text{UCB}}$ is not robust at the extreme: in $77$ of
 $360{,}000$ draws ($0.02\%$), on strongly-dependent or heavy-tailed DGPs at $K{=}320$,
 draws that pass gate~B undercover to $\approx0.79$. In the $\rho=0.90$ cells the gates
@@ -1346,7 +1349,7 @@ concentration-dependent, not uniform over the $\rho\ge0.72$ range. Under
 Theorem~5 this entire failure mode is confined to the $K\ge94$,
 $\alpha_{\text{dec}}$-budgeted branch and cannot touch the survey-scale guarantee.
 
-\paragraph{The final sealed validation (\texttt{e33}).} The main text's
+\paragraph{Final validation on unseen data-generating families.} The main text's
 headline validation is a third layer: six unseen data-generating families
 $\times$ $120$ cells, with the script hash recorded before first execution
 (\code{configs/final_validation_manifest.json}). The first sealed run
