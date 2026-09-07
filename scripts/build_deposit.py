@@ -34,8 +34,9 @@ INCLUDE = [
 # excluding the *name* "data" here would also drop the pcb/data loader
 # package, which a replication analyst needs for Tier 2.
 EXCLUDE_DIRS = {"__pycache__", ".pytest_cache", ".git", "dist"}
+EXCLUDE_FILES = {"data_pcb.zip"}
 EXCLUDE_SUFFIX = (".pyc", ".aux", ".bbl", ".blg", ".log", ".out", ".toc",
-                  ".DS_Store")
+                  ".DS_Store", ".tar.gz")
 # a fixed timestamp (the repo's public-release convention): 2026-08-20 00:00
 ZIP_DATE = (2026, 8, 20, 0, 0, 0)
 
@@ -44,7 +45,12 @@ def _version() -> str:
     try:
         h = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
                            capture_output=True, text=True, check=True)
-        return h.stdout.strip()
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain"], cwd=ROOT,
+            capture_output=True, text=True, check=True,
+        )
+        suffix = "-dirty" if dirty.stdout.strip() else ""
+        return h.stdout.strip() + suffix
     except Exception:
         return "local"
 
@@ -57,9 +63,12 @@ def _files():
             out.append(top)
             continue
         for dirpath, dirnames, filenames in os.walk(p):
-            dirnames[:] = sorted(d for d in dirnames if d not in EXCLUDE_DIRS)
+            dirnames[:] = sorted(
+                d for d in dirnames
+                if d not in EXCLUDE_DIRS and not d.endswith(".Rcheck")
+            )
             for f in sorted(filenames):
-                if f.endswith(EXCLUDE_SUFFIX):
+                if f in EXCLUDE_FILES or f.endswith(EXCLUDE_SUFFIX):
                     continue
                 rel = os.path.relpath(os.path.join(dirpath, f), ROOT)
                 out.append(rel)

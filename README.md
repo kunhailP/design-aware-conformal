@@ -33,7 +33,7 @@ This package provides:
 | Marginal readings flag 20/30 ESS countries; the hierarchy certifies net decline in 6, persistence in 1 (Greece) | `e13`, §7 |
 | Over the full 2002–2024 record, read off one joint band: persistence in **0/33**, span erosion in **8**, and 23/33 certifying both a decline and a recovery at one α | `e50`, §7 |
 | Closed testing across countries: with 90% simultaneous confidence **at least 6 of 33** truly declined over their span, on each outcome — the across-country count itself now carries a guarantee | `e56`, §7 |
-| WVS: a trajectory-persistence criterion cuts the wave-pair certified set 2.6–6.5× (rung alone: 1.9–4.8×); the 13-country certified core is post-communist / Arab-Spring, not the West | `e26`/`e30`, §7 |
+| WVS: persistence cuts the wave-pair set 2.6–6.5×; 12 of the 13 descriptive multi-item core countries pass a valid ≥2-item partial-conjunction test (10/9 at design effects 1.5/2.0) | `e26`/`e63`/`e65`, §7 |
 | Deconvolution is non-identified without the design-noise law and unreachable at survey scale (K≥94 floor) | Thm 1, Prop 2, §2/§6 |
 | Robustness: RWY-rescaled bootstrap, WVS and joint-band design-effect sweeps, mode audit from the data's own mode variable, LORO exchangeability, null-imposed severity injection, window-matched Claassen — plus two **withdrawn** results with published diagnoses | `e38`–`e53`, Supplement |
 
@@ -60,8 +60,29 @@ vignette additionally needs `rmarkdown`):
 ```r
 install.packages("rpkg/dapcb", repos = NULL, type = "source")
 library(dapcb)
-fit <- dapcb(E, V, center, alpha = 0.10)
-print(fit)   # branch, coverage level, diagnostics
+E <- as.matrix(read.csv("calibration_errors.csv", check.names = FALSE))
+V <- as.matrix(read.csv("design_sds.csv", check.names = FALSE))
+mu <- scan("target_center.csv", quiet = TRUE)
+fit <- dapcb(E, V, mu, alpha = 0.10)
+fit$selected_branch
+fit$coverage_level
+fit$target
+fit$fallback_reason
+cbind(lower = fit$lo, center = mu, upper = fit$hi)
+```
+
+`E` and `V` are matching `K × T` matrices: one row per exchangeable
+population and one column per stacked trajectory coordinate. `mu` is the
+length-`T` target center. The returned level always states which target it
+covers; if a gate blocks deconvolution, `fallback_reason` says why.
+
+```mermaid
+flowchart LR
+  estimates[Population trajectory estimates] --> errors[Calibration errors E]
+  design[Design uncertainty V] --> selector[Finite-K safe selector]
+  errors --> selector
+  selector --> band[Simultaneous band]
+  band --> claims[Trajectory-level claims]
 ```
 
 ## Reproduce
@@ -98,7 +119,7 @@ pcb/
   inference/      clustered/population conformal, design_aware, safe selector
   data/           survey loaders: ESS, WVS trend file, LAPOP (schema audits)
   simulation/ theory/     generators and theory checks
-  experiments/    e6–e58 (simulation arc, ESS/LAPOP/WVS, robustness, frontier,
+  experiments/    e6–e65 (simulation arc, ESS/LAPOP/WVS, robustness, frontier,
                   prevalence; e43–e49, e51 superseded/withdrawn — see supplement)
   figures/        figure generators (write to figures/; tracked copies in paper/figures/)
 tests/            contract tests (theorem<->code) plus a claim ledger pinning

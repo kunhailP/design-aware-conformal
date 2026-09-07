@@ -90,6 +90,35 @@ def claim_family_pvalues(curves: np.ndarray, boots: np.ndarray,
                 p_any_adjacent=min(p_dec[s] for s in adjacent))
 
 
+def partial_conjunction_pvalue(pvals, k: int = 2,
+                               method: str = "bonferroni") -> float:
+    """Test that at least ``k`` of ``m`` component claims are true.
+
+    The null says at most ``k - 1`` component nulls are false. ``bonferroni``
+    returns ``(m-k+1) * p_(k)`` and is valid under arbitrary dependence.
+    ``simes`` applies Simes to the largest ``m-k+1`` ordered p-values and
+    requires independence or PRDS. A unit with fewer than ``k`` available
+    components cannot satisfy the claim and receives p=1.
+    """
+    p = np.sort(np.asarray(pvals, float))
+    if p.ndim != 1:
+        raise ValueError("pvals must be one-dimensional")
+    if not 1 <= k:
+        raise ValueError("k must be positive")
+    if p.size < k:
+        return 1.0
+    if np.any(~np.isfinite(p)) or np.any((p < 0) | (p > 1)):
+        raise ValueError("pvals must be finite and lie in [0, 1]")
+    n_remaining = p.size - k + 1
+    if method == "bonferroni":
+        return float(min(1.0, n_remaining * p[k - 1]))
+    if method == "simes":
+        ranks = np.arange(1, n_remaining + 1)
+        combined = n_remaining * p[k - 1:] / ranks
+        return float(min(1.0, np.min(combined)))
+    raise ValueError(f"unknown partial-conjunction method {method!r}")
+
+
 def _local_rejects(q_sorted: np.ndarray, alpha: float, local: str) -> bool:
     """Local test of the intersection hypothesis with ascending p-values `q`.
 

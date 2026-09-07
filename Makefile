@@ -42,7 +42,10 @@ tier2:
 	$(PY) -m pcb.experiments.e54_small_area_transport
 	$(PY) -m pcb.experiments.e55_small_area_exchangeability
 	$(PY) -m pcb.experiments.e56_prevalence
+	$(PY) -m pcb.experiments.e63_wvs_partial_conjunction
+	$(PY) -m pcb.experiments.e30_certified_core
 	$(PY) -m pcb.experiments.e59_wvs_magnitudes
+	$(PY) -m pcb.experiments.e65_wvs_pc_deff_sensitivity
 
 # Curated, deterministic replication archive (see REPLICATION.md §5).
 deposit:

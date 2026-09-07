@@ -8,7 +8,7 @@ fetched 2026-08-20). Status: ✅ compliant / 🔶 author action / ⬜ at-accepta
 
 | requirement | status | evidence / action |
 |---|---|---|
-| ≤ 6,000 words (abstract + body + figure legends + footnotes; excludes title page, references, words inside tables) | ✅ | **Measured 2026-09-06 with `texcount -inc main.tex`** (tabular cells excluded, math not counted). Before the pass: body 5,743 + abstract 193 + figure legends 190 = 6,126 (over). After the first pass: body 5,588 + 193 + 190 = 5,971. After the second read's additions (coordinate-level ρ, claim table, proof sketch, Bonferroni baselines, closed-testing assumption) and matching compression of §3/§4/§6/§7: body 5,590 + abstract 199 + figure legends 190 = 5,979. Third pass (headroom for the author's AI-disclosure sentence in §3, per PA's placement rule): body **5,511** + abstract **192** + figure legends 190 = **5,893**. Style pass (2026-09-06, LLM-cadence removal across §1–§8 and the abstract; no numbers, theorem statements, or ledger-pinned phrases changed — `tests/test_paper_claims.py` green apart from the placeholder guard): body **5,569** + abstract **191** + figure legends 184 = **5,944**, then a further content trim (2026-09-06: §1 fourth-contribution summary, §2 related work, §4 gap remark, §5 LAPOP stress-test paragraph folded into §6, §7 confounds) for the three AI-disclosure slots: body **5476** + abstract **191** + figure legends 184 = **5851**, leaving ~150 words. Section headers (~170) and table captions (~165) are not in PA's definition; a Word-style count that included them would read ~6,300, so any further additions must be paid for. PA does not ask for the count to be stated on the title page. |
+| ≤ 6,000 words (abstract + body + figure legends + footnotes; excludes title page, references, words inside tables) | ✅ | **Measured 2026-09-06 with `texcount -inc main.tex`** (tabular cells excluded, math not counted). Before the pass: body 5,743 + abstract 193 + figure legends 190 = 6,126 (over). After the first pass: body 5,588 + 193 + 190 = 5,971. After the second read's additions (coordinate-level ρ, claim table, proof sketch, Bonferroni baselines, closed-testing assumption) and matching compression of §3/§4/§6/§7: body 5,590 + abstract 199 + figure legends 190 = 5,979. Third pass (headroom for the author's AI-disclosure sentence in §3, per PA's placement rule): body **5,511** + abstract **192** + figure legends 190 = **5,893**. Style pass (2026-09-06, LLM-cadence removal across §1–§8 and the abstract; no numbers, theorem statements, or ledger-pinned phrases changed — `tests/test_paper_claims.py` green apart from the placeholder guard): body **5,569** + abstract **191** + figure legends 184 = **5,944**, then a further content trim (2026-09-06: §1 fourth-contribution summary, §2 related work, §4 gap remark, §5 LAPOP stress-test paragraph folded into §6, §7 confounds) for the three AI-disclosure slots: body **5476** + abstract **191** + figure legends 184 = **5851**, leaving ~150 words. The 2026-09-07 WVS partial-conjunction upgrade ended at body **5,532** + abstract **191** + figure legends **203** = **5,926**; after the 55-word Methods disclosure, the final count is **5,981**, leaving 19 words. Section headers (~170) and table captions (~165) are not in PA's definition; a Word-style count that included them would read ~6,300, so any further additions must be paid for. PA does not ask for the count to be stated on the title page. |
 | Abstract ≤ 200 words | ✅ | **192** (`texcount`, 2026-09-06) |
 | Keywords | ✅ | not required by PA |
 | 12-pt, double-spaced, page numbers, footnotes at bottom | ✅ | `main.tex`: `12pt` + `\doublespacing`; article-class page numbers; no endnotes |
@@ -172,10 +172,10 @@ items applied; suite 123 green + the placeholder guard:
    reported point ρ̂ defined (√mean v̂² / mean s_plug) beside the LCB
    aggregate (§2); "identification boundary" instead of "impossibility
    theorem" in the contributions; the WVS "certified core" labelled as
-   per-item co-certification, not a 90 % conjunction statement (§7) — the
-   partial-conjunction upgrade (Benjamini–Heller, 4·p₍₂₎ ≤ 0.10 with
-   per-item p-values from `claim_family_pvalues`) needs the WVS microdata
-   and is left as an author option.
+   descriptive per-item co-certification (§7). The subsequent WVS
+   partial-conjunction upgrade uses Benjamini–Heller
+   `(m−1)·p₍₂₎ ≤ 0.10` with persistent-band p-values: 12/13 pass at
+   baseline and 10/9 under design effects 1.5/2.0 (`e63`, `e65`).
 7. **API**: `stratified_psu_bootstrap` added as the canonical
    construction (draw-for-draw equal to `e12._design_boot`;
    `test_stratified_bootstrap`); experiments untouched to preserve
@@ -203,20 +203,12 @@ Fourth external read (proof-level), 2026-09-06 — all items applied:
 
 ## Remaining author actions
 
-0. **AI disclosure — left blank on purpose (2026-09-06, author's decision to
-   write it personally).** Three marked slots: `% AUTHOR TO WRITE` at the
-   end of `sections/03_method.tex` (code/data-analysis use, Methods),
-   the visible bold placeholder in `main.tex` Acknowledgments (text/proof
-   use), and the bold placeholder in `cover_letter.md`. The previous drafts
-   are in git history (commit `b28efc9`, `paper/main.tex`). Ledger test
-   `test_no_author_placeholders_left` fails until the visible placeholders
-   are removed (a hard failure, not an xfail), so the tree cannot pass CI
-   in a submittable-looking state with them present. After submission,
-   set `preferred-citation.journal` in `CITATION.cff` to "Under review,
-   Political Analysis".
-1. (superseded by 0) AI disclosure: both halves were written (Acknowledgments + Data
-   Availability Statement) — review the wording, adjust if desired.
-2. Read-through of the full PDF (voice pass), with particular attention to
+0. **AI disclosure completed 2026-09-07.** Methods, Acknowledgments, and cover
+   letter now identify the tool/version, June--September dates, Claude.ai
+   access, limited figure and selected-code scope, author verification, and
+   responsibility. After submission, set `preferred-citation.journal` in
+   `CITATION.cff` to "Under review, Political Analysis".
+1. Read-through of the full PDF (voice pass), with particular attention to
    §2's rewritten objects paragraph, Table 2, and the §4 proof sketch.
-3. Confirm the masthead on the day of submission (the editorial transition
+2. Confirm the masthead on the day of submission (the editorial transition
    was dated 1 September 2026).

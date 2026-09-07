@@ -78,9 +78,11 @@ archives with extensive dependencies.
 Supplementary Material is submitted as a separate PDF and contains the full
 proofs, the extended robustness analyses, and documented validation
 diagnostics. I declare no competing interests, and the research received no
-specific grant. **[AUTHOR: one-sentence generative-AI disclosure pointing to
-the manuscript's Methods and Acknowledgments — PA asks for it in the cover
-letter as well.]**
+specific grant. From June through September 2026, I used Claude Opus versions
+4.8–5 via
+Claude.ai for limited assistance with figure preparation and selected code
+implementation; no manuscript prose or mathematical arguments were AI-drafted,
+and I reviewed and verified all assisted material.
 
 Thank you for considering the manuscript.
 

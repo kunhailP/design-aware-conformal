@@ -1317,7 +1317,7 @@ Claassen's country--year support-for-democracy estimates (the corrected AJPS
 series; Harvard Dataverse \texttt{doi:10.7910/DVN/HWLW0J}) pool the same item
 families our WVS reanalysis certifies item-by-item. Merging his corrected
 series (change over $2006\to2017$, where his panel ends) with our $\ge2$-item
-screened universe ($74$ countries; \texttt{e37}): certified-core membership is
+screened universe ($74$ countries; \texttt{e37}): descriptive-core membership is
 essentially independent of the sign of his smoothed trend ($6$ of $13$ core
 members fall in his series, versus $32$ of $61$ non-core).
 
@@ -1470,12 +1470,32 @@ its own family would ignore the closure and can over-count; the contract
 tests pin the distinction and verify validity on planted truth,
 \texttt{tests/test\_prevalence.py}.)
 
+\paragraph{A valid cross-item WVS claim (\texttt{e63}, \texttt{e65}).}
+The main text's thirteen-country $\ge2$-item core first counts two separate
+$\alpha=0.10$ item-level certifications; that count alone does not test that
+two declines are true. We therefore inverted the unchanged persistent band for
+each available country--item and tested the partial-conjunction alternative
+that at least two item nulls are false. For a country with $m$ available items,
+the primary arbitrary-dependence-valid value is
+$p_{\mathrm{PC}}=\min\{1,(m-1)p_{(2)}\}$
+\citep{benjamini2008screening}. Twelve of the thirteen descriptive-core
+countries pass at $0.10$; Trinidad and Tobago does not
+($p_{\mathrm{PC}}=0.144$). The claim is simultaneous across items within each
+country, not across the twelve countries. Closing the $78$ country-level
+$p_{\mathrm{PC}}$ values with Bonferroni local tests gives a simultaneous lower
+bound of one true country and re-certifies Rwanda by name. Inflating the
+weights-only bootstrap variance by $1.5$ and $2.0$ leaves ten and nine
+country-level partial-conjunction certifications; the corresponding
+across-country lower bounds are one and zero. The machine checks reproduce all
+five original E26 certification sets before combining them.
+
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{certified_core_full.pdf}
 \caption{All thirty-eight countries certifying persistent distribution-wide
 decline on at least one battery item (WVS 1981--2022), colored by region;
-countries above the dashed line form the $\ge2$-item certified core shown,
-magnitude-aware, in the main text's Figure~4.}\label{fig:corefull}
+countries above the dashed line form the thirteen-country descriptive
+$\ge2$-item core shown, magnitude-aware, in the main text's Figure~4. Twelve
+also pass the valid partial-conjunction test.}\label{fig:corefull}
 \end{figure}
 
 \paragraph{The small-area activation, in full (\texttt{e54}, \texttt{e55}).}
@@ -1622,7 +1642,8 @@ $\ge2$-item certified core is \emph{identical} ($13$ countries); at $\times2.0$
 the core loses only Trinidad and Tobago ($12$ remain) and the
 marginal-to-persistent gap widens from $2.6$--$6.5\times$ to $3.0$--$8.3\times$
 --- confirming the paper's directional claim that the shipped gap is a lower
-bound.
+bound. The stricter partial-conjunction core (\texttt{e65}) moves from $12$ at
+baseline to $10$ and $9$ under the same two multipliers.
 
 \paragraph{The long window, stress-tested and then settled.} The rounds-1--11
 analysis (\texttt{e36}) mixes design-bootstrap cells (rounds 9--11) with
@@ -1806,14 +1827,17 @@ certification is mechanically harder where fewer items are measured.
 Two checks against the V-Dem country--year data (v15; Regimes-of-the-World
 classification and electoral-democracy index; \texttt{e35}, results in
 \texttt{vdem\_regime\_crosstab.csv} and \texttt{vdem\_predictive.csv}).
-\emph{Regime type.} Of the $13$ certified-core countries, five (Azerbaijan, Iraq,
+\emph{Regime type.} Of the $13$ descriptive-core countries, five (Azerbaijan, Iraq,
 Lebanon, Rwanda, Uzbekistan) are \emph{electoral autocracies} and none is a closed
 autocracy in the 2019 classification; five are electoral democracies (Albania,
 Bosnia and Herzegovina, Ecuador, Ghana, Tunisia) and three liberal democracies
-(Finland, Switzerland, Trinidad and Tobago). The main text's caution---that in the
+(Finland, Switzerland, Trinidad and Tobago). The partial-conjunction screen
+removes Trinidad and Tobago, leaving the same five autocracies, five electoral
+democracies, and two liberal democracies. The main text's caution---that in the
 autocratic subset falling stated support reads as autocratic legitimation rather
 than deconsolidation in the consolidated-democracy sense---therefore applies to
-five of thirteen core members, not three as a name-by-name reading suggests.
+five of twelve partial-conjunction members, not three as a name-by-name reading
+suggests.
 \emph{Predictive validity, a null.} Among the $76$ countries screened on $\ge2$
 items, certified-core membership does \emph{not} anticipate subsequent
 electoral-democracy decline (change in \texttt{v2x\_polyarchy}, $2022\to2025$ and

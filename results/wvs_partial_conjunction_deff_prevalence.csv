@@ -1,0 +1,9 @@
+deff,pc_method,country_local_test,n_countries,d,countries_named,n_named,named_covers_d
+1.5,bonferroni,bonferroni,78,1,646,1,True
+1.5,bonferroni,simes,78,5,646,1,False
+1.5,simes,bonferroni,78,2,8;646,2,True
+1.5,simes,simes,78,5,8;646,2,False
+2.0,bonferroni,bonferroni,78,0,,0,True
+2.0,bonferroni,simes,78,4,,0,False
+2.0,simes,bonferroni,78,1,8,1,True
+2.0,simes,simes,78,4,8,1,False

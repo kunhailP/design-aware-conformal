@@ -48,11 +48,13 @@ python -m pcb.experiments.e36_ess_long_window       # long window 2002–2024 (�
 python -m pcb.experiments.e26_wvs_deconsolidation   # WVS Foa–Mounk (§7; 3–6 min per REPLICATION.md)
 python -m pcb.experiments.e34_wvs_country_flags     # per-country rung flags
 python -m pcb.experiments.e50_joint_claim_family    # the joint band (paper Table 2)
+python -m pcb.experiments.e63_wvs_partial_conjunction  # valid >=2-item WVS claims
 python -m pcb.experiments.e54_small_area_transport  # small-area activation (§6; ~1–2 h)
 python -m pcb.experiments.e55_small_area_exchangeability  # its LOCO/LORO audit (~30 min)
 # robustness analyses (all require the microdata)
 python -m pcb.experiments.e38_rescaled_bootstrap    # Rao-Wu-Yue rescaling
 python -m pcb.experiments.e39_wvs_deff_sensitivity  # WVS deff x1.5/x2
+python -m pcb.experiments.e65_wvs_pc_deff_sensitivity  # conjunction deff x1.5/x2
 python -m pcb.experiments.e40_mode_audit            # mode table + singleton strata
 python -m pcb.experiments.e41_loro_exchangeability  # leave-one-region-out
 python -m pcb.experiments.e42_real_severity         # null-imposed power curve

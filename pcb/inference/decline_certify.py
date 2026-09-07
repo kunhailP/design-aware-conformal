@@ -90,3 +90,25 @@ def certify_decline_differences(diff_hat: np.ndarray, diff_boot: np.ndarray,
     c = np.quantile(dev, 1 - alpha)
     return dict(design_aware=bool(np.all(dh - c * sd >= 0)),
                 plugin=bool(np.all(dh >= 0)))
+
+
+def decline_difference_pvalue(diff_hat: np.ndarray, diff_boot: np.ndarray,
+                              t_mask: np.ndarray | None = None) -> float:
+    """Invert the one-sided simultaneous decline band over its level.
+
+    This uses the same studentized sup statistic and pair-by-threshold family
+    as :func:`certify_decline_differences`. The returned finite-bootstrap
+    p-value is the smallest tail level at which the whole supplied difference
+    surface can certify a decline. Supplying all adjacent differences therefore
+    gives the persistent-decline p-value used by the WVS analysis.
+    """
+    if t_mask is None:
+        t_mask = np.ones(diff_hat.shape[1], dtype=bool)
+    dh = np.asarray(diff_hat, float)[:, t_mask]
+    db = np.asarray(diff_boot, float)[:, :, t_mask]
+    sd = np.maximum(db.std(0), 1e-6)
+    c_star = float(np.min(dh / sd))
+    if c_star <= 0:
+        return 1.0
+    stat = np.max((db - dh[None]) / sd[None], axis=(1, 2))
+    return float((1 + np.sum(stat >= c_star)) / (len(stat) + 1))

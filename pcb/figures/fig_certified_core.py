@@ -2,8 +2,8 @@
 
 MAIN  paper/figures/certified_core.{pdf,png}: the 13-country core (>=2 of
       five battery items), circle AREA = the persistent band's simultaneous
-      lower bound on the per-pair decline (e59), so the matrix reports
-      evidence strength, not membership alone. Black ink only.
+      lower bound on the per-pair decline (e59). A dagger marks the sole row
+      that does not pass E63's valid >=2-item partial-conjunction test.
 SUPP  paper/figures/certified_core_full.{pdf,png}: all countries certifying
       >=1 item, regional color coding (unchanged from the original figure).
 
@@ -66,7 +66,12 @@ def _core_mag():
         ax.scatter(kx, ky, s=max(14, scale * m), color=INK, clip_on=False)
         ax.text(kx + 0.21, ky, f"{m:g}", fontsize=8, color=GR1, va="center")
     ax.set_yticks(range(len(d)))
-    ax.set_yticklabels(d.country, fontsize=8.3)
+    has_pc = "pc_bonferroni" in d
+    labels = [
+        r.country + ("†" if has_pc and not bool(r.pc_bonferroni) else "")
+        for _, r in d.iterrows()
+    ]
+    ax.set_yticklabels(labels, fontsize=8.3)
     ax.set_xticks(range(5))
     ax.set_xticklabels(LBL, fontsize=7.3)
     ax.tick_params(axis="x", labeltop=True, labelbottom=False)

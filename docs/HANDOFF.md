@@ -1,14 +1,14 @@
 # Handoff — where this manuscript stands and what remains
 
-> **2026-08-20 status note (supersedes the item lists below where they
+> **2026-09-07 status note (supersedes the historical item lists below where they
 > conflict).** This document is historical; the live state is
-> DEVELOPMENT_ROADMAP.md + PA_COMPLIANCE.md. Since 2026-07-27: everything
-> merged to `main`; 110 tests; the LOO-validity proposition and the
-> LOO-centered deconvolution proposition close the theorem↔deployment seams
-> (K/(K−1) inflation is the shipped default); prevalence d=6 landed on real
-> data; the AI disclosure below (item 3) is now WRITTEN in main.tex (both
-> halves) — author reviews wording at read-through. Remaining author items
-> are the four listed in PA_COMPLIANCE.md.
+> DEVELOPMENT_ROADMAP.md + PA_COMPLIANCE.md. The real-data reruns, R package,
+> small-area activation, prevalence bound, and WVS partial-conjunction upgrade
+> are complete. The frozen mean-versus-CDF diagnostic found no qualifying
+> divergence case and did not open its manuscript gate. The author-supplied AI
+> disclosure was inserted in Methods, Acknowledgments, and the cover letter on
+> 2026-09-07. Only the final PDF read-through and submission-day masthead check
+> remain.
 
 Last updated: 2026-07-27. Branch: `repair/theorem-code-validation` (not yet merged
 to `main`, by design — merge once the remaining author items below are done).

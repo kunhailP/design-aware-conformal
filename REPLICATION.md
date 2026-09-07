@@ -16,6 +16,7 @@ independent environments):
 | 2026-08-20 | fresh Linux container, this package's pinned versions | e13, e26, **and e50** (joint claim family) reproduce **bit-identically**; input files verified by sha256 against `docs/DATA_SOURCES.md` |
 | 2026-08-29 | fresh Linux container | e13, e26, e50 **and the e38 rescaled CSVs** reproduce bit-identically from sha256-verified inputs; the rounds 1–8 SDDF merge (e61) and the small-area rescaling sensitivity (e62) were run in this environment and their outputs committed |
 | 2026-09-06 | fresh Linux container, **ESS inputs fetched by script through the ESS Data Portal API** (`scripts/fetch_ess_api.py`, `fetch_ess_sddf.py`, `build_ess_subset.py`; no Wizard download) | `ess_audit.csv` and **e13, e36, e40, e50, e56 reproduce bit-identically**; the SDDF merge upgrades the same 88 country-rounds; e61 reproduces `ess_joint_claims_sddf.csv` bit-identically and `ess_long_window_sddf.csv` value-identically (run before the integer-type fix in the build script; round columns printed as floats), and its new prevalence rerun (`ess_prevalence_sddf.csv`, committed) leaves the closed-testing bound at d = 6 on both outcomes |
+| 2026-09-07 | fresh Linux workspace, provider archives supplied together | ESS, WVS, and LAPOP inputs match the documented sha256 values; E63 reproduces all five E26 persistent-country sets before p-value combination and certifies the 12-country WVS partial-conjunction set |
 
 ## 1. Environment
 
@@ -78,7 +79,7 @@ registration with each provider; sha256 checksums listed there — verify
 before running). Then:
 
 ```bash
-make tier2        # loaders + e13 e36 e26 e50 e54 e55
+make tier2        # loaders + ESS/WVS/LAPOP analyses, including e63/e65
 python -m pcb.experiments.e56_prevalence             # closed-testing bound
 ```
 
@@ -88,6 +89,7 @@ python -m pcb.experiments.e56_prevalence             # closed-testing bound
 | `pcb.data.audit_wvs` / `audit_lapop` | WVS/LAPOP parquets | 2–5 min each |
 | `e13` | `results/ess_country_certification.csv` (**bit-identical check**) | 3–6 min |
 | `e26` | `results/wvs_deconsolidation.csv` (**bit-identical check**) | 3–6 min |
+| `e63` / `e65` | WVS partial conjunction / deff sensitivity | 3 min / 6 min |
 | `e50` | `results/ess_joint_claims.csv` (**bit-identical check**) | 5–15 min |
 | `e36`, `e54`, `e55` | long window; small-area activation + holdout | 5–15 min each |
 | `e56` | `results/ess_prevalence.csv` (prevalence d=6) | 5–10 min |

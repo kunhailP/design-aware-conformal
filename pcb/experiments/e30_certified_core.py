@@ -24,6 +24,7 @@ import pandas as pd
 
 SRC = "results/wvs_deconsolidation.csv"
 OUT = "results/certified_core.csv"
+PC_SRC = "results/wvs_partial_conjunction.csv"
 
 ISO = {
     8: "Albania", 12: "Algeria", 31: "Azerbaijan", 70: "Bosnia and Herzegovina",
@@ -65,6 +66,14 @@ def build():
                          group=grp, core=len(items) >= 2))
     out = pd.DataFrame(rows).sort_values(["n_items", "country"],
                                          ascending=[False, True])
+    if os.path.exists(PC_SRC):
+        pc = pd.read_csv(PC_SRC)[
+            ["iso", "p_pc_bonferroni", "p_pc_simes",
+             "pc_bonferroni", "pc_simes"]
+        ]
+        out = out.merge(pc, on="iso", how="left")
+        out["pc_bonferroni"] = out["pc_bonferroni"].fillna(False).astype(bool)
+        out["pc_simes"] = out["pc_simes"].fillna(False).astype(bool)
     return out
 
 
@@ -75,6 +84,9 @@ def main():
     core = out[out.core]
     print(f"certified anywhere: {len(out)} countries; "
           f"certified core (>=2 items): {len(core)}")
+    if "pc_bonferroni" in out:
+        print("partial-conjunction core (>=2 true items, arbitrary dependence): "
+              f"{int(out.pc_bonferroni.sum())}")
     print(core[["country", "n_items", "items", "group"]].to_string(index=False))
     print("\ncore composition:")
     print(core.group.value_counts().to_string())

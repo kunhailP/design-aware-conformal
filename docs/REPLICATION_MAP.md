@@ -19,7 +19,8 @@ raw licensed files in independent environments (see `REPLICATION.md`).
 | Erosion share is within-country only (c–length corr. 0.96) (§7) | `e50` ★ | same | `test_erosion_share_is_not_ranked_across_countries` |
 | **Prevalence: at least 6 of 33 truly declined, both outcomes, 90% simultaneous** (abstract, §7, S4) | `e56` | `ess_prevalence.csv` | `test_cross_country_prevalence` |
 | WVS rung-gap decomposition: 2.6–6.5× mixed; 1.7–4.8× / 1.9–4.8× rung-only (§7) | `e26` ★ | `wvs_deconsolidation.csv` | `test_wvs_rung_gap_decomposition` |
-| 13-country certified core; West enters twice, flagged (§7) | `e30` | `certified_core.csv` | `test_certified_core_size_and_west` |
+| 13-country descriptive core; West enters twice, flagged (§7) | `e30` | `certified_core.csv` | `test_certified_core_size_and_west` |
+| Valid ≥2-item partial conjunction: 12/13 countries; 10/9 at deff 1.5/2.0; across-country lower bound 1 (§7, S4) | `e63`, `e65` | `wvs_partial_conjunction*.csv` | `test_wvs_partial_conjunction_claims` |
 | Core stable at variance ×1.5 / ×2.0 (13 → 12) (§7) | `e39` | `wvs_deff_country_flags.csv` | `test_wvs_deff_core_stability` |
 | Wrong-unit collapse: 3.5% / 49.8% vs 90% at L=8 (§5, Fig. 1); Bonferroni-corrected wrong-unit bands infinite at K=30 for L≥4 (floor K ≥ L/α−1 = 79), 92–94% coverage and 4–26% wider at K=100 (§5) | `e28` | `wrong_unit_coverage.csv`, `wrong_unit_coverage_bonferroni.csv` | `test_wrong_unit_collapse_figure_one` |
 | Prevalence bound identical under Bonferroni local tests (no dependence assumption): d=6, same six named (§7, S4) | `e56` (`shipped_bounds`) | `ess_prevalence.csv` | `test_ess_prevalence_bonferroni_sensitivity` |

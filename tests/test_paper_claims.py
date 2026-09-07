@@ -207,6 +207,44 @@ def test_certified_core_size_and_west():
              "democratic system")
 
 
+def test_wvs_partial_conjunction_claims():
+    d = _csv("wvs_partial_conjunction.csv")
+    item = _csv("wvs_item_pvalues.csv")
+    old = _csv("wvs_deconsolidation.csv")
+    for row in old.itertuples():
+        expected = {int(x) for x in str(row.persist_countries).split(";") if x}
+        reproduced = set(item.loc[
+            (item.item == row.item) & item.certifies_alpha10, "iso"
+        ].astype(int))
+        assert reproduced == expected, row.item
+    valid = set(d.loc[d.pc_bonferroni, "country"])
+    assert valid == {
+        "Albania", "Azerbaijan", "Bosnia and Herzegovina", "Ecuador",
+        "Finland", "Ghana", "Iraq", "Lebanon", "Rwanda", "Switzerland",
+        "Tunisia", "Uzbekistan",
+    }
+    trinidad = d[d.country == "Trinidad and Tobago"].iloc[0]
+    assert not bool(trinidad.pc_bonferroni)
+    assert round(float(trinidad.p_pc_bonferroni), 3) == 0.144
+
+    sens = _csv("wvs_partial_conjunction_deff.csv")
+    counts = {
+        float(deff): int(group.pc_bonferroni.sum())
+        for deff, group in sens.groupby("deff")
+    }
+    assert counts == {1.5: 10, 2.0: 9}
+
+    prev = _csv("wvs_partial_conjunction_prevalence.csv")
+    primary = prev[
+        (prev.pc_method == "bonferroni")
+        & (prev.country_local_test == "bonferroni")
+    ].iloc[0]
+    assert int(primary.d) == 1
+    assert str(primary.countries_named) == "646"
+    assert bool(primary.named_covers_d)
+    _present("$12$ countries", "from $12$ to $10$ and $9$")
+
+
 # ----------------------------------------------------------- unreachability --
 def test_reliability_floor_arithmetic():
     from pcb.dapcb import gate_b_feasible

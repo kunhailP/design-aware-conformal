@@ -159,25 +159,30 @@ uncertainty at a fixed rung accounts for the remainder. Three caveats. The trend
 weights-only bootstrap omits within-PSU dependence (variance-inflating) and
 stratification (variance-reducing). Where the former
 dominates, as is usual, certified counts are \emph{inflated}: at variance
-$\times1.5$ and $\times2.0$ the core holds at $13$ and $12$ countries and
-the gap widens to $3.0$--$8.3\times$, so the reported gap is then a lower
-bound. The per-item lists carry no across-country familywise control, so we
-aggregate to multi-item co-certification before interpreting geography. And
+$\times1.5$ and $\times2.0$ the descriptive core holds at $13$ and $12$
+countries and the gap widens to $3.0$--$8.3\times$, so the reported gap is
+then a lower bound. The stronger partial-conjunction set described next moves
+from $12$ to $10$ and $9$, respectively. The per-item lists carry no
+across-country familywise control. And
 the certification sets sit below the $K\ge94$ bound, so every WVS band uses
 the full-$\alpha$ anchors of Theorem~\ref{thm:safe}.
 
 \paragraph{The co-certified core: where the surviving deconsolidation lives.}
 Aggregating per-item certifications yields a positive characterization
 (Figure~\ref{fig:core}): of $38$ countries certified on $\ge1$ item, $13$
-form a multi-item co-certified core on $\ge2$. Membership is
-co-certification on two separate $\alpha=0.10$ bands, not a $90\%$
-statement that two items truly declined. The core is post-communist
-and Arab-Spring states, not the mature democracies the thesis concerned,
+form the descriptive multi-item core on $\ge2$. Inverting each persistent band
+and applying an arbitrary-dependence partial-conjunction test
+\citep{benjamini2008screening} upgrades that reading: $12$ countries each pass
+a $90\%$ test of at least two true item declines; only Trinidad and Tobago
+drops ($p_{\mathrm{PC}}=0.144$). Each guarantee is within-country; closing all
+$78$ country $p$-values yields an assumption-free lower bound of one, naming
+Rwanda. The twelve-country set is concentrated in post-communist and Arab-Spring states,
+not the mature democracies the thesis concerned,
 and it formalizes, with per-country error control, the
 decline-from-euphoric-baselines pattern the post-communist literature
 described qualitatively
 \citep{mishler1997trajectories,inglehart2003honeymoon}. Three
-qualifications. Five core members are electoral autocracies
+qualifications. Five of the twelve partial-conjunction members are electoral autocracies
 in the V-Dem classification, where falling stated support reflects
 autocratic legitimation rather than deconsolidation in the
 consolidated-democracy sense. The West enters the core twice, through
@@ -189,16 +194,18 @@ And the geography is partly window-contingent: recertifying on fieldwork
 ending by 2017 keeps eight of the thirteen but drops all three Arab-Spring
 cases, so the post-communist component is window-stable and the Arab-Spring
 component rests on WVS wave~7. Certified attitudes do not forecast
-institutions: core membership predicts subsequent V-Dem electoral-democracy
+institutions: descriptive-core membership predicts subsequent V-Dem electoral-democracy
 decline no better than the marginal flag (Fisher $p=0.89$;
 \citealp{ouattara2023distrusting,vandermeer2025pushing}), so certification
 is descriptive error control, not a forecast.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.95\textwidth]{certified_core.pdf}
-\caption{The thirteen-country co-certified core, by evidence strength (WVS
-1981--2022; $K=59$--$77$ per item). Circle area is the persistent band's
-simultaneous lower bound on the per-pair decline, in CDF points; open circles
-mark items that do not certify. The full thirty-eight-country matrix is in the
-Supplementary Material.}\label{fig:core}
+\caption{The thirteen-country descriptive co-certified core, by evidence
+strength (WVS 1981--2022; $K=59$--$77$ per item). Twelve pass the valid
+$\ge2$-item partial-conjunction test; the dagger marks Trinidad and Tobago,
+which does not. Circle area is the persistent band's simultaneous lower bound
+on the per-pair decline, in CDF points; open circles mark items that do not
+certify. The full thirty-eight-country matrix is in the Supplementary
+Material.}\label{fig:core}
 \end{figure}
