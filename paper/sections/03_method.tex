@@ -117,9 +117,8 @@ $1-\alpha$; the \emph{theorem} level $1-\alpha-\varepsilon_{K,B}$ of
 Theorem~\ref{thm:estimated}, whose remainder is unobservable; and the
 \emph{validated operational} level reported when the procedure deconvolves,
 $1-\alpha-\widehat\delta_{\text{UCB}}(D)$, a bound frozen before validation
-and checked by it. The method ships as one call,
-\texttt{dapcb(cal\_errors, v\_cal, center, alpha)}, returning band, branch,
-and level.
+and checked by it. The released implementation returns the band, the branch
+it selected, and the level that band carries.
 \paragraph{Computational assistance.} Between June and September 2026, the
 author used Claude Opus versions 4.8--5 via Claude.ai for limited assistance
 with figure-generation code and selected analysis-code implementation. The
