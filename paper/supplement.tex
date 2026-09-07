@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{setspace}
-\doublespacing
+\onehalfspacing
 % Supplementary Material for "The Wrong Unit of Uncertainty".
 % Secondary material relocated from the main manuscript, content-unchanged.
 \usepackage[T1]{fontenc}
@@ -54,11 +54,26 @@ Simultaneous Inference for Repeated Cross-National Surveys''}
 \begin{document}
 \maketitle
 
-This online supplement collects secondary material referenced from the main
-manuscript. All content, numbers, and figures are reproduced unchanged; only figure
-numbers carry an ``S'' prefix.
+This supplement provides the full proofs, the validation of the deployed
+selector, and the empirical construction and robustness analyses referenced
+from the main manuscript. Figures, tables, and theorem-like environments
+introduced here carry an ``S'' prefix; theorem numbers shared with the main
+text (Theorems~1--5, Propositions~1--2) are the main text's own.
 
-\section{Proofs}\label{sup:proofs}
+\paragraph{Where each main-text claim is supported.}
+Section~\ref{sup:proofs} proves the theorems in the main text's numbering.
+Section~\ref{sup:mechanism} establishes why the finite-$K$ guard is needed,
+what the deployed selector recovers, and the scope of the validation.
+Section~\ref{sup:empirical} carries the empirical constructions and the
+robustness checks that bound the main text's certifications: the ESS design
+bootstrap and its sensitivity analyses (\S\ref{sup:empirical}), the
+claim-family and closed-testing results behind the ``at least six'' bound,
+the WVS weights-only limitation and the cross-item partial-conjunction
+claim, and the small-area activation with its scope conditions.
+Section~\ref{sup:secondary} collects analyses the main argument does not
+rest on.
+
+\section{Formal results and proofs}\label{sup:proofs}
 
 This section gives full statements and proofs of the results of the main text, in the
 main-manuscript numbering. Each result is paired with an automated contract test in
@@ -206,7 +221,7 @@ valid for the latent target, exact at the attainable conformal rank
 (Theorem~4(i)), and its target scale is, coordinate by coordinate, a factor
 $\sqrt{1-\rho(t)^2}$ of the observed scale $s_{\text{plug}}(t)$; the realized
 band width carries in addition the ratio of the two conformal quantiles, which
-tends to one as $\rho\to0$ (AW-1) but is not a function of $\rho(t)$. Both
+tends to one as $\rho\to0$ (Section~\ref{sup:lowrho}) but is not a function of $\rho(t)$. Both
 statements live under (A1): the variance identity
 $s_T^2(t)=s_{\text{plug}}^2(t)(1-\rho(t)^2)$ holds without it, but turning
 a scale identity into a band-width ratio and a latent-coverage statement
@@ -235,7 +250,7 @@ coordinate radius is $q_D\,s_R(t)$, against $q_S\,s_{\text{plug}}(t)$ for a
 studentized anchor and the constant $q_P$ for the deployed unstudentized
 anchor; the realized width ratios, $(q_D/q_S)\sqrt{1-\rho(t)^2}$ and
 $(q_D/q_P)\,s_R(t)$, therefore carry a quantile ratio that the scale identity
-does not determine (AW-1 shows only that it tends to one as $\rho\to0$). No
+does not determine (Section~\ref{sup:lowrho} shows only that it tends to one as $\rho\to0$). No
 statement about the variance of the sup-score $\widetilde R$ is used.
 \end{proof}
 
@@ -380,36 +395,31 @@ part~(i), which needs no anti-concentration assumption at all, and the
 uninflated remainder survives only as an efficiency remark.
 \end{remark}
 
-The remainder $\delta_K$ is measured directly in the replication package
-(\texttt{e58}): across four families (Gaussian, $t_3$, skewed,
-dependent-round) and $K\in\{6,\dots,60\}$, $28$ cells at $20{,}000$
-replications each, uninflated leave-one-out coverage never falls below the
-exact-construction floor by more than twice the Monte Carlo standard error ---
-the measured $\delta_K$ is zero --- while the grand-mean construction the
-remark above excludes shows its real $O(1/K)$ deficit (worst $-0.064$), and a
+The remainder $\delta_K$ is measured in the replication package
+(\texttt{e58}): across four families and $K\in\{6,\dots,60\}$, uninflated
+leave-one-out coverage never falls below the exact-construction floor by more
+than twice the Monte Carlo standard error, while the grand-mean construction
+the remark excludes shows its $O(1/K)$ deficit (worst $-0.064$) and a
 split-fold center returns an infinite radius whenever halving drops the
-calibration fold below $\lceil1/\alpha\rceil$ units, i.e.\ throughout the
-cross-national range $K\le15$ at $\alpha=0.10$. The asymmetry vanishes
-entirely under constructions (i)--(iv), which the headline ESS certification
-satisfies through its own-previous-round centers (case~iii). The
-$K/(K{-}1)$-inflated deployment of Proposition~\ref{prop:loo}(i) is the
-released \emph{default} (\texttt{dapcb} with \texttt{loo\_center=True};
-factor \texttt{loo\_exact\_inflation}): the frozen gates are evaluated on the
-uninflated radii, exactly the decision rule the sealed validation runs
-froze, and the inflation is a monotone widening applied to the returned
-anchor radius only --- so every sealed coverage result is inherited a
-fortiori, and the cost is $1/(K-1)$ of width: $3.5\%$ at the ESS's
-$K\approx30$, $5\%$ at the AmericasBarometer's $K\approx20$.
+calibration fold below $\lceil1/\alpha\rceil$ units --- throughout the
+cross-national range at $\alpha=0.10$. The asymmetry vanishes under
+constructions (i)--(iv), which the headline ESS certification satisfies
+through its own-previous-round centers (case~iii). The $K/(K{-}1)$-inflated
+deployment of Proposition~\ref{prop:loo}(i) is the released \emph{default}
+(\texttt{dapcb} with \texttt{loo\_center=True}): the frozen gates are
+evaluated on the uninflated radii, so every sealed coverage result is
+inherited a fortiori, and the cost is $1/(K-1)$ of width --- $3.5\%$ at the
+ESS's $K\approx30$, $5\%$ at the AmericasBarometer's $K\approx20$.
 
-\emph{Modulation self-inclusion deficit (proof sketch; estimated constant).} If instead
-one studentizes by an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,\Gtilde_c(t)$ computed
-from the calibration curves themselves, the unobserved target does not share this
-denominator, which breaks exchangeability. A first-order expansion of the order-statistic
-bias in the number $g$ of modulation slots each country contributes to gives a coverage
-deficit $\approx0.382\,(g/K)$; the constant $0.382$ is estimated (empirical $R^2=0.923$),
-not derived, and is flagged as such. Pooled modulation ($g=1$) is safe; slotwise ($g=L$)
-undercovers by $\approx0.382\,L/K$. This $O(g/K)$ deficit is why the deployed band is
-unstudentized.
+\emph{Why the deployed band is unstudentized.} If instead one studentizes by
+an in-sample modulation $\widehat s(t)=\mathrm{SD}_c\,\Gtilde_c(t)$ computed
+from the calibration curves themselves, the unobserved target does not share
+that denominator, which breaks the exchangeability Theorem~3 needs. The
+resulting self-inclusion deficit is $O(g/K)$ in the number $g$ of modulation
+slots each country contributes: pooled modulation ($g=1$) is safe, slotwise
+($g=L$) is not. The deployed anchor therefore uses the unstudentized score.
+(The replication package measures the deficit on a grid and fits its
+constant; that fit is a diagnostic, not an input to any result here.)
 
 \begin{lemma}[Scalar-modulation invariance]\label{lem:scalar}
 If the modulation is a single in-sample \emph{scalar} $\widehat s$ (the same number at
@@ -998,7 +1008,7 @@ $\widehat\delta_{\mathrm{UCB}}$ can under-budget the remainder --- exactly the
 $0.02\%$ extreme-tail failure mode the holdout exposed (Section~S3), now confined by
 Theorem~5 to the $K\ge94$, $\alpha_{\text{dec}}$-budgeted branch. The exact
 threshold $K\approx94$ depends on the frozen gate-B constants (conservatively
-calibrated on the development grid); a less conservative $\delta_{\max}$ would lower
+calibrated on the Gaussian design grid); a less conservative $\delta_{\max}$ would lower
 it, but the calibration-free statement is the floor itself. The barrier is specific to
 the \emph{cross-national} application: many-unit settings (subnational areas, schools,
 clinics) routinely have $K\ge94$, where the reliability gate can open.
@@ -1043,7 +1053,7 @@ realization by construction, not only at the Gaussian member.
 
 \begin{remark}[Three regimes and the feasibility frontier]\label{rem:frontier}
 Two structural quantities govern the design-aware correction: its maximal width
-gain $1-\sqrt{1-\rho^2}$ (AW-1 below, second-order in $\rho$) and the
+gain $1-\sqrt{1-\rho^2}$ (Section~\ref{sup:lowrho}, second-order in $\rho$) and the
 unbiased-estimation reliability floor $\sqrt{2/(K-1)}$ (Lemma~\ref{lem:floor}). Together they split
 the $(K,\rho)$ plane into three regimes: \emph{unnecessary} ($\rho$ small ---
 there is nothing worth removing), \emph{unlearnable} ($\rho$ large but
@@ -1074,84 +1084,55 @@ floor at $K\le33$, and only the WVS item sets reach $K\ge94$, where gate A
 fails instead.}\label{fig:gates}
 \end{figure}
 
-\subsection{Efficiency results AW-1--AW-3 and the open oracle inequality (AW-4)}
+\subsection{Efficiency: the low-$\rho$ reduction}\label{sup:lowrho}
 
-Write the three branch half-widths at level $1-\alpha$ as $W_P=q_P\,s$ (PCB),
-$W_D=q_D\,s\sqrt{1-\rho^2}$ (deconvolution), and $W_C=q_C\,s$ (conservative).
-
-\emph{AW-1 (low-$\rho$ reduction, proven).} As $\rho\to0$, $\widehat s_T=s\sqrt{1-\rho^2}
-\to s$ and the deconvolution scores converge pointwise (at fixed $K$) to the PCB scores, so
-$q_D/q_P\to1$ by continuity of the finite-sample quantile in the studentization, and
+Write the branch half-widths at level $1-\alpha$ as $W_P=q_P\,s$ (PCB),
+$W_D=q_D\,s\sqrt{1-\rho^2}$ (deconvolution), and $W_C=q_C\,s$
+(conservative). As $\rho\to0$, $\widehat s_T=s\sqrt{1-\rho^2}\to s$ and the
+deconvolution scores converge pointwise (at fixed $K$) to the PCB scores, so
+$q_D/q_P\to1$ by continuity of the finite-sample quantile in the
+studentization, and
 \[
 W_D/W_P=(q_D/q_P)\sqrt{1-\rho^2}=1+o(1):
 \]
 the deconvolution band reduces continuously to PCB. The oracle scale
 component alone has the exact second-order expansion
 $\sqrt{1-\rho^2}=1-\tfrac12\rho^2+O(\rho^4)$; whether the full width ratio
-inherits it depends on the rate at which $q_D/q_P\to1$, which the
-continuity argument does not quantify (a first-order term $O(\rho)$ in
-$q_D/q_P$ is not excluded), so the $\tfrac12\rho^2$ gain is a statement about
-the scale factor, not a proved bound on the band. Below $\rho_0$ the
-selector returns PCB exactly, so $W_{\text{adaptive}}=W_P$.
+inherits it depends on the rate at which $q_D/q_P\to1$, which the continuity
+argument does not quantify (a first-order term $O(\rho)$ in $q_D/q_P$ is not
+excluded), so the $\tfrac12\rho^2$ gain is a statement about the scale
+factor, not a proved bound on the band. Below $\rho_0$ the selector returns
+PCB exactly, so $W_{\text{adaptive}}=W_P$. The conservative branch is never
+narrower than PCB, since the worst-case scores $(|E|+zv)/s$ stochastically
+dominate $|E|/s$ and hence $q_C\ge q_P$; that ordering is what
+Lemma~\ref{lem:nested} uses, and it needs no expansion of $q_C$.
 
-\emph{AW-2 (conservative dominance, conditional).} For $\rho\ge\rho_0$ with stable
-deconvolution, $W_D/W_C=(q_D/q_C)\sqrt{1-\rho^2}$. The worst-case scores $(|E|+z v)/s$
-stochastically dominate $|E|/s$, so $q_C\ge q_P$ and to first order $q_C\approx q_P(1+z
-\kappa\rho)$ with $\kappa\in(0,1]$ the correlation of the $|E|$ and $v$ orderings across
-the calibration set. Hence $W_D/W_C\approx\sqrt{1-\rho^2}/(1+z\kappa\rho)<1$ for all
-$\rho>0$, strictly and decreasing in $\rho$: the conservative fallback is a genuine upper
-band, never wider than the Bonferroni envelope and at least as wide as PCB, and
-deconvolution strictly narrows it whenever design noise is present. (Conditional on the
-stated first-order expansion of $q_C$.)
+\section{Finite-$K$ failure, safe abstention, and validation}\label{sup:mechanism}
 
-\emph{AW-3 (selection cannot inflate miscoverage, proven).} Superseded by
-Theorem~5: the nested-branch lemma (any selection between
-$B_{\text{PCB}}\subseteq B_{\text{con}}$ is free) plus the union bound over the
-$\alpha_{\text{dec}}$-budgeted deconvolution branch give
-$\Pr(\text{target}\in B_{\widehat J})\ge1-\alpha-\varepsilon_{K,B}
-\mathbf 1\{K\ge94\}$ with \emph{no} appeal to conditional-on-selection coverage. (The
-earlier mixture argument, which asserted that each branch retains its marginal
-guarantee conditional on $\{\widehat J=j\}$, was invalid: selection event and quantile
-share the calibration data.)
+This section answers three questions in order: what fails without the
+finite-$K$ guard, whether the deployed selector restores coverage, and what
+the validation does and does not establish.
 
-\emph{AW-4 (excess-width oracle inequality, open).} Let $W^*=\min(W_P,W_D,W_C)$.
-Conjecture: $W_{\text{adaptive}}\le W^*+r_{K,B}$ with $r_{K,B}=O(K^{-1/2})+O(B^{-1/2})$
-under Lipschitz width-in-$\rho$, the boundary zone where the target-blind $\rho_0$
-disagrees with the oracle crossover having width $O(K^{-1/2})$ because $\rhohat$ is
-$\sqrt K$-consistent. This remains open: (i)~$\rho_0=0.47$ is fixed from the development
-grid rather than derived as the oracle crossover $W_D=W_C$, and (ii)~the Lipschitz
-constant of width-in-$\rho$ is not established. It is stated as a candidate with a proof
-sketch, not a theorem.
+\subsection{What fails without the guard}
 
-\section{The finite-$K$ mechanism and the development grid}\label{sup:mechanism}
+A controlled Gaussian illustration (design SD $=$ transport SD, $\rho{=}0.9$;
+\texttt{fig\_theory\_illustration.py}) makes the failure explicit and shows
+why the deployed rule is a selector rather than a deconvolver. Both the naive
+and the finite-$K$-guarded deconvolved score scales lie \emph{below} the
+oracle $s_R/s_{\text{plug}}$ at small $K$ (Figure~\ref{fig:shrinkage}):
+subtracting a design-noise variance estimated from few countries over-shrinks
+the scale, and the resulting band is too narrow. The safe guard shrinks less,
+and both converge to the oracle as $K\to\infty$.
 
-\paragraph{Development: why the third gate is needed.} On a Gaussian grid with known
-truth ($K\in\{30,60,120,240\}$, $\rho$ up to $1.8$), the selector transitions from
-PCB to deconvolution at $\rho_0$ and to conservative at large $\rho$; but a naive
-deconvolution that omits gate~B \emph{undercovers} at small $K$---coverage falls to
-$0.75$ at $K=30$ in the transition zone---because the target scale is estimated from
-few countries (Figure~\ref{fig:selector}). Adding the finite-$K$-guarded scale lifts
-this to $0.82$, and the reliability gate B lifts the deployed worst cell to
-$0.862$ while abstaining to conservative wherever the remainder cannot be bounded.
-These four transition cells at $0.862$--$0.878$ are the development evidence that
-\emph{motivates} the safety gate and \emph{calibrates} $\widehat\delta_{\text{UCB}}$;
-they are not reused below.
-
-\paragraph{The finite-$K$ mechanism, isolated.} A controlled Gaussian illustration
-(design SD $=$ transport SD, $\rho{=}0.9$; \texttt{fig\_theory\_illustration.py})
-makes the source of the undercoverage explicit and shows why the deployed rule is a
-selector rather than a deconvolver. Both the naive and the finite-$K$-guarded
-deconvolved score scales lie \emph{below} the oracle $s_R/s_{\text{plug}}$ at small
-$K$ (Figure~\ref{fig:shrinkage}): subtracting a design-noise variance estimated from
-few countries over-shrinks the scale, and the resulting band is too narrow. The safe
-guard shrinks less, and both converge to the oracle as $K\to\infty$. The coverage
-consequence is severe and grows with the trajectory length $L$ that the band must
-hold simultaneously (Figure~\ref{fig:coverage_LK}): naive deconvolution falls to
-$0.43$ at $K{=}25,\,L{=}16$, and the finite-$K$-guarded scale improves it but does not by
-itself reach nominal at small $K$. The deployed adaptive selector detects that the
-remainder cannot be bounded and abstains to the conservative branch, remaining valid
-throughout at a width cost---the mechanism behind the $K{=}320$-only activation in
-the relocated confirmatory holdout below (Table~\ref{tab:holdout}).
+The coverage consequence is severe and grows with the trajectory length $L$
+that the band must hold simultaneously (Figure~\ref{fig:coverage_LK}): naive
+deconvolution falls to $0.43$ at $K{=}25,\,L{=}16$, and the
+finite-$K$-guarded scale improves it but does not by itself reach nominal at
+small $K$. The deployed adaptive selector detects that the remainder cannot
+be bounded and abstains to the conservative branch, remaining valid
+throughout at a width cost --- the mechanism behind the $K{=}320$-only
+activation in the holdout of Section~\ref{sup:robustness}
+below (Table~\ref{tab:holdout}).
 
 \begin{figure}[t]\centering
 \includegraphics[width=.62\textwidth]{theory_shrinkage.pdf}
@@ -1172,15 +1153,7 @@ deployed adaptive selector abstains to conservative and stays valid
 throughout.}\label{fig:coverage_LK}
 \end{figure}
 
-\begin{figure}[t]\centering
-\includegraphics[width=.78\textwidth]{selector_sweep.pdf}
-\caption{Development grid (Gaussian, known truth). The selector transitions
-PCB\,$\to$\,deconvolution\,$\to$\,conservative as $\rho$ grows; naive deconvolution
-undercovers at small $K$ in the transition zone---the finite-$K$ remainder the safety
-gate controls.}\label{fig:selector}
-\end{figure}
-
-\section{Validation of the remainder bound}\label{sup:robustness}
+\subsection{Does the deployed selector restore coverage?}\label{sup:robustness}
 
 \paragraph{What ``frozen'' means here, and the provenance of each run.} This
 package uses no external study registry. Throughout, \emph{preregistered} and
@@ -1252,29 +1225,23 @@ reconstructed exactly from the sealed run's cell table; both runs appear in
 Table~\ref{tab:holdout}.
 
 \begin{table}[t]\centering
-\caption{Holdout validation of the safe selector (450 cells, 800 reps each; relocated
-from the main text). The \emph{sealed} run (upper rows) scored the studentized S2
-base band, whose finite-$K$ self-inclusion deficit it exposed --- the finding that
-motivated deploying the \emph{unstudentized} band instead. The
-\emph{corrected-scorer rerun} (lower rows) scores the band the package actually
-returns (U0 anchors with the $\alpha$-budgeted deconvolution branch) on the same
-grid with a fresh seed, disclosed because the originally sealed configuration file
-was not preserved.}\label{tab:holdout}
+\caption{Holdout validation of the deployed selector (450 cells, 800 reps
+each; relocated from the main text). All rows score the band the package
+returns --- U0 anchors with the $\alpha$-budgeted deconvolution branch.
+\emph{Provenance:} an initial audit run scored a studentized base band
+different from the released U0 construction. That run is retained in the
+replication archive; its finite-$K$ self-inclusion deficit (worst cell
+$0.843$, $442/450$ floor-compatible) is what motivated switching to the
+exact unstudentized anchor, and it certifies no result reported
+here.}\label{tab:holdout}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lccl}
 \toprule
 criterion & target & result & status \\
 \midrule
-\multicolumn{4}{l}{\emph{Sealed run, S2 scorer (historical):}}\\
-P3: design-aware never causes a sub-floor cell & sub-floor $\Rightarrow$ not deconv &
-\textbf{all 12 sub-0.88 cells are PCB} & pass \\
-E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.577$ & pass \\
-P1: cells floor-compatible (95\% MC) & all 450 & $442/450$ & diagnostic \\
-P2: worst-cell coverage & $\ge0.86$ & $0.843$ & diagnostic \\
-\midrule
-\multicolumn{4}{l}{\emph{Corrected-scorer rerun, deployed U0/$\alpha$-budget band:}}\\
 P1: cells floor-compatible (95\% MC) & all 450 & $\mathbf{450/450}$ & pass \\
 P2: worst-cell coverage & $\ge0.86$ & $\mathbf{0.882}$ & pass \\
+P3: design-aware never causes a sub-floor cell & sub-floor $\Rightarrow$ not deconv & none & pass \\
 E1: low-$\rho$ width vs PCB & $\le1.05\times$ & $1.005$ & pass \\
 E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.753$ & pass \\
 E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass \\
@@ -1291,7 +1258,9 @@ worst family) against the $0.88$ floor and $0.90$ nominal. Right: deconvolution
 activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdout}
 \end{figure}
 
-\paragraph{A second limitation, in the extreme tail.} The Gaussian-calibrated
+\subsection{What the validation does and does not establish}
+
+\paragraph{A limitation in the extreme tail.} The Gaussian-calibrated
 remainder bound $\widehat\delta_{\text{UCB}}$ is not robust at the extreme: in $77$ of
 $360{,}000$ draws ($0.02\%$), on strongly-dependent or heavy-tailed DGPs at $K{=}320$,
 draws that pass gate~B undercover to $\approx0.79$. In the $\rho=0.90$ cells the gates
@@ -1320,7 +1289,49 @@ committed (\texttt{final\_validation\_seal1.csv}, worst $0.53$;
 \texttt{final\_validation.csv}), and the main text's validation paragraph
 points here.
 
-\section{Additional empirical robustness}\label{sup:empirical}
+
+\subsection{Where the correction does pay: the many-unit regime}
+
+\paragraph{The positive regime, demonstrated (E31).} The scope result says where the
+correction is unreachable; a companion simulation shows where it pays. On the
+MRP-style small-area DGP (latent area curves plus known heteroskedastic posterior
+SDs), the frozen pipeline --- unchanged constants, the $\alpha$-budget architecture of
+Theorem~5 --- is run at $K\in\{60,94,150,220,300\}$ areas and posterior-noise
+ratios $0.3$--$0.9$, scoring the returned band against the latent area curve
+($800$ reps per cell). Three facts emerge. First, gate-B \emph{feasibility}
+($K\ge94$) is necessary but not sufficient: with the deconvolution branch honestly
+budgeted at $\alpha_{\text{dec}}=\max(0.1\alpha,\,3/(K{+}1))$, its conformal quantile
+is informative --- and the width-gain gate clears --- only from $K\approx220$, so the
+practical activation frontier sits near $K\approx200$--$300$. Second, where it
+activates (noise ratio $\approx0.7$: $31\%$ of draws at $K{=}220$, $98\%$ at
+$K{=}300$) it pays: the deployed band is $0.69$--$0.74\times$ the conservative
+envelope's width at coverage $0.98$--$1.00$, against the guarantee floor $0.88$.
+Third, at noise ratios near or above the between-area signal the stability gate
+abstains to conservative --- correctly, since there the deconvolved scale hits its
+floor. Many-unit clustered settings (US counties, schools, clinics) have $K$ well
+beyond this frontier; repeated cross-national surveys never do
+(\texttt{e31\_positive\_regime}; \texttt{results/positive\_regime.csv}).
+
+\paragraph{The barriers are not survey artifacts.} Both gates are distribution-free, so
+the boundary should transfer to any conformal procedure calibrated on estimated objects
+(the general remark of the main text). A simulation confirms it outside the survey
+setting (\texttt{e29\_beyond\_surveys}): across Gaussian, heavy-tailed, skewed, and a
+non-survey model-based small-area (MRP-style) calibration, the reliability floor
+$D\ge\sqrt{2/(K-1)}$ holds in every case (minimum $D/\text{floor}\ge1.06$), and the gate
+opens only at $K\approx130$--$150$---if anything a stronger barrier than the
+floor-implied $K\ge94$. The one substantive difference is instructive: when a small
+area's posterior noise is comparable to the between-area signal
+($\rhohat_{\mathrm{LCB}}=0.54$ at a noise-to-signal ratio of $0.5$), the \emph{need} gate
+does fire, unlike any cross-national survey. A many-area MRP application with appreciable
+posterior uncertainty is therefore the setting where the deconvolution could actually
+activate---the positive-result frontier the survey-scale impossibility leaves open.
+
+\section{Empirical construction and robustness}\label{sup:empirical}
+
+This section supports the main text's empirical claims. Each subsection
+states the construction, then the checks that bound it.
+
+\subsection{ESS design construction}
 
 \paragraph{The ESS long window (rounds 1--11, 2002--2024): construction and full
 counts.} The integrated ESS files ship usable PSU/stratum identifiers only for
@@ -1350,32 +1361,64 @@ the full design bootstrap requires merging the separately shipped Sample Design
 Data Files; that merge is delivered as \texttt{e61} (``the direct
 settlement'' below), and changes no net or persistent count.
 
-\paragraph{Same-items comparison with the Claassen latent panel (public data).}
-Claassen's country--year support-for-democracy estimates (the corrected AJPS
-series; Harvard Dataverse \texttt{doi:10.7910/DVN/HWLW0J}) pool the same item
-families our WVS reanalysis certifies item-by-item. Merging his corrected
-series (change over $2006\to2017$, where his panel ends) with our $\ge2$-item
-screened universe ($74$ countries; \texttt{e37}): descriptive-core membership is
-essentially independent of the sign of his smoothed trend ($6$ of $13$ core
-members fall in his series, versus $32$ of $61$ non-core).
+\paragraph{Rescaled bootstrap.} \emph{Rao--Wu--Yue} (\texttt{e38}; \texttt{*\_rescaled.csv}):
+flipping every stratified-bootstrap site from $m$-of-$m$ to the rescaled $m{-}1$
+draw leaves \emph{every} ESS certification count unchanged at every rung
+($12/6/1$ trust, $14/8/1$ satisfaction, Bonferroni included), moves the ESS
+subgroup-scan maximum $\rhohat$ from $0.288$ to $0.281$ and the LAPOP
+change-transport maximum from $0.212$ to $0.222$---both still severalfold below
+$\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
+Single-PSU strata, the one thing rescaling cannot repair, turn out to be
+negligible here: $1$ of $7{,}028$ strata in the core rounds, covering
+eleven respondents. The small-area activation is the one place the rescaling
+moves a decision (\texttt{e62}; \texttt{small\_area\_transport\_rescaled.csv}):
+the higher rescaled design variance opens the need gate more broadly ($8\to13$
+of $23$ unit-rounds) but pushes boundary cells past the frozen reliability and
+efficiency thresholds, so the deployed selector fires in $1$ cell rather than
+$4$ (min-$n=40$, round~9, $K=273$, certified gain $0.24$). The two-barrier
+structure and the feasibility reading are unchanged --- activation persists,
+national-scale abstention persists --- but the four-cell activation table of
+\texttt{e54} is specific to the shipped $m$-of-$m$ calibration, which is one
+reason the rescaling is reported as a sensitivity rather than promoted to the
+deployed default. The more consequential structural fact is different and we
+state it plainly: in $52$ of the $90$ core country-rounds the median PSU
+contains a single respondent---these are register samples of individuals, where
+\texttt{psu} carries no clustering to absorb. the main text's
+``uniformly low design-noise regime'' is therefore in substantial part a
+statement about which countries sample individuals from population registers,
+not a universal property of survey inference.
 
-That comparison is confounded two ways, as its own decomposition admits: his
-panel ends in 2017 while WVS wave-7 fieldwork (2017--2022) drives several of our
-certifications, and his latent construct excludes institutional-confidence
-items that drive several core memberships. Divergence produced by
-non-overlapping data is not information added by our method, so we removed both
-confounds (\texttt{e46}; \texttt{claassen\_window\_matched.csv}): recertifying
-the whole hierarchy on fieldwork ending by 2017, and restricting the comparison
-to the four support-for-democracy items. The independence survives matching. On
-the window-matched, all-item comparison ($65$ countries) the core declines in
-his series at $0.50$ versus $0.49$ for the rest (Fisher one-sided $p=0.60$); on
-the item-matched restriction, $0.44$ versus $0.50$ ($p=0.75$). So the divergence
-is not a window artifact and not an artifact of the institutional-trust item:
-what the pooled latent level and the item-level certification identify are
-genuinely different sets, and the certified core is not recoverable from the
-former. The two instruments are complements---his answers a question about a
-smoothed latent level, ours about distribution-wide movement in a named item
-with finite-sample error control.
+\paragraph{Mode audit.} \emph{Round-10 mode audit} (\texttt{e40}; \texttt{ess\_mode\_table.csv}),
+built from the data's own \texttt{mode} variable rather than from external
+documentation: nine countries (AT, CY, DE, ES, IL, LV, PL, RS, SE) switched to
+self-completion at round 10; rounds 9 and 11 are face-to-face throughout the
+integrated file. One further mode change the binary partition hides: video
+interviewing appears in twenty countries at rounds 10--11, at shares up to
+$0.48$ (Norway), including Estonia and the Netherlands, two of the six
+net-certified countries in the rounds-9--11 result. We collapse video into
+face-to-face because no parallel-mode randomization exists in this extract to
+identify its effect; the certifications spanning a video introduction are
+conditional on that collapse, and \texttt{ess\_mode\_table.csv} ships the
+per-cell shares so a reader can exclude them. Excluding the mode-confounded
+pairs: the net counts are \emph{unchanged} ($6$ and $8$; the $9\to11$ endpoints
+are both face-to-face), the persistent count is unchanged (Greece---itself
+face-to-face in both certified rounds), and only the nine switchers' any-pair
+claims are affected (marked mode-confounded rather than re-certified).
+
+\paragraph{The AmericasBarometer's design metadata, alongside the ESS's.} The ESS
+publishes sample-design files (PSU, stratum, inclusion probabilities) for all
+rounds---integrated into the main file from round 9, as separate SDDF files
+earlier---so our restriction to rounds 9--11 reflects the integrated extract we
+analyzed, not an ESS limitation; the
+AmericasBarometer releases full stratified-PSU structure in its merged file,
+letting us compute a proper design bootstrap directly. The design effect is real: the ratio of the proper stratified-PSU
+standard deviation to a naive independent-resampling one has median
+$\approx1.14$--$1.21$ and reaches $1.97$ in the most clustered country-years. The
+proper band captures clustering variance the naive bootstrap misses. Yet
+certification is coarse-robust: the design effect moves band \emph{width} but rarely
+flips the binary decline decision, because the decision is dominated by the
+between-country transport spread, not the within-country design noise---the same
+low-$\rho$ fact, seen from the certification side.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.7\textwidth]{lapop_level_vs_change_rho.pdf}
@@ -1384,52 +1427,24 @@ change; $B=200$ design bootstrap). All country-outcomes sit well below
 $\rho_0=0.47$; the estimates are downward-biased floors.}\label{fig:rho-supp}
 \end{figure}
 
-\paragraph{A withdrawn result, and why: the ESS-region frontier.} An earlier
-version of this paper reported that refining the exchangeable unit to ESS NUTS
-regions carries $\rhohat_{\mathrm{LCB}}$ from $0.09$ to $0.47$, so that both
-barriers of the unreachability proposition become reachable on real survey data.
-We withdraw it. The sweep applied one estimand inconsistently: units from a
-country contributing a single qualifying region were left on their raw curve
-while all others were centred on their country's mean, and the share of
-un-centred units is a monotone function of the sweep variable---$67\%$ of the
-pool at the coarsest threshold, $34\%$, then $2\%$, then $1\%$. Cross-national
-level differences therefore inflated the denominator of $\rho$ at the coarse end
-and vanished at the fine end, which is the whole of the apparent frontier. Under
-either consistent rule---centre every unit on its own national curve, or drop
-single-region countries---$\rhohat_{\mathrm{LCB}}$ is flat across the entire
-sweep and no crossing occurs. Three further defects compound it: ESS
-\texttt{region} is not one nesting level (NUTS1, NUTS2 and NUTS3 by country,
-with three countries entering as a single unit that \emph{is} the country), the
-missing-value sentinel is treated as a region, and the ``design noise'' of a
-region is close to simple sampling error (median design effect $0.95$; below one
-in a majority of cells). The scripts remain in the package, unused by the
-manuscript, so the diagnosis is reproducible.
+\paragraph{Design-preserving stress test, reinterpreted.} Subsampling the real
+AmericasBarometer while preserving its stratified-PSU structure, pooled $\rhohat$
+rises to $\approx0.23$ and then \emph{turns over} at the deepest subsampling
+($f=1/16$), where the protocol's own $1/\sqrt f$ scaling predicts
+$\rhohat\approx0.49$---i.e., a crossing of $\rho_0$. The discrepancy is diagnostic:
+at $f=1/16$ roughly one PSU remains per stratum, where the $m$-of-$m$ bootstrap
+(no Rao--Wu--Yue rescaling; singleton strata contributing zero) collapses the
+design-variance estimate exactly as the true design noise peaks, while
+$s_{\text{plug}}$ continues to absorb the realized noise. What the sweep
+demonstrates is therefore a failure mode of the $\rhohat$ diagnostic under
+sparse-PSU designs---with the deployed band's coverage remaining at or above nominal
+throughout---not a substantive saturation law, and we have removed ``saturation''
+claims resting on it from the main text. The rescaled-bootstrap reruns
+(\texttt{psu\_bootstrap(rescale=True)}) are delivered as \texttt{e38} and
+\texttt{e62}, reported above.
 
-\paragraph{An artifact we found and report: the apparent optimal unit.}
-Sweeping a minimum size threshold over ESS NUTS regions produces a clean U-shape
-in band width, minimized at regions of $\ge150$ respondents, and we initially
-read it as an interior optimum in the exchangeable unit. It does not survive
-controls, and the reasons are instructive. First, \texttt{region} is not one
-nesting level: codes run three to five characters (NUTS1--3) and countries use
-different levels, so pooled ``regions'' differ in scale by an order of magnitude.
-Second, the threshold selects which regions qualify \emph{and} which countries
-appear at all. Third and most damaging, the scored object changes along the
-sweep: units are taken relative to their own country's mean region curve only
-where that country contributes two or more qualifying regions, so at the coarse
-end almost every unit is a raw curve and at the fine end almost every unit is a
-within-country deviation---which is what drives the between-unit dispersion from
-$0.20$ down to $0.09$, not refinement.
 
-Rebuilding the sweep without those confounds (\texttt{e52}) settles it. Within
-each country-round we group whole PSUs at random into units of a target size, so
-size is controlled rather than filtered, composition is fixed, and every unit
-still carries its own stratified-PSU bootstrap. Over the range where the country
-set is constant (targets $40$ to $350$; thirty countries) the half-width falls
-\emph{monotonically} as units coarsen---$0.190$, $0.156$, $0.131$, $0.110$,
-$0.093$, $0.076$, $0.065$---with no interior minimum anywhere. Refinement is
-strictly costly, and the only binding constraint is the feasibility floor of the
-main text. We report the refuted version because the confound (an estimand that
-shifts silently along a sweep) is easy to reproduce and hard to see.
+\subsection{Claim-family robustness and cross-country prevalence}
 
 \paragraph{Two definitions of adjacency, and the persistent zero under both.}
 The main text reports that the joint band costs France at the span
@@ -1450,6 +1465,44 @@ fresh one per pair, so a country whose single certified pair was marginal under
 the per-rung run loses it here. That is the price named in the main text, and
 the main text's contrast counts are computed under the joint
 definition throughout.
+
+\paragraph{The long window: the weights-only exposure, and its direct
+settlement.} The rounds-1--11 analysis (\texttt{e36}) mixes design-bootstrap
+cells (rounds 9--11) with weights-only cells (rounds 1--8): $174$ of $231$
+pairs have a weights-only side. Because each cell is self-studentized, the
+sup-$t$ critical value is scale-free per cell and the understatement enters
+only through the final margins, in the inclusive direction --- protective for
+the \emph{zero persistent} result, a liability for the net result.
+
+Inflating the weights-only cells' bootstrap variance by design effects $1.5$
+and $2.0$ (\texttt{e44}; \texttt{ess\_long\_window\_deff.csv}) leaves the
+per-family net counts exactly unchanged, with the same membership at every
+deff, and the persistent counts at zero; only the any-pair rung moves
+($28\to25$, $24\to22$). Against the joint band the manuscript reports, the
+eight-country net set is stable under weights-only inflation to a design
+effect of roughly $1.3$, above which Spain, its marginal member, drops.
+
+The exposure is then settled directly rather than bounded (\texttt{e61};
+\texttt{ess\_long\_window\_sddf.csv}, \texttt{ess\_joint\_claims\_sddf.csv}).
+Merging the separately distributed ESS Sample Design Data Files for rounds
+1--8 (\texttt{pcb.data.ess\_sddf}; per-country files for rounds 1--6,
+integrated files for rounds 7--8) supplies psu/stratum for $245{,}897$
+respondents and upgrades $88$ country-rounds from the weights-only to the
+stratified-PSU design bootstrap, cutting the weights-only pairs from $174$ to
+about $106$ of $231$ per outcome; country-rounds whose SDDF is not published
+or carries no PSU remain weights-only. Rerun with the shipped seeds so that
+core-round draws are identical, the upgrade changes \emph{nothing} the
+manuscript reports: the joint-band net sets are unchanged with identical
+membership ($8$ trust, $7$ satisfaction), persistent stays zero on both
+outcomes, the both-directions count stays $23$, and the per-family net and
+Bonferroni counts are unchanged under the rounds 1--8 SDDF upgrade --- the
+only movement is one marginal any-pair certification lost per outcome (Russia
+on trust in the joint band, Switzerland on satisfaction in the per-family
+run), exactly the inclusive direction the understatement argument predicts.
+Two earlier per-family analyses --- an endpoint-sensitivity sweep
+(\texttt{e43}) and a magnitudes-and-recoveries run (\texttt{e45}) --- are
+superseded by the joint construction, under which every endpoint choice is
+certified on one coverage event; both remain in the replication archive.
 
 \paragraph{Cross-country prevalence: the closed-testing bound
 (\texttt{e56}).} The main text's simultaneous statement --- at least six of the
@@ -1508,6 +1561,30 @@ its own family would ignore the closure and can over-count; the contract
 tests pin the distinction and verify validity on planted truth,
 \texttt{tests/test\_prevalence.py}.)
 
+\paragraph{Claim severity on real data.} \emph{Severity injection} (\texttt{e42};
+\texttt{real\_severity.csv}). Two designs, because they answer different
+questions. \emph{Power (null-imposed):} the estimand is \emph{replaced} by an
+injected decline of $\delta$ CDF points over the preregistered core --- $\widehat
+D\leftarrow\delta$ and the bootstrap draws recentred on it --- keeping each of the
+$30$ countries' $57$ real stratified-PSU bootstraps. At $\delta=0$ this is the
+sharp null and realized size is $0.001$--$0.007$ across the three rungs
+(nominal $0.10$); $80\%$ power arrives at $\delta\approx0.033$ per pair for
+the net rung, $\approx0.06$ for the pairwise rung, and $\approx0.075$ for the
+persistent rung. This reproduces E32's simulated ordering against genuine
+design noise.
+\emph{Detection (additive):} the injection is added on top of what each country
+actually did, so $\delta=0$ returns the observed certification rates ($0.20$ net,
+$0.03$ persistent) and the curve answers ``how much further decline would bring
+the certified set to a given size'' --- a different quantity, reported alongside.
+A caution for anyone reusing this design: the shift must travel with the
+bootstrap distribution. Adding it only to the point estimate lowers the
+studentized critical value by $\delta/\mathrm{sd}$ \emph{while} raising the
+margin, counting the injection twice; an earlier version of this script did so
+and overstated power by roughly a factor of two in $\delta$.
+
+
+\subsection{WVS: weights-only design and the cross-item claim}
+
 \paragraph{A valid cross-item WVS claim (\texttt{e63}, \texttt{e65}).}
 The main text's thirteen-country $\ge2$-item core first counts two separate
 $\alpha=0.10$ item-level certifications; that count alone does not test that
@@ -1527,6 +1604,17 @@ country-level partial-conjunction certifications; the corresponding
 across-country lower bounds are one and zero. The machine checks reproduce all
 five original E26 certification sets before combining them.
 
+\paragraph{WVS design-effect sensitivity.} \emph{Design effects $1.5$ and $2.0$} (\texttt{e39};
+\texttt{wvs\_deff\_sensitivity.csv}): rerunning the full five-item certification
+with the weights-only bootstrap variance inflated by deff $1.5$ and $2.0$: at
+$\times1.5$ every per-item persistent count is within $2$ of the base and the
+$\ge2$-item certified core is \emph{identical} ($13$ countries); at $\times2.0$
+the core loses only Trinidad and Tobago ($12$ remain) and the
+marginal-to-persistent gap widens from $2.6$--$6.5\times$ to $3.0$--$8.3\times$
+--- confirming the paper's directional claim that the shipped gap is a lower
+bound. The stricter partial-conjunction core (\texttt{e65}) moves from $12$ at
+baseline to $10$ and $9$ under the same two multipliers.
+
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{certified_core_full.pdf}
 \caption{All thirty-eight countries certifying persistent distribution-wide
@@ -1537,6 +1625,9 @@ also pass the arbitrary-cross-item-dependence partial-conjunction test, which
 certifies that at least two items decline without identifying
 which two.}\label{fig:corefull}
 \end{figure}
+
+
+\subsection{Small-area feasibility}
 
 \paragraph{The small-area activation, in full (\texttt{e54}, \texttt{e55}).}
 The one place in this paper where the design-aware branch fires on real data is
@@ -1600,144 +1691,8 @@ and scale-family structure of (A1). We therefore read the activation as
 establishing feasibility --- the frozen selector enters its correction regime
 at this unit --- rather than as a direct latent-target validation.
 
-\paragraph{Promised reruns, delivered.} Four robustness reruns flagged in earlier
-drafts are now part of the package.
-\emph{(a) Rao--Wu--Yue rescaled bootstrap} (\texttt{e38}; \texttt{*\_rescaled.csv}):
-flipping every stratified-bootstrap site from $m$-of-$m$ to the rescaled $m{-}1$
-draw leaves \emph{every} ESS certification count unchanged at every rung
-($12/6/1$ trust, $14/8/1$ satisfaction, Bonferroni included), moves the ESS
-subgroup-scan maximum $\rhohat$ from $0.288$ to $0.281$ and the LAPOP
-change-transport maximum from $0.212$ to $0.222$---both still severalfold below
-$\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
-Single-PSU strata, the one thing rescaling cannot repair, turn out to be
-negligible here: $1$ of $7{,}028$ strata in the core rounds, covering
-eleven respondents. The small-area activation is the one place the rescaling
-moves a decision (\texttt{e62}; \texttt{small\_area\_transport\_rescaled.csv}):
-the higher rescaled design variance opens the need gate more broadly ($8\to13$
-of $23$ unit-rounds) but pushes boundary cells past the frozen reliability and
-efficiency thresholds, so the deployed selector fires in $1$ cell rather than
-$4$ (min-$n=40$, round~9, $K=273$, certified gain $0.24$). The two-barrier
-structure and the feasibility reading are unchanged --- activation persists,
-national-scale abstention persists --- but the four-cell activation table of
-\texttt{e54} is specific to the shipped $m$-of-$m$ calibration, which is one
-reason the rescaling is reported as a sensitivity rather than promoted to the
-deployed default. The more consequential structural fact is different and we
-state it plainly: in $52$ of the $90$ core country-rounds the median PSU
-contains a single respondent---these are register samples of individuals, where
-\texttt{psu} carries no clustering to absorb. the main text's
-``uniformly low design-noise regime'' is therefore in substantial part a
-statement about which countries sample individuals from population registers,
-not a universal property of survey inference.
-\emph{(b) Round-10 mode audit} (\texttt{e40}; \texttt{ess\_mode\_table.csv}),
-built from the data's own \texttt{mode} variable rather than from external
-documentation: nine countries (AT, CY, DE, ES, IL, LV, PL, RS, SE) switched to
-self-completion at round 10; rounds 9 and 11 are face-to-face throughout the
-integrated file. One further mode change the binary partition hides: video
-interviewing appears in twenty countries at rounds 10--11, at shares up to
-$0.48$ (Norway), including Estonia and the Netherlands, two of the six
-net-certified countries in the rounds-9--11 result. We collapse video into
-face-to-face because no parallel-mode randomization exists in this extract to
-identify its effect; the certifications spanning a video introduction are
-conditional on that collapse, and \texttt{ess\_mode\_table.csv} ships the
-per-cell shares so a reader can exclude them. Excluding the mode-confounded
-pairs: the net counts are \emph{unchanged} ($6$ and $8$; the $9\to11$ endpoints
-are both face-to-face), the persistent count is unchanged (Greece---itself
-face-to-face in both certified rounds), and only the nine switchers' any-pair
-claims are affected (marked mode-confounded rather than re-certified).
-\emph{(c) Leave-one-region-out exchangeability audit} (\texttt{e41};
-\texttt{loro\_exchangeability.csv}): calibrating the U0 transport band on all
-countries outside a region and scoring the held-out region's trajectories,
-Nordic/Western/Southern blocs cover at $6$--$8$ of $6$--$8$ (nominal $0.90$),
-the full-pool leave-one-out baseline at $28/30$ for both outcomes, but the
-post-communist East covers only $6/9$ (trust) and $5/9$ (satisfaction): a
-quantified scope condition---transport \emph{into} the Eastern bloc from a
-non-Eastern pool is anti-conservative---consistent with the East-dominated
-certified core of the WVS reanalysis, and irrelevant to the within-country
-certifications, which use no exchangeability.
-\emph{(d) Real-data severity injection} (\texttt{e42};
-\texttt{real\_severity.csv}). Two designs, because they answer different
-questions. \emph{Power (null-imposed):} the estimand is \emph{replaced} by an
-injected decline of $\delta$ CDF points over the preregistered core --- $\widehat
-D\leftarrow\delta$ and the bootstrap draws recentred on it --- keeping each of the
-$30$ countries' $57$ real stratified-PSU bootstraps. At $\delta=0$ this is the
-sharp null and realized size is $0.001$--$0.007$ across the three rungs
-(nominal $0.10$); $80\%$ power arrives at $\delta\approx0.033$ per pair for
-the net rung, $\approx0.06$ for the pairwise rung, and $\approx0.075$ for the
-persistent rung. This reproduces E32's simulated ordering against genuine
-design noise.
-\emph{Detection (additive):} the injection is added on top of what each country
-actually did, so $\delta=0$ returns the observed certification rates ($0.20$ net,
-$0.03$ persistent) and the curve answers ``how much further decline would bring
-the certified set to a given size'' --- a different quantity, reported alongside.
-A caution for anyone reusing this design: the shift must travel with the
-bootstrap distribution. Adding it only to the point estimate lowers the
-studentized critical value by $\delta/\mathrm{sd}$ \emph{while} raising the
-margin, counting the injection twice; an earlier version of this script did so
-and overstated power by roughly a factor of two in $\delta$.
-\emph{(e) WVS design-effect sensitivity} (\texttt{e39};
-\texttt{wvs\_deff\_sensitivity.csv}): rerunning the full five-item certification
-with the weights-only bootstrap variance inflated by deff $1.5$ and $2.0$: at
-$\times1.5$ every per-item persistent count is within $2$ of the base and the
-$\ge2$-item certified core is \emph{identical} ($13$ countries); at $\times2.0$
-the core loses only Trinidad and Tobago ($12$ remain) and the
-marginal-to-persistent gap widens from $2.6$--$6.5\times$ to $3.0$--$8.3\times$
---- confirming the paper's directional claim that the shipped gap is a lower
-bound. The stricter partial-conjunction core (\texttt{e65}) moves from $12$ at
-baseline to $10$ and $9$ under the same two multipliers.
 
-\paragraph{The long window, stress-tested and then settled.} The rounds-1--11
-analysis (\texttt{e36}) mixes design-bootstrap cells (rounds 9--11) with
-weights-only cells (rounds 1--8): $174$ of $231$ pairs have a weights-only
-side. Because each cell is self-studentized, the sup-$t$ critical value is
-scale-free per cell and the understatement enters only through the final
-margins, in the inclusive direction --- protective for the \emph{zero
-persistent} result, a liability for the \emph{nine net} result. Four checks
-bound it, and a fifth settles it directly.
-\emph{(0) A scope correction.} The design-effect sensitivity below was run
-against the per-family construction that the joint band of the main text
-replaces, so it certifies the \emph{nine}-country set rather than the eight the
-manuscript now reports. Rerun against the joint band, the eight-country set is
-stable under weights-only inflation up to a design effect of roughly $1.3$;
-Spain, the marginal member, loses certification above that. We state the
-narrower interval rather than carry the old one over.
-\emph{(i) Design-effect sensitivity} (\texttt{e44};
-\texttt{ess\_long\_window\_deff.csv}): inflating the weights-only cells'
-bootstrap variance by deff $1.5$ and $2.0$ leaves the net counts \emph{exactly}
-unchanged ($9$ for trust, $8$ for satisfaction, same membership at every deff)
-and the persistent counts at zero; only the any-pair rung moves ($28\to25$,
-$24\to22$). The nine are not an artifact of the missing clustering variance.
-\emph{(ii) Endpoint sensitivity} (\texttt{e43};
-\texttt{ess\_endpoint\_sensitivity.csv}) re-certified the span rung over every
-admissible sub-span as a separate test each, and found only Cyprus, Spain and
-the United Kingdom surviving the removal of either endpoint. That analysis is
-\emph{superseded} by the joint construction of the main text
-(the claim-family transfer proposition of the main text, \texttt{e50}), under which every endpoint
-choice is certified on one coverage event and no selection cost arises; we keep
-the run in the package because it shows what the per-family construction cost.
-\emph{(iii) Certified magnitudes and recoveries} (\texttt{e45}, superseded by
-\texttt{e50}): the same one-sided band that certifies a decline returns its
-size, the largest $d$ with $\widehat D(t)-c\,\mathrm{sd}(t)\ge d$ at every core
-threshold, and reversing the inequality certifies rises. Computed per family,
-these gave $56$ rising pairs against $59$ falling and $24$ countries with both,
-at $\alpha$ per family; computed inside the joint band they give $23$ of
-thirty-three at $\alpha$ in total, which is the number the main text reports.
-\emph{(iv) The direct settlement} (\texttt{e61};
-\texttt{ess\_long\_window\_sddf.csv}, \texttt{ess\_joint\_claims\_sddf.csv}):
-merging the separately distributed ESS Sample Design Data Files for rounds
-1--8 (\texttt{pcb.data.ess\_sddf}; per-country files for rounds 1--6,
-integrated files for rounds 7--8) supplies psu/stratum for $245{,}897$
-respondents and upgrades $88$ country-rounds from the weights-only to the
-stratified-PSU design bootstrap, cutting the weights-only pairs from $174$ to
-about $106$ of $231$ per outcome; country-rounds whose SDDF is not published
-or carries no PSU remain weights-only. Rerun with the shipped seeds so that
-core-round draws are identical, the upgrade changes \emph{nothing} the
-manuscript reports: the joint-band net sets are unchanged with identical
-membership ($8$ trust, $7$ satisfaction), persistent stays zero on both
-outcomes, the both-directions count stays $23$, and the per-family net and
-Bonferroni counts are unchanged --- the only movement is one marginal
-any-pair certification lost per outcome (Russia on trust in the joint band,
-Switzerland on satisfaction in the per-family run), exactly the inclusive
-direction the understatement argument predicts.
+\subsection{Scope conditions the machinery does not reach}
 
 \paragraph{Nonresponse and sample-type limits the machinery does not reach.}
 Two exposures deserve naming rather than absorption into ``measurement
@@ -1754,78 +1709,67 @@ ill-defined; for those, ``weights-only bootstrap $\times$ deff'' is a
 sensitivity, not a variance, and the certified-core entries resting on them
 should be read with the per-country technical records to hand.
 
-\paragraph{Design-preserving stress test, reinterpreted.} Subsampling the real
-AmericasBarometer while preserving its stratified-PSU structure, pooled $\rhohat$
-rises to $\approx0.23$ and then \emph{turns over} at the deepest subsampling
-($f=1/16$), where the protocol's own $1/\sqrt f$ scaling predicts
-$\rhohat\approx0.49$---i.e., a crossing of $\rho_0$. The discrepancy is diagnostic:
-at $f=1/16$ roughly one PSU remains per stratum, where the $m$-of-$m$ bootstrap
-(no Rao--Wu--Yue rescaling; singleton strata contributing zero) collapses the
-design-variance estimate exactly as the true design noise peaks, while
-$s_{\text{plug}}$ continues to absorb the realized noise. What the sweep
-demonstrates is therefore a failure mode of the $\rhohat$ diagnostic under
-sparse-PSU designs---with the deployed band's coverage remaining at or above nominal
-throughout---not a substantive saturation law, and we have removed ``saturation''
-claims resting on it from the main text. The rescaled-bootstrap reruns
-(\texttt{psu\_bootstrap(rescale=True)}) are delivered as \texttt{e38} and
-\texttt{e62}, reported under ``promised reruns'' above.
+\paragraph{Transport scope: leave-one-region-out.} \emph{Exchangeability audit} (\texttt{e41};
+\texttt{loro\_exchangeability.csv}): calibrating the U0 transport band on all
+countries outside a region and scoring the held-out region's trajectories,
+Nordic/Western/Southern blocs cover at $6$--$8$ of $6$--$8$ (nominal $0.90$),
+the full-pool leave-one-out baseline at $28/30$ for both outcomes, but the
+post-communist East covers only $6/9$ (trust) and $5/9$ (satisfaction): a
+quantified scope condition---transport \emph{into} the Eastern bloc from a
+non-Eastern pool is anti-conservative---consistent with the East-dominated
+certified core of the WVS reanalysis, and irrelevant to the within-country
+certifications, which use no exchangeability.
 
-\paragraph{The positive regime, demonstrated (E31).} The scope result says where the
-correction is unreachable; a companion simulation shows where it pays. On the
-MRP-style small-area DGP (latent area curves plus known heteroskedastic posterior
-SDs), the frozen pipeline --- unchanged constants, the $\alpha$-budget architecture of
-Theorem~5 --- is run at $K\in\{60,94,150,220,300\}$ areas and posterior-noise
-ratios $0.3$--$0.9$, scoring the returned band against the latent area curve
-($800$ reps per cell). Three facts emerge. First, gate-B \emph{feasibility}
-($K\ge94$) is necessary but not sufficient: with the deconvolution branch honestly
-budgeted at $\alpha_{\text{dec}}=\max(0.1\alpha,\,3/(K{+}1))$, its conformal quantile
-is informative --- and the width-gain gate clears --- only from $K\approx220$, so the
-practical activation frontier sits near $K\approx200$--$300$. Second, where it
-activates (noise ratio $\approx0.7$: $31\%$ of draws at $K{=}220$, $98\%$ at
-$K{=}300$) it pays: the deployed band is $0.69$--$0.74\times$ the conservative
-envelope's width at coverage $0.98$--$1.00$, against the guarantee floor $0.88$.
-Third, at noise ratios near or above the between-area signal the stability gate
-abstains to conservative --- correctly, since there the deconvolved scale hits its
-floor. Many-unit clustered settings (US counties, schools, clinics) have $K$ well
-beyond this frontier; repeated cross-national surveys never do
-(\texttt{e31\_positive\_regime}; \texttt{results/positive\_regime.csv}).
+\paragraph{Two exploratory regional analyses, withdrawn.} Earlier versions
+reported that refining the exchangeable unit to ESS NUTS regions carries
+$\rhohat_{\mathrm{LCB}}$ from $0.09$ to $0.47$, and that band width has an
+interior minimum in unit size. Neither is used here, and both fail for the
+same reason: the scored estimand changed along the sweep, since units were
+centred on their country's mean only where that country contributed two or
+more qualifying regions, and the share of un-centred units is a monotone
+function of the sweep variable. ESS \texttt{region} also mixes NUTS1--3
+across countries and admits the missing-value sentinel as a region. Under
+either consistent centring rule $\rhohat_{\mathrm{LCB}}$ is flat and no
+crossing occurs; rebuilding the size sweep without the confounds
+(\texttt{e52}, grouping whole PSUs at random within country-rounds so that
+size is controlled rather than filtered) gives a half-width that falls
+\emph{monotonically} as units coarsen ($0.190$ to $0.065$ over targets $40$
+to $350$), with no interior optimum. This is a withdrawn result reported for
+reproducibility: the original and corrected scripts remain in the
+replication archive, unused by the manuscript.
 
-\paragraph{The barriers are not survey artifacts.} Both gates are distribution-free, so
-the boundary should transfer to any conformal procedure calibrated on estimated objects
-(the general remark of the main text). A simulation confirms it outside the survey
-setting (\texttt{e29\_beyond\_surveys}): across Gaussian, heavy-tailed, skewed, and a
-non-survey model-based small-area (MRP-style) calibration, the reliability floor
-$D\ge\sqrt{2/(K-1)}$ holds in every case (minimum $D/\text{floor}\ge1.06$), and the gate
-opens only at $K\approx130$--$150$---if anything a stronger barrier than the
-floor-implied $K\ge94$. The one substantive difference is instructive: when a small
-area's posterior noise is comparable to the between-area signal
-($\rhohat_{\mathrm{LCB}}=0.54$ at a noise-to-signal ratio of $0.5$), the \emph{need} gate
-does fire, unlike any cross-national survey. A many-area MRP application with appreciable
-posterior uncertainty is therefore the setting where the deconvolution could actually
-activate---the positive-result frontier the survey-scale impossibility leaves open.
 
-\paragraph{The AmericasBarometer's design metadata, alongside the ESS's.} The ESS
-publishes sample-design files (PSU, stratum, inclusion probabilities) for all
-rounds---integrated into the main file from round 9, as separate SDDF files
-earlier---so our restriction to rounds 9--11 reflects the integrated extract we
-analyzed, not an ESS limitation (an earlier draft misstated this); the
-AmericasBarometer releases full stratified-PSU structure in its merged file,
-letting us compute a proper design bootstrap directly. The design effect is real: the ratio of the proper stratified-PSU
-standard deviation to a naive independent-resampling one has median
-$\approx1.14$--$1.21$ and reaches $1.97$ in the most clustered country-years. The
-proper band captures clustering variance the naive bootstrap misses. Yet
-certification is coarse-robust: the design effect moves band \emph{width} but rarely
-flips the binary decline decision, because the decision is dominated by the
-between-country transport spread, not the within-country design noise---the same
-low-$\rho$ fact, seen from the certification side.
+\section{Secondary analyses}\label{sup:secondary}
 
-\begin{figure}[t]\centering
-\includegraphics[width=.8\textwidth]{country_reclassification_map.pdf}
-\caption{Relocated from the main text: countries certified by the marginal plug-in
-but inconclusive under the design-aware simultaneous band are the weak-signal,
-higher-noise cases; the apparent trend lies within the design uncertainty the
-survey warrants.}\label{fig:reclass}
-\end{figure}
+The results below are secondary: the main text's inferential argument does
+not rest on them, and they are reported for completeness.
+
+\paragraph{Same-items comparison with the Claassen latent panel (public data).}
+Claassen's country--year support-for-democracy estimates (the corrected AJPS
+series; Harvard Dataverse \texttt{doi:10.7910/DVN/HWLW0J}) pool the same item
+families our WVS reanalysis certifies item-by-item. Merging his corrected
+series (change over $2006\to2017$, where his panel ends) with our $\ge2$-item
+screened universe ($74$ countries; \texttt{e37}): descriptive-core membership is
+essentially independent of the sign of his smoothed trend ($6$ of $13$ core
+members fall in his series, versus $32$ of $61$ non-core).
+
+That comparison is confounded two ways, as its own decomposition admits: his
+panel ends in 2017 while WVS wave-7 fieldwork (2017--2022) drives several of our
+certifications, and his latent construct excludes institutional-confidence
+items that drive several core memberships. Divergence produced by
+non-overlapping data is not information added by our method, so we removed both
+confounds (\texttt{e46}; \texttt{claassen\_window\_matched.csv}): recertifying
+the whole hierarchy on fieldwork ending by 2017, and restricting the comparison
+to the four support-for-democracy items. The independence survives matching. On
+the window-matched, all-item comparison ($65$ countries) the core declines in
+his series at $0.50$ versus $0.49$ for the rest (Fisher one-sided $p=0.60$); on
+the item-matched restriction, $0.44$ versus $0.50$ ($p=0.75$). So the divergence
+is not a window artifact and not an artifact of the institutional-trust item:
+what the pooled latent level and the item-level certification identify are
+genuinely different sets, and the certified core is not recoverable from the
+former. The two instruments are complements---his answers a question about a
+smoothed latent level, ours about distribution-wide movement in a named item
+with finite-sample error control.
 
 \paragraph{Robustness across age groups (ESS).} A preregistered age-group analysis
 (preregistered in the replication package) reruns the same
@@ -1890,72 +1834,13 @@ panel literature cited in the main text, and a bound on how far the certified co
 should be read as an early-warning indicator. Both cross-tabs are descriptive
 aggregation on small $N$, reported as produced.
 
-\section{Extended related work}\label{sup:related}
-
-Our work sits at the intersection of four literatures. First, \textbf{distribution-free
-conformal prediction} gives finite-sample coverage without modeling assumptions
-\citep{vovk2005algorithmic,lei2018distribution}. Because political data rarely satisfy
-exchangeability, we build on its relaxations: weighted conformal prediction for
-covariate shift \citep{tibshirani2019conformal} and nonexchangeable conformal
-prediction, which bounds the coverage gap by the total variation between exchanged
-distributions \citep{barber2023conformal}. \citet{gibbs2021adaptive,gibbs2024conditional}
-adapt conformal sets to distribution shift and interpolate between marginal and
-conditional validity. Our ``adaptive'' selector differs in kind: it adapts not to
-temporal shift but to the \emph{certified magnitude of survey design noise}, reducing
-to a fixed clustered method when that noise is negligible. Within the discipline,
-\citet{randahl2026bin} bring conformal prediction to \emph{Political Analysis} for the
-first time, calibrating bin-conditional intervals around a point forecast of conflict
-fatalities; our object is different in kind---finite-sample \emph{simultaneous} trajectory
-bands with the country as the exchangeable unit and estimated calibration distributions,
-rather than bin-conditional intervals on a single prediction.
-
-Second, we treat the \textbf{population (country) as the exchangeable unit}, following
-hierarchical conformal prediction for two-layer models \citep{dunn2023distribution}
-and distribution-free inference with hierarchical data \citep{lee2023distribution}.
-The same finite-sample-exact clustered construction is developed, for a different
-(non-survey) domain, in a companion paper \citep{park2026poverty}.
-These methods transport guarantees to an unseen cluster---our cross-national
-setting---but treat each cluster's data as cleanly sampled. Our departure is that the
-calibration objects are not observed: each country's attitude distribution is
-\emph{estimated} under a complex survey design, so design-based sampling variance
-\citep{binder1983variances,lumley2010complex} contaminates the very scores conformal
-calibration relies upon. The nested view of conformal prediction and selection among
-conformal sets are developed by \citet{gupta2022nested} and \citet{yang2024selection};
-our Lemma~\ref{lem:nested} is an instance of that machinery, and our contribution is
-architectural (engineering the branches so the lemma applies), not the lemma itself.
-
-Third, the closest methodological neighbors handle \textbf{noisy or estimated
-calibration}. \citet{wieczorek2023design} develops design-based conformal prediction
-under complex sampling, but design enters through test-point weighting rather than as
-noise in transported objects. \citet{einbinder2024label} and \citet{sesia2025adaptive}
-correct conformal calibration under label noise, the latter by deconvolving a
-\emph{known} noise model. Our central theoretical result is that this identification
-premise generally fails for survey design noise: recovering the latent transport-error
-law is a deconvolution problem \citep{fan1991optimal} that is non-identified without a
-design-noise law, so no band built on the observed curves can beat the conservative plug-in by more
-than the discreteness slack while remaining valid. And even when a noise model
-\emph{is} supplied, the deconvolution's reliability is itself bounded at a finite
-number of calibration units by an algorithmic floor---a finite-$K$ obstruction
-distinct from the asymptotic identifiability the classical deconvolution literature
-studies.
-
-Fourth, our target is a \textbf{functional object}---a CDF over thresholds tracked
-across rounds---placing us near simultaneous functional conformal bands
-\citep{diquigiovanni2021conformal}. Procedures like FDR or Bonferroni
-\citep{benjamini1995controlling} adjust a collection of tests after the fact; our
-guarantee is instead carried by the geometry of a single finite-sample band, so the
-``persistent'' object is \emph{defined and covered directly}, not recovered by
-correcting marginal $p$-values. The distinction is one of estimand, not merely error
-rate, and partial-pooling cautions about reading marginal country trends
-\citep{gelman2012why} motivate but do not deliver the stronger claim.
-Claassen-style latent-variable panels
-\citep{claassen2019estimating,claassen2020support} deliver model-based credible
-intervals for a latent mood under a dynamic measurement model, pooling across items
-and years; our bands deliver finite-sample, model-free coverage for a
-distribution-level object at a stated claim rung, at the price of wider intervals and
-no pooling. The two are complements---a certification that survives our rung
-hierarchy and falls inside a Claassen-style interval is doubly supported---and a
-same-data comparison is a natural companion exercise.
+\begin{figure}[t]\centering
+\includegraphics[width=.8\textwidth]{country_reclassification_map.pdf}
+\caption{Relocated from the main text: countries certified by the marginal plug-in
+but inconclusive under the design-aware simultaneous band are the weak-signal,
+higher-noise cases; the apparent trend lies within the design uncertainty the
+survey warrants.}\label{fig:reclass}
+\end{figure}
 
 \bibliographystyle{chicago}
 \bibliography{refs}
