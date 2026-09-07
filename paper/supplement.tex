@@ -2,7 +2,6 @@
 \usepackage{setspace}
 \onehalfspacing
 % Supplementary Material for "The Wrong Unit of Uncertainty".
-% Secondary material relocated from the main manuscript, content-unchanged.
 \usepackage[T1]{fontenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
@@ -270,7 +269,7 @@ distinct regime. This is why Theorem~2(b) is stated as an explicit two-term boun
 noise $\Rightarrow$ small gap) rather than as unconditional conservativeness, and why on
 real data we report the design-noise scale ($\rhohat\le0.22$ at the national level
 across all surveys examined, and $\le0.29$ including the noisiest ESS age-band
-subgroups; Section~S4) that makes the gap negligible rather than assuming it away. Under additional
+subgroups; Section~\ref{sup:design}) that makes the gap negligible rather than assuming it away. Under additional
 shape conditions (e.g.\ a unimodal latent law with $\widehat q$ above its mode, or a
 log-concave latent density) the classical dominance argument does go through, but we do
 not rely on it.
@@ -1005,7 +1004,7 @@ fourth-moment dependence is a real limitation in one direction only: for platyku
 scores the frozen formula over-states the sampling error, so the gate is merely
 over-conservative (an efficiency cost); for heavy-tailed scores it under-states it, so
 $\widehat\delta_{\mathrm{UCB}}$ can under-budget the remainder --- exactly the
-$0.02\%$ extreme-tail failure mode the holdout exposed (Section~S3), now confined by
+$0.02\%$ extreme-tail failure mode the holdout exposed (Section~\ref{sup:scope}), now confined by
 Theorem~5 to the $K\ge94$, $\alpha_{\text{dec}}$-budgeted branch. The exact
 threshold $K\approx94$ depends on the frozen gate-B constants (conservatively
 calibrated on the Gaussian design grid); a less conservative $\delta_{\max}$ would lower
@@ -1226,7 +1225,7 @@ Table~\ref{tab:holdout}.
 
 \begin{table}[t]\centering
 \caption{Holdout validation of the deployed selector (450 cells, 800 reps
-each; relocated from the main text). All rows score the band the package
+each). All rows score the band the package
 returns --- U0 anchors with the $\alpha$-budgeted deconvolution branch.
 \emph{Provenance:} an initial audit run scored a studentized base band
 different from the released U0 construction. That run is retained in the
@@ -1252,13 +1251,13 @@ E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{holdout_validation.pdf}
-\caption{Holdout validation on the unseen grid (relocated from the main text).
+\caption{Holdout validation on the unseen grid.
 Left: deployed coverage vs.\ $\rhohat$ per $K$ (line = mean over families, shade =
 worst family) against the $0.88$ floor and $0.90$ nominal. Right: deconvolution
 activates only at $K{=}320$; small $K$ abstains.}\label{fig:holdout}
 \end{figure}
 
-\subsection{What the validation does and does not establish}
+\subsection{What the validation does and does not establish}\label{sup:scope}
 
 \paragraph{A limitation in the extreme tail.} The Gaussian-calibrated
 remainder bound $\widehat\delta_{\text{UCB}}$ is not robust at the extreme: in $77$ of
@@ -1331,7 +1330,7 @@ activate---the positive-result frontier the survey-scale impossibility leaves op
 This section supports the main text's empirical claims. Each subsection
 states the construction, then the checks that bound it.
 
-\subsection{ESS design construction}
+\subsection{Survey design construction: ESS and the AmericasBarometer}\label{sup:design}
 
 \paragraph{The ESS long window (rounds 1--11, 2002--2024): construction and full
 counts.} The integrated ESS files ship usable PSU/stratum identifiers only for
@@ -1585,15 +1584,19 @@ and overstated power by roughly a factor of two in $\delta$.
 
 \subsection{WVS: weights-only design and the cross-item claim}
 
-\paragraph{A valid cross-item WVS claim (\texttt{e63}, \texttt{e65}).}
+\paragraph{A cross-item claim robust to arbitrary item dependence
+(\texttt{e63}, \texttt{e65}).}
 The main text's thirteen-country $\ge2$-item core first counts two separate
 $\alpha=0.10$ item-level certifications; that count alone does not test that
 two declines are true. We therefore inverted the unchanged persistent band for
 each available country--item and tested the partial-conjunction alternative
 that at least two item nulls are false. For a country with $m$ available items,
-the primary arbitrary-dependence-valid value is
+the primary combination rule, valid under arbitrary cross-item dependence
+given valid component $p$-values, is
 $p_{\mathrm{PC}}=\min\{1,(m-1)p_{(2)}\}$
-\citep{benjamini2008screening}. Twelve of the thirteen descriptive-core
+\citep{benjamini2008screening}. The combination is what is
+dependence-robust; the component $p$-values invert E26's weights-only
+bootstrap band and retain the limitation described above. Twelve of the thirteen descriptive-core
 countries pass at $0.10$; Trinidad and Tobago does not
 ($p_{\mathrm{PC}}=0.144$). The claim is simultaneous across items within each
 country, not across the twelve countries. Closing the $78$ country-level
@@ -1836,7 +1839,7 @@ aggregation on small $N$, reported as produced.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.8\textwidth]{country_reclassification_map.pdf}
-\caption{Relocated from the main text: countries certified by the marginal plug-in
+\caption{Countries certified by the marginal plug-in
 but inconclusive under the design-aware simultaneous band are the weak-signal,
 higher-noise cases; the apparent trend lies within the design uncertainty the
 survey warrants.}\label{fig:reclass}

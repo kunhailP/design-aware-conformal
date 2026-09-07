@@ -1,18 +1,22 @@
 \section{Introduction}
 
 Comparative politics increasingly treats a national public as a
-\emph{distribution} rather than a mean. Trust in parliament in a country and
+\emph{distribution} rather than a mean \citep{dimaggio1996americans}. Trust in parliament in a country and
 year is a cumulative distribution function over a response scale, and
 repeated cross-national surveys, among them the European Social Survey
 \citep[ESS;][]{kaminska2017survey}, the World Values Survey (WVS), and the
 AmericasBarometer \citep{lapop2021pulse}, generate claims about how those
 distributions evolve across waves. A second use, \emph{transporting} trajectories (predicting one country's
 from the others'), draws on conformal prediction's finite-sample,
-distribution-free coverage \citep{vovk2005algorithmic,lei2018distribution}.
+distribution-free coverage \citep{vovk2005algorithmic,lei2018distribution}
+and its shift relaxations
+\citep{tibshirani2019conformal,gibbs2021adaptive,gibbs2024conditional}.
 
 \paragraph{Two wrong units.} One principle organizes this paper: \emph{the
 stochastic unit of a guarantee must coincide with the unit of the scientific
-claim it certifies}. Claims from repeated surveys violate it twice.
+claim it certifies}
+\citep{robinson1950ecological,openshaw1984modifiable}. Claims from repeated
+surveys violate it twice.
 Uncertainty is routinely reported for a local contrast, one wave pair at one
 threshold, while the \emph{claim} it is taken to support (``democratic
 trust is declining'') concerns a whole trajectory. The deconsolidation debate
