@@ -288,10 +288,11 @@ $\operatorname{Var}_c\Gtilde_c(t)=\operatorname{Var}_cG_c(t)+\overline{v^2}(t)$
 exactly, i.e.\ $s_T^2(t)=s_{\text{plug}}^2(t)\,(1-\rho(t)^2)$ for the oracle
 deconvolution scale, so the scale factor $s_R(t)/s_{\text{plug}}(t)
 =\sqrt{1-\rho(t)^2}$ is an identity. Under (A1) the deconvolution band's
-coordinate radius is $q_D\,s_R(t)$, against $q_S\,s_{\text{plug}}(t)$ for a
-studentized anchor and the constant $q_P$ for the deployed unstudentized
-anchor; the realized width ratios, $(q_D/q_S)\sqrt{1-\rho(t)^2}$ and
-$(q_D/q_P)\,s_R(t)$, therefore carry a quantile ratio that the scale identity
+coordinate radius is $q_{\text{dec}}\,s_R(t)$, against
+$q_{\text{stu}}\,s_{\text{plug}}(t)$ for a studentized anchor and the constant
+$q_{\text{clu}}$ for the deployed unstudentized anchor; the realized width
+ratios, $(q_{\text{dec}}/q_{\text{stu}})\sqrt{1-\rho(t)^2}$ and
+$(q_{\text{dec}}/q_{\text{clu}})\,s_R(t)$, therefore carry a quantile ratio that the scale identity
 does not determine (Section~\ref{sup:lowrho} shows only that it tends to one as $\rho\to0$). No
 statement about the variance of the sup-score $\widetilde R$ is used.
 \end{proof}
@@ -902,7 +903,7 @@ probabilities.
 \end{proof}
 
 \emph{Statement (Theorem~5).} Deploy the selector of Algorithm~1 with the
-unstudentized PCB and conservative branches (scores $\max_t|\Gtilde_c(t)|$ and
+unstudentized clustered and conservative branches (scores $\max_t|\Gtilde_c(t)|$ and
 $\max_t(|\Gtilde_c(t)|+z\,\widehat v_c(t))$ respectively, both calibrated at level
 $\alpha_{\text{anchor}}$) and the deconvolution branch calibrated at its own budget
 $\alpha_{\text{dec}}$, where $(\alpha_{\text{anchor}},\alpha_{\text{dec}})=
@@ -984,11 +985,11 @@ Remark~\ref{rem:bimodal} shows is unavoidable for \emph{any} latent-target
 claim built on observed scores.
 
 \begin{proof}
-The conservative score dominates the PCB score pointwise
+The conservative score dominates the clustered score pointwise
 ($|\Gtilde_c(t)|+z\widehat v_c(t)\ge|\Gtilde_c(t)|$, $\widehat v\ge0$), so at the common level
-$\alpha_{\text{anchor}}$ the conservative order statistic is at least the PCB one and
-the two bands are nested: $\widehat B_{\text{PCB}}\subseteq\widehat B_{\text{con}}$.
-By Theorem~3 the PCB band is exact at $\alpha_{\text{anchor}}$; by
+$\alpha_{\text{anchor}}$ the conservative order statistic is at least the clustered one and
+the two bands are nested: $\widehat B_{\text{clu}}\subseteq\widehat B_{\text{con}}$.
+By Theorem~3 the clustered band is exact at $\alpha_{\text{anchor}}$; by
 Lemma~\ref{lem:nested} any choice between the two nested branches retains
 $\Pr(\text{miss})\le\alpha_{\text{anchor}}$. When gate~B is infeasible the selector can
 only ever choose between these two (Proposition~2 is a \emph{deterministic} property of
@@ -1004,7 +1005,7 @@ miss budget through a union bound:
 \end{align*}
 the first term by the nested-selection argument restricted to
 $\{\widehat J\ne\text{dec}\}$ (the event $\{\text{miss}\wedge\widehat J\ne\text{dec}\}$
-implies a miss of $\widehat B_{\text{PCB}}$), the second by Theorem~4's
+implies a miss of $\widehat B_{\text{clu}}$), the second by Theorem~4's
 \emph{marginal} guarantee for the always-deconvolve band at level
 $\alpha_{\text{dec}}$. No term conditions on $\widehat J$.
 \end{proof}
@@ -1162,26 +1163,29 @@ fails instead.}\label{fig:gates}
 
 \subsection{Efficiency: the low-$\rho$ reduction}\label{sup:lowrho}
 
-Write the branch half-widths at level $1-\alpha$ as $W_P=q_P\,s$ (PCB),
-$W_D=q_D\,s\sqrt{1-\rho^2}$ (deconvolution), and $W_C=q_C\,s$
-(conservative). As $\rho\to0$, $\widehat s_T=s\sqrt{1-\rho^2}\to s$ and the
-deconvolution scores converge pointwise (at fixed $K$) to the PCB scores, so
-$q_D/q_P\to1$ by continuity of the finite-sample quantile in the
+Write the branch half-widths at level $1-\alpha$ as $W_{\text{clu}}=q_{\text{clu}}\,s$ (clustered),
+$W_{\text{dec}}=q_{\text{dec}}\,s\sqrt{1-\rho^2}$ (deconvolution), and
+$W_{\text{con}}=q_{\text{con}}\,s$ (conservative). As $\rho\to0$, $\widehat s_T=s\sqrt{1-\rho^2}\to s$ and the
+deconvolution scores converge pointwise (at fixed $K$) to the clustered
+scores, so
+$q_{\text{dec}}/q_{\text{clu}}\to1$ by continuity of the finite-sample quantile in the
 studentization, and
 \[
-W_D/W_P=(q_D/q_P)\sqrt{1-\rho^2}=1+o(1):
+W_{\text{dec}}/W_{\text{clu}}=(q_{\text{dec}}/q_{\text{clu}})\sqrt{1-\rho^2}=1+o(1):
 \]
-the deconvolution band reduces continuously to PCB. The oracle scale
+the deconvolution band reduces continuously to the clustered band. The oracle scale
 component alone has the exact second-order expansion
 $\sqrt{1-\rho^2}=1-\tfrac12\rho^2+O(\rho^4)$; whether the full width ratio
-inherits it depends on the rate at which $q_D/q_P\to1$, which the continuity
-argument does not quantify (a first-order term $O(\rho)$ in $q_D/q_P$ is not
-excluded), so the $\tfrac12\rho^2$ gain is a statement about the scale
+inherits it depends on the rate at which
+$q_{\text{dec}}/q_{\text{clu}}\to1$, which the continuity argument does not
+quantify (a first-order term $O(\rho)$ in $q_{\text{dec}}/q_{\text{clu}}$ is
+not excluded), so the $\tfrac12\rho^2$ gain is a statement about the scale
 factor, not a proved bound on the band. Below $\rho_0$ the selector returns
-PCB exactly, so $W_{\text{adaptive}}=W_P$. The conservative branch is never
-narrower than PCB, since the worst-case scores $(|E|+zv)/s$ stochastically
-dominate $|E|/s$ and hence $q_C\ge q_P$; that ordering is what
-Lemma~\ref{lem:nested} uses, and it needs no expansion of $q_C$.
+the clustered band exactly, so $W_{\text{adaptive}}=W_{\text{clu}}$. The
+conservative branch is never narrower, since the worst-case scores
+$(|E|+zv)/s$ stochastically dominate $|E|/s$ and hence
+$q_{\text{con}}\ge q_{\text{clu}}$; that ordering is what
+Lemma~\ref{lem:nested} uses, and it needs no expansion of $q_{\text{con}}$.
 
 \section{Finite-$K$ failure, safe abstention, and validation}\label{sup:mechanism}
 
@@ -1273,7 +1277,8 @@ Final sealed \texttt{e33}, run 2 & amended generator re-hashed &
 \end{table}
 
 \paragraph{Base-band audit.}
-The sealed holdout scored the PCB branch with the S2 studentized quantiles,
+The sealed holdout scored the clustered branch with the S2 studentized
+quantiles,
 a different band from the U0 construction the package deploys. That is a
 defect in the harness, but a productive one: it is what exposed the
 studentized band's finite-$K$ self-inclusion deficit, whose worst deployed
@@ -1298,7 +1303,7 @@ studentized alternative is itself invalid.
 Theorem~5 and a fresh seed, passes every frozen criterion outright: worst
 cell $0.882$ (binomial-compatible with the exact level), $450/450$ cells
 floor-compatible, deconvolution activating only at $K{=}320$, and a
-low-$\rho$ width ratio of $1.005$ to plain PCB. The original sealed
+low-$\rho$ width ratio of $1.005$ to the plain clustered anchor. The original sealed
 configuration file was not preserved in the archive, so the grid is
 reconstructed exactly from the sealed run's cell table; both runs appear in
 Table~\ref{tab:holdout}.
@@ -1321,7 +1326,7 @@ criterion & target & result & status \\
 P1: cells floor-compatible (95\% MC) & all 450 & $\mathbf{450/450}$ & pass \\
 P2: worst-cell coverage & $\ge0.86$ & $\mathbf{0.882}$ & pass \\
 P3: design-aware never causes a sub-floor cell & sub-floor $\Rightarrow$ not deconv & none & pass \\
-E1: low-$\rho$ width vs PCB & $\le1.05\times$ & $1.005$ & pass \\
+E1: low-$\rho$ width vs clustered & $\le1.05\times$ & $1.005$ & pass \\
 E2: deconvolution narrower than conservative & $\le0.90\times$ & $0.753$ & pass \\
 E3: deconvolution abstains at small $K$ & rises with $K$ & only $K{=}320$ & pass \\
 \bottomrule
@@ -1447,7 +1452,7 @@ draw leaves \emph{every} ESS certification count unchanged at every rung
 ($12/6/1$ trust, $14/8/1$ satisfaction, Bonferroni included), moves the ESS
 subgroup-scan maximum $\rhohat$ from $0.288$ to $0.281$ and the LAPOP
 change-transport maximum from $0.212$ to $0.222$---both still severalfold below
-$\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to PCB).
+$\rho_0=0.47$---and opens zero gates ($42/42$ cells still route to the clustered branch).
 Single-PSU strata, the one thing rescaling cannot repair, turn out to be
 negligible here: $1$ of $7{,}028$ strata in the core rounds, covering
 eleven respondents. The small-area activation is the one place the rescaling
